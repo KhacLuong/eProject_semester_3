@@ -1,12 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
-import MyComponent from "./components/MyComponent";
+import Header from "./components/Header/Header";
+import {Outlet, Link} from "react-router-dom";
+import "./fontawesome.js"
 
-function App() {
+const App = () => {
     return (
-        <div>
-            hello world đức anh
-            <MyComponent />
+        <div className={`app-container`}>
+            <div className={`header-container`}>
+                <Header/>
+            </div>
+            <div className={`main-container`}>
+                <div className={`sidenav-container`}>
+
+                </div>
+                <div className={`app-content`}>
+                    <Outlet />
+                </div>
+            </div>
         </div>
     );
 }
