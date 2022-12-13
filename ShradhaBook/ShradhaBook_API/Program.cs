@@ -1,15 +1,19 @@
 global using ShradhaBook_API.Data;
 using Microsoft.EntityFrameworkCore;
+using ShradhaBook_API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<I, CategoryService>;
 builder.Services.AddDbContext<DataContext>(options =>
+
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
