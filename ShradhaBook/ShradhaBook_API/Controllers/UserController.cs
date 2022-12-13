@@ -17,8 +17,8 @@ namespace ShradhaBook_API.Controllers
             _userService = userService;
         }
 
-        [HttpPost("register")]
-        public async Task<ActionResult<User?>> Register(UserRegisterRequest request)
+        [HttpPost("admin/register")]
+        public async Task<ActionResult<User?>> RegisterAdmin(UserRegisterRequest request)
         {
             var user = await _userService.Register(request);
             if (user == null)
@@ -26,6 +26,18 @@ namespace ShradhaBook_API.Controllers
                 return BadRequest("User already exists.");
             }
             
+            return Ok(user);
+        }
+        
+        [HttpPost("customer/register")]
+        public async Task<ActionResult<User?>> RegisterCus(UserRegisterRequest request)
+        {
+            var user = await _userService.Register(request);
+            if (user == null)
+            {
+                return BadRequest("User already exists.");
+            }
+
             return Ok(user);
         }
 
@@ -83,6 +95,26 @@ namespace ShradhaBook_API.Controllers
                 return BadRequest("Invalid token.");
 
             return Ok("User verified.");
+        }
+
+        [HttpPost("forgot-password")]
+        public async Task<ActionResult<string>> ForgotPassword(string email)
+        {
+            var message = await _userService.ForgotPassword(email);
+            if (message is null)
+                return BadRequest("User not found.");
+
+            return Ok("You may now reset your password.");
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<ActionResult<string>> ResetPassword(ResetPasswordRequest request)
+        {
+            var message = await _userService.ResetPassword(request);
+            if (message is null)
+                return BadRequest("Invalid Token");
+
+            return Ok("Password successfully reset.");
         }
     }
 }

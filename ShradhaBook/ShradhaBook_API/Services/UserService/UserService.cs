@@ -51,11 +51,6 @@ namespace ShradhaBook_API.Services.UserService
             }
         }
 
-        private string CreateRandomToken()
-        {
-            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
-        }
-
         public async Task<List<User>> GetAllUsers()
         {
             var users = await _context.Users.ToListAsync();
@@ -134,6 +129,42 @@ namespace ShradhaBook_API.Services.UserService
             await _context.SaveChangesAsync();
 
             return "ok";
+        }
+
+        public async Task<string> ForgotPassword(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user is null)
+                return null;
+
+            user.PasswordResetToken = CreateRandomToken();
+            user.ResetTokenExpires = DateTime.Now.AddDays(1);
+            await _context.SaveChangesAsync();
+
+            return "ok";
+        }
+
+        public async Task<string> ResetPassword(ResetPasswordRequest request)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == request.Token);
+            if (user is null || user.ResetTokenExpires < DateTime.Now)
+                return null;
+
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+            user.PasswordResetToken = null;
+            user.ResetTokenExpires = null;
+
+            await _context.SaveChangesAsync();
+
+            return "ok";
+        }
+
+        private string CreateRandomToken()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
     }
 }

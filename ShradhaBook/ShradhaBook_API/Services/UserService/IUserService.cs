@@ -12,5 +12,7 @@ namespace ShradhaBook_API.Services.UserService
         Task<User?> UpdateUser(int id, User request);
         Task<User?> ChangePassword(int id, UserChangePasswordRequest request);
         Task<User?> DeleteUser(int id);
+        Task<string> ForgotPassword(string email);
+        Task<string> ResetPassword(ResetPasswordRequest request);
     }
 }
