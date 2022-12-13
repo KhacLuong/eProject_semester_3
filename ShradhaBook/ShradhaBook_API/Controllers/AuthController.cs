@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ShradhaBook_API.Models;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,43 +14,51 @@ namespace ShradhaBook_API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static User user = new User();
+        //public static User user = new User();
         private readonly IConfiguration _configuration;
-        private readonly IUserService _userService;
+        //private readonly IUserService _userService;
+        private readonly DataContext _context;
 
-        public AuthController(IConfiguration configuration, IUserService userService)
+        public AuthController(IConfiguration configuration, DataContext context) //, IUserService userService
         {
             _configuration = configuration;
-            _userService = userService;
+            //_userService = userService;
+            _context = context;
         }
         
-        [HttpGet, Authorize]
-        public ActionResult<object> GetMe()
-        {
-            var userName = _userService.GetMyName();
-            return Ok(userName);
+        //[HttpGet, Authorize]
+        //public ActionResult<object> GetMe()
+        //{
+        //    var userName = _userService.GetMyEmail();
+        //    return Ok(userName);
 
             //var userName = User?.Identity?.Name;
             //var userName2 = User.FindFirstValue(ClaimTypes.Name);
             //var role = User.FindFirstValue(ClaimTypes.Role);
             //return Ok(new { userName, userName2, role });
-        }
+        //}
 
-        [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(UserDto request)
-        {
-            CreatPasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+        //[HttpPost("register")]
+        //public async Task<ActionResult<User>> Register(UserDto request)
+        //{
+        //    CreatPasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            user.Username = request.Username;
-            user.PasswordSalt = passwordSalt;
-            user.PasswordHash = passwordHash;
-            return Ok(user);
-        }
+        //    user.Username = request.Username;
+        //    user.PasswordSalt = passwordSalt;
+        //    user.PasswordHash = passwordHash;
+        //    return Ok(user);
+        //}
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(UserDto request)
+        public async Task<ActionResult<string>> Login(UserLoginRequest request)
         {
-            if(user.Username != request.Username)
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+            if (user == null)
+            {
+                return BadRequest("User not found.");
+            }
+
+            if(user.Email != request.Email)
             {
                 return BadRequest("User and password combination not found.");
             }
@@ -59,15 +68,19 @@ namespace ShradhaBook_API.Controllers
                 return BadRequest("User and password combination not found.");
             }
 
-            string token = CreateToken(user);
+            if(user.VerifiedAt == null)
+            {
+                return BadRequest("Not Verified.");
+            }
 
+            string token = CreateToken(user);
             var refreshToken = GenerateRefreshToken();
-            SetRefreshToken(refreshToken);
+            SetRefreshToken(refreshToken, user);
             return Ok(token);
         }
 
         [HttpPost("refresh-token")]
-        public async Task<ActionResult<string>> RefreshToken()
+        public async Task<ActionResult<string>> RefreshToken(User user)
         {
             var refreshToken = Request.Cookies["refreshToken"];
             
@@ -79,10 +92,12 @@ namespace ShradhaBook_API.Controllers
             {
                 return Unauthorized("Token expired.");
             }
+
             string token = CreateToken(user);
             var newRefreshToken = GenerateRefreshToken();
-            SetRefreshToken(newRefreshToken);
+            SetRefreshToken(newRefreshToken, user);
 
+            await _context.SaveChangesAsync();
             return Ok(token);
         }
 
@@ -98,7 +113,7 @@ namespace ShradhaBook_API.Controllers
             return refreshToken;
         }
 
-        private void SetRefreshToken(RefreshToken newRefreshToken)
+        private void SetRefreshToken(RefreshToken newRefreshToken, User user)
         {
             var cookieOptions = new CookieOptions
             {
@@ -110,15 +125,16 @@ namespace ShradhaBook_API.Controllers
             user.RefreshToken = newRefreshToken.Token;
             user.TokenCreated = newRefreshToken.Created;
             user.TokenExpires = newRefreshToken.Expires;
-
+            
+            _context.SaveChanges();
         }
 
         private string CreateToken(User user)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, "User")
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
@@ -134,15 +150,6 @@ namespace ShradhaBook_API.Controllers
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
             return jwt;
-        }
-
-        private void CreatPasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using(var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)

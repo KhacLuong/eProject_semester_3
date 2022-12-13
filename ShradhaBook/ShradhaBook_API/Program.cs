@@ -27,7 +27,6 @@ builder.Services.AddSwaggerGen(options => {
         In = ParameterLocation.Header,
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey,
-
     });
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
@@ -45,6 +44,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
         };
     });
+builder.Services.AddCors(p => p.AddPolicy("corsapp", builder => {
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
 
 var app = builder.Build();
 
