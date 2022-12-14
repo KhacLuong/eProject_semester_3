@@ -1,4 +1,5 @@
 global using ShradhaBook_API.Services.UserService;
+global using ShradhaBook_API.Services.AuthService;
 global using ShradhaBook_API.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -19,6 +20,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddHttpContextAccessor();
 // Add button for adding token (login)
 builder.Services.AddSwaggerGen(options => {
