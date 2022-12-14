@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'flowbite';
 import {
     BrowserRouter,
     Routes,
@@ -10,18 +11,19 @@ import {
 } from "react-router-dom";
 import Content from "./components/Home/Content";
 import HomePage from "./components/Home/HomePage";
+import ContactPage from "./components/Contact/ContactPage";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
         <Routes>
-            <Route path={'/'} element={<App />}>
-                <Route index element={<HomePage />}></Route>
-                <Route path={'/categories'} />
-                <Route path={'/products'} />
-                <Route path={'/blog'} />
-                <Route path={'/contact'} />
-                <Route path={'/pages'} element={<Content />}/>
+            <Route path={'/'} element={<App/>}>
+                <Route index element={<HomePage/>}></Route>
+                <Route path={'/categories'}/>
+                <Route path={'/products'}/>
+                <Route path={'/blog'}/>
+                <Route path={'/contact'} element={<ContactPage/>}/>
+                <Route path={'/pages'} element={<Content/>}/>
             </Route>
         </Routes>
     </BrowserRouter>,
