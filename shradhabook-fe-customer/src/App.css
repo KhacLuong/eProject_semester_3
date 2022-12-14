@@ -1,0 +1,15 @@
+@tailwind base;
+
+@layer basse {
+    body {
+        @apply font-sora
+    }
+
+
+}
+.active {
+    @apply block py-2 pl-3 pr-4 rounded md:bg-transparent text-dangerColor-default_2 md:p-0 text-base font-medium
+}
+.btn {
+    @apply rounded-full uppercase text-xs font-bold cursor-pointer
+}
