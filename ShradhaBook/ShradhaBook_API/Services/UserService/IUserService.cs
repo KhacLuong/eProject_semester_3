@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ShradhaBook_API.Models;
-
-namespace ShradhaBook_API.Services.UserService
+﻿namespace ShradhaBook_API.Services.UserService
 {
     public interface IUserService
     {

@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ShradhaBook_API.Models;
-
-namespace ShradhaBook_API.Services.AuthService
+﻿namespace ShradhaBook_API.Services.AuthService
 {
     public interface IAuthService
     {

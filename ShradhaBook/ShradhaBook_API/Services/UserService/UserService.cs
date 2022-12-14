@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ShradhaBook_API.Models;
-using System.Security.Claims;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 
 namespace ShradhaBook_API.Services.UserService
@@ -141,7 +138,7 @@ namespace ShradhaBook_API.Services.UserService
             user.ResetTokenExpires = DateTime.Now.AddDays(1);
             await _context.SaveChangesAsync();
 
-            return "ok";
+            return user.PasswordResetToken;
         }
 
         public async Task<string> ResetPassword(ResetPasswordRequest request)

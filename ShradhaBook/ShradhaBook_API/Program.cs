@@ -1,6 +1,8 @@
 global using ShradhaBook_API.Services.UserService;
 global using ShradhaBook_API.Services.AuthService;
+global using ShradhaBook_API.Services.EmailService;
 global using ShradhaBook_API.Data;
+global using ShradhaBook_API.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -21,6 +23,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddHttpContextAccessor();
 // Add button for adding token (login)
 builder.Services.AddSwaggerGen(options => {
