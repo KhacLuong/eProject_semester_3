@@ -1,7 +1,6 @@
-
+ShradhaBook/.vs/*
 ShradhaBook/ShradhaBook_API/obj/*
 ShradhaBook/ShradhaBook_API/bin/*
-ShradhaBook/.vs/*
 ShradhaBook/AdminAPI/bin/Debug/net6.0/AdminAPI.deps.json
 ShradhaBook/AdminAPI/bin/Debug/net6.0/AdminAPI.dll
 ShradhaBook/AdminAPI/bin/Debug/net6.0/AdminAPI.exe
