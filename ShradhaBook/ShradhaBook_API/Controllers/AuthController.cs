@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShradhaBook_API.Models;
-using System.Security.Cryptography;
 
 namespace ShradhaBook_API.Controllers
 {

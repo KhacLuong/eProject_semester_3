@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShradhaBook_API.Models;
-using System.Security.Cryptography;
 
 namespace ShradhaBook_API.Controllers
 {
@@ -12,9 +8,12 @@ namespace ShradhaBook_API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IEmailService _emailService;
+
+        public UserController(IUserService userService, IEmailService emailService)
         {
             _userService = userService;
+            _emailService = emailService;
         }
 
         [HttpPost("admin/register")]
@@ -25,7 +24,19 @@ namespace ShradhaBook_API.Controllers
             {
                 return BadRequest("User already exists.");
             }
-            
+
+            // Send email with verify token
+            var emailDto = new EmailDto
+            {
+                To = user.Email,
+                Subject = "Verify email",
+                Body = "<h3> Verify Email </h3><br/>" +
+                "<span>" +
+                "<a href=\"https://localhost:7000/api/User/verify?token=" + user.VerificationToken + "\">Click here</a>" +
+                "</span>"
+            };
+            _emailService.SendEmail(emailDto);
+
             return Ok(user);
         }
         
@@ -37,7 +48,17 @@ namespace ShradhaBook_API.Controllers
             {
                 return BadRequest("User already exists.");
             }
-
+            // Send email with verify token
+            var emailDto = new EmailDto
+            {
+                To = user.Email,
+                Subject = "Verify email",
+                Body = "<h3> Verify Email </h3><br/>" +
+                "<span>" +
+                "<a href=\"https://localhost:7000/api/User/verify?token=" + user.VerificationToken + "\">Click here</a>" +
+                "</span>"
+            };
+            _emailService.SendEmail(emailDto);
             return Ok(user);
         }
 
@@ -100,10 +121,20 @@ namespace ShradhaBook_API.Controllers
         [HttpPost("forgot-password")]
         public async Task<ActionResult<string>> ForgotPassword(string email)
         {
-            var message = await _userService.ForgotPassword(email);
-            if (message is null)
+            var token = await _userService.ForgotPassword(email);
+            if (token is null)
                 return BadRequest("User not found.");
-
+            // Send email with reset password token
+            var emailDto = new EmailDto
+            {
+                To = email,
+                Subject = "Reset password email",
+                Body = "<h3> Verify Email </h3><br/>" +
+                "<span>" +
+                "<a href=\"https://localhost:7000/api/User/verify?token=" + token + "\">Click here</a>" +
+                "</span>"
+            };
+            _emailService.SendEmail(emailDto);
             return Ok("You may now reset your password.");
         }
 
