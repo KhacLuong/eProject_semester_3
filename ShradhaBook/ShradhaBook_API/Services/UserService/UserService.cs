@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using System.Xml.Linq;
 
 namespace ShradhaBook_API.Services.UserService
 {
@@ -48,9 +49,12 @@ namespace ShradhaBook_API.Services.UserService
             }
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public async Task<List<User>> GetAllUsers(string? query)
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _context.Users.Where(u =>
+                (string.IsNullOrEmpty(query) || u.Name.ToLower().Contains(query.ToLower()))
+             || (string.IsNullOrEmpty(query) || u.Email.ToLower().Contains(query.ToLower()))
+            ).ToListAsync();
             return users;
         }
 
