@@ -1,0 +1,3 @@
+command to use in Package Manager Console
+Add-Migration: use after make changes in models, this command will create migration files
+Update-Database: command to run migration files to update database
