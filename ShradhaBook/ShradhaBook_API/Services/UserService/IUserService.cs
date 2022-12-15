@@ -4,7 +4,7 @@
     {
         Task<User?> Register(UserRegisterRequest request);
         Task<string> Verify(string token);
-        Task<List<User>> GetAllUsers();
+        Task<List<User>> GetAllUsers(string? query);
         Task<User?> GetSingleUser(int id);
         Task<User?> UpdateUser(int id, User request);
         Task<User?> ChangePassword(int id, UserChangePasswordRequest request);

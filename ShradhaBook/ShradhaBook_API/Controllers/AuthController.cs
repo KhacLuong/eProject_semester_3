@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ShradhaBook_API.Controllers
 {
@@ -48,6 +50,15 @@ namespace ShradhaBook_API.Controllers
             return Ok(token);
         }
 
-        
+        [Authorize]
+        [HttpDelete("logout")]
+        public async Task<ActionResult> Logout()
+        {
+            var userId = HttpContext.User.FindFirstValue("Id");
+            var message = await _authService.Logout(Convert.ToInt32(userId));
+            if (message == null)
+                return BadRequest("User not found.");
+            return Ok("User logged out.");
+        }
     }
 }

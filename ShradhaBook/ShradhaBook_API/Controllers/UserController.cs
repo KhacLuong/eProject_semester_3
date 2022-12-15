@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShradhaBook_API.Models;
+using System.Data;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ShradhaBook_API.Controllers
 {
@@ -63,12 +66,14 @@ namespace ShradhaBook_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<User>>> GetAllUsers()
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<List<User>>> GetAllUsers(string? query)
         {
-            return await _userService.GetAllUsers();
+            return await _userService.GetAllUsers(query);
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<User>> GetSingleUser(int id)
         {
             var user = await _userService.GetSingleUser(id);
@@ -79,6 +84,7 @@ namespace ShradhaBook_API.Controllers
         }
 
         [HttpPut("user/{id}")]
+        [Authorize]
         public async Task<ActionResult<User>> UpdateUser(int id, User request)
         {
             var user = await _userService.UpdateUser(id, request);
@@ -89,6 +95,7 @@ namespace ShradhaBook_API.Controllers
         }
 
         [HttpPut("password/{id}")]
+        [Authorize]
         public async Task<ActionResult<User>> ChangePassword(int id, UserChangePasswordRequest request)
         {
             var user = await _userService.ChangePassword(id, request);
@@ -99,6 +106,7 @@ namespace ShradhaBook_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<User>> DeleteUser(int id)
         {
             var user = await _userService.DeleteUser(id);
@@ -108,7 +116,7 @@ namespace ShradhaBook_API.Controllers
             return Ok(user);
         }
 
-        [HttpPost("verify")]
+        [HttpGet("verify")]
         public async Task<ActionResult<string>> VerifyUser(string token)
         {
             var message = await _userService.Verify(token);
