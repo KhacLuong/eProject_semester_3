@@ -1,8 +1,8 @@
 import './App.css';
 import {Outlet} from "react-router-dom";
-import TopHeader from "./components/Header/TopHeader";
-import MiddleHeader from "./components/Header/MiddleHeader";
-import BottomHeader from "./components/Header/BottomHeader";
+import TopHeader from "./components/Layouts/Header/TopHeader";
+import MiddleHeader from "./components/Layouts/Header/MiddleHeader";
+import BottomHeader from "./components/Layouts/Header/BottomHeader";
 import React from "react";
 
 const App = () => {

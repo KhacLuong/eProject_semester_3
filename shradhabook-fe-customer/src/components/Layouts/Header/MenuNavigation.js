@@ -10,7 +10,6 @@ const MenuNavigation = () => {
     return (
         <div className="items-center justify-between w-full md:flex md:w-auto md:order-1">
             <ul className="flex flex-col p-4 mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:border-0">
-
                 <NavLink to={'/'}
                          className={({isActive}) => isActive ? 'active' : defaultClass}>
                     Home
@@ -31,7 +30,7 @@ const MenuNavigation = () => {
                     <ul className="py-1 text-sm text-gray-700 dark:text-gray-400"
                         aria-labelledby="dropdownLargeButton">
                         <li>
-                            <a href="#"
+                            <a href="src/components/Layouts/Header#"
                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dangerColor-default_2">Dashboard</a>
                         </li>
                         <li aria-labelledby="dropdownNavbarLink">
@@ -51,39 +50,39 @@ const MenuNavigation = () => {
                                 <ul className="py-1 text-sm text-gray-700 dark:text-gray-200"
                                     aria-labelledby="doubleDropdownButton">
                                     <li>
-                                        <a href="#"
+                                        <a href="src/components/Layouts/Header#"
                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 hover:text-dangerColor-default_2">Overview</a>
                                     </li>
                                     <li>
-                                        <a href="#"
+                                        <a href="src/components/Layouts/Header#"
                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 hover:text-dangerColor-default_2">My
                                             downloads</a>
                                     </li>
                                     <li>
-                                        <a href="#"
+                                        <a href="src/components/Layouts/Header#"
                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 hover:text-dangerColor-default_2">Billing</a>
                                     </li>
                                     <li>
-                                        <a href="#"
+                                        <a href="src/components/Layouts/Header#"
                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 hover:text-dangerColor-default_2">Rewards</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="src/components/Layouts/Header#"
                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dangerColor-default_2">Earnings</a>
                         </li>
                     </ul>
                 </div>
                 <NavLink to={'/products'}
                          className={({isActive}) => isActive ? 'active' : defaultClass}>
-                    Product
+                    Products
                 </NavLink>
 
                 <NavLink to={'/blog'}
                          className={({isActive}) => isActive ? 'active' : defaultClass}>
-                    Blog
+                    Blogs
                 </NavLink>
 
                     <NavLink to={'/contact'}
