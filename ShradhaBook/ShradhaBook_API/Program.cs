@@ -9,14 +9,21 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using ShradhaBook_API.Services;
+using ShradhaBook_API.Services.CategotyService;
+using ShradhaBook_API.Services.ManufacturerService;
+using ShradhaBook_API.Services.ProductService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddScoped<I, CategoryService>;
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IManufacturerService, ManufacturerService>();
+
+builder.Services.AddAutoMapper(typeof(Program));
+
 builder.Services.AddDbContext<DataContext>(options =>
 
 {

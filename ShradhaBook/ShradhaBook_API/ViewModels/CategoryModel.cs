@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShradhaBook_API.Models
+namespace ShradhaBook_API.ViewModels
 {
-    public class Category
+    public class CategoryModel
     {
         public int Id { get; set; }
+
 
         [Required]
         [StringLength(2)]
@@ -27,7 +28,6 @@ namespace ShradhaBook_API.Models
         public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
 
 
     }

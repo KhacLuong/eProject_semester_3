@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShradhaBook_API.Models
+namespace ShradhaBook_API.ViewModels
 {
-    public class Manufacturer
+    public class ManufacturerModel
     {
+
         public int Id { get; set; }
 
         [Required]
@@ -19,7 +20,7 @@ namespace ShradhaBook_API.Models
         public DateTime CreatAt { get; set; }
         public DateTime? UpdateAt { get; set; }
 
-        public virtual ICollection<Product> Products { get; set; }
+
 
     }
 }

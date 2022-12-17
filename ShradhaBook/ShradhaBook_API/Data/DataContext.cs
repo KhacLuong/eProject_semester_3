@@ -12,10 +12,6 @@ namespace ShradhaBook_API.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
         public DbSet<FeatureThumbnail> FeatureThumbnails { get; set; }
-        public DbSet<ShradhaBook_API.ViewModels.ViewCategory> ViewCategory { get; set; }
-        public DbSet<ShradhaBook_API.ViewModels.ViewProduct> ViewProduct { get; set; }
-        public DbSet<ShradhaBook_API.ViewModels.ViewManufacturer> ViewManufacturer { get; set; }
-        public DbSet<ShradhaBook_API.ViewModels.ViewFeatureThumbnail> ViewFeatureThumbnail { get; set; }
-
+ 
     }
 }
