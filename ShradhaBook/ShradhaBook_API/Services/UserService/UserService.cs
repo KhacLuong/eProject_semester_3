@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Xml.Linq;
 
@@ -7,7 +8,6 @@ namespace ShradhaBook_API.Services.UserService
     public class UserService : IUserService
     {
         private readonly DataContext _context;
-
         public UserService(DataContext context)
         {
             _context = context;
@@ -31,7 +31,7 @@ namespace ShradhaBook_API.Services.UserService
                 PasswordSalt = passwordSalt,
                 PasswordHash = passwordHash,
                 VerificationToken = CreateRandomToken(),
-                Role = request.Role
+                UserType = request.UserType
             };
 
             _context.Users.Add(user);
@@ -75,6 +75,7 @@ namespace ShradhaBook_API.Services.UserService
 
             user.Name = request.Name;
             user.Email = request.Email;
+            user.UpdateAt = DateTime.Now;
 
             await _context.SaveChangesAsync();
 
@@ -83,10 +84,10 @@ namespace ShradhaBook_API.Services.UserService
         public async Task<User?> ChangePassword(int id, UserChangePasswordRequest request)
         {
             var user = await _context.Users.FindAsync(id);
-            if (user is null)
-                return null;
+            //if (user is null)
+            //    return null;
 
-            if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+            if (!VerifyPasswordHash(request.OldPassword, user.PasswordHash, user.PasswordSalt))
             {
                 return null;
             }

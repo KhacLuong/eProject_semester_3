@@ -19,7 +19,7 @@ namespace ShradhaBook_API.Controllers
             _emailService = emailService;
         }
 
-        [HttpPost("admin/register")]
+        [HttpPost("register-admin")]
         public async Task<ActionResult<User?>> RegisterAdmin(UserRegisterRequest request)
         {
             var user = await _userService.Register(request);
@@ -43,7 +43,7 @@ namespace ShradhaBook_API.Controllers
             return Ok(user);
         }
         
-        [HttpPost("customer/register")]
+        [HttpPost("register-customer")]
         public async Task<ActionResult<User?>> RegisterCus(UserRegisterRequest request)
         {
             var user = await _userService.Register(request);
@@ -66,14 +66,14 @@ namespace ShradhaBook_API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<User>>> GetAllUsers(string? query)
         {
             return await _userService.GetAllUsers(query);
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<User>> GetSingleUser(int id)
         {
             var user = await _userService.GetSingleUser(id);
@@ -84,7 +84,7 @@ namespace ShradhaBook_API.Controllers
         }
 
         [HttpPut("user/{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<User>> UpdateUser(int id, User request)
         {
             var user = await _userService.UpdateUser(id, request);
@@ -95,18 +95,18 @@ namespace ShradhaBook_API.Controllers
         }
 
         [HttpPut("password/{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<User>> ChangePassword(int id, UserChangePasswordRequest request)
         {
             var user = await _userService.ChangePassword(id, request);
             if (user is null)
-                return BadRequest("User not found.");
+                return BadRequest("Old password not match.");
 
             return Ok(user);
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<User>> DeleteUser(int id)
         {
             var user = await _userService.DeleteUser(id);
@@ -137,9 +137,9 @@ namespace ShradhaBook_API.Controllers
             {
                 To = email,
                 Subject = "Reset password email",
-                Body = "<h3> Verify Email </h3><br/>" +
+                Body = "<h3> Reset password </h3><br/>" +
                 "<span>" +
-                "<a href=\"https://localhost:7000/api/User/verify?token=" + token + "\">Click here</a>" +
+                "<a href=\"https://localhost:7000/api/User/reset-password?token=" + token + "\">Click here</a>" +
                 "</span>"
             };
             _emailService.SendEmail(emailDto);

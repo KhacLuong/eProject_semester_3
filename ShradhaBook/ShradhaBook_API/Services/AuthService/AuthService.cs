@@ -30,11 +30,6 @@ namespace ShradhaBook_API.Services.AuthService
                 return null;
             }
 
-            //if (user.VerifiedAt == null)
-            //{
-            //    return "Not Verified.";
-            //}
-
             string token = CreateToken(user);
             var refreshToken = GenerateRefreshToken();
             SetRefreshToken(refreshToken, user, response);
@@ -84,7 +79,6 @@ namespace ShradhaBook_API.Services.AuthService
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
                 Expires = DateTime.Now.AddDays(7),
-                Created = DateTime.Now
             };
 
             return refreshToken;
@@ -112,7 +106,7 @@ namespace ShradhaBook_API.Services.AuthService
             {
                 new Claim("Id", user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Role, user.UserType)
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShradhaBook_API.Data;
 
@@ -11,9 +12,10 @@ using ShradhaBook_API.Data;
 namespace ShradhaBook_API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221219050056_remove_userinfo_in_user")]
+    partial class remove_userinfo_in_user
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,6 +74,9 @@ namespace ShradhaBook_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
@@ -93,8 +98,7 @@ namespace ShradhaBook_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserInfo");
                 });
@@ -173,8 +177,8 @@ namespace ShradhaBook_API.Migrations
             modelBuilder.Entity("ShradhaBook_API.Models.Db.UserInfo", b =>
                 {
                     b.HasOne("ShradhaBook_API.Models.User", "User")
-                        .WithOne("UserInfo")
-                        .HasForeignKey("ShradhaBook_API.Models.Db.UserInfo", "UserId")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -184,12 +188,6 @@ namespace ShradhaBook_API.Migrations
             modelBuilder.Entity("ShradhaBook_API.Models.Db.UserInfo", b =>
                 {
                     b.Navigation("Addresses");
-                });
-
-            modelBuilder.Entity("ShradhaBook_API.Models.User", b =>
-                {
-                    b.Navigation("UserInfo")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

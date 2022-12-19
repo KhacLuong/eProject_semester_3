@@ -11,6 +11,7 @@ namespace ShradhaBook_API.Models
         public string Password { get; set; } = string.Empty;
         [Required, Compare("Password")]
         public string ConfirmPassword { get; set; } = string.Empty;
-        public string? Role { get; set; }
+        [Required]
+        public string UserType { get; set; } = string.Empty;
     }
 }
