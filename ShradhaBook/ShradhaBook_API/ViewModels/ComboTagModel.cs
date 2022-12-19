@@ -2,25 +2,22 @@
 
 namespace ShradhaBook_API.ViewModels
 {
-    public class ManufacturerModel
+    public class ComboTagModel
     {
-
         public int Id { get; set; }
 
         [Required]
-        [StringLength(3)]
-        public string Code { get; set; }
+        public int ProductId { get; set; }
 
         [Required]
-        public string Name { get; set; }
-
-        public string? Address { get; set; }
+        public int ComboId { get; set; }
 
         [Required]
-        public DateTime CreatedAt { get; set; }
+        public int TagId { get; set; }
+
+        [Required]
+        public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedAt { get; set; }
-
-
 
     }
 }

@@ -6,32 +6,31 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.Data;
+using ShradhaBook_API.Services.ComboService;
 using ShradhaBook_API.ViewModels;
-using ShradhaBook_API.Services.CategotyService;
-using System.Net;
 
 namespace ShradhaBook_API.Controllers
 {
-    
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController : ControllerBase
+    public class ComboController : ControllerBase
     {
-        private readonly ICategoryService _categoryService;
+        private readonly IComboService _comboService;
 
-        public CategoriesController(ICategoryService categoryService)
+        public ComboController(IComboService comboService)
         {
-            _categoryService = categoryService;
+            _comboService = comboService;
 
         }
 
-        // GET: api/ViewCategories
+
+        // GET: api/ComboModels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryModel>>> GetAllCategories(string? name, string? code, int? status = 0, int sortBy = 0)
+        public async Task<ActionResult<IEnumerable<ComboModel>>> GetAllCombo(string? name, int status = 0, int sortBy = 0)
         {
             try
             {
-                return Ok(await _categoryService.GetAllCategoryAsync(name,code,status,sortBy));
+                return Ok(await _comboService.GetAllComboAsync(name, status, sortBy));
             }
             catch
             {
@@ -40,13 +39,13 @@ namespace ShradhaBook_API.Controllers
             }
         }
 
-        // GET: api/ViewCategories/5
+        // GET: api/ComboModels/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CategoryModel>> GetCategory(int id)
+        public async Task<ActionResult<ComboModel>> GetCombo(int id)
         {
             try
             {
-                var result = await _categoryService.GetCategoryAsync(id);
+                var result = await _comboService.GetComboAsync(id);
 
                 return result == null ? NotFound() : Ok(result);
             }
@@ -55,25 +54,26 @@ namespace ShradhaBook_API.Controllers
                 return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
 
             }
-
         }
 
-        // PUT: api/ViewCategories/5
+        // PUT: api/ComboModels/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, CategoryModel model)
+        public async Task<IActionResult> UpdateCombo(int id, ComboModel model)
         {
             try
             {
-               
-                int status = await _categoryService.UpdateCategoryAsync(id, model);
+
+                int status = await _comboService.UpdateComboAsync(id, model);
                 if (status == MyStatusCode.DUPLICATE_CODE)
                 {
                     return BadRequest(MyStatusCode.DUPLICATE_CODE_RESULT);
-                }else if (status == MyStatusCode.DUPLICATE_NAME)
+                }
+                else if (status == MyStatusCode.DUPLICATE_NAME)
                 {
                     return BadRequest(MyStatusCode.DUPLICATE_NAME_RESULT);
-                }else if (status == MyStatusCode.FAILURE)
+                }
+                else if (status == MyStatusCode.FAILURE)
                 {
                     return BadRequest(MyStatusCode.FAILURE_RESULT);
 
@@ -86,26 +86,25 @@ namespace ShradhaBook_API.Controllers
                 return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
 
             }
-
-
         }
 
-        // POST: api/ViewCategories
+        // POST: api/ComboModels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult> AddCategory(CategoryModel model)
+        public async Task<ActionResult> AddCombo(ComboModel model)
         {
             try
             {
-                var status = await _categoryService.AddCategoryAsync(model);
-                if(status == MyStatusCode.DUPLICATE_CODE)
+                var status = await _comboService.AddComboAsync(model);
+                if (status == MyStatusCode.DUPLICATE_CODE)
                 {
                     return BadRequest(MyStatusCode.DUPLICATE_CODE_RESULT);
-                }else if (status == MyStatusCode.DUPLICATE_NAME)
+                }
+                else if (status == MyStatusCode.DUPLICATE_NAME)
                 {
                     return BadRequest(MyStatusCode.DUPLICATE_NAME_RESULT);
                 }
-                else if (status >0)
+                else if (status > 0)
                 {
                     //var newCategoryId = status;
                     //var category = await _categoryService.GetCategoryAsync(newCategoryId);
@@ -123,13 +122,13 @@ namespace ShradhaBook_API.Controllers
 
         }
 
-        // DELETE: api/ViewCategories/5
+        // DELETE: api/ComboModels/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategory(int id)
+        public async Task<IActionResult> DeleteCombo(int id)
         {
             try
             {
-                await _categoryService.DeleteCategoryAsync(id);
+                await _comboService.DeleteComboAsync(id);
                 return Ok(MyStatusCode.SUCCESS_RESULT);
 
             }
@@ -139,11 +138,5 @@ namespace ShradhaBook_API.Controllers
 
             }
         }
-            
-
-        //private bool CategoryExists(int id)
-        //{
-        //   
-        //}
     }
 }

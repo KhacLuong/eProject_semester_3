@@ -12,6 +12,12 @@ using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.Services.CategotyService;
 using ShradhaBook_API.Services.ManufacturerService;
 using ShradhaBook_API.Services.ProductService;
+using ShradhaBook_API.Services.ComboService;
+using ShradhaBook_API.Services.TagService;
+using ShradhaBook_API.Services.ComboProductService;
+using ShradhaBook_API.Services.ComboTagService;
+using ShradhaBook_API.Services.ProductTagService;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +27,18 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IManufacturerService, ManufacturerService>();
+builder.Services.AddScoped<IComboService, ComboService>();
+builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<IComboProductService, ComboProductService>();
+builder.Services.AddScoped<IComboTagService, ComboTagService>();
+builder.Services.AddScoped<IProductTagService, ProductTagService>();
+
+
+
+
+
+
+
 
 builder.Services.AddAutoMapper(typeof(Program));
 

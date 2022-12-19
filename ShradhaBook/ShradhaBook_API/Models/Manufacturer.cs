@@ -16,8 +16,8 @@ namespace ShradhaBook_API.Models
         public string? Address { get; set; }
 
         [Required]
-        public DateTime CreatAt { get; set; }
-        public DateTime? UpdateAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
 

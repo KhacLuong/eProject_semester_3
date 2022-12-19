@@ -11,7 +11,15 @@ namespace ShradhaBook_API.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
-        public DbSet<FeatureThumbnail> FeatureThumbnails { get; set; }
- 
+
+
+        public DbSet<Combo> Combos { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<ComboProduct> ComboProducts { get; set; }
+        public DbSet<ComboTag> ComboTags { get; set; }
+        public DbSet<ProductTag> ProductTags { get; set; }
+
+
+
     }
 }

@@ -54,7 +54,7 @@ namespace ShradhaBook_API.Services.ProductService
 
      
 
-        public async Task<List<ProductModel>> GetAllProductAsync(string? name, string? code, int? categoryId, int? manufactoryId, decimal? price, long quantity, int? status = 0, int? sortBy = 0)
+        public async Task<List<ProductModel>> GetAllProductAsync(string? name, string? code, int? categoryId, int? manufactuerId, decimal? price, long quantity, int? status = 0, int? sortBy = 0)
         {
 
             var allProducts = await _context.Products
@@ -63,17 +63,11 @@ namespace ShradhaBook_API.Services.ProductService
               //.Where(m=> (categoryId != 0) ? m.CategoryId==categoryId:m.CategoryId!=categoryId)
               //.Where(m => (manufactoryId != 0) ? m.ManufacturerId == manufactoryId : m.ManufacturerId != manufactoryId)
               //.Where(m => (price != 0) ? m.Price == price : m.Price != price)
-              //.Where(m => m.Status == status)
+              .Where(m => m.Status == status)
               !.ToListAsync();
             return _mapper.Map<List<ProductModel>>(allProducts);
         }
 
-      
-
-        public Task<object?> GetAllProductAsync(string? name, string? code, int categoryId, int? manufactoryId, long quantity, decimal? price, int? status, int? sortBy)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<ProductModel> GetProductAsync(int id)
         {

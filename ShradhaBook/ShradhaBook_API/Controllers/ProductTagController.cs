@@ -6,30 +6,30 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.Data;
-using ShradhaBook_API.Services.ProductService;
+using ShradhaBook_API.Services.ProductTagService;
 using ShradhaBook_API.ViewModels;
 
 namespace ShradhaBook_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductTagController : ControllerBase
     {
-        private readonly IProductService _productService;
+        private readonly IProductTagService _productTagService;
 
-        public ProductsController(IProductService productService)
+        public ProductTagController(IProductTagService productTagService)
         {
-            _productService = productService;
+            _productTagService = productTagService;
 
         }
 
-        // GET: api/ViewProducts
+        // GET: api/ProductTagModels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductModel>>> GetAllProducts(string? name, string? code, int? categoryId, int? manufactuerId, decimal? price, long quantity, int? status = 0, int? sortBy = 0)
+        public async Task<ActionResult<IEnumerable<ProductTagModel>>> GetAllProductTag()
         {
             try
             {
-                return Ok(await _productService.GetAllProductAsync( name,  code, categoryId, manufactuerId, price, quantity, status ,  sortBy));
+                return Ok(await _productTagService.GetAllProductTagAsync());
             }
             catch
             {
@@ -38,13 +38,13 @@ namespace ShradhaBook_API.Controllers
             }
         }
 
-        // GET: api/ViewProducts/5
+        // GET: api/ProductTagModels/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductModel>> GetProduct(int id)
+        public async Task<ActionResult<ProductTagModel>> GetProductTag(int id)
         {
             try
             {
-                var result = await _productService.GetProductAsync(id);
+                var result = await _productTagService.GetProductTagAsync(id);
 
                 return result == null ? NotFound() : Ok(result);
             }
@@ -55,46 +55,18 @@ namespace ShradhaBook_API.Controllers
             }
         }
 
-        // PUT: api/ViewProducts/5
+        // PUT: api/ProductTagModels/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, ProductModel model)
-        {
-            try
-            {
 
-                int status = await _productService.UpdateProductAsync(id, model);
-                if (status == MyStatusCode.DUPLICATE_CODE)
-                {
-                    return BadRequest(MyStatusCode.DUPLICATE_CODE_RESULT);
-                }
-                else if (status == MyStatusCode.DUPLICATE_NAME)
-                {
-                    return BadRequest(MyStatusCode.DUPLICATE_NAME_RESULT);
-                }
-                else if (status == MyStatusCode.FAILURE)
-                {
-                    return BadRequest(MyStatusCode.FAILURE_RESULT);
 
-                }
-
-                return Ok(MyStatusCode.SUCCESS_RESULT);
-            }
-            catch
-            {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
-
-            }
-        }
-
-        // POST: api/ViewProducts
+        // POST: api/ProductTagModels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ProductModel>> AddProduct(ProductModel model)
+        public async Task<ActionResult<ProductTagModel>> AddProductTag(ProductTagModel model)
         {
             try
             {
-                var status = await _productService.AddProductAsync(model);
+                var status = await _productTagService.AddProductTagAsync(model);
                 if (status == MyStatusCode.DUPLICATE_CODE)
                 {
                     return BadRequest(MyStatusCode.DUPLICATE_CODE_RESULT);
@@ -119,13 +91,14 @@ namespace ShradhaBook_API.Controllers
 
             }
         }
-        // DELETE: api/ViewProducts/5
+
+        // DELETE: api/ProductTagModels/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        public async Task<IActionResult> DeleteProductTag(int id)
         {
             try
             {
-                await _productService.DeleteProductAsync(id);
+                await _productTagService.DeleteProductTagAsync(id);
                 return Ok(MyStatusCode.SUCCESS_RESULT);
 
             }
@@ -136,9 +109,6 @@ namespace ShradhaBook_API.Controllers
             }
         }
 
-        //private bool ViewProductExists(int id)
-        //{
-        //    return _context.ViewProduct.Any(e => e.Id == id);
-        //}
+
     }
 }

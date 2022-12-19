@@ -8,17 +8,19 @@
         public string Name { get; set; }
 
         public int CategoryId { get; set; }
-        public decimal? Price { get; set; }
-        public long? Quantity { get; set; }
-        public int? ManufacturerId { get; set; }
-        public string Description { get; set; }
-        public string Intro { get; set; }
-        public string ImageProductPath { get; set; }
-        public string ImageProductName { get; set; }
+        public decimal Price { get; set; }
+        public long Quantity { get; set; }
+        public int ManufacturerId { get; set; }
+        public string? Description { get; set; }
+        public string? Intro { get; set; }
+        public string? ImageProductPath { get; set; }
+        public string? ImageProductName { get; set; }
         public int Status { get; set; }
-        public string Slug { get; set; }
+        public string? Slug { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime? UpdateAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+
+
 
     }
 
