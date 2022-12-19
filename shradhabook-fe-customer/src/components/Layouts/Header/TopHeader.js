@@ -1,39 +1,32 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Link} from "react-router-dom";
-import {BiPhoneCall} from "react-icons/bi";
-import {HiOutlineLocationMarker} from "react-icons/hi";
-import {AiFillFacebook, AiOutlineTwitter, AiOutlineInstagram} from "react-icons/ai";
-import {RiPinterestFill} from "react-icons/ri"
+import {AiOutlineUser, AiOutlineHeart, AiOutlineShoppingCart} from "react-icons/ai";
+import {GiBookAura} from "react-icons/gi"
+import Search from "./Search";
 
-const IconMedia = [AiFillFacebook, AiOutlineTwitter, AiOutlineInstagram, RiPinterestFill]
+const icons = [AiOutlineUser, AiOutlineHeart, AiOutlineShoppingCart]
 const TopHeader = () => {
-    return (
-        <nav className={`py-3 bg-background_color`}>
-            <div className={`container flex flex-wrap items-center justify-between mx-auto xl:px-40`}>
-                <div className={`text-xs text-whiteColor flex items-center justify-center`}>
-                    <div className={`flex items-center justify-center mr-6`}>
-                        <HiOutlineLocationMarker className={`text-lg text-dangerColor-default_2 mr-1`}/>
-                        <Link to={`/`} className={`underline text-white font-medium`}>
-                            Find a Book Store
-                        </Link>
-                    </div>
-                    <div className={`flex items-center justify-center `}>
-                        <BiPhoneCall className={`text-lg text-dangerColor-default_2 mr-1`}/>
-                        <div className={`text-xs text-white font-medium`}>
-                            +1 840-841 25 69
+    return (<nav className={'bg-dangerColor-default_2'}>
+        <div className="container flex flex-wrap items-center justify-between mx-auto xl:px-30">
+            <Link to={'/'} className="flex items-center text-white">
+                <div className={`text-3xl mr-2`}>
+                    <GiBookAura/>
+                </div>
+                <span className="self-center text-2xl font-semibold whitespace-nowrap ">ShradhaBook</span>
+            </Link>
+            <Search/>
+            <div className="items-center text-white text-xl justify-between w-full md:flex md:w-auto md:order-1">
+                {icons.map((Icon, key) => {
+                    return icons.lastIndexOf(Icon) === (icons.length - 1) ?
+                        <div key={key} className={` px-3 border-borderColor`}>
+                            <Icon className={`text-white`}/>
+                        </div> : <div key={key} className={`border-r-[1px] px-3 border-borderColor`}>
+                            <Icon className={`text-white`}/>
                         </div>
-                    </div>
-                </div>
-                <div className={`text-xs text-whiteColor flex items-center justify-center `}>
-                    {
-                        IconMedia.map((Icon, idx) => {
-                            return <Icon key={idx} size={'15px'} className={`mr-3`}/>
-                        })
-                    }
-                </div>
+                })}
             </div>
-        </nav>
-    );
+        </div>
+    </nav>);
 };
 
 export default TopHeader;

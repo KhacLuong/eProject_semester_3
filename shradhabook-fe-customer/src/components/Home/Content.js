@@ -2,7 +2,7 @@ import React from 'react';
 
 const Content = () => {
     return (
-        <div>
+        <div className={''}>
             This is content
         </div>
     );

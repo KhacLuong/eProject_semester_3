@@ -2,8 +2,8 @@ import React from 'react';
 
 const Search = () => {
     return (
-        <div className={``}>
-            <form className={`my-2 focus:border-none focus:outline-none `}>
+        <div className={`w-2/4`}>
+            <form className={`my-2 focus:border-none focus:outline-none w-full `}>
                 <label htmlFor="default-search"
                        className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                 <div className="relative">
@@ -15,10 +15,10 @@ const Search = () => {
                         </svg>
                     </div>
                     <input type="search" id="default-search"
-                           className="border-none focus:border-none focus:outline-none outline-none block w-full p-4 pl-10 text-sm text-gray-900 rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-white"
+                           className="border-none focus:border-none focus:outline-none outline-none block w-full p-4 pl-10 text-sm text-gray-900 rounded-full bg-gray-50 dark:bg-gray-700 dark:text-white"
                            placeholder="Search product..." required/>
                     <button type="submit"
-                            className="text-white absolute right-2.5 bottom-2.5 bg-dangerColor-default_2  focus:outline-none font-medium rounded-lg text-sm px-4 py-2 hover:bg-dangerColor-hover_2">Search
+                            className="text-white absolute right-2.5 bottom-2.5 bg-dangerColor-default_3 focus:outline-none font-medium rounded-full text-sm px-4 py-2 hover:bg-dangerColor-hover_2">Search
                     </button>
                 </div>
             </form>

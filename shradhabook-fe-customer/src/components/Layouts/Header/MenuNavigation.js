@@ -2,20 +2,20 @@ import React from 'react';
 import {NavLink} from "react-router-dom";
 import {menuItems} from "./MenuItem";
 
-const defaultClass = `block py-2 pl-3 pr-4 text-blackColor rounded hover:text-dangerColor-default_2 md:p-0 ease-in duration-100 text-base font-semibold `
+const defaultClass = `block py-2 pl-3 pr-4 text-blackColor rounded hover:text-dangerColor-default_2 md:p-0 ease-in duration-100 text-base font-medium `
 const renderMenuItem = () => {
 
 }
 const MenuNavigation = () => {
     return (
-        <div className="items-center justify-between w-full md:flex md:w-auto md:order-1">
+        <div className="items-center justify-between flex py-3">
             <ul className="flex flex-col p-4 mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:border-0">
                 <NavLink to={'/'}
                          className={({isActive}) => isActive ? 'active' : defaultClass}>
                     Home
                 </NavLink>
                 <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar"
-                        className="hover:text-dangerColor-default_2 block py-2 pl-3 pr-4 rounded md:bg-transparent md:p-0 text-base font-semibold flex items-center justify-between">
+                        className="hover:text-dangerColor-default_2 block py-2 pl-3 pr-4 rounded md:bg-transparent md:p-0 text-base font-medium flex items-center justify-between">
                     Categories
                     <svg
                         className="w-4 h-4 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
@@ -30,7 +30,7 @@ const MenuNavigation = () => {
                     <ul className="py-1 text-sm text-gray-700 dark:text-gray-400"
                         aria-labelledby="dropdownLargeButton">
                         <li>
-                            <a href="src/components/Layouts/Header#"
+                            <a href="src/components/Layout/Header#"
                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dangerColor-default_2">Dashboard</a>
                         </li>
                         <li aria-labelledby="dropdownNavbarLink">
@@ -50,27 +50,27 @@ const MenuNavigation = () => {
                                 <ul className="py-1 text-sm text-gray-700 dark:text-gray-200"
                                     aria-labelledby="doubleDropdownButton">
                                     <li>
-                                        <a href="src/components/Layouts/Header#"
+                                        <a href="src/components/Layout/Header#"
                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 hover:text-dangerColor-default_2">Overview</a>
                                     </li>
                                     <li>
-                                        <a href="src/components/Layouts/Header#"
+                                        <a href="src/components/Layout/Header#"
                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 hover:text-dangerColor-default_2">My
                                             downloads</a>
                                     </li>
                                     <li>
-                                        <a href="src/components/Layouts/Header#"
+                                        <a href="src/components/Layout/Header#"
                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 hover:text-dangerColor-default_2">Billing</a>
                                     </li>
                                     <li>
-                                        <a href="src/components/Layouts/Header#"
+                                        <a href="src/components/Layout/Header#"
                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 hover:text-dangerColor-default_2">Rewards</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
                         <li>
-                            <a href="src/components/Layouts/Header#"
+                            <a href="src/components/Layout/Header#"
                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-dangerColor-default_2">Earnings</a>
                         </li>
                     </ul>

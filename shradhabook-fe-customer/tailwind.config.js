@@ -10,7 +10,6 @@ module.exports = {
                 sansSerif : ['"sans-serif"']
             },
             colors: {
-
                 transparent: 'transparent',
                 primaryColor: '#3f87f5',
                 successColor: '#00c9a7',
@@ -28,8 +27,9 @@ module.exports = {
                 grayColor: '#f9fbfd',
                 darkColor: '#223143',
                 blackColor: '#000',
-                background_color: '#282828',
+                footerBgColor: '#282828',
                 borderColor: '#E6E6E6',
+                lightColor: '#999999',
             },
             borderRadius: {
                 'none': '0',

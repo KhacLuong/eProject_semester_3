@@ -1,33 +1,34 @@
 import React from 'react';
-import Search from "./Search";
 import {Link} from "react-router-dom";
 import {HiOutlineLocationMarker} from "react-icons/hi"
-import {BiCategory} from "react-icons/bi"
+import MenuNavigation from "./MenuNavigation";
+import {BiPhoneCall} from "react-icons/bi";
 
 const BottomHeader = () => {
     return (
-        <nav className={`bg-white border-gray-200  bg-dangerColor-default_2`}>
-            <div className={`container flex flex-wrap items-center justify-between mx-auto xl:px-40`}>
-                <div className={`px-10 sm:px-5 py-3 categories-header text-white font-semibold flex items-center justify-between text-center bg-dangerColor-default_3`}>
-                    <BiCategory className={`text-xl`}/>
-                    Categories
+        <nav className={`bg-white border-gray-200 bg-white border-b-[2px] border-dark `}>
+            <div className={`container flex items-center justify-between mx-auto xl:px-30`}>
+                <div className={`text-sm flex items-center justify-center mr-6`}>
+                    <HiOutlineLocationMarker className={` text-black mr-1`}/>
+                    <Link to={`/`} className={`underline text-black font-medium`}>
+                        Find a Book Store
+                    </Link>
                 </div>
-                <Search/>
-                <Link to={`/contact`}
-                      className={`underline flex items-center text-white justify-between flex-row font-bold text-xs `}>
-                    <HiOutlineLocationMarker className={`mr-2 text-lg text-white`}/>
-                    Find a Book Store
+                    <MenuNavigation/>
+                <div className={`flex items-center justify-between mr-3`}>
+                    <div className={`mr-1 rounded-full bg-bgWhiteColor p-2.5`}>
+                        <BiPhoneCall className={``}/>
+                    </div>
                     <div>
-                        <div>
-
+                        <div className={`text-base text-dangerColor-default_2 font-semibold`}>
+                            +1  840-841 25 69
                         </div>
-                        <div>
-
+                        <div className={`text-xs text-darkColor`}>
+                            24/7 Support Center
                         </div>
                     </div>
-                </Link>
+                </div>
             </div>
-
         </nav>
     );
 };

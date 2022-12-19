@@ -12,6 +12,7 @@ import {
 import Content from "./components/Home/Content";
 import HomePage from "./components/Home/HomePage";
 import ContactPage from "./components/Contact/ContactPage";
+import Product from "./components/Product/Product";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,7 +21,7 @@ root.render(
             <Route path={'/'} element={<App/>}>
                 <Route index element={<HomePage/>}></Route>
                 <Route path={'/categories'}/>
-                <Route path={'/products'}/>
+                <Route path={'/products'} element={<Product/>}/>
                 <Route path={'/blog'}/>
                 <Route path={'/contact'} element={<ContactPage/>}/>
                 <Route path={'/pages'} element={<Content/>}/>
