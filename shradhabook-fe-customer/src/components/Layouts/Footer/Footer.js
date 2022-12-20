@@ -2,16 +2,17 @@ import React from 'react';
 import {GiBookAura} from "react-icons/gi";
 import {AiFillFacebook, AiOutlineTwitter, AiOutlineInstagram} from "react-icons/ai";
 import {RiPinterestFill} from "react-icons/ri"
-import image from '../../../assets/footer_img.png'
+import image from '../../../assets/image/footer_img.png'
 import {Link} from "react-router-dom";
-const mediaIcons = [AiFillFacebook, AiOutlineTwitter, AiOutlineInstagram, RiPinterestFill]
-const companyItems = ['About us', 'Delivery Information', 'Privacy Policy', 'Terms & Conditions', 'Contact Us', 'Support Center']
-const corporateItems = ['Become a Vendor', 'Affiliate Program', 'Our Suppliers', 'Accessibility', 'Promotions', 'Careers']
-const ourServiceItems = ['Help Center', 'Returns', 'Product', 'Recalls', 'Accessibility', 'Contact Us', 'Store Pickup']
-
-const textClassFooter = 'text-sm font-light hover:text-dangerColor-hover_2 cursor-pointer'
 
 const Footer = () => {
+
+    const mediaIcons = [AiFillFacebook, AiOutlineTwitter, AiOutlineInstagram, RiPinterestFill]
+    const companyItems = ['About us', 'Delivery Information', 'Privacy Policy', 'Terms & Conditions', 'Contact Us', 'Support Center']
+    const corporateItems = ['Become a Vendor', 'Affiliate Program', 'Our Suppliers', 'Accessibility', 'Promotions', 'Careers']
+    const ourServiceItems = ['Help Center', 'Returns', 'Product', 'Recalls', 'Accessibility', 'Contact Us', 'Store Pickup']
+
+    const textClassFooter = 'text-sm font-light hover:text-dangerColor-hover_2 cursor-pointer'
     return (
         <div className={`bg-footerBgColor`}>
             <div className={`border-b-[1px] border-solid border-lightColor py-20 px-56 text-lightColor `}>
@@ -98,7 +99,7 @@ const Footer = () => {
                         .All rights reserved.
                     </div>
                     <div>
-                        <img src={image}/>
+                        <img src={image} alt={`card`}/>
                     </div>
                 </div>
             </div>
