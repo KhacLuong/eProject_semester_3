@@ -13,7 +13,7 @@ namespace ShradhaBook_API.Services.UserInfoService
         {
             _context = context;
         }
-        public async Task<User?> CreateUserInfo(UserInfoDto request)
+        public async Task<User?> CreateUserInfo(UserInfo request)
         {
             var user = await _context.Users.FindAsync(request.UserId);
             if (user == null)
@@ -40,7 +40,7 @@ namespace ShradhaBook_API.Services.UserInfoService
             return userInfo;
         }
 
-        public async Task<UserInfo> UpdateUserInfo(int userId, UserInfoDto request)
+        public async Task<UserInfo> UpdateUserInfo(int userId, UserInfo request)
         {
             var userInfo = await _context.UserInfo.FirstOrDefaultAsync(i => i.UserId == userId);
             if (userInfo == null)

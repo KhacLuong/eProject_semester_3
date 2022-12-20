@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ShradhaBook_API.Controllers
@@ -8,40 +9,42 @@ namespace ShradhaBook_API.Controllers
     public class AddressController : ControllerBase
     {
         private readonly IAddressService _addressService;
+        private readonly IMapper _mapper;
 
-        public AddressController(IAddressService addressService)
+        public AddressController(IAddressService addressService, IMapper mapper)
         {
             _addressService = addressService;
+            _mapper = mapper;
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserInfo>> CreateAddress(AddressDto request)
+        public async Task<ActionResult<UserInfo>> CreateAddress(Address request)
         {
             var userInfo = await _addressService.CreateAddress(request);
             if (userInfo == null)
                 return NotFound("User info not found.");
-            return Ok(userInfo);
+            return Ok(_mapper.Map<UserInfoDto>(userInfo));
         }
 
         [HttpGet]
         public async Task<ActionResult<Address>> GetAllAddresses(int userInfoId)
         {
             var addresses = await _addressService.GetAllAddresses(userInfoId);
-            return Ok(addresses);
+            return Ok(_mapper.Map<AddressDto>(addresses));
         }
 
         [HttpPut("{userInfoId}")]
-        public async Task<ActionResult<Address>> UpdateAddress(int userInfoId, AddressDto request)
+        public async Task<ActionResult<Address>> UpdateAddress(int userInfoId, Address request)
         {
             var address = await _addressService.UpdateAddress(userInfoId, request);
-            return Ok(address);
+            return Ok(_mapper.Map<AddressDto>(address));
         }
 
         [HttpDelete("{userInfoId}")]
         public async Task<ActionResult<Address>> DeleteAddress(int userInfoId)
         {
             var address = await _addressService.DeleteAddress(userInfoId);
-            return Ok(address);
+            return Ok(_mapper.Map<AddressDto>(address));
         }
     }
 }

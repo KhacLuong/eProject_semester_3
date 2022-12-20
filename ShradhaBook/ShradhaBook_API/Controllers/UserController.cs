@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShradhaBook_API.Models;
 using System.Data;
@@ -12,11 +13,13 @@ namespace ShradhaBook_API.Controllers
     {
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, IEmailService emailService)
+        public UserController(IUserService userService, IEmailService emailService, IMapper mapper)
         {
             _userService = userService;
             _emailService = emailService;
+            _mapper = mapper;
         }
 
         [HttpPost("register-admin")]
@@ -40,7 +43,7 @@ namespace ShradhaBook_API.Controllers
             };
             _emailService.SendEmail(emailDto);
 
-            return Ok(user);
+            return Ok(_mapper.Map<UserDto>(user));
         }
         
         [HttpPost("register-customer")]
@@ -62,14 +65,15 @@ namespace ShradhaBook_API.Controllers
                 "</span>"
             };
             _emailService.SendEmail(emailDto);
-            return Ok(user);
+            return Ok(_mapper.Map<UserDto>(user));
         }
 
         [HttpGet]
         //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<User>>> GetAllUsers(string? query)
         {
-            return await _userService.GetAllUsers(query);
+            var users = await _userService.GetAllUsers(query);
+            return Ok(_mapper.Map<UserDto>(users));
         }
 
         [HttpGet("{id}")]
@@ -80,7 +84,7 @@ namespace ShradhaBook_API.Controllers
             if (user is null)
                 return BadRequest("User not found.");
 
-            return Ok(user);
+            return Ok(_mapper.Map<UserDto>(user));
         }
 
         [HttpPut("user/{id}")]
@@ -91,7 +95,7 @@ namespace ShradhaBook_API.Controllers
             if (user is null)
                 return BadRequest("User not found.");
 
-            return Ok(user);
+            return Ok(_mapper.Map<UserDto>(user));
         }
 
         [HttpPut("password/{id}")]
@@ -102,7 +106,7 @@ namespace ShradhaBook_API.Controllers
             if (user is null)
                 return BadRequest("Old password not match.");
 
-            return Ok(user);
+            return Ok(_mapper.Map<UserDto>(user));
         }
 
         [HttpDelete("{id}")]
@@ -113,7 +117,7 @@ namespace ShradhaBook_API.Controllers
             if (user is null)
                 return BadRequest("User not found.");
             
-            return Ok(user);
+            return Ok(_mapper.Map<UserDto>(user));
         }
 
         [HttpGet("verify")]

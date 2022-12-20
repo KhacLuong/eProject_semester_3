@@ -2,10 +2,9 @@
 {
     public interface IAddressService
     {
-        Task<UserInfo> CreateAddress(AddressDto request);
+        Task<UserInfo> CreateAddress(Address request);
         Task<List<Address>> GetAllAddresses(int userInfoId);
-        Task<Address?> UpdateAddress(int userInfoId, AddressDto request);
+        Task<Address?> UpdateAddress(int userInfoId, Address request);
         Task<Address?> DeleteAddress(int userInfoId);
-
     }
 }

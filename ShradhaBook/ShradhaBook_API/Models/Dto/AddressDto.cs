@@ -9,6 +9,5 @@ namespace ShradhaBook_API.Models.Dto
         public string District { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;
         public int? Postcode { get; set; }
-        public int UserInfoId { get; set; }
     }
 }

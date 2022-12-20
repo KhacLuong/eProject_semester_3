@@ -10,7 +10,7 @@ namespace ShradhaBook_API.Services.AddressService
         {
             _context = context;
         }
-        public async Task<UserInfo> CreateAddress(AddressDto request)
+        public async Task<UserInfo> CreateAddress(Address request)
         {
             var userInfo = await _context.UserInfo.FindAsync(request.UserInfoId);
             if (userInfo == null) { return null; }
@@ -33,7 +33,7 @@ namespace ShradhaBook_API.Services.AddressService
             var addresses = await _context.Addresses.Where(addresses => addresses.UserInfoId == userInfoId).ToListAsync();
             return addresses;
         }
-        public async Task<Address?> UpdateAddress(int userInfoId, AddressDto request)
+        public async Task<Address?> UpdateAddress(int userInfoId, Address request)
         {
             var address = await _context.Addresses.FindAsync(userInfoId);
             if (address is null)

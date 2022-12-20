@@ -1,11 +1,12 @@
-﻿namespace ShradhaBook_API.Models.Dto
+﻿using System.Reflection.Metadata.Ecma335;
+
+namespace ShradhaBook_API.Models.Dto
 {
     public class UserDto
     {
-        public string Email { get; set; }
-        public string Name { get; set; }
-        public int RoleId { get; set; }
-        public int UserInfoId { get; set; }
-
+        public string Email { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string UserType { get; set; } = string.Empty;
+        public UserDto? UserInfo { get; set; }
     }
 }
