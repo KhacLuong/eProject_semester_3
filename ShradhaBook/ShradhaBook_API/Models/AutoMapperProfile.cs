@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ShradhaBook_API.Models.Db;
 
 namespace ShradhaBook_API.Models
 {
@@ -7,9 +6,9 @@ namespace ShradhaBook_API.Models
     {
         public AutoMapperProfile()
         {
-            CreateMap<User, UserDto>();
-            CreateMap<UserInfo, UserInfoDto>();
-            CreateMap<Address, AddressDto>();
+            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<UserInfo, UserInfoDto>().ReverseMap();
+            CreateMap<Address, AddressDto>().ReverseMap();
         }
     }
 }

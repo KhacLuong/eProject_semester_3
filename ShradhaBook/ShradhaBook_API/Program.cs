@@ -40,12 +40,14 @@ builder.Services.AddSwaggerGen(options => {
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey,
     });
-    
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
+// Automapper
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
-//builder.Services.AddDetection();
+
 // Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => {

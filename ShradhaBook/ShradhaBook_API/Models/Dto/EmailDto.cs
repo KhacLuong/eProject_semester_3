@@ -10,7 +10,6 @@ namespace ShradhaBook_API.Models
         public string Subject { get; set; } = string.Empty;
         [Required]
         public string Body { get; set; } = string.Empty;
-        [Required]
-        public string Token { get; set; } = string.Empty;
+        public string? Token { get; set; }
     }
 }

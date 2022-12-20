@@ -1,5 +1,6 @@
 ﻿using ShradhaBook_API.Models.Db;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShradhaBook_API.Models
@@ -19,7 +20,7 @@ namespace ShradhaBook_API.Models
         public DateTime? ResetTokenExpires { get; set; }
         public string RefreshToken { get; set; } = string.Empty;
         public string UserType { get; set; } = string.Empty;
-        public UserInfo UserInfo { get; set; }
+        public UserInfo? UserInfo { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public DateTime? UpdateAt { get; set; }
     }

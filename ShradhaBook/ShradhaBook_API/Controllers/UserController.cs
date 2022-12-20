@@ -73,7 +73,7 @@ namespace ShradhaBook_API.Controllers
         public async Task<ActionResult<List<User>>> GetAllUsers(string? query)
         {
             var users = await _userService.GetAllUsers(query);
-            return Ok(_mapper.Map<UserDto>(users));
+            return Ok(users.Select(user => _mapper.Map<UserDto>(user)));
         }
 
         [HttpGet("{id}")]

@@ -7,6 +7,6 @@ namespace ShradhaBook_API.Models.Dto
         public string Email { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string UserType { get; set; } = string.Empty;
-        public UserDto? UserInfo { get; set; }
+        //public UserInfoDto? UserInfo { get; set; }
     }
 }

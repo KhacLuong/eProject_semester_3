@@ -10,7 +10,7 @@ namespace ShradhaBook_API.Services.AddressService
         {
             _context = context;
         }
-        public async Task<UserInfo> CreateAddress(Address request)
+        public async Task<UserInfo?> CreateAddress(Address request)
         {
             var userInfo = await _context.UserInfo.FindAsync(request.UserInfoId);
             if (userInfo == null) { return null; }

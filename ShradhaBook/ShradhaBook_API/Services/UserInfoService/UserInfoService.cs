@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Asn1.Ocsp;
-using ShradhaBook_API.Models;
-using Wangkanai.Extensions;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ShradhaBook_API.Services.UserInfoService
 {
@@ -32,7 +28,7 @@ namespace ShradhaBook_API.Services.UserInfoService
             return user;
         }
 
-        public async Task<UserInfo> GetUserInfo(int userId)
+        public async Task<UserInfo?> GetUserInfo(int userId)
         {
            var userInfo = await _context.UserInfo.FirstOrDefaultAsync(i => i.UserId == userId);
             if (userInfo == null)
@@ -40,7 +36,7 @@ namespace ShradhaBook_API.Services.UserInfoService
             return userInfo;
         }
 
-        public async Task<UserInfo> UpdateUserInfo(int userId, UserInfo request)
+        public async Task<UserInfo?> UpdateUserInfo(int userId, UserInfo request)
         {
             var userInfo = await _context.UserInfo.FirstOrDefaultAsync(i => i.UserId == userId);
             if (userInfo == null)
@@ -56,7 +52,7 @@ namespace ShradhaBook_API.Services.UserInfoService
             return userInfo;
         }
 
-        public async Task<UserInfo> DeleteUserInfo(int userId)
+        public async Task<UserInfo?> DeleteUserInfo(int userId)
         {
             var userInfo = await _context.UserInfo.FirstOrDefaultAsync(i => i.UserId == userId);
             if (userInfo == null)

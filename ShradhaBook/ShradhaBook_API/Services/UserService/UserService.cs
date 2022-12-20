@@ -52,7 +52,7 @@ namespace ShradhaBook_API.Services.UserService
         public async Task<List<User>> GetAllUsers(string? query)
         {
             var users = await _context.Users.Where(u =>
-                (string.IsNullOrEmpty(query) || u.Name.ToLower().Contains(query.ToLower()))
+                (string.IsNullOrEmpty(query) || string.IsNullOrEmpty(u.Name) || u.Name.ToLower().Contains(query.ToLower()))
              || (string.IsNullOrEmpty(query) || u.Email.ToLower().Contains(query.ToLower()))
             ).ToListAsync();
             return users;
@@ -84,8 +84,8 @@ namespace ShradhaBook_API.Services.UserService
         public async Task<User?> ChangePassword(int id, UserChangePasswordRequest request)
         {
             var user = await _context.Users.FindAsync(id);
-            //if (user is null)
-            //    return null;
+            if (user is null)
+                return null;
 
             if (!VerifyPasswordHash(request.OldPassword, user.PasswordHash, user.PasswordSalt))
             {
@@ -96,7 +96,6 @@ namespace ShradhaBook_API.Services.UserService
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-
 
             return user;
         }
@@ -121,7 +120,7 @@ namespace ShradhaBook_API.Services.UserService
             return user;
         }
 
-        public async Task<string> Verify(string token)
+        public async Task<string?> Verify(string token)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.VerificationToken == token);
             if (user is null)
@@ -133,7 +132,7 @@ namespace ShradhaBook_API.Services.UserService
             return "ok";
         }
 
-        public async Task<string> ForgotPassword(string email)
+        public async Task<string?> ForgotPassword(string email)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             if (user is null)
@@ -146,7 +145,7 @@ namespace ShradhaBook_API.Services.UserService
             return user.PasswordResetToken;
         }
 
-        public async Task<string> ResetPassword(ResetPasswordRequest request)
+        public async Task<string?> ResetPassword(ResetPasswordRequest request)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == request.Token);
             if (user is null || user.ResetTokenExpires < DateTime.Now)

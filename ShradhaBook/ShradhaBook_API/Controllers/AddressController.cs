@@ -30,7 +30,7 @@ namespace ShradhaBook_API.Controllers
         public async Task<ActionResult<Address>> GetAllAddresses(int userInfoId)
         {
             var addresses = await _addressService.GetAllAddresses(userInfoId);
-            return Ok(_mapper.Map<AddressDto>(addresses));
+            return Ok(addresses.Select(address => _mapper.Map<AddressDto>(address)));
         }
 
         [HttpPut("{userInfoId}")]
