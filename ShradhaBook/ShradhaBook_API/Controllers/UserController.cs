@@ -22,8 +22,8 @@ namespace ShradhaBook_API.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("register-admin")]
-        public async Task<ActionResult<User?>> RegisterAdmin(UserRegisterRequest request)
+        [HttpPost("register")]
+        public async Task<ActionResult<User?>> Register(UserRegisterRequest request)
         {
             var user = await _userService.Register(request);
             if (user == null)
@@ -49,7 +49,7 @@ namespace ShradhaBook_API.Controllers
         [HttpPost("register-customer")]
         public async Task<ActionResult<User?>> RegisterCus(UserRegisterRequest request)
         {
-            var user = await _userService.Register(request);
+            var user = await _userService.RegisterCus(request);
             if (user == null)
             {
                 return BadRequest("User already exists.");

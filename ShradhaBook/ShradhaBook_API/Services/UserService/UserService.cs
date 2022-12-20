@@ -40,6 +40,33 @@ namespace ShradhaBook_API.Services.UserService
             return user;
         }
 
+        public async Task<User?> RegisterCus(UserRegisterRequest request)
+        {
+            // check existing user email
+            if (_context.Users.Any(u => u.Email == request.Email))
+            {
+                return null;
+            }
+
+            // encoding password
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            var user = new User
+            {
+                Name = request.Name,
+                Email = request.Email,
+                PasswordSalt = passwordSalt,
+                PasswordHash = passwordHash,
+                VerificationToken = CreateRandomToken(),
+                UserType = "user"
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
