@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace ShradhaBook_API.Models.Db
+namespace ShradhaBook_API.Models.Entities
 {
     public class UserInfo
     {

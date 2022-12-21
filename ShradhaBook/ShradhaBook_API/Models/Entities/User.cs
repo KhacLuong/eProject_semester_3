@@ -1,9 +1,4 @@
-﻿using ShradhaBook_API.Models.Db;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ShradhaBook_API.Models
+﻿namespace ShradhaBook_API.Models
 {
     public class User
     {

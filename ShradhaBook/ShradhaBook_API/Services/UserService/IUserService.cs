@@ -3,6 +3,7 @@
     public interface IUserService
     {
         Task<User?> Register(UserRegisterRequest request);
+        Task<User?> RegisterCus(UserRegisterRequest request);
         Task<string?> Verify(string token);
         Task<List<User>> GetAllUsers(string? query);
         Task<User?> GetSingleUser(int id);

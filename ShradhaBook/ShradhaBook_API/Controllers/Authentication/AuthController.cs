@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace ShradhaBook_API.Controllers
+namespace ShradhaBook_API.Controllers.Authentication
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -16,38 +16,38 @@ namespace ShradhaBook_API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(UserLoginRequest request)
+        public async Task<IActionResult> Login(UserLoginRequest request)
         {
             var response = Response;
             var token = await _authService.Login(request, response);
             if (token == null)
             {
-                return BadRequest("User and password combination not found.");
+                return BadRequest(new ServiceResponse<string> { Status = false, Message = "User and password combination not found." });
             }
 
-            return Ok(token);
+            return Ok(new ServiceResponse<string> { Data = token, Message = "User logged in successfully." });
         }
 
         [HttpPost("refresh-token")]
-        public async Task<ActionResult<string>> RefreshToken(int id)
+        public async Task<IActionResult> RefreshToken(int id)
         {
             var request = Request;
             var response = Response;
             var token = await _authService.RefreshToken(id, request, response);
             if (token == null)
             {
-                return BadRequest("User not found.");
+                return NotFound(new ServiceResponse<string> { Status = false, Message = "User not found." });
             }
             if (token == "1")
             {
-                return BadRequest("Invalid token.");
+                return BadRequest(new ServiceResponse<string> { Status = false, Message = "Invalid token." });
             }
             if (token == "2")
             {
-                return BadRequest("Token expired");
+                return BadRequest(new ServiceResponse<string> { Status = false, Message = "Token expired" });
             }
 
-            return Ok(token);
+            return Ok(new ServiceResponse<string> { Data = token, Message = "Refresh token has been re-created." });
         }
 
         [Authorize]
@@ -57,8 +57,8 @@ namespace ShradhaBook_API.Controllers
             var userId = HttpContext.User.FindFirstValue("Id");
             var message = await _authService.Logout(Convert.ToInt32(userId));
             if (message == null)
-                return BadRequest("User not found.");
-            return Ok("User logged out.");
+                return NotFound(new ServiceResponse<string> { Status = false, Message = "User not found." });
+            return Ok(new ServiceResponse<string> { Message = "User logged out." });
         }
     }
 }

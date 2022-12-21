@@ -9,7 +9,7 @@ namespace ShradhaBook_API.Services.UserInfoService
         {
             _context = context;
         }
-        public async Task<User?> CreateUserInfo(UserInfo request)
+        public async Task<User?> CreateUserInfo(AddUserInfoRequest request)
         {
             var user = await _context.Users.FindAsync(request.UserId);
             if (user == null)
@@ -20,7 +20,7 @@ namespace ShradhaBook_API.Services.UserInfoService
                 Phone = request.Phone,
                 Gender = request.Gender,
                 DateofBirth = request.DateofBirth, 
-                User = user
+                UserId = user.Id
             };
 
             _context.UserInfo.Add(userInfo);
@@ -30,15 +30,15 @@ namespace ShradhaBook_API.Services.UserInfoService
 
         public async Task<UserInfo?> GetUserInfo(int userId)
         {
-           var userInfo = await _context.UserInfo.FirstOrDefaultAsync(i => i.UserId == userId);
+            var userInfo = await _context.UserInfo.FirstAsync(i => i.UserId == userId);
             if (userInfo == null)
                 return null;
             return userInfo;
         }
 
-        public async Task<UserInfo?> UpdateUserInfo(int userId, UserInfo request)
+        public async Task<UserInfo?> UpdateUserInfo(int id, UserInfo request)
         {
-            var userInfo = await _context.UserInfo.FirstOrDefaultAsync(i => i.UserId == userId);
+            var userInfo = await _context.UserInfo.FindAsync(id);
             if (userInfo == null)
                 return null;
 
@@ -52,9 +52,9 @@ namespace ShradhaBook_API.Services.UserInfoService
             return userInfo;
         }
 
-        public async Task<UserInfo?> DeleteUserInfo(int userId)
+        public async Task<UserInfo?> DeleteUserInfo(int id)
         {
-            var userInfo = await _context.UserInfo.FirstOrDefaultAsync(i => i.UserId == userId);
+            var userInfo = await _context.UserInfo.FindAsync(id);
             if (userInfo == null)
                 return null;
 

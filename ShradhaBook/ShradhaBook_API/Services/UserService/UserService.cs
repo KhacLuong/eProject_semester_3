@@ -100,8 +100,7 @@ namespace ShradhaBook_API.Services.UserService
             if (user is null)
                 return null;
 
-            user.Name = request.Name;
-            user.Email = request.Email;
+            user = request;
             user.UpdateAt = DateTime.Now;
 
             await _context.SaveChangesAsync();
@@ -126,7 +125,7 @@ namespace ShradhaBook_API.Services.UserService
 
             return user;
         }
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
             {
@@ -166,7 +165,7 @@ namespace ShradhaBook_API.Services.UserService
                 return null;
 
             user.PasswordResetToken = CreateRandomToken();
-            user.ResetTokenExpires = DateTime.Now.AddDays(1);
+            user.ResetTokenExpires = DateTime.Now.AddHours(1);
             await _context.SaveChangesAsync();
 
             return user.PasswordResetToken;
@@ -190,7 +189,7 @@ namespace ShradhaBook_API.Services.UserService
             return "ok";
         }
 
-        private string CreateRandomToken()
+        private static string CreateRandomToken()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
