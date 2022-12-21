@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShradhaBook_API.Data;
 
@@ -11,9 +12,10 @@ using ShradhaBook_API.Data;
 namespace ShradhaBook_API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221219091032_correct_db_relation")]
+    partial class correct_db_relation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,9 +73,6 @@ namespace ShradhaBook_API.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Avatar")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
@@ -191,7 +190,8 @@ namespace ShradhaBook_API.Migrations
 
             modelBuilder.Entity("ShradhaBook_API.Models.User", b =>
                 {
-                    b.Navigation("UserInfo");
+                    b.Navigation("UserInfo")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

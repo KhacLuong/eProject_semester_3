@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ShradhaBook_API.Models;
 
 namespace ShradhaBook_API.Data
 {
@@ -7,5 +6,14 @@ namespace ShradhaBook_API.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserInfo> UserInfo { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().Navigation(u => u.UserInfo).AutoInclude();
+            modelBuilder.Entity<UserInfo>().Navigation(ui => ui.Addresses).AutoInclude();
+
+        }
     }
 }

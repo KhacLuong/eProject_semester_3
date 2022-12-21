@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShradhaBook_API.Data;
 
@@ -11,9 +12,10 @@ using ShradhaBook_API.Data;
 namespace ShradhaBook_API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221219035036_remove_role_table")]
+    partial class remove_role_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,8 +74,8 @@ namespace ShradhaBook_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Avatar")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
@@ -91,13 +93,7 @@ namespace ShradhaBook_API.Migrations
                     b.Property<DateTime?>("UpdateAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("UserInfo");
                 });
@@ -147,6 +143,9 @@ namespace ShradhaBook_API.Migrations
                     b.Property<DateTime?>("UpdateAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserInfoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -158,6 +157,8 @@ namespace ShradhaBook_API.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserInfoId");
 
                     b.ToTable("Users");
                 });
@@ -173,25 +174,20 @@ namespace ShradhaBook_API.Migrations
                     b.Navigation("UserInfo");
                 });
 
-            modelBuilder.Entity("ShradhaBook_API.Models.Db.UserInfo", b =>
+            modelBuilder.Entity("ShradhaBook_API.Models.User", b =>
                 {
-                    b.HasOne("ShradhaBook_API.Models.User", "User")
-                        .WithOne("UserInfo")
-                        .HasForeignKey("ShradhaBook_API.Models.Db.UserInfo", "UserId")
+                    b.HasOne("ShradhaBook_API.Models.Db.UserInfo", "UserInfo")
+                        .WithMany()
+                        .HasForeignKey("UserInfoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("UserInfo");
                 });
 
             modelBuilder.Entity("ShradhaBook_API.Models.Db.UserInfo", b =>
                 {
                     b.Navigation("Addresses");
-                });
-
-            modelBuilder.Entity("ShradhaBook_API.Models.User", b =>
-                {
-                    b.Navigation("UserInfo");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,8 +1,13 @@
 global using ShradhaBook_API.Services.UserService;
+global using ShradhaBook_API.Services.UserInfoService;
+global using ShradhaBook_API.Services.AddressService;
 global using ShradhaBook_API.Services.AuthService;
 global using ShradhaBook_API.Services.EmailService;
 global using ShradhaBook_API.Data;
 global using ShradhaBook_API.Models;
+global using ShradhaBook_API.Models.Dto;
+global using ShradhaBook_API.Models.Entities;
+global using ShradhaBook_API.Models.Request;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -22,6 +27,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserInfoService, UserInfoService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddHttpContextAccessor();
@@ -36,6 +43,11 @@ builder.Services.AddSwaggerGen(options => {
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
+// Automapper
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 // Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => {

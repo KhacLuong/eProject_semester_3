@@ -4,23 +4,22 @@
 
 namespace ShradhaBook_API.Migrations
 {
-    public partial class add_role : Migration
+    public partial class add_avatar : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Role",
-                table: "Users",
+                name: "Avatar",
+                table: "UserInfo",
                 type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "User");
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Role",
-                table: "Users");
+                name: "Avatar",
+                table: "UserInfo");
         }
     }
 }
