@@ -1,12 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using System.Xml.Linq;
 
 namespace ShradhaBook_API.Services.UserService
 {
     public class UserService : IUserService
     {
         private readonly DataContext _context;
-
         public UserService(DataContext context)
         {
             _context = context;
@@ -30,7 +31,34 @@ namespace ShradhaBook_API.Services.UserService
                 PasswordSalt = passwordSalt,
                 PasswordHash = passwordHash,
                 VerificationToken = CreateRandomToken(),
-                Role = request.Role
+                UserType = request.UserType
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
+        public async Task<User?> RegisterCus(UserRegisterRequest request)
+        {
+            // check existing user email
+            if (_context.Users.Any(u => u.Email == request.Email))
+            {
+                return null;
+            }
+
+            // encoding password
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            var user = new User
+            {
+                Name = request.Name,
+                Email = request.Email,
+                PasswordSalt = passwordSalt,
+                PasswordHash = passwordHash,
+                VerificationToken = CreateRandomToken(),
+                UserType = "user"
             };
 
             _context.Users.Add(user);
@@ -48,9 +76,12 @@ namespace ShradhaBook_API.Services.UserService
             }
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public async Task<List<User>> GetAllUsers(string? query)
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _context.Users.Where(u =>
+                (string.IsNullOrEmpty(query) || string.IsNullOrEmpty(u.Name) || u.Name.ToLower().Contains(query.ToLower()))
+             || (string.IsNullOrEmpty(query) || u.Email.ToLower().Contains(query.ToLower()))
+            ).ToListAsync();
             return users;
         }
 
@@ -69,8 +100,8 @@ namespace ShradhaBook_API.Services.UserService
             if (user is null)
                 return null;
 
-            user.Name = request.Name;
-            user.Email = request.Email;
+            user = request;
+            user.UpdateAt = DateTime.Now;
 
             await _context.SaveChangesAsync();
 
@@ -82,7 +113,7 @@ namespace ShradhaBook_API.Services.UserService
             if (user is null)
                 return null;
 
-            if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+            if (!VerifyPasswordHash(request.OldPassword, user.PasswordHash, user.PasswordSalt))
             {
                 return null;
             }
@@ -92,10 +123,9 @@ namespace ShradhaBook_API.Services.UserService
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
-
             return user;
         }
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
             {
@@ -116,7 +146,7 @@ namespace ShradhaBook_API.Services.UserService
             return user;
         }
 
-        public async Task<string> Verify(string token)
+        public async Task<string?> Verify(string token)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.VerificationToken == token);
             if (user is null)
@@ -128,20 +158,20 @@ namespace ShradhaBook_API.Services.UserService
             return "ok";
         }
 
-        public async Task<string> ForgotPassword(string email)
+        public async Task<string?> ForgotPassword(string email)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             if (user is null)
                 return null;
 
             user.PasswordResetToken = CreateRandomToken();
-            user.ResetTokenExpires = DateTime.Now.AddDays(1);
+            user.ResetTokenExpires = DateTime.Now.AddHours(1);
             await _context.SaveChangesAsync();
 
             return user.PasswordResetToken;
         }
 
-        public async Task<string> ResetPassword(ResetPasswordRequest request)
+        public async Task<string?> ResetPassword(ResetPasswordRequest request)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == request.Token);
             if (user is null || user.ResetTokenExpires < DateTime.Now)
@@ -159,7 +189,7 @@ namespace ShradhaBook_API.Services.UserService
             return "ok";
         }
 
-        private string CreateRandomToken()
+        private static string CreateRandomToken()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }

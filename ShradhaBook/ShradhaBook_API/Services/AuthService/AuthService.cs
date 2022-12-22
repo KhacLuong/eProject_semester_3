@@ -11,7 +11,12 @@ namespace ShradhaBook_API.Services.AuthService
         private readonly IConfiguration _configuration;
         private readonly DataContext _context;
 
-        public async Task<string> Login(UserLoginRequest request, HttpResponse response)
+        public AuthService(IConfiguration configuration, DataContext context)
+        {
+            _configuration = configuration;
+            _context = context;
+        }
+        public async Task<string?> Login(UserLoginRequest request, HttpResponse response)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
@@ -25,18 +30,13 @@ namespace ShradhaBook_API.Services.AuthService
                 return null;
             }
 
-            //if (user.VerifiedAt == null)
-            //{
-            //    return "Not Verified.";
-            //}
-
             string token = CreateToken(user);
             var refreshToken = GenerateRefreshToken();
             SetRefreshToken(refreshToken, user, response);
             return token;
         }
 
-        public async Task<string> RefreshToken(int id, HttpRequest request, HttpResponse response)
+        public async Task<string?> RefreshToken(int id, HttpRequest request, HttpResponse response)
         {
             var user = await _context.Users.FindAsync(id);
             if (user is null)
@@ -61,11 +61,17 @@ namespace ShradhaBook_API.Services.AuthService
             return token;
         }
 
-        public AuthService(IConfiguration configuration, DataContext context) 
+        public async Task<string?> Logout(int id)
         {
-            _configuration = configuration;
-            _context = context;
+            var user = await _context.Users.FindAsync(id);
+            if (user is null)
+                return null;
+
+            user.RefreshToken = "";
+            await _context.SaveChangesAsync();
+            return "Ok";
         }
+        
 
         private RefreshToken GenerateRefreshToken()
         {
@@ -73,7 +79,6 @@ namespace ShradhaBook_API.Services.AuthService
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
                 Expires = DateTime.Now.AddDays(7),
-                Created = DateTime.Now
             };
 
             return refreshToken;
@@ -99,8 +104,9 @@ namespace ShradhaBook_API.Services.AuthService
         {
             List<Claim> claims = new List<Claim>
             {
+                new Claim("Id", user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Role, user.UserType)
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
@@ -110,7 +116,7 @@ namespace ShradhaBook_API.Services.AuthService
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(1),
+                expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: creds);
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
