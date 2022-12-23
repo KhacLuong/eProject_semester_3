@@ -1,4 +1,4 @@
-﻿namespace ShradhaBook_API.Models
+﻿namespace ShradhaBook_API.Models.Entities
 {
     public class User
     {
