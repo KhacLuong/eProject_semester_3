@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ShradhaBook_API.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShradhaBook_API.ViewModels;
-using ShradhaBook_API.Services.CategotyService;
-using System.Net;
 
 namespace ShradhaBook_API.Controllers
 {

@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ShradhaBook_API.Models;
-using ShradhaBook_API.ViewModels;
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using NLipsum.Core;
 using System.Security.Cryptography;
 
@@ -39,7 +35,13 @@ namespace ShradhaBook_API.Data
             var passwordSalt = hmac.Key;
             var passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes("abc123"));
             var gender = new List<string> { "female", "male" };
-
+            var cat = new List<string> { "Book", "Magazine", "DVD", "CD", "Files", "Stationery", "Utilities" };
+            var bookcat = new List<string> { "Arts & Photography","Biographies & Memoirs","Business & Money","Calendars",
+            "Children's Books","Christian Books & Bibles","Comics & Graphic Novels","Computers & Technology","Cookbooks, Food & Wine",
+            "Crafts, Hobbies & Home","Education & Teaching","Engineering & Transportation","Health, Fitness & Dieting","History",
+            "Humor & Entertainment","Law","LGBTQ+ Books","Literature & Fiction","Medical Books","Mystery, Thriller & Suspense",
+            "Parenting & Relationships","Politics & Social Sciences","Reference","Religion & Spirituality","Romance","Science & Math",
+            "Science Fiction & Fantasy","Self-Help","Sports & Outdoors","Teen & Young Adult","Test Preparation","Travel"};
             for (int i = 1; i <= 20; i++)
             {
                 var name = generator.GenerateWords(1)[0];
@@ -81,12 +83,14 @@ namespace ShradhaBook_API.Data
                         CreateAt = DateTime.Now
                     }
 				);
+                var address1 = generator.GenerateWords(6);
+                var address2 = generator.GenerateWords(6);
                 modelBuilder.Entity<Address>().HasData(
                     new Address
                     {
                         Id = i * 2 - 1,
-                        AddressLine1 = generator.GenerateWords(3)[0] + generator.GenerateWords(3)[1] + generator.GenerateWords(3)[2],
-                        AddressLine2 = generator.GenerateWords(2)[0] + generator.GenerateWords(2)[1],
+                        AddressLine1 = address1[0] + " " + address1[1] + " " + address1[2],
+                        AddressLine2 = address1[3] + " " + address1[4],
                         District = generator.GenerateWords(1)[0],
                         City = generator.GenerateWords(1)[0],
                         Postcode = _random.Next(10000, 99999),
@@ -96,8 +100,8 @@ namespace ShradhaBook_API.Data
                     new Address
                     {
                         Id = i * 2,
-                        AddressLine1 = generator.GenerateWords(3)[0] + generator.GenerateWords(3)[1] + generator.GenerateWords(3)[2],
-                        AddressLine2 = generator.GenerateWords(2)[0] + generator.GenerateWords(2)[1],
+                        AddressLine1 = address2[0] + " " + address2[1] + " " + address2[2],
+                        AddressLine2 = address2[3] + " " + address2[4],
                         District = generator.GenerateWords(1)[0],
                         City = generator.GenerateWords(1)[0],
                         Postcode = _random.Next(10000, 99999),

@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
-using System.Xml.Linq;
 
 namespace ShradhaBook_API.Services.UserService
 {
