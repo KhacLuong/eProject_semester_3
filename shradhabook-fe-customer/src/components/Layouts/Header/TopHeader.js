@@ -8,15 +8,18 @@ const TopHeader = () => {
     const icons = [
         {
             icon: AiOutlineUser,
-            url: '/login'
+            url: '/login',
+            target: ""
         },
         {
             icon: AiOutlineHeart,
-            url: '/wishlist'
+            url: '/wishlist',
+            target: ""
         },
         {
             icon: AiOutlineShoppingCart,
-            url: '/shopping-cart'
+            url: '/shopping-cart',
+            target: ""
         }
     ]
 
@@ -37,7 +40,7 @@ const TopHeader = () => {
                             <div className={` px-3 border-borderColor`}>
                                 <Icon className={`text-white`}/>
                             </div>
-                        </Link> : <Link to={item.url} key={key}>
+                        </Link> : <Link to={item.url} target={item.target} key={key}>
                             <div key={key} className={`border-r-[1px] px-3 border-borderColor`}>
                                 <Icon className={`text-white`}/>
                             </div>

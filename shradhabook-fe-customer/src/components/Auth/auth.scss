@@ -4,6 +4,13 @@
     box-sizing: border-box;
 }
 
+//.Toastify__toast-theme--light {
+//    background: rgba(255, 255, 255, 0.4) !important;
+//    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1)!important;
+//    backdrop-filter: blur(20px)!important;
+//    -webkit-backdrop-filter: blur(20px)!important;
+//    color: #fff !important;
+//}
 section {
     position: relative;
     min-height: 100vh;
@@ -15,6 +22,31 @@ section {
 
     &.active_section {
         background: #ffc021;
+    }
+
+    .close_signin, .close_signup {
+        position: absolute;
+        background: white;
+        font-size: 25px;
+        border-radius: 4px;
+        z-index: 1;
+        transition: 0.5s;
+        cursor: pointer;
+        color: #333;
+    }
+
+    .close_signin:hover {
+        background: #F65D4E;
+        svg {
+            fill: #ffffff;
+        }
+    }
+
+    .close_signup:hover {
+        background: #ffc021;
+        svg {
+            fill: #ffffff;
+        }
     }
 
     .login_container {
@@ -124,6 +156,7 @@ section {
                         cursor: pointer;
                     }
                 }
+
                 form .forgot_password {
                     font-size: 9px;
                 }
@@ -156,6 +189,12 @@ section {
                 transition: 0.5s;
             }
 
+            .close_signup {
+                top: 100%;
+                left: 4%;
+                transition: 0.5s;
+            }
+
             .formBx {
                 top: 100%;
             }
@@ -168,6 +207,11 @@ section {
                 top: 0;
             }
 
+            .close_signup {
+                top: 4%;
+                left: 4%;
+            }
+
             .imgBx {
                 top: 0;
             }
@@ -176,6 +220,12 @@ section {
         .signinBx {
             .formBx {
                 top: 0;
+            }
+
+            .close_signin {
+                top: 4%;
+                right: 4%;
+                transition: 0.5s;
             }
 
             .imgBx {
@@ -187,6 +237,11 @@ section {
         &.active_container .signinBx {
             .formBx {
                 top: 100%;
+            }
+
+            .close_signin {
+                top: 100%;
+                right: 4%;
             }
 
             .imgBx {
