@@ -13,6 +13,7 @@ import Content from "./components/Home/Content";
 import HomePage from "./components/Home/HomePage";
 import ContactPage from "./components/Contact/ContactPage";
 import Product from "./components/Product/Product";
+import Auth from "./components/Auth/Auth";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -25,7 +26,10 @@ root.render(
                 <Route path={'/blog'}/>
                 <Route path={'/contact'} element={<ContactPage/>}/>
                 <Route path={'/pages'} element={<Content/>}/>
+                <Route path={'/wishlist/{id}'} element={<Content/>}/>
+                <Route path={'/shopping-cart/{id}'} element={<Content/>}/>
             </Route>
+            <Route path={'/login'} element={<Auth/>}/>
         </Routes>
     </BrowserRouter>,
 );
