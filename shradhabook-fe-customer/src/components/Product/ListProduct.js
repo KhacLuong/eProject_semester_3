@@ -7,6 +7,9 @@ import {BsFillGridFill} from 'react-icons/bs'
 import {FaThList} from 'react-icons/fa'
 import './Product.scss'
 import parse from 'html-react-parser';
+import book1 from '../../assets/image/books/book_1.png'
+import book2 from '../../assets/image/books/book2.png'
+import book3 from '../../assets/image/books/book3.png'
 
 const ListProduct = () => {
     const optionSort = [
@@ -42,11 +45,29 @@ const ListProduct = () => {
 
     const listProducts = [
         {
-            imgURL: '',
+            id: 1,
+            imgURL: book1,
             name: 'Blood on the Snow',
             author: 'Rex Rios',
-            price: '216.99'
-        }
+            price: '216.99',
+            slug: 'blood-on-the-snow'
+        },
+        {
+            id: 2,
+            imgURL: book2,
+            name: 'Blood on the Snow',
+            author: 'Rex Rios',
+            price: '116.99',
+            slug: 'blood-on-the-snow'
+        },
+        {
+            id: 3,
+            imgURL: book3,
+            name: 'Blood on the Snow',
+            author: 'Rex Rios',
+            price: '116.99',
+            slug: 'blood-on-the-snow'
+        },
     ]
 
     const renderStar = (count_of_star) => {
@@ -244,7 +265,8 @@ const ListProduct = () => {
                                 ))}
                             </select>
                         </div>
-                        <div className={`relative flex items-center pl-[19px] ml-[14px] after:content-[''] after:absolute after:w-[1px] after:h-[20px] after:bg-lightColor after:left-0 after:top-[10%] `}>
+                        <div
+                            className={`relative flex items-center pl-[19px] ml-[14px] after:content-[''] after:absolute after:w-[1px] after:h-[20px] after:bg-lightColor after:left-0 after:top-[10%] `}>
                             <label htmlFor={`per_page`} className={`text-lightColor font-normal text-sm`}>Show</label>
                             <select name={`per_page`} id={`per_page`} value={selectedQuantity}
                                     onChange={handleChangeQuantity}
@@ -259,13 +281,72 @@ const ListProduct = () => {
                     </div>
                 </div>
                 <div className={``}>
-                    <div className={`render_product grid grid-cols-3 gap-4`}>
-                        <div className={`row-span-2`}>sdasd</div>
-                        <div className={``}>sdasd</div>
-                        <div className={``}>sdasd</div>
-                        <div className={``}>sdasd</div>
-                        <div className={``}>sdasd</div>
-                        <div className={``}>sdasd</div>
+                    <div className={`render_product grid grid-cols-3 gap-4 py-6`}>
+                        {
+                            listProducts.map((item, index) => {
+                                return <div className={`w-full`} key={index}>
+                                    <div className={`product-transition relative`}>
+                                        <Link className={`overflow-hidden rounded-2xl w-[600px] h-[840px]`} to={`detail-product/${item.id}/${item.slug}`}>
+                                            <img className={`w-full rounded-2xl block my-0 mx-auto`}
+                                            src={item.imgURL}/>
+                                        </Link>
+                                        <div></div>
+                                    </div>
+                                    <div className={`product-caption relative pt-[20px]`}>
+                                        <Link to={`detail-product/${item.id}/${item.slug}`}
+                                              className={`text-base font-semibold overflow-hidden`}>
+                                            <h3>{item.name}</h3>
+                                        </Link>
+                                        <div className={`count_review text-xs my-[10px] flex items-center font-semibold`}>
+                                            <div className={`flex items-center`}>
+                                                <svg aria-hidden="true" className="w-4 h-4 text-ratingColor" fill="currentColor" viewBox="0 0 20 20"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <title>Rating star</title>
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                                    </path>
+                                                </svg>
+                                                <svg aria-hidden="true" className="w-4 h-4 text-ratingColor" fill="currentColor" viewBox="0 0 20 20"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <title>Rating star</title>
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                                    </path>
+                                                </svg>
+                                                <svg aria-hidden="true" className="w-4 h-4 text-ratingColor" fill="currentColor" viewBox="0 0 20 20"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <title>Rating star</title>
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                                    </path>
+                                                </svg>
+                                                <svg aria-hidden="true" className="w-4 h-4 text-ratingColor" fill="currentColor" viewBox="0 0 20 20"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <title>Rating star</title>
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                                    </path>
+                                                </svg>
+                                                <svg aria-hidden="true"
+                                                     className="w-4 h-4 text-gray-300 dark:text-gray-500 "
+                                                     fill="currentColor" viewBox="0 0 20 20"
+                                                     xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title>
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                                </svg>
+                                            </div>
+                                            <span className={`ml-2`}>5</span>
+                                        </div>
+                                        <div className={`detail_product_author text-xs text-lightColor mb-[12px] leading-none font-normal hover:text-dangerColor-default_2`}>
+                                            <Link to={``}>{item.author}</Link>
+                                        </div>
+                                        <div className={`detail_product_price flex flex-wrap items-center justify-start text-xl font-bold text-dangerColor-default_2 leading-normal`}>
+                                            ${item.price}
+                                        </div>
+                                    </div>
+                                </div>
+                            })
+                        }
                     </div>
                     <div className={`paginate`}>
 
