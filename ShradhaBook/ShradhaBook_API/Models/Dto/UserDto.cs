@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-namespace ShradhaBook_API.Models.Dto
+﻿namespace ShradhaBook_API.Models.Dto
 {
     public class UserDto
     {

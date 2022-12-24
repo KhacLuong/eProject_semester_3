@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using ShradhaBook_API.Models.Response;
 
 namespace ShradhaBook_API.Controllers.Admin
 {
@@ -48,10 +50,21 @@ namespace ShradhaBook_API.Controllers.Admin
 
         [HttpGet]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetAllUsers(string? query)
+        public async Task<IActionResult> GetAllUsers(string? query, int page)
         {
             var users = await _userService.GetAllUsers(query);
-            return Ok(new ServiceResponse<List<User>> { Data = users, });
+
+            // Pagination
+            var pageResult = 5f;
+            var pageCount = Math.Ceiling(users.Count() / pageResult);
+            users = users.Skip((page - 1) * (int)pageResult).Take((int)pageResult).ToList();
+            var response = new UserResponse
+            {
+                Users = users,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+            return Ok(new ServiceResponse<UserResponse> { Data = response });
         }
 
         [HttpGet("{id}")]
