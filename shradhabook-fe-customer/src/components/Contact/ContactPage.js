@@ -1,9 +1,10 @@
 import React from 'react';
+import Banner from "../Layouts/Banner/Banner";
 
 const ContactPage = () => {
     return (
         <div>
-            This is contact page
+            <Banner bannerTitle={`contact`}/>
         </div>
     );
 };
