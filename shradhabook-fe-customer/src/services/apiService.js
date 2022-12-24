@@ -1,5 +1,4 @@
-import axios from "axios";
-
+import axios from "../ultis/axiosCustomize";
 const postCreateUser = (name, email, password, confirmPassword, userType) => {
     const data = {
         "name": name,
@@ -8,13 +7,7 @@ const postCreateUser = (name, email, password, confirmPassword, userType) => {
         "confirmPassword": confirmPassword,
         "userType": userType
     }
-    return axios.post('https://localhost:7000/api/User/register', data)
-        .then(function (response) {
-            return response
-        })
-        .catch(function (error) {
-            return error
-        });
+    return axios.post('User/register', data)
 }
 
 export {postCreateUser}

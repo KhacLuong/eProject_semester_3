@@ -4,7 +4,6 @@ import './auth.scss';
 import LoginImage from '../../assets/image/login.png';
 import RegisterImage from "../../assets/image/register.png";
 import BackgroundImage from "../../assets/image/background_2.png";
-import axios from 'axios';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {message} from "../../ultis/message";
@@ -41,24 +40,24 @@ const Auth = () => {
         const isValidEmail = validateEmail(email)
         if (!isValidEmail) {
             toast.error(message.email_error.invalid)
-            return;
+            return false;
         }
         if (confirmPassword !== password) {
             toast.error(message.password_error.confirm_password)
-            return;
+            return false;
         }
         if (password === "") {
             toast.error(message.password_error.password_is_empty)
-            return;
+            return false;
         }
         if (hasNumber(name)) {
             toast.error(message.name_error.name_has_number)
-            return;
+            return false;
         }
         if (name === "") {
             toast.error(message.name_error.name_is_empty)
-            return;
         }
+        return true;
     }
     const handleLogin = () => {
 
@@ -67,9 +66,16 @@ const Auth = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         // check validate
-        checkValidate()
+        if(!checkValidate()) {
+            return;
+        }
         // create and submit data
         let res = await postCreateUser(name, email, password, confirmPassword, userType);
+        if(res && res.status === true) {
+            toast.success(res.message)
+            setIsActive(!isActive);
+        }
+
         if (res.response && res.response.data.status === false) {
             toast.error(res.response.data.message)
         } else if (res.response && res.response.data.status === 400) {
@@ -102,13 +108,15 @@ const Auth = () => {
                             <input autoComplete="on" type={`password`} placeholder={`Password`} value={password}
                                    onChange={(event) => setPassword(event.target.value)}/>
                             <input type={`submit`} value={`Login`} onClick={() => handleLogin()}/>
-                            <div>
+                            <div className={`remember_user`}>
                                 <input className={`checkbox`} type={`checkbox`}/>
                                 <p>Remember me</p>
                             </div>
-                            <p className={`forgot_password`}>
-                                Forgot password? <a>Click here</a>
-                            </p>
+                            <div className={`forgot_password`}>
+                                <p>
+                                    Forgot password? <a>Click here</a>
+                                </p>
+                            </div>
                             <p className={`signup`}>Don't have an account? <a onClick={() => toggleForm()}>Sign
                                 up</a>
                             </p>
@@ -129,7 +137,7 @@ const Auth = () => {
                                    onChange={(event) => setPassword(event.target.value)}/>
                             <input autoComplete="on" type={`password`} placeholder={`Confirm password`} value={confirmPassword}
                                    onChange={(event) => setConfirmPassword(event.target.value)}/>
-                            <input type={`submit`} value={`Create an Account`} onClick={(e) => handleRegister(e)}/>
+                            <input type={`submit`} value={`Create`} onClick={(e) => handleRegister(e)}/>
                             <p className={`signup`}>Already have an account? <a onClick={() => toggleForm()}>Sign
                                 in</a>
                             </p>

@@ -11,12 +11,12 @@ const Footer = () => {
     const companyItems = ['About us', 'Delivery Information', 'Privacy Policy', 'Terms & Conditions', 'Contact Us', 'Support Center']
     const corporateItems = ['Become a Vendor', 'Affiliate Program', 'Our Suppliers', 'Accessibility', 'Promotions', 'Careers']
     const ourServiceItems = ['Help Center', 'Returns', 'Product', 'Recalls', 'Accessibility', 'Contact Us', 'Store Pickup']
-
     const textClassFooter = 'text-sm font-light hover:text-dangerColor-hover_2 cursor-pointer'
+
     return (
         <div className={`bg-footerBgColor`}>
-            <div className={`border-b-[1px] border-solid border-lightColor py-20 px-56 text-lightColor `}>
-                <div className={` flex items-start justify-between`}>
+            <div className={`container border-solid border-lightColor py-20 mx-auto xl:px-30 text-lightColor`}>
+                <div className={`flex items-start justify-between`}>
                     <div className={`h-[100px] mr-20 grid grid-row-4 gap-5`}>
                         <div className={``}>
                             <h2 className={`text-base text-white font-semibold capitalize`}>Contact Info</h2>
@@ -79,7 +79,7 @@ const Footer = () => {
                             })}
                         </div>
                     </div>
-                    <div className={`mr-20 grid gap-5`}>
+                    <div className={`grid gap-5`}>
                         <div className={``}>
                             <h2 className={`text-base text-white font-semibold capitalize`}>Our Service</h2>
                         </div>
@@ -91,12 +91,13 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className={`py-8 px-56`}>
-                <div className={`flex items-center justify-between`}>
+            <hr/>
+            <div className={`py-8 w-100 container mx-auto xl:px-30`}>
+                <div className={`flex items-center justify-between `}>
                     <div className={`text-white text-sm`}>
                         Copyright © 2022
                         <Link to={`/`} className={`text-dangerColor-default_2`}> ShradhaBook</Link>
-                        .All rights reserved.
+                        . All rights reserved.
                     </div>
                     <div>
                         <img src={image} alt={`card`}/>
