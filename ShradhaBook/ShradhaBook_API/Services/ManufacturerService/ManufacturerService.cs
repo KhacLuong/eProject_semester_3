@@ -27,9 +27,6 @@ namespace ShradhaBook_API.Services.ManufacturerService
             {
                 return MyStatusCode.FAILURE;
             }
-            {
-                return MyStatusCode.FAILURE;
-            }
             
             if (model.Code.Trim().Length < 3 || !Helpers.Helpers.IsValidCode(model.Code))
             {
