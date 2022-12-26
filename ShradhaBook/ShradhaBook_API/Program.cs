@@ -14,7 +14,10 @@ global using ShradhaBook_API.Services.TagService;
 global using ShradhaBook_API.Services.AuthorService;
 global using ShradhaBook_API.Data;
 global using ShradhaBook_API.Models;
-
+global using ShradhaBook_API.Models.Dto;
+global using ShradhaBook_API.Models.Entities;
+global using ShradhaBook_API.Models.Request;
+global using ShradhaBook_API.Models.Response;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
