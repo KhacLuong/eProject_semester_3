@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShradhaBook_API.Models
+namespace ShradhaBook_API.Models.Dto
 {
     public class EmailDto
     {

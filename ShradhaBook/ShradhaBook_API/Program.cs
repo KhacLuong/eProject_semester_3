@@ -1,4 +1,17 @@
-
+global using ShradhaBook_API.Services.UserService;
+global using ShradhaBook_API.Services.UserInfoService;
+global using ShradhaBook_API.Services.AddressService;
+global using ShradhaBook_API.Services.AuthService;
+global using ShradhaBook_API.Services.EmailService;
+global using ShradhaBook_API.Services.CategotyService;
+global using ShradhaBook_API.Services.ComboProductService;
+global using ShradhaBook_API.Services.ComboService;
+global using ShradhaBook_API.Services.ComboTagService;
+global using ShradhaBook_API.Services.ManufacturerService;
+global using ShradhaBook_API.Services.ProductService;
+global using ShradhaBook_API.Services.ProductTagService;
+global using ShradhaBook_API.Services.TagService;
+global using ShradhaBook_API.Services.AuthorService;
 global using ShradhaBook_API.Data;
 global using ShradhaBook_API.Models;
 
@@ -8,21 +21,25 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using ShradhaBook_API.Services.CategotyService;
-using ShradhaBook_API.Services.ManufacturerService;
-using ShradhaBook_API.Services.ProductService;
-using ShradhaBook_API.Services.ComboService;
-using ShradhaBook_API.Services.TagService;
-using ShradhaBook_API.Services.ComboProductService;
-using ShradhaBook_API.Services.ComboTagService;
-using ShradhaBook_API.Services.ProductTagService;
-using ShradhaBook_API.Services.AuthorService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddDbContext<DataContext>(options => {
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserInfoService, UserInfoService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IManufacturerService, ManufacturerService>();
@@ -33,26 +50,8 @@ builder.Services.AddScoped<IComboTagService, ComboTagService>();
 builder.Services.AddScoped<IProductTagService, ProductTagService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 
-
-
-
-
-
-
-
-
-builder.Services.AddAutoMapper(typeof(Program));
-
-builder.Services.AddDbContext<DataContext>(options =>
-
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddHttpContextAccessor();
+
 // Add button for adding token (login)
 builder.Services.AddSwaggerGen(options => {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme {
@@ -66,7 +65,6 @@ builder.Services.AddSwaggerGen(options => {
 });
 
 // Automapper
-//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // Authentication
@@ -94,6 +92,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("corsapp");
 
 app.UseHttpsRedirection();
 

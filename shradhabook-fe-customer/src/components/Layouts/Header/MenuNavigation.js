@@ -2,11 +2,11 @@ import React from 'react';
 import {NavLink} from "react-router-dom";
 import {menuItems} from "./MenuItem";
 
-const defaultClass = `block py-2 pl-3 pr-4 text-blackColor rounded hover:text-dangerColor-default_2 md:p-0 ease-in duration-100 text-base font-medium `
-const renderMenuItem = () => {
-
-}
 const MenuNavigation = () => {
+    const defaultClass = `block py-2 pl-3 pr-4 text-blackColor rounded hover:text-dangerColor-default_2 md:p-0 ease-in duration-100 text-base font-medium `
+    const renderMenuItem = () => {
+
+    }
     return (
         <div className="items-center justify-between flex py-3">
             <ul className="flex flex-col p-4 mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:border-0">

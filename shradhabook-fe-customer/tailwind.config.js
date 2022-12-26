@@ -30,6 +30,7 @@ module.exports = {
                 footerBgColor: '#282828',
                 borderColor: '#E6E6E6',
                 lightColor: '#999999',
+                ratingColor: '#fa8c17'
             },
             borderRadius: {
                 'none': '0',
