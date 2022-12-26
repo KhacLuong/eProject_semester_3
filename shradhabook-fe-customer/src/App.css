@@ -13,3 +13,22 @@
 .btn {
     @apply rounded-full uppercase text-xs font-bold cursor-pointer
 }
+
+.pageClassName, .breakClassName {
+    @apply inline-block rounded-full text-darkColor
+}
+.pageLinkClassName {
+    @apply mx-[2px] w-[30px] h-[30px] text-xs font-normal leading-8 uppercase inline-block text-center hover:bg-dangerColor-default_2 hover:text-whiteColor rounded-full transition duration-300
+}
+.previousClassName, .nextClassName {
+    @apply flex justify-center flex-wrap list-none
+}
+.previousLinkClassName, .nextLinkClassName {
+    @apply mx-[2px] flex items-center text-center text-xs font-normal uppercase text-darkColor leading-8 rounded-3xl px-[15px] bg-[#f0f0f0] hover:bg-dangerColor-default_2 hover:text-whiteColor rounded-full transition duration-300
+}
+.breakLinkClassName {
+    @apply mx-[2px] w-[30px] h-[30px] text-xs font-normal leading-8 text-darkColor uppercase inline-block text-center hover:bg-dangerColor-default_2 hover:text-whiteColor rounded-full transition duration-300
+}
+.actionBtn {
+    @apply cursor-pointer mb-[4px] flex items-center justify-center w-[40px] h-[40px] border-0 text-blackColor bg-whiteColor rounded-full hover:bg-dangerColor-default_3 hover:text-whiteColor
+}

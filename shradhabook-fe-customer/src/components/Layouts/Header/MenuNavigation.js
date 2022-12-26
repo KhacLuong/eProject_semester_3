@@ -79,20 +79,14 @@ const MenuNavigation = () => {
                          className={({isActive}) => isActive ? 'active' : defaultClass}>
                     Products
                 </NavLink>
-
-                <NavLink to={'/blog'}
+                <NavLink to={'/blogs'}
                          className={({isActive}) => isActive ? 'active' : defaultClass}>
                     Blogs
                 </NavLink>
-
-                    <NavLink to={'/contact'}
-                             className={({isActive}) => isActive ? 'active' : defaultClass}>
-                        Contact
-                    </NavLink>
-                    <NavLink to={'/pages'}
-                             className={({isActive}) => isActive ? 'active' : defaultClass}>
-                        Pages
-                    </NavLink>
+                <NavLink to={'/contact'}
+                         className={({isActive}) => isActive ? 'active' : defaultClass}>
+                    Contact
+                </NavLink>
             </ul>
         </div>
     );

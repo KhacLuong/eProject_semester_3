@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ListCombo = () => {
+const Me = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const ListCombo = () => {
     );
 };
 
-export default ListCombo;
+export default Me;
