@@ -16,6 +16,7 @@ global using ShradhaBook_API.Models;
 global using ShradhaBook_API.Models.Dto;
 global using ShradhaBook_API.Models.Entities;
 global using ShradhaBook_API.Models.Request;
+global using ShradhaBook_API.Models.Response;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -74,7 +75,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+            IssuerSigningKey = new AsymmetricSecurityKey(Encoding.UTF8
                 .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
             ValidateIssuer = false,
             ValidateAudience = false,

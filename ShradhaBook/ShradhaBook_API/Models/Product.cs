@@ -28,6 +28,9 @@
         public virtual ICollection<ComboProduct> ComboProducts { get; set; }
         public virtual ICollection<ProductTag> ProductTags { get; set; }
 
+
+        public OrderItems OrderItems { get; set; } = null!;
+
     }
 
 }

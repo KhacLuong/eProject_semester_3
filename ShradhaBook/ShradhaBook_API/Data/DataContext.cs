@@ -7,21 +7,26 @@ namespace ShradhaBook_API.Data
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Manufacturer> Manufacturers { get; set; }
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<UserInfo> UserInfo { get; set; } = null!;
+        public DbSet<Address> Addresses { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<OrderItems> OrderItems { get; set; } = null!;
+        public DbSet<Payment> Payments { get; set; } = null!;
 
 
-        public DbSet<Combo> Combos { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<ComboProduct> ComboProducts { get; set; }
-        public DbSet<ComboTag> ComboTags { get; set; }
-        public DbSet<ProductTag> ProductTags { get; set; }
+        public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<Manufacturer> Manufacturers { get; set; } = null!;
 
-        public DbSet<UserInfo> UserInfo { get; set; }
-        public DbSet<Address> Addresses { get; set; }
-        
+
+        public DbSet<Combo> Combos { get; set; } = null!;
+        public DbSet<Tag> Tags { get; set; } = null!;
+        public DbSet<ComboProduct> ComboProducts { get; set; } = null!;
+        public DbSet<ComboTag> ComboTags { get; set; } = null!;
+        public DbSet<ProductTag> ProductTags { get; set; } = null!;
+
+        // Seeding Data
         static readonly Random _random = new Random();
         static readonly LipsumGenerator generator = new LipsumGenerator();
 		
