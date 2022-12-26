@@ -84,6 +84,19 @@ module.exports = {
                 80: '20rem',
                 96: '24rem',
             },
+            fontWeight: {
+                hairline: 100,
+                'extra-light': 100,
+                thin: 200,
+                light: 300,
+                normal: 400,
+                medium: 500,
+                semiBold: 600,
+                bold: 700,
+                extraBold: 800,
+                'extra-bold': 800,
+                black: 900,
+            }
         },
     },
     plugins: [

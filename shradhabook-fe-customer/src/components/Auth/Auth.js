@@ -1,14 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
+import React, {useEffect, useRef, useState} from 'react';
+import {useNavigate} from "react-router-dom";
 import './auth.scss';
 import LoginImage from '../../assets/image/login.png';
 import RegisterImage from "../../assets/image/register.png";
 import BackgroundImage from "../../assets/image/background_2.png";
-import {ToastContainer, toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {toast} from 'react-toastify';
 import {message} from "../../ultis/message";
-import {postCreateUser} from "../../services/apiService";
+import {postCreateUser, postLogin} from "../../services/apiService";
 import {RiCloseLine} from 'react-icons/ri'
+import {useDispatch} from "react-redux";
+import {doLogin} from "../../redux/action/userAction";
+import lottie from 'lottie-web'
+import legoLoader from '../../assets/loader/lego-loader.json'
+import Login from "./Login";
+import Register from "./Register";
 
 const Auth = () => {
     const [isActive, setIsActive] = useState(false);
@@ -16,7 +21,32 @@ const Auth = () => {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [userType, setUserType] = useState("CUSTOMER");
+    const [isLoadingData, setIsLoadingData] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const animationWindow = useRef();
+    const [isValidEmail, setIsValidEmail] = useState(true)
+    const [isValidPassword, setIsValidPassword] = useState(true)
+
+    const validateEmail = (email) => {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+    };
+    const hasNumber = (string) => {
+        return /\d/.test(string);
+    }
+    useEffect(() => {
+        lottie.loadAnimation({
+            container: animationWindow.current,
+            loop: true,
+            autoplay: true,
+            animationData: legoLoader
+        })
+        lottie.setSpeed(3);
+    }, [])
 
     const toggleForm = () => {
         setIsActive(!isActive);
@@ -25,141 +55,75 @@ const Auth = () => {
         setConfirmPassword("");
         setPassword("");
     }
-    const hasNumber = (string) => {
-        return /\d/.test(string);
-    }
-    const validateEmail = (email) => {
-        return String(email)
-            .toLowerCase()
-            .match(
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            );
-    };
-
-    const checkValidate = () => {
-        const isValidEmail = validateEmail(email)
-        if (!isValidEmail) {
-            toast.error(message.email_error.invalid)
-            return false;
+    const handleOnChangeEmail = (e) => {
+        setEmail(e.target.value);
+        const checkEmail = validateEmail(email)
+        if (!checkEmail) {
+            setIsValidEmail(false)
+        } else {
+            setIsValidEmail(true)
         }
-        if (confirmPassword !== password) {
-            toast.error(message.password_error.confirm_password)
-            return false;
-        }
-        if (password === "") {
-            toast.error(message.password_error.password_is_empty)
-            return false;
-        }
-        if (hasNumber(name)) {
-            toast.error(message.name_error.name_has_number)
-            return false;
-        }
-        if (name === "") {
-            toast.error(message.name_error.name_is_empty)
-        }
-        return true;
-    }
-    const handleLogin = () => {
-
-    }
-
-    const handleRegister = async (e) => {
-        e.preventDefault();
-        // check validate
-        if(!checkValidate()) {
-            return;
-        }
-        // create and submit data
-        let res = await postCreateUser(name, email, password, confirmPassword, userType);
-        if(res && res.status === true) {
-            toast.success(res.message)
-            setIsActive(!isActive);
-        }
-
-        if (res.response && res.response.data.status === false) {
-            toast.error(res.response.data.message)
-        } else if (res.response && res.response.data.status === 400) {
-            toast.error(res.response.data.errors.password)
+        if (e.target.value.trim() === "") {
+            setIsValidEmail(true)
         }
     }
-
-    const handleForgotPassword = () => {
-
+    const handleOnChangePassword = (e) => {
+        if (e.target.value.trim().length < 6) {
+            setIsValidPassword(false)
+        } else if (e.target.value.trim().length >= 6) {
+            setIsValidPassword(true)
+        }
+        if (e.target.value === "") {
+            setIsValidPassword(true)
+        }
+        setPassword(e.target.value);
     }
-
     return (
-
         <section style={{
             background: `url(${BackgroundImage})`,
             backgroundPosition: 'center',
             backgroundSize: 'cover'
         }} className={`${isActive ? 'active_section' : ''}`}>
             <div className={`login_container ${isActive ? 'active_container' : ''}`}>
-                <div className={`user signinBx`}>
-                    <Link to={`/`} className={`close_signin`}><RiCloseLine/></Link>
-                    <div className={`imgBx`}>
-                        <img src={LoginImage} alt={`login_image`}/>
-                    </div>
-                    <div className={`formBx`}>
-                        <form>
-                            <h2>Sign In</h2>
-                            <input type={`text`} placeholder={`Email`} value={email}
-                                   onChange={(event) => setEmail(event.target.value)}/>
-                            <input autoComplete="on" type={`password`} placeholder={`Password`} value={password}
-                                   onChange={(event) => setPassword(event.target.value)}/>
-                            <input type={`submit`} value={`Login`} onClick={() => handleLogin()}/>
-                            <div className={`remember_user`}>
-                                <input className={`checkbox`} type={`checkbox`}/>
-                                <p>Remember me</p>
-                            </div>
-                            <div className={`forgot_password`}>
-                                <p>
-                                    Forgot password? <a>Click here</a>
-                                </p>
-                            </div>
-                            <p className={`signup`}>Don't have an account? <a onClick={() => toggleForm()}>Sign
-                                up</a>
-                            </p>
-
-                        </form>
-                    </div>
-                </div>
-                <div className={`user signupBx`}>
-                    <Link to={`/`} className={`close_signup`}><RiCloseLine/></Link>
-                    <div className={`formBx`}>
-                        <form>
-                            <h2>Sign Up</h2>
-                            <input type={`text`} placeholder={`Email`} value={email}
-                                   onChange={(event) => setEmail(event.target.value)}/>
-                            <input type={`text`} placeholder={`Full name`} value={name}
-                                   onChange={(event) => setName(event.target.value)}/>
-                            <input autoComplete="on" type={`password`} placeholder={`Password`} value={password}
-                                   onChange={(event) => setPassword(event.target.value)}/>
-                            <input autoComplete="on" type={`password`} placeholder={`Confirm password`} value={confirmPassword}
-                                   onChange={(event) => setConfirmPassword(event.target.value)}/>
-                            <input type={`submit`} value={`Create`} onClick={(e) => handleRegister(e)}/>
-                            <p className={`signup`}>Already have an account? <a onClick={() => toggleForm()}>Sign
-                                in</a>
-                            </p>
-                        </form>
-                    </div>
-                    <div className={`imgBx`}>
-                        <img src={RegisterImage} alt={`register_image`}/>
-                    </div>
-                </div>
+                <Login
+                    setIsLoadingData={setIsLoadingData}
+                    validateEmail={validateEmail}
+                    loginImage={LoginImage}
+                    animationWindow={animationWindow}
+                    isLoadingData={isLoadingData}
+                    navigate={navigate}
+                    email={email}
+                    password={password}
+                    dispatch={dispatch}
+                    toggleForm={toggleForm}
+                    handleOnChangeEmail={handleOnChangeEmail}
+                    handleOnChangePassword={handleOnChangePassword}
+                    isValidEmail={isValidEmail}
+                    isValidPassword={isValidPassword}
+                />
+                <Register
+                    isActive={isActive}
+                    setIsActive={setIsActive}
+                    setIsLoadingData={setIsLoadingData}
+                    hasNumber={hasNumber}
+                    validateEmail={validateEmail}
+                    registerImage={RegisterImage}
+                    navigate={navigate}
+                    name={name}
+                    setName={setName}
+                    email={email}
+                    password={password}
+                    confirmPassword={confirmPassword}
+                    setConfirmPassword={setConfirmPassword}
+                    toggleForm={toggleForm}
+                    dispatch={dispatch}
+                    handleOnChangeEmail={handleOnChangeEmail}
+                    handleOnChangePassword={handleOnChangePassword}
+                    isValidEmail={isValidEmail}
+                    isValidPassword={isValidPassword}
+                />
             </div>
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
+
         </section>
     );
 };

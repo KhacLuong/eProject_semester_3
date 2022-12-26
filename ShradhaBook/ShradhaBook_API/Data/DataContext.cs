@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using NLipsum.Core;
 using System.Security.Cryptography;
 
@@ -25,11 +25,10 @@ namespace ShradhaBook_API.Data
         static readonly Random _random = new Random();
         static readonly LipsumGenerator generator = new LipsumGenerator();
 		
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().Navigation(u => u.UserInfo).AutoInclude();
             modelBuilder.Entity<UserInfo>().Navigation(ui => ui.Addresses).AutoInclude();
-
 
             var hmac = new HMACSHA512();
             var passwordSalt = hmac.Key;
@@ -82,7 +81,7 @@ namespace ShradhaBook_API.Data
                         UserId = i,
                         CreateAt = DateTime.Now
                     }
-				);
+		);
                 var address1 = generator.GenerateWords(6);
                 var address2 = generator.GenerateWords(6);
                 modelBuilder.Entity<Address>().HasData(
@@ -108,7 +107,7 @@ namespace ShradhaBook_API.Data
                         UserInfoId = i,
                         CreateAt = DateTime.Now
                     }
-				);
+		);
             }
         }
     }

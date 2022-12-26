@@ -3,7 +3,7 @@ import {GiBookAura} from "react-icons/gi";
 import {AiFillFacebook, AiOutlineTwitter, AiOutlineInstagram} from "react-icons/ai";
 import {RiPinterestFill} from "react-icons/ri"
 import image from '../../../assets/image/footer_img.png'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const Footer = () => {
 
@@ -12,6 +12,7 @@ const Footer = () => {
     const corporateItems = ['Become a Vendor', 'Affiliate Program', 'Our Suppliers', 'Accessibility', 'Promotions', 'Careers']
     const ourServiceItems = ['Help Center', 'Returns', 'Product', 'Recalls', 'Accessibility', 'Contact Us', 'Store Pickup']
     const textClassFooter = 'text-sm font-light hover:text-dangerColor-hover_2 cursor-pointer'
+    const navigate = useNavigate();
 
     return (
         <div className={`bg-footerBgColor`}>
@@ -93,11 +94,11 @@ const Footer = () => {
             </div>
             <hr/>
             <div className={`py-8 w-100 container mx-auto xl:px-30`}>
-                <div className={`flex items-center justify-between `}>
-                    <div className={`text-white text-sm`}>
+                <div className={`flex items-center justify-between`}>
+                    <div className={`text-white text-sm flex-row flex`}>
                         Copyright © 2022
-                        <Link to={`/`} className={`text-dangerColor-default_2`}> ShradhaBook</Link>
-                        . All rights reserved.
+                        <div onClick={()=>navigate('/')} className={`text-dangerColor-default_2 mx-1`}> ShradhaBook.</div>
+                        All rights reserved.
                     </div>
                     <div>
                         <img src={image} alt={`card`}/>
