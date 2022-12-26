@@ -33,7 +33,7 @@ namespace ShradhaBook_API.Services.AuthService
             string token = CreateToken(user);
             var refreshToken = GenerateRefreshToken();
             SetRefreshToken(refreshToken, user, response);
-            var userLoginResponse = new UserLoginResponse { Name = user.Name, Email = user.Email , Token = token };
+            var userLoginResponse = new UserLoginResponse { Name = user.Name, Email = user.Email , AccessToken = token, RefreshToken = refreshToken };
 
             return userLoginResponse;
         }
