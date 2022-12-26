@@ -12,7 +12,6 @@ namespace ShradhaBook_API.Data
         public DbSet<Address> Addresses { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<OrderItems> OrderItems { get; set; } = null!;
-        public DbSet<Payment> Payments { get; set; } = null!;
 
 
         public DbSet<Category> Categories { get; set; } = null!;
