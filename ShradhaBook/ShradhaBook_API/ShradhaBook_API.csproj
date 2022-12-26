@@ -29,6 +29,8 @@
 
 	<ItemGroup>
 		<Folder Include="Migrations\" />
+		<Folder Include="Controllers\Customer\" />
+		<Folder Include="Data\" />
 	</ItemGroup>
 
 </Project>

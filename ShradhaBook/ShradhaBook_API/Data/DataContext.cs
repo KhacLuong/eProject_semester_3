@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using ShradhaBook_API.ViewModels;
 using NLipsum.Core;
 using System.Security.Cryptography;
 
@@ -7,23 +8,22 @@ namespace ShradhaBook_API.Data
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<UserInfo> UserInfo { get; set; } = null!;
         public DbSet<Address> Addresses { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<OrderItems> OrderItems { get; set; } = null!;
 
-
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Manufacturer> Manufacturers { get; set; } = null!;
-
-
         public DbSet<Combo> Combos { get; set; } = null!;
         public DbSet<Tag> Tags { get; set; } = null!;
         public DbSet<ComboProduct> ComboProducts { get; set; } = null!;
         public DbSet<ComboTag> ComboTags { get; set; } = null!;
         public DbSet<ProductTag> ProductTags { get; set; } = null!;
+		public DbSet<Author> Authors { get; set; } = null!;
 
         // Seeding Data
         static readonly Random _random = new Random();
@@ -33,7 +33,7 @@ namespace ShradhaBook_API.Data
         {
             modelBuilder.Entity<User>().Navigation(u => u.UserInfo).AutoInclude();
             modelBuilder.Entity<UserInfo>().Navigation(ui => ui.Addresses).AutoInclude();
-
+			modelBuilder.Entity<Product>().Navigation(c => c.Manufacturer).AutoInclude();
 
             var hmac = new HMACSHA512();
             var passwordSalt = hmac.Key;
@@ -72,7 +72,7 @@ namespace ShradhaBook_API.Data
                         UserType = "user",
                         CreateAt = DateTime.Now
                     }
-				);
+				        );
                 modelBuilder.Entity<UserInfo>().HasData(
                     new UserInfo
                     {
@@ -86,10 +86,10 @@ namespace ShradhaBook_API.Data
                         UserId = i,
                         CreateAt = DateTime.Now
                     }
-				);
+                );
                 var address1 = generator.GenerateWords(6);
                 var address2 = generator.GenerateWords(6);
-                modelBuilder.Entity<Address>().HasData(
+				modelBuilder.Entity<Address>().HasData(
                     new Address
                     {
                         Id = i * 2 - 1,

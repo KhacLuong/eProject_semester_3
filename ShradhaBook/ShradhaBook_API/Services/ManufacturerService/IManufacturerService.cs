@@ -4,11 +4,11 @@ namespace ShradhaBook_API.Services.ManufacturerService
 {
     public interface IManufacturerService
     {
-        Task<List<ManufacturerModel>> GetAllManufacturersAsync(string name, string code);
-        Task<ManufacturerModel> GetManufacturerAsync(int id);
-        Task<int> AddManufacturerAsync(ManufacturerModel model);
+        Task<Object> GetAllManufacturersAsync(string? name, string? code, int pageSize = 20, int pageIndex = 1);
+        Task<ManufacturerModelGet> GetManufacturerAsync(int id);
+        Task<int> AddManufacturerAsync(ManufacturerModelPost model);
         Task DeleteManufacturerAsync(int id);
-        Task<int> UpdateManufacturerAsync(int id, ManufacturerModel model);
+        Task<int> UpdateManufacturerAsync(int id, ManufacturerModelPost model);
 
     }
 }

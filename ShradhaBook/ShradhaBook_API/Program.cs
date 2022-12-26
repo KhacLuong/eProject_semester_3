@@ -11,6 +11,7 @@ global using ShradhaBook_API.Services.ManufacturerService;
 global using ShradhaBook_API.Services.ProductService;
 global using ShradhaBook_API.Services.ProductTagService;
 global using ShradhaBook_API.Services.TagService;
+global using ShradhaBook_API.Services.AuthorService;
 global using ShradhaBook_API.Data;
 global using ShradhaBook_API.Models;
 global using ShradhaBook_API.Models.Dto;
@@ -30,9 +31,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<DataContext>(options =>
-
-{
+builder.Services.AddDbContext<DataContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
@@ -52,6 +51,8 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IComboProductService, ComboProductService>();
 builder.Services.AddScoped<IComboTagService, ComboTagService>();
 builder.Services.AddScoped<IProductTagService, ProductTagService>();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
+
 builder.Services.AddHttpContextAccessor();
 
 // Add button for adding token (login)

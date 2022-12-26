@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Asn1.Ocsp;
-using ShradhaBook_API.Models.Request;
 
 namespace ShradhaBook_API.Services.AddressService
 {
@@ -62,7 +60,6 @@ namespace ShradhaBook_API.Services.AddressService
             await _context.SaveChangesAsync();
 
             return address;
-
         }
     }
 }

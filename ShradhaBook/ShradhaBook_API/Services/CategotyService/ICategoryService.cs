@@ -1,15 +1,16 @@
-﻿using ShradhaBook_API.ViewModels;
+﻿using ShradhaBook_API.Helpers;
+using ShradhaBook_API.ViewModels;
 
 namespace ShradhaBook_API.Services.CategotyService
 {
     public interface ICategoryService
     {
 
-        Task<List<CategoryModel>> GetAllCategoryAsync(string? name, string? code, int? status = 0, int sortBy = 0);
-        Task<CategoryModel> GetCategoryAsync(int id);
-        Task<int> AddCategoryAsync(CategoryModel model);
+        Task<List<CategoryModelGet>> GetAllCategoryAsync(string? name, string? code, string? status = "Active", int? sortBy = 0, int pageSize =20, int pageIndex =1 );
+        Task<CategoryModelGet> GetCategoryAsync(int id);
+        Task<int> AddCategoryAsync(CategoryModelPost model);
         Task DeleteCategoryAsync(int id);
-        Task<int> UpdateCategoryAsync(int id, CategoryModel model);
-   
+        Task<int> UpdateCategoryAsync(int id, CategoryModelPost model);
+        //Task<Object> GetListtStatusCategotry();
     }
 }

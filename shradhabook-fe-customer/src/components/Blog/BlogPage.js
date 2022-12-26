@@ -1,12 +1,12 @@
 import React from 'react';
 import Banner from "../Layouts/Banner/Banner";
 
-const Combo = () => {
+const BlogPage = () => {
     return (
         <div>
-            <Banner bannerTitle={`combo`}/>
+            <Banner bannerTitle={`blog`}/>
         </div>
     );
 };
 
-export default Combo;
+export default BlogPage;
