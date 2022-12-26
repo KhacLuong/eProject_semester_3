@@ -19,13 +19,13 @@ namespace ShradhaBook_API.Controllers.Authentication
         public async Task<IActionResult> Login(UserLoginRequest request)
         {
             var response = Response;
-            var token = await _authService.Login(request, response);
-            if (token == null)
+            var userLoginResponse = await _authService.Login(request, response);
+            if (userLoginResponse == null)
             {
                 return BadRequest(new ServiceResponse<string> { Status = false, Message = "User and password combination not found." });
             }
 
-            return Ok(new ServiceResponse<string> { Data = token, Message = "User logged in successfully." });
+            return Ok(new ServiceResponse<UserLoginResponse> { Data = userLoginResponse, Message = "User logged in successfully." });
         }
 
         [HttpPost("refresh-token")]

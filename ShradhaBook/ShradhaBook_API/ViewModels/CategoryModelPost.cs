@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShradhaBook_API.Models
+namespace ShradhaBook_API.ViewModels
 {
-    public class Category
+    public class CategoryModelPost
     {
         public int Id { get; set; }
 
@@ -16,7 +16,7 @@ namespace ShradhaBook_API.Models
         public int ParentId { get; set; }
 
         [Required]
-        public int Status { get; set; }
+        public string Status { get; set; }
 
         [Required]
         public string? Slug { get; set; }
@@ -24,13 +24,8 @@ namespace ShradhaBook_API.Models
         [Required]
         public string? Description { get; set; }
 
-        [Required]        
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
-        [Required]        
         public DateTime? UpdatedAt { get; set; } = DateTime.Now;
-        public virtual ICollection<Product> Products { get; set; }
-
-
     }
 }

@@ -24,12 +24,13 @@
 		<PackageReference Include="MimeKit" Version="3.4.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 		<PackageReference Include="NLipsum" Version="1.1.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.6" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Folder Include="Migrations\" />
+		<Folder Include="Controllers\Customer\" />
+		<Folder Include="Data\" />
 	</ItemGroup>
 
 </Project>

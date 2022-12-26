@@ -16,7 +16,7 @@ namespace ShradhaBook_API.Services.AuthService
             _configuration = configuration;
             _context = context;
         }
-        public async Task<string?> Login(UserLoginRequest request, HttpResponse response)
+        public async Task<UserLoginResponse?> Login(UserLoginRequest request, HttpResponse response)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
@@ -33,7 +33,9 @@ namespace ShradhaBook_API.Services.AuthService
             string token = CreateToken(user);
             var refreshToken = GenerateRefreshToken();
             SetRefreshToken(refreshToken, user, response);
-            return token;
+            var userLoginResponse = new UserLoginResponse { Name = user.Name, Email = user.Email , Token = token };
+
+            return userLoginResponse;
         }
 
         public async Task<string?> RefreshToken(int id, HttpRequest request, HttpResponse response)
@@ -71,7 +73,7 @@ namespace ShradhaBook_API.Services.AuthService
             await _context.SaveChangesAsync();
             return "Ok";
         }
-        
+
 
         private RefreshToken GenerateRefreshToken()
         {

@@ -1,4 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ShradhaBook_API.Data;
+using ShradhaBook_API.Helpers;
+using ShradhaBook_API.Services.ProductService;
 using ShradhaBook_API.ViewModels;
 
 namespace ShradhaBook_API.Controllers
@@ -17,116 +26,74 @@ namespace ShradhaBook_API.Controllers
 
         // GET: api/ViewProducts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductModel>>> GetAllProducts(string? name, string? code, int? categoryId, int? manufactuerId, decimal? price, long quantity, int? status = 0, int? sortBy = 0)
+        public async Task<ActionResult<IEnumerable<Object>>> GetAllProducts(string? name, string? code, string? status, int? categoryId, int? AuthorId, int? manufactuerId,
+            decimal? lowPrice, decimal? hightPrice, long? lowQuantity, long? hightQuantity, int? sortBy = 0, int pageSize = 20, int pageIndex = 1)
         {
             try
             {
-                return Ok(await _productService.GetAllProductAsync( name,  code, categoryId, manufactuerId, price, quantity, status ,  sortBy));
+                var result = await _productService.GetAllProductAsync(name, code, status, categoryId, AuthorId, manufactuerId,
+           lowPrice, hightPrice, lowQuantity, hightQuantity, sortBy, pageSize, pageIndex);
+
+                return Ok(new MyServiceResponse<Object>(result, true, ""));
+
             }
             catch
             {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
+                return StatusCode(500, new MyServiceResponse<List<Object>>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
 
             }
         }
 
         // GET: api/ViewProducts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductModel>> GetProduct(int id)
+        public async Task<ActionResult<ProductModelGet>> GetProduct(int id)
         {
             try
             {
                 var result = await _productService.GetProductAsync(id);
 
-                return result == null ? NotFound() : Ok(result);
+                return result == null ? NotFound(new MyServiceResponse<ProductModelGet>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
+
             }
             catch
             {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
-
+                return StatusCode(500, new MyServiceResponse<ProductModelGet>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
             }
         }
+        [HttpGet("Detail{id}")]
 
-        // PUT: api/ViewProducts/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, ProductModel model)
+        public async Task<ActionResult<Object>> GetProductDetail(int id)
         {
             try
             {
+                var result = await _productService.GetProductDetailAsync(id);
 
-                int status = await _productService.UpdateProductAsync(id, model);
-                if (status == MyStatusCode.DUPLICATE_CODE)
-                {
-                    return BadRequest(MyStatusCode.DUPLICATE_CODE_RESULT);
-                }
-                else if (status == MyStatusCode.DUPLICATE_NAME)
-                {
-                    return BadRequest(MyStatusCode.DUPLICATE_NAME_RESULT);
-                }
-                else if (status == MyStatusCode.FAILURE)
-                {
-                    return BadRequest(MyStatusCode.FAILURE_RESULT);
+                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
 
-                }
-
-                return Ok(MyStatusCode.SUCCESS_RESULT);
             }
             catch
             {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
-
+                return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
             }
         }
-
-        // POST: api/ViewProducts
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<ProductModel>> AddProduct(ProductModel model)
+        [HttpGet("Category{id}")]
+        public async Task<ActionResult<Object>> GetProductByCategoryId(int id)
         {
-            try
+            //try
             {
-                var status = await _productService.AddProductAsync(model);
-                if (status == MyStatusCode.DUPLICATE_CODE)
-                {
-                    return BadRequest(MyStatusCode.DUPLICATE_CODE_RESULT);
-                }
-                else if (status == MyStatusCode.DUPLICATE_NAME)
-                {
-                    return BadRequest(MyStatusCode.DUPLICATE_NAME_RESULT);
-                }
-                else if (status > 0)
-                {
-                    //var newCategoryId = status;
-                    //var category = await _categoryService.GetCategoryAsync(newCategoryId);
-                    //return category == null ? NotFound(SUCCESS) : Ok();
-                    return Ok(MyStatusCode.SUCCESS_RESULT);
-                }
-                return BadRequest(MyStatusCode.FAILURE_RESULT);
+                var result = await _productService.GetProductByIdCategoryAsync(id);
+
+                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
 
             }
-            catch
-            {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
-
-            }
+            //catch
+            //{
+            //    return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            //}
         }
-        // DELETE: api/ViewProducts/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
-        {
-            try
-            {
-                await _productService.DeleteProductAsync(id);
-                return Ok(MyStatusCode.SUCCESS_RESULT);
 
-            }
-            catch
-            {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
 
-            }
-        }
+
 
         //private bool ViewProductExists(int id)
         //{
