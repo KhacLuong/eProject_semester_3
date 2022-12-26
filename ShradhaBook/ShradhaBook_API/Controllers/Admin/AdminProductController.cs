@@ -45,7 +45,7 @@ namespace ShradhaBook_API.Controllers.Admin
             }
             catch
             {
-                return StatusCode(500, new MyServiceResponse<List<Object>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+                return StatusCode(500, new MyServiceResponse<List<Object>>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
 
             }
         }
@@ -58,19 +58,35 @@ namespace ShradhaBook_API.Controllers.Admin
             {
                 var result = await _productService.GetProductAsync(id);
 
-                return result == null ? NotFound(new MyServiceResponse<ProductModelGet>(false, MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<ProductModelGet>(result));
+                return result == null ? NotFound(new MyServiceResponse<ProductModelGet>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
 
             }
             catch
             {
-                return StatusCode(500, new MyServiceResponse<ProductModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+                return StatusCode(500, new MyServiceResponse<ProductModelGet>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            }
+        }
+        [HttpGet("getDetail{id}")]
+        
+        public async Task<ActionResult<Object>> GetProductDetail(int id)
+        {
+            try
+            {
+                var result = await _productService.GetProductDetailAsync(id);
+
+                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
+
+            }
+            catch
+            {
+                return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
             }
         }
 
         // PUT: api/AdminProduct/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProductModelGet(int id, ProductModelPost model)
+        public async Task<IActionResult> UpdateProduct(int id, ProductModelPost model)
         {
             try
             {
@@ -78,11 +94,11 @@ namespace ShradhaBook_API.Controllers.Admin
                 int status = await _productService.UpdateProductAsync(id, model);
                 if (status == MyStatusCode.DUPLICATE_CODE)
                 {
-                    return BadRequest(new MyServiceResponse<ManufacturerModelGet>(false, MyStatusCode.UPDATE_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
+                    return BadRequest(new MyServiceResponse<ManufacturerModelGet>(false, Helpers.MyStatusCode.UPDATE_FAILURE_RESULT + ", " + Helpers.MyStatusCode.DUPLICATE_CODE_RESULT));
                 }
                 else if (status == MyStatusCode.DUPLICATE_NAME)
                 {
-                    return BadRequest(new MyServiceResponse<ManufacturerModelGet>(false, MyStatusCode.UPDATE_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
+                    return BadRequest(new MyServiceResponse<ManufacturerModelGet>(false, Helpers.MyStatusCode.UPDATE_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
                 }
 
                 else if (status == MyStatusCode.SUCCESS)

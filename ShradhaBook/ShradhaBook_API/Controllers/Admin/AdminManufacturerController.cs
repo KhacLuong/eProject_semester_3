@@ -161,8 +161,8 @@ namespace ShradhaBook_API.Controllers.Admin
 
             try
             {
-                var result = await _productService.GetProductByIdManufactuerAsync(id);
-                if (result == null || result.Count == 0)
+                var result = await _productService.checkExistProductByIdManufactuerAsync(id);
+                if (result == false)
                 {
                     await _manufacturerService.DeleteManufacturerAsync(id);
                     return Ok(new MyServiceResponse<ManufacturerModelGet>(true, MyStatusCode.DELLETE_SUCCESS_RESULT));

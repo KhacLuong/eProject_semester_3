@@ -135,13 +135,13 @@ namespace ShradhaBook_API.Controllers.Admin
         }
         // DELETE: api/Authors/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAuthor(int id)
+        public async Task<IActionResult> DeleteAuthor(int id, int pageSize = 20, int pageIndex = 1)
         {
 
             try
             {
-                var result = await _productService.GetProductByIdAuthorAsync(id);
-                if (result == null || result.Count == 0)
+                var result = await _productService.checkExistProductByIdAuthorAsync(id);
+                if (result == false)
                 {
                     await _authorService.DeleteAuthorAsync(id);
                     return Ok(new MyServiceResponse<AuthorModelGet>(true, MyStatusCode.DELLETE_SUCCESS_RESULT));

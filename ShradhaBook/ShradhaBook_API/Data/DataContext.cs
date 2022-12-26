@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.Models;
-using ShradhaBook_API.Models.Entities;
 
 using ShradhaBook_API.ViewModels;
 
@@ -9,6 +8,13 @@ namespace ShradhaBook_API.Data
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Product>().Navigation(c => c.Manufacturer).AutoInclude();
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -22,9 +28,9 @@ namespace ShradhaBook_API.Data
         public DbSet<ComboTag> ComboTags { get; set; }
         public DbSet<ProductTag> ProductTags { get; set; }
         public DbSet<Author> authors { get; set; }
-        public DbSet<ShradhaBook_API.ViewModels.ProductModelGet> ProductModelGet { get; set; }
-
 
 
     }
+
+   
 }

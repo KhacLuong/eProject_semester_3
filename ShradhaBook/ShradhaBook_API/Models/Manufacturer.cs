@@ -23,5 +23,9 @@ namespace ShradhaBook_API.Models
 
         public virtual ICollection<Product> Products { get; set; }
 
+        public static explicit operator Manufacturer(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
