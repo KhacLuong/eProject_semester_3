@@ -9,10 +9,11 @@ using ShradhaBook_API.Data;
 using ShradhaBook_API.ViewModels;
 using ShradhaBook_API.Services.CategotyService;
 using System.Net;
+using ShradhaBook_API.Helpers;
 
 namespace ShradhaBook_API.Controllers
 {
-    
+
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
@@ -27,11 +28,11 @@ namespace ShradhaBook_API.Controllers
 
         // GET: api/ViewCategories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryModel>>> GetAllCategories(string? name, string? code, int? status = 0, int sortBy = 0)
+        public async Task<ActionResult<IEnumerable<CategoryModelGet>>> GetAllCategories(string? name, string? code, string? status, int sortBy = 0)
         {
             try
             {
-                return Ok(await _categoryService.GetAllCategoryAsync(name,code,status,sortBy));
+                return Ok(await _categoryService.GetAllCategoryAsync(name, code, status, sortBy));
             }
             catch
             {
@@ -42,7 +43,7 @@ namespace ShradhaBook_API.Controllers
 
         // GET: api/ViewCategories/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CategoryModel>> GetCategory(int id)
+        public async Task<ActionResult<CategoryModelGet>> GetCategory(int id)
         {
             try
             {
@@ -61,19 +62,21 @@ namespace ShradhaBook_API.Controllers
         // PUT: api/ViewCategories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, CategoryModel model)
+        public async Task<IActionResult> UpdateCategory(int id, CategoryModelPost model)
         {
             try
             {
-               
+
                 int status = await _categoryService.UpdateCategoryAsync(id, model);
                 if (status == MyStatusCode.DUPLICATE_CODE)
                 {
                     return BadRequest(MyStatusCode.DUPLICATE_CODE_RESULT);
-                }else if (status == MyStatusCode.DUPLICATE_NAME)
+                }
+                else if (status == MyStatusCode.DUPLICATE_NAME)
                 {
                     return BadRequest(MyStatusCode.DUPLICATE_NAME_RESULT);
-                }else if (status == MyStatusCode.FAILURE)
+                }
+                else if (status == MyStatusCode.FAILURE)
                 {
                     return BadRequest(MyStatusCode.FAILURE_RESULT);
 
@@ -93,19 +96,20 @@ namespace ShradhaBook_API.Controllers
         // POST: api/ViewCategories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult> AddCategory(CategoryModel model)
+        public async Task<ActionResult> AddCategory(CategoryModelPost model)
         {
             try
             {
                 var status = await _categoryService.AddCategoryAsync(model);
-                if(status == MyStatusCode.DUPLICATE_CODE)
+                if (status == MyStatusCode.DUPLICATE_CODE)
                 {
                     return BadRequest(MyStatusCode.DUPLICATE_CODE_RESULT);
-                }else if (status == MyStatusCode.DUPLICATE_NAME)
+                }
+                else if (status == MyStatusCode.DUPLICATE_NAME)
                 {
                     return BadRequest(MyStatusCode.DUPLICATE_NAME_RESULT);
                 }
-                else if (status >0)
+                else if (status > 0)
                 {
                     //var newCategoryId = status;
                     //var category = await _categoryService.GetCategoryAsync(newCategoryId);
@@ -139,7 +143,7 @@ namespace ShradhaBook_API.Controllers
 
             }
         }
-            
+
 
         //private bool CategoryExists(int id)
         //{

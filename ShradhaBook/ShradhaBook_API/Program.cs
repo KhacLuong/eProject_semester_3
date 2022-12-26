@@ -22,7 +22,7 @@ using ShradhaBook_API.Services.TagService;
 using ShradhaBook_API.Services.ComboProductService;
 using ShradhaBook_API.Services.ComboTagService;
 using ShradhaBook_API.Services.ProductTagService;
-
+using ShradhaBook_API.Services.AuthorService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +37,8 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IComboProductService, ComboProductService>();
 builder.Services.AddScoped<IComboTagService, ComboTagService>();
 builder.Services.AddScoped<IProductTagService, ProductTagService>();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
+
 
 
 
@@ -55,10 +57,10 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserInfoService, UserInfoService>();
-builder.Services.AddScoped<IAddressService, AddressService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
+//builder.Services.AddScoped<IUserService, UserService>();
+//builder.Services.AddScoped<IUserInfoService, UserInfoService>();
+//builder.Services.AddScoped<IAddressService, AddressService>();
+//builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddHttpContextAccessor();
 // Add button for adding token (login)

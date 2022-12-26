@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.Data;
+using ShradhaBook_API.Helpers;
 using ShradhaBook_API.Services.ManufacturerService;
 using ShradhaBook_API.ViewModels;
 
@@ -25,11 +26,11 @@ namespace ShradhaBook_API.Controllers
 
         // GET: api/ViewManufacturers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ManufacturerModel>>> GetAllManufacturer(string? name, string? code)
+        public async Task<ActionResult<IEnumerable<ManufacturerModelGet>>> GetAllManufacturer(string? name, string? code, int page =100)
         {
             try
             {
-                return Ok(await _manufacturerService.GetAllManufacturersAsync(name, code));
+                return Ok(await _manufacturerService.GetAllManufacturersAsync(name, code,page));
             }
             catch
             {
@@ -40,7 +41,7 @@ namespace ShradhaBook_API.Controllers
 
         // GET: api/ViewManufacturers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ManufacturerModel>> GetManufacturer(int id)
+        public async Task<ActionResult<ManufacturerModelGet>> GetManufacturer(int id)
         {
             try
             {
@@ -58,7 +59,7 @@ namespace ShradhaBook_API.Controllers
         // PUT: api/ViewManufacturers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateManufacturer(int id, ManufacturerModel model)
+        public async Task<IActionResult> UpdateManufacturer(int id, ManufacturerModelPost model)
         {
             try
             {
@@ -89,7 +90,7 @@ namespace ShradhaBook_API.Controllers
         // POST: api/ViewManufacturers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ManufacturerModel>> AddManufacturer(ManufacturerModel model)
+        public async Task<ActionResult<ManufacturerModelGet>> AddManufacturer(ManufacturerModelPost model)
         {
             try
             {

@@ -5,16 +5,28 @@ namespace ShradhaBook_API.Helpers
 {
     public class ApplicationMapper : Profile
     {
+     
         public ApplicationMapper()
         {
-            CreateMap<Category, CategoryModel>().ReverseMap();
-            CreateMap<Manufacturer, ManufacturerModel>().ReverseMap();
-            CreateMap<Product, ProductModel>().ReverseMap();
+            CreateMap<Category, CategoryModelGet>().ForMember(item=>item.Status,otp=>otp.MapFrom(entity=> entity.Status==MyStatus.ACTIVE?MyStatus.ACTIVE_RESULT:MyStatus.INACTIVE_RESULT));
+            CreateMap<CategoryModelPost, Category>().ForMember(entity => entity.Status, otp => otp.MapFrom(item => item.Status.Trim().Equals(MyStatus.ACTIVE_RESULT) ? MyStatus.ACTIVE : MyStatus.INACTIVE))
+               .ForMember(entity => entity.Code, otp => otp.MapFrom(item => item.Code.Trim().ToUpper()));
+            CreateMap<Author, AuthorModelGet>();
+            CreateMap<AuthorModelPost, Author>();
+
+            CreateMap<Manufacturer, ManufacturerModelGet>();
+            CreateMap<ManufacturerModelPost, Manufacturer>().ForMember(entity => entity.Code, otp => otp.MapFrom(item => item.Code.Trim().ToUpper()));
+
+            CreateMap<Product, ProductModelGet>().ForMember(item => item.Status, otp => otp.MapFrom(entity => entity.Status == MyStatus.ACTIVE ? MyStatus.ACTIVE_RESULT : MyStatus.INACTIVE_RESULT));
+            CreateMap<ProductModelPost, Product>().ForMember(entity => entity.Status, otp => otp.MapFrom(item => item.Status.Trim().Equals(MyStatus.ACTIVE_RESULT) ? MyStatus.ACTIVE : MyStatus.INACTIVE))
+               .ForMember(entity => entity.Code, otp => otp.MapFrom(item => item.Code.Trim().ToUpper()));
+
             CreateMap<Combo, ComboModel>().ReverseMap();
             CreateMap<Tag, TagModel>().ReverseMap();
             CreateMap<ComboTag, ComboTagModel>().ReverseMap();
             CreateMap<ProductTag, ProductTagModel>().ReverseMap();
             CreateMap<ComboProduct, ComboProductModel>().ReverseMap();
+
 
 
 

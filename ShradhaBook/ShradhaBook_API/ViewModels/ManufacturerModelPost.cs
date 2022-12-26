@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShradhaBook_API.Models
+namespace ShradhaBook_API.ViewModels
 {
-    public class Manufacturer
+    public class ManufacturerModelPost
     {
         public int Id { get; set; }
 
         [Required]
+        [StringLength(3)]
         public string Code { get; set; }
 
         [Required]
@@ -16,12 +17,7 @@ namespace ShradhaBook_API.Models
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
 
-        [Required]
-        public DateTime CreatedAt { get; set; }
-        [Required]
-        public DateTime? UpdatedAt { get; set; }
-
-        public virtual ICollection<Product> Products { get; set; }
-
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? UpdatedAt { get; set; } = DateTime.Now;
     }
 }

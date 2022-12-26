@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.Data;
+using ShradhaBook_API.Helpers;
 using ShradhaBook_API.Services.ProductService;
 using ShradhaBook_API.ViewModels;
 
@@ -24,23 +25,23 @@ namespace ShradhaBook_API.Controllers
         }
 
         // GET: api/ViewProducts
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductModel>>> GetAllProducts(string? name, string? code, int? categoryId, int? manufactuerId, decimal? price, long quantity, int? status = 0, int? sortBy = 0)
-        {
-            try
-            {
-                return Ok(await _productService.GetAllProductAsync( name,  code, categoryId, manufactuerId, price, quantity, status ,  sortBy));
-            }
-            catch
-            {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<ProductModelPost>>> GetAllProducts(string? name, string? code, int? categoryId, int? manufactuerId, decimal? price, long quantity, int? status = 0, int? sortBy = 0)
+        //{
+        //    try
+        //    {
+        //        //return Ok(await _productService.GetAllProductAsync( name,  code, categoryId, manufactuerId, price, quantity, status ,  sortBy));
+        //    }
+        //    catch
+        //    {
+        //        return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
 
-            }
-        }
+        //    }
+        //}
 
         // GET: api/ViewProducts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductModel>> GetProduct(int id)
+        public async Task<ActionResult<ProductModelPost>> GetProduct(int id)
         {
             try
             {
@@ -58,7 +59,7 @@ namespace ShradhaBook_API.Controllers
         // PUT: api/ViewProducts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, ProductModel model)
+        public async Task<IActionResult> UpdateProduct(int id, ProductModelPost model)
         {
             try
             {
@@ -90,7 +91,7 @@ namespace ShradhaBook_API.Controllers
         // POST: api/ViewProducts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ProductModel>> AddProduct(ProductModel model)
+        public async Task<ActionResult<ProductModelPost>> AddProduct(ProductModelPost model)
         {
             try
             {

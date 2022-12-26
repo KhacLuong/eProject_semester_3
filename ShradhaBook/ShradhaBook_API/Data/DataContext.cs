@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.Models;
+using ShradhaBook_API.Models.Entities;
+
 using ShradhaBook_API.ViewModels;
 
 namespace ShradhaBook_API.Data
@@ -11,6 +13,7 @@ namespace ShradhaBook_API.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
+        public DbSet<Author> Authors { get; set; }
 
 
         public DbSet<Combo> Combos { get; set; }
@@ -18,6 +21,8 @@ namespace ShradhaBook_API.Data
         public DbSet<ComboProduct> ComboProducts { get; set; }
         public DbSet<ComboTag> ComboTags { get; set; }
         public DbSet<ProductTag> ProductTags { get; set; }
+        public DbSet<Author> authors { get; set; }
+        public DbSet<ShradhaBook_API.ViewModels.ProductModelGet> ProductModelGet { get; set; }
 
 
 
