@@ -1,4 +1,5 @@
-import axios from "../ultis/axiosCustomize";
+import instance from "../ultis/axiosCustomize";
+const axiosRetry = require('axios-retry');
 const postCreateUser = (name, email, password, confirmPassword, userType) => {
     const data = {
         "name": name,
@@ -7,22 +8,29 @@ const postCreateUser = (name, email, password, confirmPassword, userType) => {
         "confirmPassword": confirmPassword,
         "userType": userType
     }
-    return axios.post('User/register', data)
+    return instance.post('User/register', data)
 }
+
 const postLogin = (email, password) => {
-    const data = {
-        "email": email,
-        "password": password,
-    }
-    return axios.post('User/login', data)
+    return instance.post('Auth/login', {email, password})
 }
-const getListProduct = (page, limit, price, sortBy) => {
-    // const data = {
-    //     "page": page ?? null,
-    //     "limit": limit ?? null,
-    //     "price": price ?? null,
-    //     "sortBy": sortBy
-    // }
-    // return axios.get('Products', data)
+const deleteLogout = (accessToken) => {
+    // instance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+    return instance.post('Auth/logout')
 }
-export {postCreateUser, postLogin, getListProduct}
+const getListProduct = (pageIndex, pageSize) => {
+    // const paramName = 'name=' + name;
+    // const paramCode = 'code=' + code;
+    // const paramStatus = 'status=' + status;
+    // const paramCategoryId = 'categoryId=' + categoryId;
+    // const paramAuthorId = 'AuthorId=' + AuthorId;
+    // const paramManufactuerId = 'manufactuerId=' + manufactuerId;
+    // const paramLowPrice = 'lowPrice=' + lowPrice;
+    // const paramHightPrice = 'hightPrice=' + hightPrice;
+    // const paramSortBy = 'sortBy=' + sortBy;
+    const paramPageSize = 'pageSize=' + pageSize;
+    const paramPageIndex = 'pageIndex=' + pageIndex;
+    // return axios.get(`Products?${name?paramName:''}&${code?paramCode:''}&${status?paramStatus:''}&${categoryId?paramCategoryId:''}&${AuthorId?paramAuthorId:''}&${manufactuerId?paramManufactuerId:''}&${lowPrice?paramLowPrice:''}&${hightPrice?paramHightPrice:''}&${sortBy?paramSortBy:''}&${pageSize?paramPageSize:''}&${pageIndex?paramPageIndex:''}`)
+    return instance.get(`Products?${pageSize ? paramPageSize : ''}&${pageIndex ? paramPageIndex : ''}`)
+}
+export {postCreateUser, postLogin, deleteLogout, getListProduct}

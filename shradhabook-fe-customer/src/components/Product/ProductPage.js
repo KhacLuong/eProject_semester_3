@@ -4,6 +4,7 @@ import ProductFilter from "./ProductFilter";
 import ProductList from "./ProductList";
 import {getListProduct} from "../../services/apiService";
 import {Data} from "./Data";
+
 const ProductPage = () => {
     const minDistance = 0;
     const stars = [
@@ -40,21 +41,21 @@ const ProductPage = () => {
     ]
 
     const [selectedSort, setSelectedSort] = useState(optionSort[0].value);
-    const [selectedQuantity, setSelectedQuantity] = useState(optionQuantity[2].value);
+    const [selectedPerPage, setSelectedPerPage] = useState(optionQuantity[2].value);
     const [price, setPrice] = useState([0, 1000]);
     const [page, setPage] = useState(1);
     const [listProducts, setListProducts] = useState([])
     const [totalPage, setTotalPage] = useState(0)
 
-    useEffect( () => {
-        fetchListProducts(page);
+    useEffect(() => {
+        fetchListProducts(page, selectedPerPage);
     }, [])
 
 
     const renderStar = (count_of_star) => {
         let data = []
         for (let i = 1; i <= count_of_star; i++) {
-            data.push(`<svg aria-hidden="true" className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
+            data.push(`<svg aria-hidden="true" className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
                          xmlns="http://www.w3.org/2000/svg">
                     <title>Rating star</title>
                     <path
@@ -81,18 +82,36 @@ const ProductPage = () => {
         setSelectedSort(event.target.value);
     };
     const handleChangeQuantity = event => {
-        setSelectedQuantity(event.target.value);
+        setSelectedPerPage(event.target.value);
         fetchListProducts(page, parseInt(event.target.value));
     };
-    const fetchListProducts = async (page, per_page = parseInt(selectedQuantity)) => {
+    const fetchListProducts = async (page, per_page) => {
         setPage(page)
-        let res = Data
-        if(res.EC === 0) {
-            setTotalPage(Math.ceil(+res.DT.products.length / per_page))
-            setListProducts(res.DT.products)
+        per_page = parseInt(selectedPerPage)
+        // const data = {
+        //     name : 'name=' + name;
+        //     code = 'code=' + code;
+        //     const paramStatus = 'status=' + status;
+        //     const paramCategoryId = 'categoryId=' + categoryId;
+        //     const paramAuthorId = 'AuthorId=' + AuthorId;
+        //     const paramManufactuerId = 'manufactuerId=' + manufactuerId;
+        //     const paramLowPrice = 'lowPrice=' + lowPrice;
+        //     const paramHightPrice = 'hightPrice=' + hightPrice;
+        //     const paramSortBy = 'sortBy=' + sortBy;
+        //     const paramPageSize = 'pageSize=' + pageSize;
+        //     const paramPageIndex = 'pageIndex=' + pageIndex;
+        // }
+        // let res = Data
+        // if(res.EC === 0) {
+        //     setTotalPage(Math.ceil(+res.DT.products.length / per_page))
+        //     setListProducts(res.DT.products)
+        // }
+        let res = await getListProduct(page, per_page)
+        if (res.status === true) {
+            setListProducts(res.data.products)
         }
-        // let res = await getListProduct(page,selectedQuantity)
-     }
+        // console.log(page, per_page);
+    }
 
     return (
         <div className={`product_page`}>
@@ -111,7 +130,7 @@ const ProductPage = () => {
                     selectedSort={selectedSort}
                     optionQuantity={optionQuantity}
                     optionSort={optionSort}
-                    selectedQuantity={selectedQuantity}
+                    selectedPerPage={selectedPerPage}
                     handleChangeSort={handleChangeSort}
                     handleChangeQuantity={handleChangeQuantity}
                     fetchListProducts={fetchListProducts}

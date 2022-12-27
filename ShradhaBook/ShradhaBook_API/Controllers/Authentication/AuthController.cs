@@ -51,7 +51,7 @@ namespace ShradhaBook_API.Controllers.Authentication
         }
 
         [Authorize]
-        [HttpDelete("logout")]
+        [HttpPost("logout")]
         public async Task<ActionResult> Logout()
         {
             var userId = HttpContext.User.FindFirstValue("Id");

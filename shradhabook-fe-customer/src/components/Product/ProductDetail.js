@@ -1,16 +1,14 @@
 import React from 'react';
-import {useLocation, useParams} from 'react-router-dom';
-import {Data} from "./Data";
+import {useParams} from 'react-router-dom';
+
 const ProductDetail = () => {
-    const { id, slug } = useParams();
-    const location = useLocation().pathname.split('/')
-    console.log('id: ', id, 'slug: ', slug)
+    const {id, slug} = useParams();
     const getProductById = () => {
 
     }
     return (
         <div>
-            this is details product id = {location}
+            this is details product id = {id}
         </div>
     );
 };
