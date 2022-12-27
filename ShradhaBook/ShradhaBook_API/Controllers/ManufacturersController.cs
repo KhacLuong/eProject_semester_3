@@ -23,115 +23,41 @@ namespace ShradhaBook_API.Controllers
             _manufacturerService = manufacturerService;
 
         }
-
-        // GET: api/ViewManufacturers
+        // GET: api/Maufacturer
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ManufacturerModelGet>>> GetAllManufacturer(string? name, string? code, int page =100)
+        public async Task<ActionResult<IEnumerable<ManufacturerModelGet>>> GetAllManufacturet()
         {
+
+
             try
             {
-                return Ok(await _manufacturerService.GetAllManufacturersAsync(name, code,page));
+                var result = await _manufacturerService.GetAllManufacturersAsync();
+                return Ok(new MyServiceResponse<List<ManufacturerModelGet>>(result));
             }
             catch
             {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
+                return StatusCode(500, new MyServiceResponse<List<ManufacturerModelGet>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
 
             }
+
         }
 
-        // GET: api/ViewManufacturers/5
+        // GET: api/ViewCategories/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ManufacturerModelGet>> GetManufacturer(int id)
         {
             try
             {
-                var manufacturer = await _manufacturerService.GetManufacturerAsync(id);
+                var result = await _manufacturerService.GetManufacturerAsync(id);
 
-                return manufacturer == null ? NotFound() : Ok(manufacturer);
-            }
-            catch
-            {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
-
-            }
-        }
-
-        // PUT: api/ViewManufacturers/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateManufacturer(int id, ManufacturerModelPost model)
-        {
-            try
-            {
-
-                int status = await _manufacturerService.UpdateManufacturerAsync(id, model);
-                if (status == MyStatusCode.DUPLICATE_CODE)
-                {
-                    return BadRequest(MyStatusCode.DUPLICATE_CODE_RESULT);
-                }
-                else if (status == MyStatusCode.DUPLICATE_NAME)
-                {
-                    return BadRequest(MyStatusCode.DUPLICATE_NAME_RESULT);
-                }
-                else if (status == MyStatusCode.FAILURE)
-                {
-                    return BadRequest(MyStatusCode.FAILURE_RESULT);
-
-                }
-
-                return Ok(MyStatusCode.SUCCESS_RESULT);
-            }
-            catch
-            {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
-            }
-        }
-
-        // POST: api/ViewManufacturers
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<ManufacturerModelGet>> AddManufacturer(ManufacturerModelPost model)
-        {
-            try
-            {
-                var status = await _manufacturerService.AddManufacturerAsync(model);
-                if (status == MyStatusCode.DUPLICATE_CODE)
-                {
-                    return BadRequest(MyStatusCode.DUPLICATE_CODE_RESULT);
-                }
-                else if (status == MyStatusCode.DUPLICATE_NAME)
-                {
-                    return BadRequest(MyStatusCode.DUPLICATE_NAME_RESULT);
-                }
-                else if (status > 0)
-                {
-
-                    return Ok(MyStatusCode.SUCCESS_RESULT);
-                }
-                return BadRequest(MyStatusCode.FAILURE_RESULT);
+                return result == null ? NotFound(new MyServiceResponse<ManufacturerModelGet>(false, MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<ManufacturerModelGet>(result));
 
             }
             catch
             {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
+                return StatusCode(500, new MyServiceResponse<ManufacturerModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
             }
-        }
 
-        // DELETE: api/ViewManufacturers/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteViewManufacturer(int id)
-        {
-            try
-            {
-                await _manufacturerService.DeleteManufacturerAsync(id);
-                return Ok(MyStatusCode.SUCCESS_RESULT);
-
-            }
-            catch
-            {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
-
-            }
         }
 
         //private bool ViewManufacturerExists(int id)

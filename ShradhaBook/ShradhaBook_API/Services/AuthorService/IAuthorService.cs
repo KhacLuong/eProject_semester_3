@@ -9,5 +9,7 @@ namespace ShradhaBook_API.Services.AuthorService
         Task<int> AddAuthorAsync(AuthorModelPost model);
         Task DeleteAuthorAsync(int id);
         Task<int> UpdateAuthorAsync(int id, AuthorModelPost model);
+        Task<List<AuthorModelGet>> GetAllAuthorAsync();
+
     }
 }

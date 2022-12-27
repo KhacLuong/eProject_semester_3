@@ -14,7 +14,6 @@ namespace ShradhaBook_API.Models
 
         public DateTime? UpdatedAt { get; set; }
 
-        public virtual ICollection<ComboTag> ComboTags { get; set; }
         public virtual ICollection<ProductTag> ProductTags { get; set; }
 
 

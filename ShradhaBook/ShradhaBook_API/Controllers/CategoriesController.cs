@@ -18,20 +18,23 @@ namespace ShradhaBook_API.Controllers
             _categoryService = categoryService;
 
         }
-
-        // GET: api/ViewCategories
+        // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryModelGet>>> GetAllCategories(string? name, string? code, string? status, int sortBy = 0,int pageIndex =200)
+        public async Task<ActionResult<IEnumerable<CategoryModelGet>>> GetAllCategories()
         {
+
+
             try
             {
-                return Ok(await _categoryService.GetAllCategoryAsync(name, code, status, sortBy,pageIndex));
+                var result = await _categoryService.GetAllCategoryAsync();
+                return Ok(new MyServiceResponse<List<CategoryModelGet>>(result));
             }
             catch
             {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
+                return StatusCode(500, new MyServiceResponse<List<CategoryModelGet>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
 
             }
+
         }
 
         // GET: api/ViewCategories/5
@@ -42,12 +45,12 @@ namespace ShradhaBook_API.Controllers
             {
                 var result = await _categoryService.GetCategoryAsync(id);
 
-                return result == null ? NotFound() : Ok(result);
+                return result == null ? NotFound(new MyServiceResponse<CategoryModelGet>(false, MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<CategoryModelGet>(result));
+
             }
             catch
             {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
-
+                return StatusCode(500, new MyServiceResponse<CategoryModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
             }
 
         }

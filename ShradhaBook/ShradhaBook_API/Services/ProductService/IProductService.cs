@@ -4,7 +4,8 @@ namespace ShradhaBook_API.Services.ProductService
 {
     public interface IProductService
     {
-        Task<Object> GetAllProductAsync(string? name, string? code, string? status,int? categoryId,int? AuthorId, int? manufactuerId, decimal? lowPrice, decimal? hightPrice,  long? lowQuantity, long? hightQuantity,  int? sortBy = 0, int pageSize = 20, int pageIndex = 1);
+        Task<Object> GetAllProductAsync(string? name, string? code, string? status, string? categoryName, string? authorName, string? manufactuerName,
+            decimal? moreThanPrice, decimal? lessThanPrice, long? moreThanQuantity, long? lessThanQuantity, int? sortBy = 0, int pageSize = 20, int pageIndex = 1);
         Task<Object> GetProductDetailAsync(int id);
         Task<ProductModelGet> GetProductAsync(int id);
         Task<int> AddProductAsync(ProductModelPost model);
