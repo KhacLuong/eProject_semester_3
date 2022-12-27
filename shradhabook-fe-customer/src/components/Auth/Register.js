@@ -3,12 +3,15 @@ import {RiCloseLine} from "react-icons/ri";
 import {toast} from "react-toastify";
 import {message} from "../../ultis/message";
 import {postCreateUser} from "../../services/apiService";
+import RegisterImage from "../../assets/image/register.png";
+import Book_1 from "../../assets/image/books/book_1.png"
+import Book_2 from "../../assets/image/books/book2.png"
+import Book_3 from "../../assets/image/books/book3.png"
 
 const Register = (props) => {
     const {
         hasNumber,
         validateEmail,
-        registerImage,
         navigate,
         email,
         password,
@@ -25,6 +28,7 @@ const Register = (props) => {
         handleOnChangePassword,
         isValidEmail,
         isValidPassword,
+        lottie
     } = props
     const [userType, setUserType] = useState("CUSTOMER");
 
@@ -57,6 +61,7 @@ const Register = (props) => {
     }
     const handleRegister = async (e) => {
         e.preventDefault();
+
         // check validate
         if (!checkValidateRegister()) {
             return;
@@ -65,16 +70,11 @@ const Register = (props) => {
         // create and submit data
         let res = await postCreateUser(name, email, password, confirmPassword, userType);
         if (res && res.status === true) {
-            toast.success(res.message)
+            lottie.destroy()
             setIsLoadingData(false);
             setIsActive(!isActive);
+            toast.success(res.message)
         }
-        //
-        // if (res.response && res.response.data.status === false) {
-        //     toast.error(res.response.data.message)
-        // } else if (res.response && res.response.data.status === 400) {
-        //     toast.error(res.response.data.errors.password)
-        // }
     }
 
     return (
@@ -103,7 +103,7 @@ const Register = (props) => {
                 </form>
             </div>
             <div className={`imgBx`}>
-                <img src={registerImage} alt={`register_image`}/>
+                <img src={Book_2} alt={`register_image`}/>
             </div>
         </div>
     );

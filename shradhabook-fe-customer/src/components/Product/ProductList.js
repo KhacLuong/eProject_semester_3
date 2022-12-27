@@ -1,4 +1,4 @@
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {BsFillGridFill} from 'react-icons/bs'
 import {FaThList} from 'react-icons/fa'
 import './Product.scss'
@@ -7,6 +7,7 @@ import parse from "html-react-parser";
 import {FiHeart, FiEye} from "react-icons/fi";
 import {TbShoppingCart} from "react-icons/tb"
 import {useState} from "react";
+import book3 from "../../assets/image/books/book3.png"
 
 const ProductList = (props) => {
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ const ProductList = (props) => {
         totalPage,
         optionSort,
         optionQuantity,
-        selectedQuantity,
+        selectedPerPage,
         selectedSort,
         listProducts,
         handleChangeSort,
@@ -26,7 +27,7 @@ const ProductList = (props) => {
     const [idProduct, setIdProduct] = useState(0);
     const [turnOffPrevNextBtn, setTurnOffPrevNextBtn] = useState(true)
     const handlePageClick = (event) => {
-        fetchListProducts(+event.selected + 1, selectedQuantity)
+        fetchListProducts(+event.selected + 1, selectedPerPage)
         console.log(`User requested page number ${+event.selected + 1}`)
         if (+event.selected + 1 === 1) {
             setTurnOffPrevNextBtn(true)
@@ -41,15 +42,15 @@ const ProductList = (props) => {
     }
     return (
         <div className={`product_list col-span-3`}>
-            <div className={`flex items-start justify-between border-b-[1px] py-2`}>
-                <div className={`flex items-center`}>
+            <div className={`shadow-md flex items-start justify-between border-b-[1px] py-2 pl-2`}>
+                <div className={`flex items-center text-xl`}>
                     <BsFillGridFill title={`Grid View`} className={`cursor-pointer mr-2 hover:text-black`}/>
                     {/*<FaThList title={`List View`} className={`cursor-pointer text-lightColor hover:text-black`}/>*/}
                 </div>
                 <div className={`flex items-center`}>
                     <div>
                         <select value={selectedSort} onChange={handleChangeSort}
-                                className="text-right block py-0 pr-[30px] text-sm leading-6 text-gray-500 bg-transparent border-0  appearance-none dark:text-gray-400 focus:outline-none focus:ring-0 peer ">
+                                className="cursor-pointer text-right block py-0 pr-[30px] text-sm leading-6 text-gray-500 bg-transparent border-0  appearance-none dark:text-gray-400 focus:outline-none focus:ring-0 peer ">
                             {optionSort.map((option, index) => (
                                 <option key={index} value={option.value}>
                                     {option.text}
@@ -62,8 +63,8 @@ const ProductList = (props) => {
                         <label htmlFor={`per_page`} className={`text-lightColor font-normal text-sm`}>Show</label>
                         <select name={`per_page`} id={`per_page`}
                                 onChange={handleChangeQuantity}
-                                value={selectedQuantity}
-                                className="py-0 text-right block text-sm leading-6 text-gray-500 bg-transparent border-0 appearance-none dark:text-gray-400 focus:outline-none focus:ring-0 peer">
+                                value={selectedPerPage}
+                                className="cursor-pointer py-0 text-left block text-sm leading-6 text-gray-500 bg-transparent border-0 appearance-none dark:text-gray-400 focus:outline-none focus:ring-0 peer">
                             {optionQuantity.map((option, index) => (
                                 <option key={index} value={option.value}>
                                     {option.text}
@@ -78,15 +79,17 @@ const ProductList = (props) => {
                     {
                         listProducts.map((item, index) => {
                             return <div
-                                className={`w-full py-5 border-b-[1px] border-r-[1px] border-l-[1px] flex justify-center items-center`}
+                                className={`w-full py-5 border-b-[1px] border-r-[1px] border-l-[1px] flex justify-center items-center shadow-lg rounded-2xl`}
                                 key={index}>
                                 <div>
                                     <div className={`product-transition relative w-[300px] h-[420px]`}
                                          onMouseLeave={() => setHover(false)}>
-                                        <div onClick={() => navigate(`product-detail/${item.id}/${item.slug}`) } onMouseOver={(e) => handleOnMouseOver(e, index)} state={item}
+                                        <div title={`${item.description}`}
+                                             onClick={() => navigate(`product-detail/${item.id}/${item.slug}`)}
+                                             onMouseOver={(e) => handleOnMouseOver(e, index)} state={item}
                                              className={`overflow-hidden rounded-2xl cursor-pointer`}>
                                             <img className={`w-full rounded-2xl block my-0 mx-auto`}
-                                                 src={item.imgURL}/>
+                                                 src={book3}/>
                                         </div>
                                         <div className={`group_action absolute right-[10px] bottom-[10px] z-10`}>
                                             <div className={`shop_action flex flex-col items-start relative`}>
@@ -94,8 +97,10 @@ const ProductList = (props) => {
                                                     className={`${hover && idProduct === index + 1 ? 'opacity-1'
                                                         + ' visible translate-x-0' : 'opacity-0'
                                                         + ' translate-x-8'} 
-                                                actionBtn text-dangerColor-default_3 transition duration-300 ease-in-out`}><FiHeart/></button>
-                                                <div onClick={() => navigate(`product-detail/${item.id}/${item.slug}`) } state={item.id}
+                                                actionBtn text-dangerColor-default_3 transition duration-300 ease-in-out`}>
+                                                    <FiHeart/></button>
+                                                <div onClick={() => navigate(`product-detail/${item.id}/${item.slug}`)}
+                                                     state={item.id}
                                                      className={`${hover && idProduct === index + 1 ? 'opacity-1'
                                                          + ' visible'
                                                          + ' translate-x-0' : 'opacity-0 translate-x-8'
@@ -112,11 +117,15 @@ const ProductList = (props) => {
                                     </div>
                                     <div onMouseOver={(e) => handleOnMouseOver(e, index)}
                                          className={`product-caption relative pt-[20px] flex flex-col `}>
-                                        <div onClick={()=>navigate(`product-detail/${item.id}/${item.slug}`)} className={`cursor-pointer text-base font-semibold overflow-hidden`}>
-                                            <h3>{item.name}</h3>
+                                        <div onClick={() => navigate(`product-detail/${item.id}/${item.slug}`)}
+                                             className={`cursor-pointer text-xl font-semibold overflow-hidden mb-1`}>
+                                            <h2>{item.name}</h2>
                                         </div>
                                         <div
-                                            className={`count_review text-xs my-[10px] flex items-center font-semibold`}>
+                                            className={`cursor-pointer detail_product_author text-xs text-lightColor leading-none font-normal hover:text-dangerColor-default_2`}>
+                                            <div onClick={() => navigate(``)}>{item.author}</div>
+                                        </div>
+                                        <div className={`count_review text-xs my-[10px] flex items-center font-semibold`}>
                                             <div className={`flex items-center`}>
                                                 {parse(renderStar(4))}
                                                 <svg aria-hidden="true"
@@ -130,12 +139,14 @@ const ProductList = (props) => {
                                             <span className={`ml-2`}>5</span>
                                         </div>
                                         <div
-                                            className={`cursor-pointer detail_product_author text-xs text-lightColor mb-[12px] leading-none font-normal hover:text-dangerColor-default_2`}>
-                                            <div onClick={()=>navigate(``)}>{item.author}</div>
-                                        </div>
-                                        <div
-                                            className={`detail_product_price flex flex-wrap items-center justify-start text-xl font-bold text-dangerColor-default_2 leading-normal`}>
-                                            ${item.price}
+                                            className={`detail_product_price flex items-center justify-between leading-normal mt-2`}>
+                                            <div className={`text-xl font-bold text-dangerColor-default_2`}>
+                                                ${item.price}
+                                            </div>
+                                            <div className={`flex items-center`}>
+                                                <div className={`mr-1 text-xs font-medium`}>Q.ty:</div>
+                                                <div>{item.quantity}</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -10,7 +10,7 @@ const ProductFilter = (props) => {
 
     return (
         <div className={`product_filter`}>
-            <div className={`product_genre rounded-2xl border-[1px] mb-8`}>
+            <div className={`shadow-md product_genre rounded-2xl border-[1px] mb-8`}>
                 <div
                     className={`text-lg title border-b-[1px] mx-auto px-10 py-4 text-[#000000] font-medium leading-normal`}>Genre
                 </div>
@@ -51,7 +51,7 @@ const ProductFilter = (props) => {
                     </ul>
                 </div>
             </div>
-            <div className={`product_author rounded-2xl border-[1px] mb-8`}>
+            <div className={`shadow-md product_author rounded-2xl border-[1px] mb-8`}>
                 <div
                     className={`text-lg title border-b-[1px] mx-auto px-10 py-4 text-[#000000] font-medium  leading-normal`}>Authors
                 </div>
@@ -93,7 +93,7 @@ const ProductFilter = (props) => {
                     </ul>
                 </div>
             </div>
-            <div className={`product_filter_price rounded-2xl border-[1px] mb-8`}>
+            <div className={`shadow-md product_filter_price rounded-2xl border-[1px] mb-8`}>
                 <div
                     className={`text-lg title border-b-[1px] mx-auto px-10 py-4 text-[#000000] font-medium leading-normal`}>Filter
                     By Price
@@ -131,7 +131,7 @@ const ProductFilter = (props) => {
                         className={`uppercase mx-auto px-10 pb-4 pt-4 underline text-xs font-semibold hover:text-dangerColor-default_2 transition duration-300 tracking-wider`}>filter
                 </button>
             </div>
-            <div className={`product_rating rounded-2xl border-[1px] mb-8`}>
+            <div className={`shadow-md product_rating rounded-2xl border-[1px] mb-8`}>
                 <div
                     className={`text-lg title border-b-[1px] mx-auto px-10 py-4 text-[#000000] font-medium leading-normal`}>Review
                     ratings
