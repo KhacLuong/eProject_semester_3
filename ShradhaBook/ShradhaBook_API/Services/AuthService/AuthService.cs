@@ -108,7 +108,7 @@ namespace ShradhaBook_API.Services.AuthService
             {
                 new Claim("Id", user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.UserType)
+                new Claim(ClaimTypes.Role, user.UserType.ToString())
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
