@@ -206,9 +206,7 @@ namespace ShradhaBook_API.Services.ProductService
                 _context.Products.Update(updateModel);
                 await _context.SaveChangesAsync();
             }
-            
 
-            
             return model[0];
 
         }
