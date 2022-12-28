@@ -14,12 +14,14 @@ namespace ShradhaBook_API.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
         public DbSet<Author> Authors { get; set; }
-	public DbSet<AuthorModelGet> AuthorModelGet { get; set; }
+
 
         public DbSet<Tag> Tags { get; set; }
 
         public DbSet<ProductTag> ProductTags { get; set; }
-        public DbSet<Author> authors { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<BlogTag>   BlogTags { get; set; }
+        //public DbSet<Author> authors { get; set; }
 
         public DbSet<UserInfo> UserInfo { get; set; }
         public DbSet<Address> Addresses { get; set; }
@@ -114,5 +116,7 @@ namespace ShradhaBook_API.Data
 	    	);
             }
         }
+		
+
     }
 }

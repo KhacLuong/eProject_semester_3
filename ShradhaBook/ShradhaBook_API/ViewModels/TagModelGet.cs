@@ -7,5 +7,19 @@
         public string? CreatedAt { get; set; }
 
         public string? UpdatedAt { get; set; }
+
+        public TagModelGet(int id, string name, string? createdAt, string? updatedAt)
+        {
+            Id = id;
+            Name = name;
+            CreatedAt = createdAt;
+            UpdatedAt = updatedAt;
+        }
+
+        public TagModelGet()
+        {
+        }
     }
+
+
 }

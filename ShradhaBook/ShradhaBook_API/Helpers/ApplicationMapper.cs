@@ -31,6 +31,9 @@ namespace ShradhaBook_API.Helpers
             CreateMap<ProductTag, ProductTagGet>();
             CreateMap<ProductTagPost, ProductTag>();
 
+            CreateMap<Blog, BlogModelGet>().ForMember(item => item.Status, otp => otp.MapFrom(entity => entity.Status == MyStatus.ACTIVE ? MyStatus.ACTIVE_RESULT : MyStatus.INACTIVE_RESULT));
+            CreateMap<BlogModelPost, Blog>().ForMember(entity => entity.Status, otp => otp.MapFrom(item => item.Status.Trim().Equals(MyStatus.ACTIVE_RESULT) ? MyStatus.ACTIVE : MyStatus.INACTIVE));
+
 
 
         }

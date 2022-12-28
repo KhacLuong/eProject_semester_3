@@ -26,116 +26,39 @@ namespace ShradhaBook_API.Controllers
 
         // GET: api/TagModels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TagModelPost>>> GetAllTag(string? name, int sortBy = 0)
+        public async Task<ActionResult<Object>> GetAllTag(string? name, int sortBy = 0, int pageSize = 20, int pageIndex = 1)
         {
             try
             {
-                return Ok(await _tagService.GetAllTagAsync(name, sortBy));
+                var result = await _tagService.GetAllTagAsync( name, sortBy, pageSize, pageIndex);
+
+                return Ok(new MyServiceResponse<Object>(result, true, ""));
+
             }
             catch
             {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
+                return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
 
             }
         }
 
         // GET: api/TagModels/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TagModelPost>> GetTag(int id)
+        public async Task<ActionResult<TagModelGet>> GetTag(int id)
         {
             try
             {
                 var result = await _tagService.GetTagAsync(id);
 
-                return result == null ? NotFound() : Ok(result);
-            }
-            catch
-            {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
-
-            }
-        }
-
-        // PUT: api/TagModels/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTag(int id, TagModelPost model)
-        {
-            try
-            {
-
-                int status = await _tagService.UpdateTagAsync(id, model);
-                if (status == MyStatusCode.DUPLICATE_CODE)
-                {
-                    return BadRequest(MyStatusCode.DUPLICATE_CODE_RESULT);
-                }
-                else if (status == MyStatusCode.DUPLICATE_NAME)
-                {
-                    return BadRequest(MyStatusCode.DUPLICATE_NAME_RESULT);
-                }
-                else if (status == MyStatusCode.FAILURE)
-                {
-                    return BadRequest(MyStatusCode.FAILURE_RESULT);
-
-                }
-
-                return Ok(MyStatusCode.SUCCESS_RESULT);
-            }
-            catch
-            {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
-
-            }
-        }
-
-        // POST: api/TagModels
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<TagModelPost>> AddTag(TagModelPost model)
-        {
-            try
-            {
-                var status = await _tagService.AddTagAsync(model);
-                if (status == MyStatusCode.DUPLICATE_CODE)
-                {
-                    return BadRequest(MyStatusCode.DUPLICATE_CODE_RESULT);
-                }
-                else if (status == MyStatusCode.DUPLICATE_NAME)
-                {
-                    return BadRequest(MyStatusCode.DUPLICATE_NAME_RESULT);
-                }
-                else if (status > 0)
-                {
-                    //var newCategoryId = status;
-                    //var category = await _categoryService.GetCategoryAsync(newCategoryId);
-                    //return category == null ? NotFound(SUCCESS) : Ok();
-                    return Ok(MyStatusCode.SUCCESS_RESULT);
-                }
-                return BadRequest(MyStatusCode.FAILURE_RESULT);
+                return result == null ? NotFound(new MyServiceResponse<TagModelGet>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<TagModelGet>(result));
 
             }
             catch
             {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
-
+                return StatusCode(500, new MyServiceResponse<TagModelGet>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
             }
         }
-        // DELETE: api/TagModels/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRag(int id)
-        {
-            try
-            {
-                await _tagService.DeleteTagAsync(id);
-                return Ok(MyStatusCode.SUCCESS_RESULT);
 
-            }
-            catch
-            {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
-
-            }
-        }
 
         //private bool TagModelExists(int id)
         //{

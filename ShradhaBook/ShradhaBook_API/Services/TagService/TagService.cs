@@ -82,5 +82,30 @@ namespace ShradhaBook_API.Services.TagService
             return MyStatusCode.FAILURE;
         }
 
+        public async  Task<Object> GetTagsByIdProduct(int id, int pageSize = 20, int pageIndex = 1)
+        {
+            
+            var allModel = await (from P in _context.Products.Where(p=>p.Id==id)
+                                    join PT in _context.ProductTags
+                                    on P.Id equals PT.ProductId
+                                    join T in _context.Tags
+                                    on PT.TagId equals T.Id
+                                    select new TagModelPost(T.Id, T.Name, T.CreatedAt, T.UpdatedAt)).ToArrayAsync();
+                
+
+            var   listModel     = _mapper.Map<List<Tag>>(allModel);
+            var listGet = _mapper.Map<List<TagModelGet>>(listModel);
+            var models = PaginatedList<TagModelGet>.Create(listGet, pageIndex, pageSize);
+            var totalPage = PaginatedList<TagModelGet>.totlalPage(listGet, pageSize);
+            var result = _mapper.Map<List<TagModelGet>>(models);
+            
+            return new
+            {
+                Products = result,
+                totalPage = totalPage
+            };
+         
+        }
+
     }
 }
