@@ -17,6 +17,7 @@ import NotFound from "./components/Product/NotFound";
 import PrivateRoute from "./routes/PrivateRoute";
 import Me from "./components/Auth/Me";
 import MyHistory from "./components/Auth/MyHistory";
+import CategoryPage from "./components/Category/CategoryPage";
 
 const App = () => {
     return (
@@ -24,7 +25,7 @@ const App = () => {
             <Routes>
                 <Route path={'/'} element={<Layout/>}>
                     <Route path={'/'} index element={<HomePage/>}/>
-                    <Route path={'/categories'}/>
+                    <Route path={'/categories'} element={<CategoryPage/>}/>
                     <Route path={'/products'} element={<ProductPage/>}/>
                     <Route path={`/products/product-detail/:id/:slug`} element={<ProductDetail/>}/>
                     <Route path={'/blogs'} element={<BlogPage/>}/>
