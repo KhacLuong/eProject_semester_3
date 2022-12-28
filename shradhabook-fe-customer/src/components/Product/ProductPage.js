@@ -42,13 +42,23 @@ const ProductPage = () => {
 
     const [selectedSort, setSelectedSort] = useState(optionSort[0].value);
     const [selectedPerPage, setSelectedPerPage] = useState(optionQuantity[2].value);
-    const [price, setPrice] = useState([0, 1000]);
-    const [page, setPage] = useState(1);
     const [listProducts, setListProducts] = useState([])
-    const [totalPage, setTotalPage] = useState(0)
+    const [price, setPrice] = useState([0, 1000]);
+
+    const [page, setPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(0);
+    const [name, setName] = useState('');
+    const [code, setCode] = useState('');
+    const [status, setStatus] = useState('');
+    const [categoryId, setCategoryId] = useState(null);
+    const [AuthorId, setAuthorId] = useState(null);
+    const [manufactuerId, setManufactuerId] = useState(null);
+    const [lowPrice, setLowPrice] = useState(null);
+    const [hightPrice, setHightPrice] = useState(null);
+    const [sortBy, setSortBy] = useState(null);
 
     useEffect(() => {
-        fetchListProducts(page, selectedPerPage);
+        fetchListProducts();
     }, [])
 
 
@@ -83,31 +93,26 @@ const ProductPage = () => {
     };
     const handleChangeQuantity = event => {
         setSelectedPerPage(event.target.value);
-        fetchListProducts(page, parseInt(event.target.value));
+        fetchListProducts();
     };
-    const fetchListProducts = async (page, per_page) => {
+    const fetchListProducts = async () => {
         setPage(page)
-        per_page = parseInt(selectedPerPage)
-        // const data = {
-        //     name : 'name=' + name;
-        //     code = 'code=' + code;
-        //     const paramStatus = 'status=' + status;
-        //     const paramCategoryId = 'categoryId=' + categoryId;
-        //     const paramAuthorId = 'AuthorId=' + AuthorId;
-        //     const paramManufactuerId = 'manufactuerId=' + manufactuerId;
-        //     const paramLowPrice = 'lowPrice=' + lowPrice;
-        //     const paramHightPrice = 'hightPrice=' + hightPrice;
-        //     const paramSortBy = 'sortBy=' + sortBy;
-        //     const paramPageSize = 'pageSize=' + pageSize;
-        //     const paramPageIndex = 'pageIndex=' + pageIndex;
-        // }
-        // let res = Data
-        // if(res.EC === 0) {
-        //     setTotalPage(Math.ceil(+res.DT.products.length / per_page))
-        //     setListProducts(res.DT.products)
-        // }
-        let res = await getListProduct(page, per_page)
+        const params = {
+            'name': name,
+            'code': code,
+            'status': status,
+            'categoryId': categoryId,
+            'AuthorId': AuthorId,
+            'manufactuerId': manufactuerId,
+            'lowPrice': lowPrice,
+            'hightPrice': hightPrice,
+            'sortBy': sortBy,
+            'pageSize': selectedPerPage,
+            'pageIndex': page
+        }
+        let res = await getListProduct(params)
         if (res.status === true) {
+            setTotalPage(res.data.totalPage)
             setListProducts(res.data.products)
         }
         // console.log(page, per_page);

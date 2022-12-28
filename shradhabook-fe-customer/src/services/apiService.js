@@ -1,4 +1,5 @@
 import instance from "../ultis/axiosCustomize";
+
 const axiosRetry = require('axios-retry');
 const postCreateUser = (name, email, password, confirmPassword, userType) => {
     const data = {
@@ -18,19 +19,18 @@ const deleteLogout = (accessToken) => {
     // instance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
     return instance.post('Auth/logout')
 }
-const getListProduct = (pageIndex, pageSize) => {
-    // const paramName = 'name=' + name;
-    // const paramCode = 'code=' + code;
-    // const paramStatus = 'status=' + status;
-    // const paramCategoryId = 'categoryId=' + categoryId;
-    // const paramAuthorId = 'AuthorId=' + AuthorId;
-    // const paramManufactuerId = 'manufactuerId=' + manufactuerId;
-    // const paramLowPrice = 'lowPrice=' + lowPrice;
-    // const paramHightPrice = 'hightPrice=' + hightPrice;
-    // const paramSortBy = 'sortBy=' + sortBy;
-    const paramPageSize = 'pageSize=' + pageSize;
-    const paramPageIndex = 'pageIndex=' + pageIndex;
-    // return axios.get(`Products?${name?paramName:''}&${code?paramCode:''}&${status?paramStatus:''}&${categoryId?paramCategoryId:''}&${AuthorId?paramAuthorId:''}&${manufactuerId?paramManufactuerId:''}&${lowPrice?paramLowPrice:''}&${hightPrice?paramHightPrice:''}&${sortBy?paramSortBy:''}&${pageSize?paramPageSize:''}&${pageIndex?paramPageIndex:''}`)
-    return instance.get(`Products?${pageSize ? paramPageSize : ''}&${pageIndex ? paramPageIndex : ''}`)
+const getListProduct = (query) => {
+    return instance.get(`Products`, {
+            params: query
+        }
+    )
 }
-export {postCreateUser, postLogin, deleteLogout, getListProduct}
+
+const getMyInfo = (id) => {
+    return instance.get(`User/${id}`);
+}
+
+const getListCategory = () => {
+    return instance.get('Categories')
+}
+export {postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo}
