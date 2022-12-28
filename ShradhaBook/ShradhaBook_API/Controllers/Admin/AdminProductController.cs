@@ -32,22 +32,22 @@ namespace ShradhaBook_API.Controllers.Admin
 
         // GET: api/AdminProduct
         [HttpGet]
-        public async Task<ActionResult<Object>> GetAllProduc(string? name, string? code, string? status, int? categoryId, int? AuthorId, int? manufactuerId,
-            decimal? lowPrice, decimal? hightPrice, long? lowQuantity, long? hightQuantity, int? sortBy = 0, int pageSize = 20, int pageIndex = 1)
+        public async Task<ActionResult<Object>> GetAllProduc(string? name, string? code, string? status, string? categoryName, string? authorName, string? manufactuerName,
+            decimal? moreThanPrice, decimal? lessThanPrice, long? moreThanQuantity, long? lessThanQuantity, int? sortBy = 0, int pageSize = 20, int pageIndex = 1)
         {
-            try
+            //try
             {
-                var result = await _productService.GetAllProductAsync(name,code,status,categoryId,AuthorId,manufactuerId,
-           lowPrice,hightPrice,lowQuantity,hightQuantity,sortBy,pageSize,pageIndex);
+                var result = await _productService.GetAllProductAsync(name,code,status, categoryName, authorName, manufactuerName,
+           moreThanPrice, lessThanPrice, moreThanQuantity, lessThanQuantity, sortBy,pageSize,pageIndex);
 
                 return Ok(new MyServiceResponse<Object>(result,true,""));
 
             }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<List<Object>>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            //catch
+            //{
+            //    return StatusCode(500, new MyServiceResponse<List<Object>>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
 
-            }
+            //}
         }
 
         // GET: api/AdminProduct/5

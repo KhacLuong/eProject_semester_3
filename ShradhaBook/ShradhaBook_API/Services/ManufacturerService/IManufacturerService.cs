@@ -9,6 +9,8 @@ namespace ShradhaBook_API.Services.ManufacturerService
         Task<int> AddManufacturerAsync(ManufacturerModelPost model);
         Task DeleteManufacturerAsync(int id);
         Task<int> UpdateManufacturerAsync(int id, ManufacturerModelPost model);
+        Task<List<ManufacturerModelGet>> GetAllManufacturersAsync();
+
 
     }
 }

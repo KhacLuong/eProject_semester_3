@@ -14,11 +14,10 @@ namespace ShradhaBook_API.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
         public DbSet<Author> Authors { get; set; }
+	public DbSet<AuthorModelGet> AuthorModelGet { get; set; }
 
-        public DbSet<Combo> Combos { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<ComboProduct> ComboProducts { get; set; }
-        public DbSet<ComboTag> ComboTags { get; set; }
+
         public DbSet<ProductTag> ProductTags { get; set; }
         public DbSet<Author> authors { get; set; }
 
@@ -28,11 +27,12 @@ namespace ShradhaBook_API.Data
         static readonly Random _random = new Random();
         static readonly LipsumGenerator generator = new LipsumGenerator();
 		
-	      protected override void OnModelCreating(ModelBuilder modelBuilder)
+      	protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().Navigation(u => u.UserInfo).AutoInclude();
             modelBuilder.Entity<UserInfo>().Navigation(ui => ui.Addresses).AutoInclude();
-			      modelBuilder.Entity<Product>().Navigation(c => c.Manufacturer).AutoInclude();
+	    modelBuilder.Entity<Product>().Navigation(c => c.Manufacturer).AutoInclude();
+	    
 
             var hmac = new HMACSHA512();
             var passwordSalt = hmac.Key;
@@ -88,7 +88,7 @@ namespace ShradhaBook_API.Data
                 );
                 var address1 = generator.GenerateWords(6);
                 var address2 = generator.GenerateWords(6);
-		            modelBuilder.Entity<Address>().HasData(
+	    	modelBuilder.Entity<Address>().HasData(
                     new Address
                     {
                         Id = i * 2 - 1,
@@ -111,7 +111,7 @@ namespace ShradhaBook_API.Data
                         UserInfoId = i,
                         CreateAt = DateTime.Now
                     }
-		            );
+	    	);
             }
         }
     }

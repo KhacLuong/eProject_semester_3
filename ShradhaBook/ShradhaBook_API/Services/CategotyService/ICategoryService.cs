@@ -11,6 +11,6 @@ namespace ShradhaBook_API.Services.CategotyService
         Task<int> AddCategoryAsync(CategoryModelPost model);
         Task DeleteCategoryAsync(int id);
         Task<int> UpdateCategoryAsync(int id, CategoryModelPost model);
-        //Task<Object> GetListtStatusCategotry();
+        Task<List<CategoryModelGet>> GetAllCategoryAsync();
     }
 }
