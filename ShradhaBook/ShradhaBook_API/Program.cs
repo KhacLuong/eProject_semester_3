@@ -4,9 +4,6 @@ global using ShradhaBook_API.Services.AddressService;
 global using ShradhaBook_API.Services.AuthService;
 global using ShradhaBook_API.Services.EmailService;
 global using ShradhaBook_API.Services.CategotyService;
-global using ShradhaBook_API.Services.ComboProductService;
-global using ShradhaBook_API.Services.ComboService;
-global using ShradhaBook_API.Services.ComboTagService;
 global using ShradhaBook_API.Services.ManufacturerService;
 global using ShradhaBook_API.Services.ProductService;
 global using ShradhaBook_API.Services.ProductTagService;
@@ -46,10 +43,9 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IManufacturerService, ManufacturerService>();
-builder.Services.AddScoped<IComboService, ComboService>();
+
 builder.Services.AddScoped<ITagService, TagService>();
-builder.Services.AddScoped<IComboProductService, ComboProductService>();
-builder.Services.AddScoped<IComboTagService, ComboTagService>();
+
 builder.Services.AddScoped<IProductTagService, ProductTagService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 

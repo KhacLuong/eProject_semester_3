@@ -82,7 +82,15 @@ namespace ShradhaBook_API.Services.AuthorService
 
         }
 
-        public async Task<AuthorModelGet> GetAuthorAsync(int id)
+        public async Task<List<AuthorModelGet>> GetAllAuthorAsync()
+        {
+
+            var allModel = await _context.Authors.ToListAsync();
+
+            return _mapper.Map<List<AuthorModelGet>>(allModel);
+        }
+
+            public async Task<AuthorModelGet> GetAuthorAsync(int id)
         {
             var model = await _context.Authors!.FindAsync(id);
             return _mapper.Map<AuthorModelGet>(model);

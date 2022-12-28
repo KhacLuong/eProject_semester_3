@@ -133,5 +133,14 @@ namespace ShradhaBook_API.Services.ManufacturerService
             }
             return MyStatusCode.FAILURE;
         }
+
+        public async Task<List<ManufacturerModelGet>> GetAllManufacturersAsync()
+        {
+
+                var allModel = await _context.Manufacturers.ToListAsync();
+                return _mapper.Map<List<ManufacturerModelGet>>(allModel);
+
+ 
+        }
     }
 }

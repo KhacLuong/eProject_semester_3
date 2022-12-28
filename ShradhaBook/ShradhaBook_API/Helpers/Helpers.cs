@@ -11,17 +11,17 @@ namespace ShradhaBook_API.Helpers
         private readonly IMapper _mapper;
         public Helpers(DataContext context, IMapper mapper)
         {
-        
+
             this._mapper = mapper;
         }
 
         public static string convertToSlug(string str)
         {
             var slug = Encoding.ASCII.GetString(Encoding.GetEncoding("Cyrillic").GetBytes(str));
-           
+
             return slug;
         }
-        public static string RemoveAccents( string text)
+        public static string RemoveAccents(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
                 return text;
@@ -33,7 +33,7 @@ namespace ShradhaBook_API.Helpers
 
             return new string(chars).Normalize(NormalizationForm.FormC);
         }
-        public static string Slugify( string phrase)
+        public static string Slugify(string phrase)
         {
             // Remove all accents and make the string lower case.  
             string output = RemoveAccents(phrase).ToLower();
@@ -55,7 +55,7 @@ namespace ShradhaBook_API.Helpers
         {
             try
             {
-                
+
                 MailAddress m = new MailAddress(emailaddress);
 
                 return true;
@@ -79,3 +79,64 @@ namespace ShradhaBook_API.Helpers
 
     }
 }
+//    public class Recucive
+//    {
+//        public List<Category> result;
+//        public string text;
+//        public int index;
+
+//        public Recucive()
+//        {
+//            this.result = null;
+//            this.text = "";
+//            index=0;
+//        }
+
+//        public  List<Category> categoryRecusive(List<Category> categories, int? id = 0)
+//        {
+//            if (result == null || result.Count == 0)
+//            {
+//                for(int i = 0; i < categories.Count; i++)
+//                {
+//                    if (categories[i].Id == id)
+//                    {
+//                        result.Add(categories[i]);
+//                        break;
+//                    }
+//                }
+//                this.categoryRecusive(result);
+//            }
+//            else
+//            {
+              
+//                int i = index;
+//                for(i = 0; i < result.Count; i++)
+//                {
+//                   bool  flag = false;
+//                    for(int j = 0; j < categories.Count; j++)
+//                    {
+//                        if (categories[j].Id == result[i].Id)
+//                        {
+//                            result.Add(categories[i]);
+//                            categories.RemoveAt(i);
+//                            index++;
+//                            flag = true;
+//                            break;
+//                        }
+//                    }
+//                    if (flag)
+//                    {
+//                        index--;
+//                        break;
+//                    }
+
+//                }
+//                categoryRecusive(result);
+
+//            }
+
+//        }
+//    //}
+
+
+//}

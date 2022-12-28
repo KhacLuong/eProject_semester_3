@@ -4,12 +4,15 @@ import {toast} from "react-toastify";
 import {message} from "../../ultis/message";
 import {postLogin} from "../../services/apiService";
 import {doLogin} from "../../redux/action/userAction";
+import LoginImage from '../../assets/image/login.png';
+import Book_1 from "../../assets/image/books/book_1.png"
+import Book_2 from "../../assets/image/books/book2.png"
+import Book_3 from "../../assets/image/books/book3.png"
 
 const Login = (props) => {
     const {
         validateEmail,
         setIsLoadingData,
-        loginImage,
         animationWindow,
         isLoadingData,
         navigate,
@@ -20,8 +23,10 @@ const Login = (props) => {
         handleOnChangeEmail,
         handleOnChangePassword,
         isValidPassword,
-        isValidEmail
+        isValidEmail,
+        lottie
     } = props
+    // const [isRemember, setIsRemember] = useState(false);
 
     const checkValidateLogin = () => {
         const checkEmail = validateEmail(email)
@@ -39,20 +44,33 @@ const Login = (props) => {
         }
         return true;
     }
+
     const handleLogin = async (e) => {
         e.preventDefault();
-        // if (!login) {
-        //     return;
-        // }
+        // check validate
         if (!checkValidateLogin()) {
             return;
         }
+        setIsLoadingData(true);
         let data = await postLogin(email, password)
-        dispatch(doLogin(data))
+        if (data && data.status === true) {
+            dispatch(doLogin(data))
+            lottie.destroy()
+            setIsLoadingData(false);
+            toast.success(data.message);
+            navigate('/')
+        } else {
+            setIsLoadingData(false);
+            toast.error(data.message);
+        }
     }
     const handleForgotPassword = async (e) => {
         e.preventDefault();
     }
+
+    // const handleChecKedRemember = () => {
+    //     setIsRemember(!isRemember);
+    // }
 
     return (
         <div className={`user signinBx`}>
@@ -60,14 +78,14 @@ const Login = (props) => {
                  className={`z-20 absolute animationWindow ${isLoadingData ? 'block' : 'hidden'}`}></div>
             <div className={`close_signin`} onClick={() => navigate('/')}><RiCloseLine/></div>
             <div className={`imgBx`}>
-                <img src={loginImage} alt={`login_image`}/>
+                <img src={Book_3} alt={`login_image`}/>
             </div>
             <div className={`formBx`}>
                 <form>
                     <h2>Sign In</h2>
                     <input className={`${isValidEmail ? 'border-1 text-darkColor focus:border-darkColor' : 'border-1'
                         + ' border-dangerColor-default_2 text-dangerColor-default_2'
-                        + ' focus:border-dangerColor-default_2'}`}  type={`text`} placeholder={`Email`} value={email}
+                        + ' focus:border-dangerColor-default_2'}`} type={`text`} placeholder={`Email`} value={email}
                            onChange={(event) => handleOnChangeEmail(event)}/>
                     <input className={`${isValidPassword ? 'border-1 text-darkColor focus:border-darkColor' : 'border-1'
                         + ' border-dangerColor-default_2 text-dangerColor-default_2'
@@ -75,10 +93,10 @@ const Login = (props) => {
                            placeholder={`Password`} value={password}
                            onChange={(event) => handleOnChangePassword(event)}/>
                     <input type={`submit`} value={`Login`} onClick={(e) => handleLogin(e)}/>
-                    <div className={`remember_user`}>
-                        <input className={`checkbox`} type={`checkbox`}/>
-                        <p>Remember me</p>
-                    </div>
+                    {/*<div className={`remember_user`}>*/}
+                    {/*    <input value={isRemember} onChange={handleChecKedRemember} className={`checkbox`} type={`checkbox`}/>*/}
+                    {/*    <p>Remember me</p>*/}
+                    {/*</div>*/}
                     <div className={`forgot_password`}>
                         <p>
                             Forgot password? <a onClick={(e) => handleForgotPassword(e)}>Click here</a>

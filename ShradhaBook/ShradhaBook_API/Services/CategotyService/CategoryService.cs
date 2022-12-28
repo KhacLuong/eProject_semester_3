@@ -109,6 +109,12 @@ namespace ShradhaBook_API.Services.CategotyService
 
             return _mapper.Map<List<CategoryModelGet>>(result);
         }
+        public async Task<List<CategoryModelGet>> GetAllCategoryAsync()
+        {
+            var allModel = await _context.Categories.ToListAsync();
+
+            return _mapper.Map<List<CategoryModelGet>>(allModel);
+        }
 
         public async Task<CategoryModelGet> GetCategoryAsync(int id)
         {

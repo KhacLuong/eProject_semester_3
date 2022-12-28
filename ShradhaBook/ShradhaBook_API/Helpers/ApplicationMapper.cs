@@ -24,11 +24,10 @@ namespace ShradhaBook_API.Helpers
             CreateMap<ProductModelPost, Product>().ForMember(entity => entity.Status, otp => otp.MapFrom(item => item.Status.Trim().Equals(MyStatus.ACTIVE_RESULT) ? MyStatus.ACTIVE : MyStatus.INACTIVE))
                .ForMember(entity => entity.Code, otp => otp.MapFrom(item => item.Code.Trim().ToUpper()));
 
-            CreateMap<Combo, ComboModel>().ReverseMap();
             CreateMap<Tag, TagModel>().ReverseMap();
-            CreateMap<ComboTag, ComboTagModel>().ReverseMap();
+
             CreateMap<ProductTag, ProductTagModel>().ReverseMap();
-            CreateMap<ComboProduct, ComboProductModel>().ReverseMap();
+
 
         }
     }

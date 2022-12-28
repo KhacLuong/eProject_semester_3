@@ -32,11 +32,11 @@ namespace ShradhaBook_API.Models
         [Required]
         public string? Slug { get; set; }
         [Required]
+        public long? ViewCount { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         [Required]
         public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
-        public virtual ICollection<ProductThumbnail> ProductThumbnails { get; set; }
 
         public virtual Category Category { get; set; }
 

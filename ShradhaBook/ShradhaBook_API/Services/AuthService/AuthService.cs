@@ -33,8 +33,12 @@ namespace ShradhaBook_API.Services.AuthService
             string token = CreateToken(user);
             var refreshToken = GenerateRefreshToken();
             SetRefreshToken(refreshToken, user, response);
-            var userLoginResponse = new UserLoginResponse { Name = user.Name, Email = user.Email , AccessToken = token };
-
+            var userLoginResponse = new UserLoginResponse { 
+				Name = user.Name, 
+				Email = user.Email, 
+				AccessToken = token, 
+				RefreshToken = refreshToken.Token 
+			};
             return userLoginResponse;
         }
 
@@ -106,6 +110,7 @@ namespace ShradhaBook_API.Services.AuthService
             List<Claim> claims = new List<Claim>
             {
                 new Claim("Id", user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Name ?? ""),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.UserType)
             };

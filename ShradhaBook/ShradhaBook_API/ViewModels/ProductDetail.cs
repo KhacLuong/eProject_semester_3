@@ -18,10 +18,12 @@
         public string? ImageProductName { get; set; }
         public string? Status { get; set; }
         public string? Slug { get; set; }
+        public long? ViewCount { get; set; }
+
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        public ProductDetail(int id, string code, string name, CategoryModelGet category, decimal price, long quantity, ManufacturerModelGet manufacturer, AuthorModelGet author, string? description, string? intro, string? imageProductPath, string? imageProductName, string? status, string? slug, DateTime createdAt, DateTime? updatedAt)
+        public ProductDetail(int id, string code, string name, CategoryModelGet category, decimal price, long quantity, ManufacturerModelGet manufacturer, AuthorModelGet author, string? description, string? intro, string? imageProductPath, string? imageProductName, string? status, string? slug, long? viewCount, DateTime createdAt, DateTime? updatedAt)
         {
             Id = id;
             Code = code;
@@ -39,6 +41,7 @@
             Slug = slug;
             CreatedAt = createdAt;
             UpdatedAt = updatedAt;
+            ViewCount = viewCount;
         }
 
         public ProductDetail()

@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.ViewModels;
 using NLipsum.Core;
 using System.Security.Cryptography;
@@ -9,26 +9,24 @@ namespace ShradhaBook_API.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; } = null!;
-        public DbSet<UserInfo> UserInfo { get; set; } = null!;
-        public DbSet<Address> Addresses { get; set; } = null!;
-        public DbSet<Order> Orders { get; set; } = null!;
-        public DbSet<OrderItems> OrderItems { get; set; } = null!;
-
-        public DbSet<Category> Categories { get; set; } = null!;
-        public DbSet<Product> Products { get; set; } = null!;
-        public DbSet<Manufacturer> Manufacturers { get; set; } = null!;
-        public DbSet<Combo> Combos { get; set; } = null!;
-        public DbSet<Tag> Tags { get; set; } = null!;
-        public DbSet<ComboProduct> ComboProducts { get; set; } = null!;
-        public DbSet<ComboTag> ComboTags { get; set; } = null!;
-        public DbSet<ProductTag> ProductTags { get; set; } = null!;
-		public DbSet<Author> Authors { get; set; } = null!;
+        public DbSet<User>? Users { get; set; }
+        public DbSet<UserInfo>? UserInfo { get; set; }
+        public DbSet<Address>? Addresses { get; set; }
+        public DbSet<Order>? Orders { get; set; }
+        public DbSet<OrderItems>? OrderItems { get; set; }
+       
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Manufacturer> Manufacturers { get; set; }
+		public DbSet<AuthorModelGet> AuthorModelGet { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<ProductTag> ProductTags { get; set; }
+        public DbSet<Author> authors { get; set; }
 
         // Seeding Data
         static readonly Random _random = new Random();
         static readonly LipsumGenerator generator = new LipsumGenerator();
-		
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().Navigation(u => u.UserInfo).AutoInclude();
@@ -82,7 +80,7 @@ namespace ShradhaBook_API.Data
                                 + _random.Next(0, 9).ToString() + _random.Next(0, 9).ToString() + _random.Next(0, 9).ToString()
                                 + _random.Next(0, 9).ToString() + _random.Next(0, 9).ToString() + _random.Next(0, 9).ToString(),
                         Gender = gender[_random.Next(1, 100) < 50 ? 0 : 1],
-                        DateofBirth = Convert.ToDateTime(month.ToString() + "/" + day.ToString() + "/" + year.ToString()),
+                        DateofBirth = Convert.ToDateTime(year.ToString() + "/" + month.ToString() + "/" + day.ToString()),
                         UserId = i,
                         CreateAt = DateTime.Now
                     }

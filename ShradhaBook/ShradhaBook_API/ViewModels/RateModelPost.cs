@@ -2,15 +2,14 @@
 
 namespace ShradhaBook_API.ViewModels
 {
-    public class ComboProductModel
+    public class RateModelPost
     {
         public int Id { get; set; }
-        [Required]
-        public int ComboId { get; set; }
-
-        [Required]
+        public int UserId { get; set; }
         public int ProductId { get; set; }
-
+        public int? CommentId { get; set; }
+        [Range(1, 5)]
+        public int Star { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }
