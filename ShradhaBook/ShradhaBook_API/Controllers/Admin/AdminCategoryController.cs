@@ -104,7 +104,7 @@ namespace ShradhaBook_API.Controllers.Admin
         [HttpPost]
         public async Task<ActionResult> AddCategory(CategoryModelPost model)
         {
-            try
+            //try
             {
                 var status = await _categoryService.AddCategoryAsync(model);
                 if (status == MyStatusCode.DUPLICATE_CODE)
@@ -127,12 +127,12 @@ namespace ShradhaBook_API.Controllers.Admin
                 return BadRequest(new MyServiceResponse<CategoryModelGet>(false, MyStatusCode.ADD_FAILURE_RESULT));
 
             }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<CategoryModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            //catch
+            //{
+            //    return StatusCode(500, new MyServiceResponse<CategoryModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
 
 
-            }
+            //}
 
         }
         // DELETE: api/AdminCategory/5

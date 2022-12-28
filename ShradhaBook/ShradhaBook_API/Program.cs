@@ -49,6 +49,7 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IProductTagService, ProductTagService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 
+
 builder.Services.AddHttpContextAccessor();
 
 // Add button for adding token (login)

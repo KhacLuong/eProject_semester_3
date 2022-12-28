@@ -12,20 +12,20 @@ namespace ShradhaBook_API.ViewModels
 
         [Required]
         public string Name { get; set; }
-        [Required]
+
         public int ParentId { get; set; }
 
-        [Required]
-        public string Status { get; set; }
 
-        [Required]
+        public string? Status { get; set; }
+
+
         public string? Slug { get; set; }
 
-        [Required]
+ 
         public string? Description { get; set; }
 
-        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        //public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
-        public DateTime? UpdatedAt { get; set; } = DateTime.Now;
+        //public DateTime? UpdatedAt { get; set; } = DateTime.Now;
     }
 }
