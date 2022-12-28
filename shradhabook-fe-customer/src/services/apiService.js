@@ -33,4 +33,8 @@ const getMyInfo = (id) => {
 const getListCategory = () => {
     return instance.get('Categories')
 }
-export {postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo}
+
+const fetProductById = (id) => {
+    return instance.get(`Products/Detail${id}`);
+}
+export {postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo, fetProductById}

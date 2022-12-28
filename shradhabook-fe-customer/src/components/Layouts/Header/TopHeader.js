@@ -22,7 +22,6 @@ const TopHeader = () => {
     if (account.accessToken) {
         decoded = jwt_decode(account.accessToken);
     }
-
     const handleClickUser = () => {
         setShowNavUser(!showNavUser)
     }
