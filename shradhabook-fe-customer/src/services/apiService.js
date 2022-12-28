@@ -1,4 +1,6 @@
-import axios from "../ultis/axiosCustomize";
+import instance from "../ultis/axiosCustomize";
+
+const axiosRetry = require('axios-retry');
 const postCreateUser = (name, email, password, confirmPassword, userType) => {
     const data = {
         "name": name,
@@ -7,22 +9,28 @@ const postCreateUser = (name, email, password, confirmPassword, userType) => {
         "confirmPassword": confirmPassword,
         "userType": userType
     }
-    return axios.post('User/register', data)
+    return instance.post('User/register', data)
 }
+
 const postLogin = (email, password) => {
-    const data = {
-        "email": email,
-        "password": password,
-    }
-    return axios.post('User/login', data)
+    return instance.post('Auth/login', {email, password})
 }
-const getListProduct = (page, limit, price, sortBy) => {
-    // const data = {
-    //     "page": page ?? null,
-    //     "limit": limit ?? null,
-    //     "price": price ?? null,
-    //     "sortBy": sortBy
-    // }
-    // return axios.get('Products', data)
+const deleteLogout = (accessToken) => {
+    // instance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+    return instance.post('Auth/logout')
 }
-export {postCreateUser, postLogin, getListProduct}
+const getListProduct = (query) => {
+    return instance.get(`Products`, {
+            params: query
+        }
+    )
+}
+
+const getMyInfo = (id) => {
+    return instance.get(`User/${id}`);
+}
+
+const getListCategory = () => {
+    return instance.get('Categories')
+}
+export {postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo}
