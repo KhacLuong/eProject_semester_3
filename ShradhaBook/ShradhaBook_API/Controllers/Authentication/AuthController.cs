@@ -33,21 +33,21 @@ namespace ShradhaBook_API.Controllers.Authentication
         {
             var request = Request;
             var response = Response;
-            var token = await _authService.RefreshToken(id, request, response);
-            if (token == null)
+            RefreshTokenResponse refreshTokenResponse = await _authService.RefreshToken(id, request, response);
+            if (refreshTokenResponse == null)
             {
                 return NotFound(new ServiceResponse<string> { Status = false, Message = "User not found." });
             }
-            if (token == "1")
+            if (refreshTokenResponse.RefreshToken == "1")
             {
                 return BadRequest(new ServiceResponse<string> { Status = false, Message = "Invalid token." });
             }
-            if (token == "2")
+            if (refreshTokenResponse.RefreshToken == "2")
             {
                 return BadRequest(new ServiceResponse<string> { Status = false, Message = "Token expired" });
             }
 
-            return Ok(new ServiceResponse<string> { Data = token, Message = "Refresh token has been re-created." });
+            return Ok(new ServiceResponse<RefreshTokenResponse> { Data = refreshTokenResponse, Message = "Refresh token has been re-created." });
         }
 
         [Authorize]

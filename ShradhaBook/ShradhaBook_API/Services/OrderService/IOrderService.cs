@@ -2,6 +2,6 @@
 {
     public interface IOrderService
     {
-        public Task CreateOrder();
+        public Task<Order?> CreateOrder(CreateOrderRequest request);
     }
 }

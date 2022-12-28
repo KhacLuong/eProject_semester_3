@@ -33,12 +33,12 @@ namespace ShradhaBook_API.Services.AuthService
             string token = CreateToken(user);
             var refreshToken = GenerateRefreshToken();
             SetRefreshToken(refreshToken, user, response);
-            var userLoginResponse = new UserLoginResponse { Name = user.Name, Email = user.Email , Token = token };
+            var userLoginResponse = new UserLoginResponse { Name = user.Name, Email = user.Email , AccessToken = token };
 
             return userLoginResponse;
         }
 
-        public async Task<string?> RefreshToken(int id, HttpRequest request, HttpResponse response)
+        public async Task<RefreshTokenResponse?> RefreshToken(int id, HttpRequest request, HttpResponse response)
         {
             var user = await _context.Users.FindAsync(id);
             if (user is null)
@@ -48,11 +48,11 @@ namespace ShradhaBook_API.Services.AuthService
 
             if (!user.RefreshToken.Equals(refreshToken))
             {
-                return "1";
+                return new RefreshTokenResponse { AccessToken = "", RefreshToken = "1" };
             }
             else if (user.TokenExpires < DateTime.Now)
             {
-                return "2";
+                return new RefreshTokenResponse { AccessToken = "", RefreshToken = "2" };
             }
 
             string token = CreateToken(user);
@@ -60,7 +60,7 @@ namespace ShradhaBook_API.Services.AuthService
             SetRefreshToken(newRefreshToken, user, response);
 
             await _context.SaveChangesAsync();
-            return token;
+            return new RefreshTokenResponse { AccessToken = token, RefreshToken = newRefreshToken.Token };
         }
 
         public async Task<string?> Logout(int id)
@@ -73,7 +73,6 @@ namespace ShradhaBook_API.Services.AuthService
             await _context.SaveChangesAsync();
             return "Ok";
         }
-
 
         private RefreshToken GenerateRefreshToken()
         {
@@ -108,7 +107,7 @@ namespace ShradhaBook_API.Services.AuthService
             {
                 new Claim("Id", user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.UserType.ToString())
+                new Claim(ClaimTypes.Role, user.UserType)
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(

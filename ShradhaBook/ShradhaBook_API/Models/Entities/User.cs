@@ -2,12 +2,7 @@
 {
     public class User
     {
-        public enum Role
-        {
-            Admin,
-            Customer
-        }
-		public int Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; } = new byte[32];
@@ -19,10 +14,9 @@
         public string? PasswordResetToken { get; set; }
         public DateTime? ResetTokenExpires { get; set; }
         public string RefreshToken { get; set; } = string.Empty;
-        public Role UserType { get; set; } = Role.Customer;
+        public string UserType { get; set; } = string.Empty;
         public UserInfo? UserInfo { get; set; }
         public List<Order>? Orders { get; set; }
-        public List<Transaction>? Transactions { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public DateTime? UpdateAt { get; set; }
     }
