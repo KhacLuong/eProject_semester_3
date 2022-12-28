@@ -13,6 +13,10 @@ import Wishlist from "./components/Shopping/Wishlist";
 import Cart from "./components/Shopping/Cart";
 import BlogPage from "./components/Blog/BlogPage";
 import BlogDetail from "./components/Blog/BlogDetail";
+import NotFound from "./components/Product/NotFound";
+import PrivateRoute from "./routes/PrivateRoute";
+import Me from "./components/Auth/Me";
+import MyHistory from "./components/Auth/MyHistory";
 
 const App = () => {
     return (
@@ -26,9 +30,20 @@ const App = () => {
                     <Route path={'/blogs'} element={<BlogPage/>}/>
                     <Route path={'/blogs/blog-detail/:id/:slug'} element={<BlogDetail/>}/>
                     <Route path={'/contact'} element={<ContactPage/>}/>
-                    <Route path={'/wishlist/:id'} element={<Wishlist/>}/>
-                    <Route path={'/shopping-cart/:id'} element={<Cart/>}/>
+                    <Route path={'/user/wishlist/:id'} element={<PrivateRoute>
+                        <Wishlist/>
+                    </PrivateRoute>}/>
+                    <Route path={'/user/shopping-cart/:id'} element={<PrivateRoute>
+                        <Cart/>
+                    </PrivateRoute>}/>
+                    <Route path={'/user/my-profile/:id'} element={<PrivateRoute>
+                        <Me/>
+                    </PrivateRoute>}/>
+                    <Route path={'/user/my-history/:id'} element={<PrivateRoute>
+                        <MyHistory/>
+                    </PrivateRoute>}/>
                 </Route>
+                <Route path={'*'} element={<NotFound/>}/>
                 <Route path={'/login'} element={<Auth/>}/>
             </Routes>
             <ToastContainer

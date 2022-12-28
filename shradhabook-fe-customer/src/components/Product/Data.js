@@ -9,15 +9,16 @@ export const Data = {
         "products":[
             {
                 id: 1,
-                imgURL: book1,
+                imageProductName: book1,
                 name: 'Blood on the Snow',
                 author: 'Rex Rios',
                 price: '216.99',
-                slug: 'blood-on-the-snow'
+                slug: 'blood-on-the-snow',
+                quantity: 40,
             },
             {
                 id: 2,
-                imgURL: book2,
+                imageProductName: book2,
                 name: 'Blood on the Snow',
                 author: 'Rex Rios',
                 price: '116.99',
@@ -25,7 +26,7 @@ export const Data = {
             },
             {
                 id: 3,
-                imgURL: book3,
+                imageProductName: book3,
                 name: 'Blood on the Snow',
                 author: 'Rex Rios',
                 price: '116.99',
@@ -33,7 +34,7 @@ export const Data = {
             },
             {
                 id: 4,
-                imgURL: book1,
+                imageProductName: book1,
                 name: 'Blood on the Snow',
                 author: 'Rex Rios',
                 price: '216.99',
@@ -41,7 +42,7 @@ export const Data = {
             },
             {
                 id: 5,
-                imgURL: book2,
+                imageProductName: book2,
                 name: 'Blood on the Snow',
                 author: 'Rex Rios',
                 price: '116.99',
@@ -49,7 +50,7 @@ export const Data = {
             },
             {
                 id: 6,
-                imgURL: book3,
+                imageProductName: book3,
                 name: 'Blood on the Snow',
                 author: 'Rex Rios',
                 price: '116.99',
@@ -57,7 +58,7 @@ export const Data = {
             },
             {
                 id: 7,
-                imgURL: book1,
+                imageProductName: book1,
                 name: 'Blood on the Snow',
                 author: 'Rex Rios',
                 price: '216.99',
@@ -65,7 +66,7 @@ export const Data = {
             },
             {
                 id: 8,
-                imgURL: book2,
+                imageProductName: book2,
                 name: 'Blood on the Snow',
                 author: 'Rex Rios',
                 price: '116.99',
@@ -73,7 +74,7 @@ export const Data = {
             },
             {
                 id: 9,
-                imgURL: book3,
+                imageProductName: book3,
                 name: 'Blood on the Snow',
                 author: 'Rex Rios',
                 price: '116.99',
@@ -81,7 +82,7 @@ export const Data = {
             },
             {
                 id: 10,
-                imgURL: book1,
+                imageProductName: book1,
                 name: 'Blood on the Snow',
                 author: 'Rex Rios',
                 price: '216.99',
@@ -89,7 +90,7 @@ export const Data = {
             },
             {
                 id: 11,
-                imgURL: book2,
+                imageProductName: book2,
                 name: 'Blood on the Snow',
                 author: 'Rex Rios',
                 price: '116.99',
@@ -97,7 +98,7 @@ export const Data = {
             },
             {
                 id: 12,
-                imgURL: book3,
+                imageProductName: book3,
                 name: 'Blood on the Snow',
                 author: 'Rex Rios',
                 price: '116.99',
@@ -105,7 +106,7 @@ export const Data = {
             },
             {
                 id: 13,
-                imgURL: book1,
+                imageProductName: book1,
                 name: 'Blood on the Snow',
                 author: 'Rex Rios',
                 price: '116.99',

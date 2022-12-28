@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.ViewModels;
 using NLipsum.Core;
 using System.Security.Cryptography;
@@ -81,7 +81,7 @@ namespace ShradhaBook_API.Data
                                 + _random.Next(0, 9).ToString() + _random.Next(0, 9).ToString() + _random.Next(0, 9).ToString()
                                 + _random.Next(0, 9).ToString() + _random.Next(0, 9).ToString() + _random.Next(0, 9).ToString(),
                         Gender = gender[_random.Next(1, 100) < 50 ? 0 : 1],
-                        DateofBirth = Convert.ToDateTime(month.ToString() + "/" + day.ToString() + "/" + year.ToString()),
+                        DateofBirth = Convert.ToDateTime(year.ToString() + "/" + month.ToString() + "/" + day.ToString()),
                         UserId = i,
                         CreateAt = DateTime.Now
                     }
