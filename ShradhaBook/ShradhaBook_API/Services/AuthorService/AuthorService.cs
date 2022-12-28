@@ -46,7 +46,7 @@ namespace ShradhaBook_API.Services.AuthorService
             //model.Slug = Helpers.Helpers.Slugify(model.Name);
             Author newModel = _mapper.Map<Author>(model);
             newModel.CreatedAt = DateTime.Now;
-            newModel.UpdatedAt = DateTime.Now;
+            newModel.UpdatedAt = null;
             _context.Authors!.Add(newModel);
             await _context.SaveChangesAsync();
             return newModel.Id;
@@ -122,9 +122,13 @@ namespace ShradhaBook_API.Services.AuthorService
                     return MyStatusCode.DUPLICATE_PHONE;
                 }
 
-                var updateModel = _mapper.Map<Author>(model);
-                updateModel.UpdatedAt = DateTime.Now;
-                _context.Authors.Update(updateModel);
+                var modelOld = await  _context.Authors.FindAsync(id);
+                modelOld.Name = model.Name;
+                modelOld.Phone = model.Phone;
+                modelOld.Email = model.Email;
+                modelOld.UpdatedAt = DateTime.Now;
+
+                _context.Authors.Update(modelOld);
                 await _context.SaveChangesAsync();
                 return MyStatusCode.SUCCESS;
             }

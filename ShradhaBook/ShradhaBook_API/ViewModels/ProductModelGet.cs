@@ -16,14 +16,14 @@
         public string? Intro { get; set; }
         public string? ImageProductPath { get; set; }
         public string? ImageProductName { get; set; }
-        public string Status { get; set; }
+        public string? Status { get; set; }
         public string? Slug { get; set; }
         public long? ViewCount { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
         public ProductModelGet(int id, string code, string name, string category, decimal price, long quantity, string manufacturer, string author, string? description, 
-            string? intro, string? imageProductPath, string? imageProductName, string? status, string? slug,long? viewCount, DateTime createdAt, DateTime? updatedAt)
+            string? intro, string? imageProductPath, string? imageProductName, string? status, string? slug,long? viewCount, DateTime? createdAt, DateTime? updatedAt)
         {
             Id = id;
             Code = code;

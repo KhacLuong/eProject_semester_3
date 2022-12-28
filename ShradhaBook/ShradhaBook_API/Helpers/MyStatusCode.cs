@@ -6,6 +6,7 @@
         public readonly static int DUPLICATE_NAME = -2;
         public readonly static int DUPLICATE_PHONE = -3;
         public readonly static int DUPLICATE_EMAIL = -4;
+        public readonly static int DUPLICATE=-5;
 
         public readonly static int FAILURE = 0;
         public readonly static int SUCCESS = 1;

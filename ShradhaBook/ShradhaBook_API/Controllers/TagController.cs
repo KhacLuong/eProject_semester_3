@@ -26,7 +26,7 @@ namespace ShradhaBook_API.Controllers
 
         // GET: api/TagModels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TagModel>>> GetAllTag(string? name, int sortBy = 0)
+        public async Task<ActionResult<IEnumerable<TagModelPost>>> GetAllTag(string? name, int sortBy = 0)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace ShradhaBook_API.Controllers
 
         // GET: api/TagModels/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TagModel>> GetTag(int id)
+        public async Task<ActionResult<TagModelPost>> GetTag(int id)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace ShradhaBook_API.Controllers
         // PUT: api/TagModels/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTag(int id, TagModel model)
+        public async Task<IActionResult> UpdateTag(int id, TagModelPost model)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace ShradhaBook_API.Controllers
         // POST: api/TagModels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TagModel>> AddTag(TagModel model)
+        public async Task<ActionResult<TagModelPost>> AddTag(TagModelPost model)
         {
             try
             {

@@ -114,6 +114,7 @@ namespace ShradhaBook_API.Data
             }
         }
 		
-	      public DbSet<ShradhaBook_API.ViewModels.AuthorModelGet> AuthorModelGet { get; set; }
+	      public DbSet<ShradhaBook_API.ViewModels.ProductTagPost> ProductTagPost { get; set; }
+		
     }
 }

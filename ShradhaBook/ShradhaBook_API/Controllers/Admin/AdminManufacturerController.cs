@@ -35,18 +35,18 @@ namespace ShradhaBook_API.Controllers.Admin
         [HttpGet]
         public async Task<ActionResult<Object>> GetAllManufacturer(string? name, string? code, int pageSize = 20, int pageindex = 1)
         {
-            //try
+            try
             {
                 var result = await _manufacturerService.GetAllManufacturersAsync(name, code, pageSize, pageindex);
 
                 return Ok(new MyServiceResponse<Object>(result));
 
             }
-            //catch
-            //{
-            //    return StatusCode(500, new MyServiceResponse<List<Object>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            catch
+            {
+                return StatusCode(500, new MyServiceResponse<List<Object>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
 
-            //}
+            }
         }
 
         // GET: api/ManufacturerModels/5
@@ -114,7 +114,7 @@ namespace ShradhaBook_API.Controllers.Admin
         [HttpPost]
         public async Task<ActionResult<ManufacturerModelPost>> AddManufacturer(ManufacturerModelPost model)
         {
-            //try
+            try
             {
                 var status = await _manufacturerService.AddManufacturerAsync(model);
                 if (status == MyStatusCode.DUPLICATE_CODE)
@@ -147,11 +147,11 @@ namespace ShradhaBook_API.Controllers.Admin
 
 
             }
-            //catch
-            //{
-            //    return StatusCode(500, new MyServiceResponse<ManufacturerModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            catch
+            {
+                return StatusCode(500, new MyServiceResponse<ManufacturerModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
 
-            //}
+            }
         }
 
         // DELETE: api/ManufacturerModels/5

@@ -12,8 +12,7 @@ namespace ShradhaBook_API.Models
         [Required]
         public int TagId { get; set; }
 
-        [Required]
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
         public virtual Product Product { get; set; }
