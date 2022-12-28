@@ -17,7 +17,12 @@ const TopHeader = () => {
     const navigate = useNavigate();
     const [showNavUser, setShowNavUser] = useState(false);
     const dispatch = useDispatch();
-    const decoded = jwt_decode(account.accessToken);
+
+    let decoded = ''
+    if (account.accessToken) {
+        decoded = jwt_decode(account.accessToken);
+    }
+
     const handleClickUser = () => {
         setShowNavUser(!showNavUser)
     }
@@ -45,34 +50,44 @@ const TopHeader = () => {
                     {isAuthenticated === false
                         ?
                         <>
-                            <button className="text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-sm px-4 py-2.5 text-center inline-flex items-center" type="button"  onClick={() => navigate('login')} >Login
+                            <button
+                                className="text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-sm px-4 py-2.5 text-center inline-flex items-center"
+                                type="button" onClick={() => navigate('login')}>Login
                             </button>
                         </>
                         :
                         <>
-                            <div className="relative cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-sm px-4 py-2.5 text-center inline-flex items-center mr-1" onClick={() => handleClickUser()}>
-                                {account.username}
-                                <div className={`${showNavUser?'block':'hidden'} rounded-md absolute z-14 left-0 top-11 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}>
-                                <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
-                                    <div onClick={()=> navigate(`/user/my-profile/${decoded.Id}`)} className="font-medium truncate">{account.email}</div>
-                                </div>
-                                <ul className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                    aria-labelledby="dropdownInformationButton">
-                                    <li>
-                                        <div onClick={()=> navigate(`/user/my-profile/${decoded.Id}`)} className="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                            Profile
+                            <div
+                                className="relative cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-sm px-4 py-2.5 text-center inline-flex items-center mr-1"
+                                onClick={() => handleClickUser()}>
+                                {decoded.username}
+                                <div
+                                    className={`${showNavUser ? 'block' : 'hidden'} rounded-md absolute z-14 left-0 top-11 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}>
+                                    <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
+                                        <div onClick={() => navigate(`/user/my-profile/${decoded.Id}`)}
+                                             className="font-medium truncate">{decoded.email}</div>
+                                    </div>
+                                    <ul className="py-1 text-sm text-gray-700 dark:text-gray-200"
+                                        aria-labelledby="dropdownInformationButton">
+                                        <li>
+                                            <div onClick={() => navigate(`/user/my-profile/${decoded.Id}`)}
+                                                 className="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                Profile
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div onClick={() => navigate(`user/my-history/${decoded.Id}`)}
+                                                 className="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                History
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div className="py-1">
+                                        <div onClick={handLogout}
+                                             className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Logout
                                         </div>
-                                    </li>
-                                    <li>
-                                        <div onClick={()=> navigate(`user/my-history/${decoded.Id}`)} className="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                           History
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div className="py-1">
-                                    <div onClick={handLogout} className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Logout</div>
+                                    </div>
                                 </div>
-                            </div>
                             </div>
                             <div onClick={() => navigate(`user/wishlist/${decoded.Id}`)}
                                  className={`cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-lg px-4 py-2.5 text-center inline-flex items-center mr-1`}>
