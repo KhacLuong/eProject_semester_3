@@ -3,6 +3,7 @@ import {NavLink} from "react-router-dom";
 import MenuItem, {menuItems} from "./MenuItem";
 import {getListCategory} from "../../../services/apiService";
 import './nav.scss'
+
 const MenuNavigation = () => {
     const defaultClass = `block py-2 pl-3 pr-4 text-blackColor rounded hover:text-dangerColor-default_2 md:p-0 ease-in duration-100 text-base font-medium`
     const [listCategory, setListCategory] = useState([]);
@@ -13,7 +14,8 @@ const MenuNavigation = () => {
 
     const fetchListCategories = async () => {
         let res = await getListCategory();
-        res = convertArrayToRecursive(res)
+        res = convertArrayToRecursive(res.data)
+
         let menuCategories = [{
             name: "Categories",
             children: []
@@ -22,11 +24,14 @@ const MenuNavigation = () => {
         setListCategory(menuCategories)
     }
     const convertArrayToRecursive = (arr, parentId = 0) => {
-        return arr.filter((item) => {
-            return item.parentId === parentId;
-        }).map((child) => {
-            return {...child, children: convertArrayToRecursive(arr, child.id)};
-        });
+        if (arr.length !== 0) {
+            return arr.filter((item) => {
+                return item.parentId === parentId;
+            }).map((child) => {
+                return {...child, children: convertArrayToRecursive(arr, child.id)};
+            });
+        }
+        return [];
     };
 
     const renderMenuItem = () => {
@@ -39,7 +44,7 @@ const MenuNavigation = () => {
                          className={({isActive}) => isActive ? 'active' : defaultClass}>
                     Home
                 </NavLink>
-                <nav>
+                <NavLink to={'/categories'}>
                     <ul className="menus"> {
                         listCategory.map((menu, index) => {
                             const depthLevel = 0;
@@ -48,7 +53,7 @@ const MenuNavigation = () => {
                                              depthLevel={depthLevel}/>;
                         })
                     } </ul>
-                </nav>
+                </NavLink>
 
                 <NavLink to={'/products'}
                          className={({isActive}) => isActive ? 'active' : defaultClass}>
