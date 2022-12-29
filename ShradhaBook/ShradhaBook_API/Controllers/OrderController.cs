@@ -48,10 +48,14 @@ namespace ShradhaBook_API.Controllers
                 tableBody += $@"
                     <tr>
                     <td> {count:D2} </td>
+                    <td></td>
                     <td> {orderItems.Product.Name} </td>
-                    <td> {orderItems.Quantity} </td>
-                    <td> {orderItems.UnitPrice} </td>
-                    <td> {orderItems.Subtotal} </td>
+                    <td></td>
+                    <td> {orderItems.Quantity:N} </td>
+                    <td></td>
+                    <td> {orderItems.UnitPrice:N} </td>
+                    <td></td>
+                    <td> {orderItems.Subtotal:N} </td>
                     </tr>
                     ";
                 count += 1;
@@ -67,16 +71,24 @@ namespace ShradhaBook_API.Controllers
                     <thead>
                         <tr>
                             <th>No.</th>
+                            <th></th>
                             <th>Item Name</th>
+                            <th></th>
                             <th>Quantity</th>
+                            <th></th>
                             <th>Unit Price</th>
+                            <th></th>
                             <th>Sub Total</th>
                         </tr>
                     </thead>
                     <tbody>
                         " +
                             tableBody +
-                    @"</tbody>
+                    @"<tr>
+                        <td colspan=""7"" style=""text-align: center""><b>Total</b></td>
+                        <td>" + order.Total.ToString("N") +@"</td>
+                    </tr>
+                    </tbody>
                 </table>"
             };
             _emailService.SendEmail(emailDto);

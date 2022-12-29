@@ -5,6 +5,7 @@ global using ShradhaBook_API.Services.AuthService;
 global using ShradhaBook_API.Services.EmailService;
 global using ShradhaBook_API.Services.OrderService;
 global using ShradhaBook_API.Services.OrderItemsService;
+global using ShradhaBook_API.Services.StorageService;
 global using ShradhaBook_API.Services.CategotyService;
 global using ShradhaBook_API.Services.ManufacturerService;
 global using ShradhaBook_API.Services.ProductService;
@@ -23,7 +24,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Azure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderItemsService, OrderItemsService>();
+builder.Services.AddScoped<IStorageService, StorageService>();
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -54,6 +56,9 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IProductTagService, ProductTagService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 
+builder.Services.AddAzureClients(options => {
+    options.AddBlobServiceClient(builder.Configuration.GetSection("Storage:ConnectionString").Value);
+});
 
 builder.Services.AddHttpContextAccessor();
 
