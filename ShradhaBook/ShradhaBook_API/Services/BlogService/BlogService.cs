@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.Helpers;
 using ShradhaBook_API.ViewModels;
@@ -123,10 +123,8 @@ public class BlogService : IBlogService
         {
             var checkExistsAuthor = _context.Authors.Any(a => a.Id == model.AuthorId);
 
-
             if (model.Title.Trim().Length == 0) return MyStatusCode.FAILURE;
             if (!checkExistsAuthor) return MyStatusCode.FAILURE;
-
 
             model.Slug = Helpers.Helpers.Slugify(model.Title);
 
