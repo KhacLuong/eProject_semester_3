@@ -1,9 +1,7 @@
 ﻿namespace ShradhaBook_API.ViewModels
 {
-    public class BlogModelGet
+    public class BlogModelDetail
     {
-        
-        
         public int Id { get; set; }
 
         public string? Title { get; set; }
@@ -14,7 +12,7 @@
 
         public string? avatar { get; set; }
 
-        public string? AuthorName { get; set; }
+        public Author? Author { get; set; }
 
         public string? Status { get; set; }
 
@@ -24,15 +22,15 @@
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        public BlogModelGet(int id, string? title, string? description, string? content, string? avatar,
-            string? authorName, string? status, string? slug, long? viewCount, DateTime? createdAt, DateTime? updatedAt)
+        public BlogModelDetail(int id, string? title, string? description, string? content, string? avatar,
+            Author? author, string? status, string? slug, long? viewCount, DateTime? createdAt, DateTime? updatedAt)
         {
             Id = id;
             Title = title;
             Description = description;
             Content = content;
             this.avatar = avatar;
-            AuthorName = authorName;
+            Author = author;
             Status = status;
             Slug = slug;
             ViewCount = viewCount;
@@ -40,9 +38,8 @@
             UpdatedAt = updatedAt;
         }
 
-        public BlogModelGet()
+        public BlogModelDetail()
         {
         }
     }
 }
-    

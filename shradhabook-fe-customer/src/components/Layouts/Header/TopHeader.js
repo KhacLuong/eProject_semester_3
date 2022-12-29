@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {GiBookAura} from "react-icons/gi"
 import {FiHeart} from "react-icons/fi"
@@ -6,7 +6,7 @@ import {TbShoppingCart} from "react-icons/tb"
 import {RiUserLine} from "react-icons/ri"
 import Search from "./Search";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteLogout} from "../../../services/apiService";
+import {deleteLogout, postRefreshToken} from "../../../services/apiService";
 import {toast} from "react-toastify";
 import {doLogout} from "../../../redux/action/userAction";
 import jwt_decode from "jwt-decode";
@@ -18,10 +18,20 @@ const TopHeader = () => {
     const [showNavUser, setShowNavUser] = useState(false);
     const dispatch = useDispatch();
 
+
     let decoded = ''
     if (account.accessToken) {
         decoded = jwt_decode(account.accessToken);
     }
+    // useEffect(() => {
+    //     refreshToken()
+    // }, [])
+    //
+    // const refreshToken = async () => {
+    //     let id = decoded.Id
+    //     let res = await postRefreshToken(id);
+    //     console.log(res)
+    // }
     const handleClickUser = () => {
         setShowNavUser(!showNavUser)
     }
@@ -59,12 +69,12 @@ const TopHeader = () => {
                             <div
                                 className="relative cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-sm px-4 py-2.5 text-center inline-flex items-center mr-1"
                                 onClick={() => handleClickUser()}>
-                                {decoded.username}
+                                {account.name}
                                 <div
                                     className={`${showNavUser ? 'block' : 'hidden'} rounded-md absolute z-14 left-0 top-11 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}>
                                     <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
                                         <div onClick={() => navigate(`/user/my-profile/${decoded.Id}`)}
-                                             className="font-medium truncate">{decoded.email}</div>
+                                             className="font-medium truncate">{account.email}</div>
                                     </div>
                                     <ul className="py-1 text-sm text-gray-700 dark:text-gray-200"
                                         aria-labelledby="dropdownInformationButton">
