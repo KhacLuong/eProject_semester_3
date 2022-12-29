@@ -50,21 +50,21 @@ namespace ShradhaBook_API.Controllers.Admin
 
         [HttpGet]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetAllUsers(string? query, int page)
+        public async Task<IActionResult> GetAllUsers(string? query, int page = 1, int itemPerPage = 5)
         {
             var users = await _userService.GetAllUsers(query);
 
             // Pagination
-            var pageResult = 5f;
-            var pageCount = Math.Ceiling(users.Count() / pageResult);
-            users = users.Skip((page - 1) * (int)pageResult).Take((int)pageResult).ToList();
-            var response = new UserResponse
+            var pageCount = Math.Ceiling(users.Count() / (float)itemPerPage);
+            users = users.Skip((page - 1) * itemPerPage).Take(itemPerPage).ToList();
+            var response = new PaginationResponse<User>
             {
-                Users = users,
+                Data = users,
+                ItemPerPage = itemPerPage,
                 CurrentPage = page,
-                Pages = (int)pageCount
+                PageSize = (int)pageCount
             };
-            return Ok(new ServiceResponse<UserResponse> { Data = response });
+            return Ok(new ServiceResponse<PaginationResponse<User>> { Data = response });
         }
 
         [HttpGet("{id}")]

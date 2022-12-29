@@ -9,6 +9,8 @@ namespace ShradhaBook_API.Models
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<UserInfo, UserInfoDto>().ReverseMap();
             CreateMap<Address, AddressDto>().ReverseMap();
+            CreateMap<Order, OrderDto>().ReverseMap();
+            CreateMap<OrderItems, OrderItemsDto>().ReverseMap();
         }
     }
 }

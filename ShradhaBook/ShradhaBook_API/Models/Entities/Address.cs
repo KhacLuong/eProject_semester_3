@@ -13,7 +13,7 @@ namespace ShradhaBook_API.Models.Entities
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public DateTime? UpdateAt { get; set; }
         [JsonIgnore]
-        public UserInfo? UserInfo { get; set; }
+        public UserInfo UserInfo { get; set; } = null!;
         public int UserInfoId { get; set; }
 
     }

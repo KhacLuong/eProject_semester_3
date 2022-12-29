@@ -30,7 +30,5 @@ namespace ShradhaBook_API.Models
      
         public DateTime? UpdatedAt { get; set; } = DateTime.Now;
         public virtual ICollection<Product> Products { get; set; }
-
-
     }
 }

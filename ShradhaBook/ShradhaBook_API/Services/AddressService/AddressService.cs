@@ -20,7 +20,7 @@ namespace ShradhaBook_API.Services.AddressService
                 AddressLine2 = request.AddressLine2,
                 District = request.District,
                 City = request.City,
-                UserInfo = userInfo
+                UserInfoId = userInfo.Id
             };
 
             _context.Add(address);
