@@ -25,7 +25,6 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 		<PackageReference Include="NLipsum" Version="1.1.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.6" />
-		<PackageReference Include="Z.EntityFramework.Extensions" Version="6.16.1" />
 		<PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="6.18.1" />
 	</ItemGroup>
 
@@ -33,6 +32,7 @@
 		<Folder Include="Migrations\" />
 		<Folder Include="Controllers\Customer\" />
 		<Folder Include="Data\" />
+		<Folder Include="wwwroot\Uploads\Avatar\" />
 	</ItemGroup>
 
 </Project>
