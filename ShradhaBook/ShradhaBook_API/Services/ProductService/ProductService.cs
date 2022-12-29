@@ -203,13 +203,7 @@ namespace ShradhaBook_API.Services.ProductService
                         on P.CategoryId equals C.Id
                         select new ProductDetail (P.Id,P.Code,P.Name, _mapper.Map<CategoryModelGet>(C), P.Price,P.Quantity, _mapper.Map<ManufacturerModelGet>(M), _mapper.Map<AuthorModelGet>(A), P.Description,
                         P.Intro,P.ImageProductPath,P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.ViewCount,P.CreatedAt,P.UpdatedAt)).ToListAsync();
-            var updateModel = await _context.Products.FindAsync(id);
-            if (updateModel != null)
-            {
-                updateModel.ViewCount++;
-                _context.Products.Update(updateModel);
-                await _context.SaveChangesAsync();
-            }
+            
             if (model == null || model.Count == 0)
             {
                 return null;
@@ -380,7 +374,7 @@ namespace ShradhaBook_API.Services.ProductService
             };
         }
 
-        public  async Task<bool> checkExistProductByIdCategoryAsync(int categoryId)
+        public  async Task<bool> CheckExistProductByIdCategoryAsync(int categoryId)
         {
             var allModel =  await  _context.Products.Where(p => p.Id == categoryId).ToListAsync();
             if (allModel != null && allModel.Count!=0 )
@@ -392,7 +386,7 @@ namespace ShradhaBook_API.Services.ProductService
 
 
 
-        public async  Task<bool> checkExistProductByIdAuthorAsync(int authorId)
+        public async  Task<bool> CheckExistProductByIdAuthorAsync(int authorId)
         {
             var allModel = await _context.Products.Where(p => p.Id == authorId).ToListAsync();
             if (allModel != null && allModel.Count != 0)
@@ -403,11 +397,24 @@ namespace ShradhaBook_API.Services.ProductService
         }
 
 
-        public async Task<bool> checkExistProductByIdManufactuerAsync(int manufacturerId)
+        public async Task<bool> CheckExistProductByIdManufactuerAsync(int manufacturerId)
         {
             var allModel = await _context.Products.Where(p => p.Id == manufacturerId).ToListAsync();
             if (allModel != null && allModel.Count != 0)
             {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> IncreaseViewCountProduct(int id)
+        {
+            var categoty = await _context.Products.FindAsync(id);
+            if (categoty != null)
+            {
+                categoty.ViewCount++;
+                _context.Products.Update(categoty);
+                await _context.SaveChangesAsync();
                 return true;
             }
             return false;

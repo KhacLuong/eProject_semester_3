@@ -21,6 +21,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using ShradhaBook_API.Services.BlogService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +49,7 @@ builder.Services.AddScoped<ITagService, TagService>();
 
 builder.Services.AddScoped<IProductTagService, ProductTagService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddScoped<IBlogService, BlogService>();
 
 
 builder.Services.AddHttpContextAccessor();
