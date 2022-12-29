@@ -1,6 +1,5 @@
-﻿namespace ShradhaBook_API.Services.Rate
+﻿namespace ShradhaBook_API.Services.Rate;
+
+public class Rate
 {
-    public class Rate
-    {
-    }
 }

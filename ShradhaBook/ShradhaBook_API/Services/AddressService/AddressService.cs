@@ -1,65 +1,68 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace ShradhaBook_API.Services.AddressService
+namespace ShradhaBook_API.Services.AddressService;
+
+public class AddressService : IAddressService
 {
-    public class AddressService : IAddressService
+    private readonly DataContext _context;
+
+    public AddressService(DataContext context)
     {
-        private readonly DataContext _context;
-        public AddressService(DataContext context)
+        _context = context;
+    }
+
+    public async Task<UserInfo?> CreateAddress(AddAddressRequest request)
+    {
+        var userInfo = await _context.UserInfo.FindAsync(request.UserInfoId);
+        if (userInfo == null) return null;
+
+        var address = new Address
         {
-            _context = context;
-        }
-        public async Task<UserInfo?> CreateAddress(AddAddressRequest request)
-        {
-            var userInfo = await _context.UserInfo.FindAsync(request.UserInfoId);
-            if (userInfo == null) { return null; }
+            AddressLine1 = request.AddressLine1,
+            AddressLine2 = request.AddressLine2,
+            District = request.District,
+            City = request.City,
+            UserInfoId = userInfo.Id
+        };
 
-            var address = new Address
-            {
-                AddressLine1 = request.AddressLine1,
-                AddressLine2 = request.AddressLine2,
-                District = request.District,
-                City = request.City,
-                UserInfoId = userInfo.Id
-            };
+        _context.Add(address);
+        await _context.SaveChangesAsync();
+        return userInfo;
+    }
 
-            _context.Add(address);
-            await _context.SaveChangesAsync();
-            return userInfo;
-        }
-        public async Task<List<Address>> GetAllAddresses(int userInfoId)
-        {
-            var addresses = await _context.Addresses.Where(addresses => addresses.UserInfoId == userInfoId).ToListAsync();
-            return addresses;
-        }
+    public async Task<List<Address>> GetAllAddresses(int userInfoId)
+    {
+        var addresses = await _context.Addresses.Where(addresses => addresses.UserInfoId == userInfoId).ToListAsync();
+        return addresses;
+    }
 
-        public async Task<Address?> UpdateAddress(int id, Address request)
-        {
-            var address = await _context.Addresses.FindAsync(id);
-            if (address is null)
-                return null;
+    public async Task<Address?> UpdateAddress(int id, Address request)
+    {
+        var address = await _context.Addresses.FindAsync(id);
+        if (address is null)
+            return null;
 
-            address.AddressLine1 = request.AddressLine1;
-            address.AddressLine2 = request.AddressLine2;
-            address.District = request.District;
-            address.City = request.City;
-            address.UpdateAt = DateTime.Now;
+        address.AddressLine1 = request.AddressLine1;
+        address.AddressLine2 = request.AddressLine2;
+        address.District = request.District;
+        address.City = request.City;
+        address.UpdateAt = DateTime.Now;
 
-            await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
-            return address;
-        }
-        public async Task<Address?> DeleteAddress(int id)
-        {
-            var address = await _context.Addresses.FindAsync(id);
+        return address;
+    }
 
-            if (address is null)
-                return null;
+    public async Task<Address?> DeleteAddress(int id)
+    {
+        var address = await _context.Addresses.FindAsync(id);
 
-            _context.Addresses.Remove(address);
-            await _context.SaveChangesAsync();
+        if (address is null)
+            return null;
 
-            return address;
-        }
+        _context.Addresses.Remove(address);
+        await _context.SaveChangesAsync();
+
+        return address;
     }
 }
