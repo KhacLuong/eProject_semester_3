@@ -12,5 +12,6 @@ namespace ShradhaBook_API.Services.BlogService
         Task DeleteBlogAsync(int id);
         Task<int> UpdateBlogAsync(int id, BlogModelPost model);
         Task<bool> IncreseCountViewBlogAsync(int id);
+        Task<Object> GetBlogByAuthordIdAsync(int authorId, int pageSize = 20, int pageIndex = 1);
     }
 }
