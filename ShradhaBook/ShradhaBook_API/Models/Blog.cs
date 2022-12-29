@@ -21,13 +21,14 @@ namespace ShradhaBook_API.Models
         [Required]
         public string Slug { get; set; }
         [Required]
-        public long viewCount { get; set; }
+        public long ViewCount { get; set; }
         [Required]
 
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
         public virtual ICollection<BlogTag> BlogTags { get; set; }
+        public virtual Author Author { get; set; }
 
 
     }

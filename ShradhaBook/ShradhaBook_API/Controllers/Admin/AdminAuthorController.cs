@@ -140,7 +140,7 @@ namespace ShradhaBook_API.Controllers.Admin
 
             try
             {
-                var result = await _productService.checkExistProductByIdAuthorAsync(id);
+                var result = await _productService.CheckExistProductByIdAuthorAsync(id);
                 if (result == false)
                 {
                     await _authorService.DeleteAuthorAsync(id);

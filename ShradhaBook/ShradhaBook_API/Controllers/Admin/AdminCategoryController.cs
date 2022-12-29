@@ -141,7 +141,7 @@ namespace ShradhaBook_API.Controllers.Admin
         {
             try
             {
-                var result = await _productService.checkExistProductByIdCategoryAsync(id);
+                var result = await _productService.CheckExistProductByIdCategoryAsync(id);
                 if(result==false)
                 {
                     await _categoryService.DeleteCategoryAsync(id);

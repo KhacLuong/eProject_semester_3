@@ -122,6 +122,23 @@ namespace ShradhaBook_API.Controllers
             }
         }
 
+        [HttpPost("IncreaseViewCountProduct{id}")]
+        public async Task<ActionResult> IncreaseViewCountProduct(int id)
+        {
+            try
+            {
+                var result = await _productService.IncreaseViewCountProduct(id);
+
+                return result == true ? Ok(MyStatusCode.SUCCESS_RESULT) : BadRequest(MyStatusCode.FAILURE_RESULT);
+
+            }
+            catch
+            {
+                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
+            }
+        }
+
+
 
 
 
