@@ -12,6 +12,7 @@ module.exports = {
             colors: {
                 transparent: 'transparent',
                 primaryColor: '#3f87f5',
+                primaryColor_hover: '#2274f5',
                 successColor: '#00c9a7',
                 violetColor: '#886cff',
                 dangerColor: {
@@ -96,7 +97,10 @@ module.exports = {
                 extraBold: 800,
                 'extra-bold': 800,
                 black: 900,
-            }
+            },
+            aspectRatio: {
+                '600/840': 'auto 600 / 840',
+            },
         },
     },
     plugins: [

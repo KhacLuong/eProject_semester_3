@@ -1,6 +1,5 @@
 import {useNavigate} from 'react-router-dom';
 import {BsFillGridFill} from 'react-icons/bs'
-import {FaThList} from 'react-icons/fa'
 import './Product.scss'
 import ReactPaginate from 'react-paginate';
 import parse from "html-react-parser";
@@ -8,7 +7,7 @@ import {FiHeart, FiEye, FiPackage} from "react-icons/fi";
 import {TbShoppingCart} from "react-icons/tb"
 import {useState} from "react";
 import book3 from "../../assets/image/books/book3.png"
-import {fetProductById} from "../../services/apiService";
+import {updateViewCountProductById} from "../../services/apiService";
 
 const ProductList = (props) => {
     const navigate = useNavigate();
@@ -27,6 +26,7 @@ const ProductList = (props) => {
     const [hover, setHover] = useState(false);
     const [idProduct, setIdProduct] = useState(0);
     const [turnOffPrevNextBtn, setTurnOffPrevNextBtn] = useState(true)
+    const [imageProduct, setImageProduct] = useState(book3);
 
     const handlePageClick = (event) => {
         fetchListProducts(+event.selected + 1, selectedPerPage)
@@ -43,7 +43,7 @@ const ProductList = (props) => {
         setIdProduct(index + 1);
     }
     const handleClickGoProductDetail = async (id, slug) => {
-        let res = await fetProductById(id)
+        let res = await updateViewCountProductById(id)
         if (res.status === true) {
             navigate(`product-detail/${id}/${slug}`)
         }
@@ -91,7 +91,7 @@ const ProductList = (props) => {
                                      onMouseOver={(e) => handleOnMouseOver(e, index)} state={item}
                                      className={`overflow-hidden rounded-2xl cursor-pointer`}>
                                     <img className={`w-full rounded-2xl block my-0 mx-auto`}
-                                         src={book3}/>
+                                         src={imageProduct}/>
                                 </div>
                                 <div className={`group_action absolute right-[10px] bottom-[10px] z-10`}>
                                     <div className={`shop_action flex flex-col items-start relative`}>
@@ -136,19 +136,20 @@ const ProductList = (props) => {
                                 </div>
                                 <div
                                     className={`detail_product_price flex items-center justify-between text-center  leading-normal mt-2`}>
-                                    <div className={`text-2xl font-bold text-successColor`}>
+                                    <div className={`text-2xl font-bold text-dangerColor-default_2`}>
                                         ${item.price}
                                     </div>
                                     <div className={`flex items-center`}>
-                                        <div className={` flex items-center mr-3 justify-center text-blue-600 text-center`}>
+                                        <div
+                                            className={` flex items-center mr-3 justify-center text-blue-600 text-center`}>
                                             <FiEye className={`mr-1 text-sm`}/>
                                             <div className={`font-medium`}>{item.viewCount}</div>
                                         </div>
-                                        <div className={`flex items-center justify-center text-center  text-yellow-600`}>
+                                        <div
+                                            className={`flex items-center justify-center text-center  text-yellow-600`}>
                                             <FiPackage className={`mr-1 text-sm`}/>
                                             <div className={`font-medium`}>{item.quantity}</div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>

@@ -14,7 +14,11 @@ const MenuNavigation = () => {
 
     const fetchListCategories = async () => {
         let res = await getListCategory();
-        res = convertArrayToRecursive(res.data)
+        if(res.status === true) {
+            res = convertArrayToRecursive(res.data)
+        } else {
+            res = []
+        }
 
         let menuCategories = [{
             name: "Categories",
