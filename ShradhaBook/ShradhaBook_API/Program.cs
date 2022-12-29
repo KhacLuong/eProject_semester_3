@@ -3,6 +3,8 @@ global using ShradhaBook_API.Services.UserInfoService;
 global using ShradhaBook_API.Services.AddressService;
 global using ShradhaBook_API.Services.AuthService;
 global using ShradhaBook_API.Services.EmailService;
+global using ShradhaBook_API.Services.OrderService;
+global using ShradhaBook_API.Services.OrderItemsService;
 global using ShradhaBook_API.Services.CategotyService;
 global using ShradhaBook_API.Services.ManufacturerService;
 global using ShradhaBook_API.Services.ProductService;
@@ -21,7 +23,11 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+
 using ShradhaBook_API.Services.BlogService;
+
+using Microsoft.EntityFrameworkCore.Diagnostics;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +46,8 @@ builder.Services.AddScoped<IUserInfoService, UserInfoService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderItemsService, OrderItemsService>();
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();

@@ -98,7 +98,7 @@ namespace ShradhaBook_API.Services.UserService
             if (user is null)
                 return null;
 
-            user = request;
+            user.Name = request.Name;
             user.UpdateAt = DateTime.Now;
 
             await _context.SaveChangesAsync();
