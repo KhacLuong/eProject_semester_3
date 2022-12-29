@@ -78,7 +78,7 @@ namespace ShradhaBook_API.Controllers.Customer
 
             return Ok(new ServiceResponse<UserDto> { 
                 Data = _mapper.Map<UserDto>(user), 
-                Message = "Name and/or Email has been updated successfully."
+                Message = "Name has been updated successfully."
             });
         }
 

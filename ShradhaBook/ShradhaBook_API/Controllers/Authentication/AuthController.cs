@@ -33,7 +33,7 @@ namespace ShradhaBook_API.Controllers.Authentication
         {
             var request = Request;
             var response = Response;
-            RefreshTokenResponse refreshTokenResponse = await _authService.RefreshToken(id, request, response);
+            var refreshTokenResponse = await _authService.RefreshToken(id, request, response);
             if (refreshTokenResponse == null)
             {
                 return NotFound(new ServiceResponse<string> { Status = false, Message = "User not found." });
