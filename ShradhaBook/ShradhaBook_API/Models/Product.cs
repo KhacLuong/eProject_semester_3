@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShradhaBook_API.Models
 {
@@ -17,6 +19,7 @@ namespace ShradhaBook_API.Models
         public int CategoryId { get; set; }
         public int AuthorId { get; set; }
         [Required]
+        [Column(TypeName = "decimal(16,4)")]
         public decimal Price { get; set; }
         [Required]
         public long Quantity { get; set; }
@@ -43,6 +46,9 @@ namespace ShradhaBook_API.Models
         public virtual Manufacturer Manufacturer { get; set; }
         public virtual ICollection<ProductTag> ProductTags { get; set; }
         public virtual Author Author { get; set; }
+
+
+        public List<OrderItems>? OrderItems { get; set; }
 
     }
 

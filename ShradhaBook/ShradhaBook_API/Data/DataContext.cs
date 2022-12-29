@@ -8,33 +8,32 @@ namespace ShradhaBook_API.Data
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<UserInfo> UserInfo { get; set; } = null!;
+        public DbSet<Address> Addresses { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<OrderItems> OrderItems { get; set; } = null!;
        
-        public DbSet<User> Users { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Manufacturer> Manufacturers { get; set; }
-        public DbSet<Author> Authors { get; set; }
-
-
-        public DbSet<Tag> Tags { get; set; }
-
-        public DbSet<ProductTag> ProductTags { get; set; }
+        public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<Manufacturer> Manufacturers { get; set; } = null!;
+        public DbSet<Tag> Tags { get; set; } = null!;
+        public DbSet<ProductTag> ProductTags { get; set; } = null!;
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogTag>   BlogTags { get; set; }
-        //public DbSet<Author> authors { get; set; }
+        public DbSet<Author> Authors { get; set; } = null!;
 
-        public DbSet<UserInfo> UserInfo { get; set; }
-        public DbSet<Address> Addresses { get; set; }
-        
+        // Seeding Data
         static readonly Random _random = new Random();
         static readonly LipsumGenerator generator = new LipsumGenerator();
-		
-      	protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().Navigation(u => u.UserInfo).AutoInclude();
             modelBuilder.Entity<UserInfo>().Navigation(ui => ui.Addresses).AutoInclude();
-	    modelBuilder.Entity<Product>().Navigation(c => c.Manufacturer).AutoInclude();
-	    
+			modelBuilder.Entity<Product>().Navigation(c => c.Manufacturer).AutoInclude();
+            modelBuilder.Entity<Order>().Navigation(o => o.OrderItems).AutoInclude();
 
             var hmac = new HMACSHA512();
             var passwordSalt = hmac.Key;
@@ -73,7 +72,7 @@ namespace ShradhaBook_API.Data
                         UserType = "user",
                         CreateAt = DateTime.Now
                     }
-				        );
+                        );
                 modelBuilder.Entity<UserInfo>().HasData(
                     new UserInfo
                     {
@@ -90,7 +89,7 @@ namespace ShradhaBook_API.Data
                 );
                 var address1 = generator.GenerateWords(6);
                 var address2 = generator.GenerateWords(6);
-	    	modelBuilder.Entity<Address>().HasData(
+                modelBuilder.Entity<Address>().HasData(
                     new Address
                     {
                         Id = i * 2 - 1,
@@ -113,7 +112,54 @@ namespace ShradhaBook_API.Data
                         UserInfoId = i,
                         CreateAt = DateTime.Now
                     }
-	    	);
+                );
+                modelBuilder.Entity<Product>().HasData(
+                    new Product
+                    {
+                        Id = i,
+                        Code = "PR",
+                        Name = generator.GenerateWords(1)[0],
+                        CategoryId = _random.Next(1, 7),
+                        AuthorId = _random.Next(1, 20),
+                        Price = _random.Next(100, 10000),
+                        Quantity = _random.Next(10, 1000),
+                        ManufacturerId = _random.Next(1, 20),
+                        Status = 1,
+                        ImageProductPath = generator.GenerateWords(1)[0],
+                        Slug = generator.GenerateWords(1)[0],
+                        ViewCount = _random.Next(0, 100)
+                    }
+                );
+                modelBuilder.Entity<Author>().HasData(
+                    new Author
+                    {
+                        Id = i,
+                        Name = generator.GenerateWords(1)[0]
+                    }
+                );
+                modelBuilder.Entity<Manufacturer>().HasData(
+                    new Manufacturer
+                    {
+                        Id = i,
+                        Code = "MA",
+                        Name = generator.GenerateWords(1)[0],
+                    }
+                );
+            }
+            for (int i = 1; i <= 7; i++)
+            {
+                modelBuilder.Entity<Category>().HasData(
+                    new Category
+                    {
+                        Id = i,
+                        Code = cat[i-1][..2],
+                        Name = cat[i-1],
+                        Description = generator.GenerateParagraphs(1)[0],
+                        Slug = cat[i-1].ToLower(),
+                        ParentId = 0,
+                        Status = 1,
+                    }
+                );
             }
         }
 		
