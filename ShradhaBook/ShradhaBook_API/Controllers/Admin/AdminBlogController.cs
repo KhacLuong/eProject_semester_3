@@ -88,10 +88,19 @@ namespace ShradhaBook_API.Controllers.Admin
             {
 
                 int status = await _blogService.UpdateBlogAsync(id, model);
-            
-               
 
-               if (status == MyStatusCode.SUCCESS)
+                if (status == MyStatusCode.DUPLICATE)
+                {
+                    return BadRequest(new MyServiceResponse<ProductTagGet>(false, Helpers.MyStatusCode.UPDATE_FAILURE_RESULT + ", There is already a Blog of this AuthorId "));
+                }
+                else if (status == MyStatusCode.NOTFOUND)
+                {
+                    return BadRequest(new MyServiceResponse<ProductTagGet>(false, MyStatusCode.UPDATE_FAILURE_RESULT + ",  Not found  Author"));
+
+                }
+
+
+                if (status == MyStatusCode.SUCCESS)
                 {
                     var entity = await _blogService.GetBlogAsync(id);
                     return Ok(new MyServiceResponse<BlogModelGet>(entity, true, MyStatusCode.UPDATE_SUCCESS_RESULT));
@@ -114,7 +123,16 @@ namespace ShradhaBook_API.Controllers.Admin
             try
             {
                 var status = await _blogService.AddBlogAsync(model);
-              
+                if (status == MyStatusCode.DUPLICATE)
+                {
+                    return BadRequest(new MyServiceResponse<ProductTagGet>(false, Helpers.MyStatusCode.ADD_FAILURE_RESULT + ", There is already a Blog of this AuthorId "));
+                }
+                else if (status == MyStatusCode.NOTFOUND)
+                {
+                    return BadRequest(new MyServiceResponse<ProductTagGet>(false, MyStatusCode.ADD_FAILURE_RESULT + ",  Not found  Author"));
+
+                }
+
 
                 if (status > 0)
                 {
@@ -152,7 +170,6 @@ namespace ShradhaBook_API.Controllers.Admin
 
             }
         }
-
         //private bool BlogModelPostExists(int id)
         //{
         //    return _context.BlogModelPost.Any(e => e.Id == id);

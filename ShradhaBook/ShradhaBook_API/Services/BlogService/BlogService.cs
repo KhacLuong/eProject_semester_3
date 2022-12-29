@@ -21,15 +21,19 @@ namespace ShradhaBook_API.Services.BlogService
         }
         public async Task<int> AddBlogAsync(BlogModelPost model)
         {
-            var checkExistAuthor =  _context.Categories.Any(a=>a.Id ==model.AuthorId);
-
+            var checkExistAuthor =  _context.Authors.Any(a=>a.Id ==model.AuthorId);
+            var checkExistsBlog = _context.Blogs.Any(b => b.AuthorId == model.AuthorId);
             if (model.Title.Trim().Length == 0)
             {
                 return MyStatusCode.FAILURE;
             }
             if (!checkExistAuthor)
             {
-                return MyStatusCode.FAILURE;
+                return MyStatusCode.NOTFOUND;
+            }
+            if (checkExistsBlog)
+            {
+                return MyStatusCode.DUPLICATE;
             }
             model.ViewCount = 0;
             model.Slug = Helpers.Helpers.Slugify(model.Title);
@@ -38,7 +42,7 @@ namespace ShradhaBook_API.Services.BlogService
             newModel.UpdatedAt = null;
             _context.Blogs!.Add(newModel);
             await _context.SaveChangesAsync();
-            if (await _context.Products!.FindAsync(newModel.Id) == null)
+            if (await _context.Blogs!.FindAsync(newModel.Id) == null)
             {
                 return MyStatusCode.FAILURE;
             }
@@ -107,6 +111,23 @@ namespace ShradhaBook_API.Services.BlogService
             return model[0];
         }
 
+        public async Task<object> GetBlogByAuthordIdAsync(int authorId, int pageSize = 20, int pageIndex = 1)
+        {
+            var model = await (from B in _context.Blogs.Where(b=>b.AuthorId == authorId)
+                              join A in _context.Authors
+                              on B.AuthorId equals A.Id
+                              select new BlogModelGet(B.Id, B.Title, B.Description, B.Content, B.avatar, A.Name,
+                              MyStatus.changeStatusCat(B.Status), B.Slug, B.ViewCount,
+                              B.CreatedAt, B.UpdatedAt)).ToListAsync();
+
+            if (model == null || model.Count == 0)
+            {
+                return null;
+            }
+            var result = model[0];
+            return model[0];
+        }
+
         public async Task<BlogModelDetail> GetBlogDetailAsync(int id)
         {
             var model = await (from B in _context.Blogs.Where(B=>B.Id==id)
@@ -143,7 +164,7 @@ namespace ShradhaBook_API.Services.BlogService
             if (id == model.Id)
             {
                 var checkExistsAuthor = _context.Authors.Any(a=>a.Id == model.AuthorId);
-
+                var checkExistsBlog = _context.Blogs.Any(b => b.AuthorId == model.AuthorId && b.Id!=model.Id);
 
 
                 if (model.Title.Trim().Length == 0)
@@ -152,9 +173,12 @@ namespace ShradhaBook_API.Services.BlogService
                 }
                 if (!checkExistsAuthor)
                 {
-                    return MyStatusCode.FAILURE;
+                    return MyStatusCode.NOTFOUND;
                 }
-
+                if (checkExistsBlog)
+                {
+                    return MyStatusCode.DUPLICATE;
+                }
 
                 model.Slug = Helpers.Helpers.Slugify(model.Title);
 
