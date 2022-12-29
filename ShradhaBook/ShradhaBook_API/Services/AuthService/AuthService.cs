@@ -42,13 +42,13 @@ namespace ShradhaBook_API.Services.AuthService
             return userLoginResponse;
         }
 
-        public async Task<RefreshTokenResponse?> RefreshToken(int id, HttpRequest request, HttpResponse response)
+        public async Task<RefreshTokenResponse?> RefreshToken(string refreshToken, HttpRequest request, HttpResponse response)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
             if (user is null)
                 return null;
 
-            var refreshToken = request.Cookies["refreshToken"];
+            //var newRefreshToken = request.Cookies["refreshToken"];
 
             if (!user.RefreshToken.Equals(refreshToken))
             {
