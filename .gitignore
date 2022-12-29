@@ -399,5 +399,5 @@ FodyWeavers.xsd
 
 # Migrations files
 ShradhaBook/ShradhaBook_API/Migrations/*
-
+ShradhaBook/.idea/*
 .env

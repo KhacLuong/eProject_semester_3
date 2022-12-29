@@ -1,8 +1,7 @@
-﻿namespace ShradhaBook_API.Services.StorageService
+﻿namespace ShradhaBook_API.Services.StorageService;
+
+public interface IStorageService
 {
-    public interface IStorageService
-    {
-        void UploadAvatar(IFormFile formFile, string email);
-        void UploadProductImage(IFormFile formFile, string productSlug);
-    }
+    void UploadAvatar(IFormFile formFile, string email);
+    void UploadProductImage(IFormFile formFile, string productSlug);
 }

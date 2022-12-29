@@ -1,7 +1,5 @@
-﻿namespace ShradhaBook_API.Services.BlogTagService
-{
-    public interface IBlogTagService
-    {
+﻿namespace ShradhaBook_API.Services.BlogTagService;
 
-    }
+public interface IBlogTagService
+{
 }
