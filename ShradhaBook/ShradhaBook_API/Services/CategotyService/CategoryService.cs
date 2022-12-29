@@ -58,7 +58,7 @@ namespace ShradhaBook_API.Services.CategotyService
 
             Category newModel = _mapper.Map<Category>(model);
             newModel.CreatedAt = DateTime.Now;
-            newModel.UpdatedAt = DateTime.Now;
+            newModel.UpdatedAt = null;
             _context.Categories!.Add(newModel);
             await _context.SaveChangesAsync();
             return newModel.Id;
@@ -159,10 +159,20 @@ namespace ShradhaBook_API.Services.CategotyService
                 {
                     model.Status = MyStatus.INACTIVE_RESULT;
                 }
-                
-                var updateModel = _mapper.Map<Category>(model);
-                updateModel.UpdatedAt = DateTime.Now;
-                _context.Categories.Update(updateModel);
+
+                var modelOld = await _context.Categories.FindAsync(id);
+                modelOld.Name = model.Name;
+                modelOld.Code = model.Code;
+                modelOld.Slug = model.Slug;
+                modelOld.ParentId = model.ParentId;
+                modelOld.Description = model.Description;
+
+                modelOld.Status = MyStatus.changeStatusCat(model.Status);
+                modelOld.UpdatedAt = DateTime.Now;
+
+    
+               
+                _context.Categories.Update(modelOld);
                 await _context.SaveChangesAsync();
                 return MyStatusCode.SUCCESS;
             }

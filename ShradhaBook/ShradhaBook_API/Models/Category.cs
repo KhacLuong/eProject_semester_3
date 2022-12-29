@@ -24,10 +24,10 @@ namespace ShradhaBook_API.Models
         [Required]
         public string? Description { get; set; }
 
-        [Required]        
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+     
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
-        [Required]        
+     
         public DateTime? UpdatedAt { get; set; } = DateTime.Now;
         public virtual ICollection<Product> Products { get; set; }
     }

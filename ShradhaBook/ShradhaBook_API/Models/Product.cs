@@ -36,8 +36,8 @@ namespace ShradhaBook_API.Models
         public string? Slug { get; set; }
         [Required]
         public long? ViewCount { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        [Required]
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+   
         public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
 

@@ -94,21 +94,21 @@ namespace ShradhaBook_API.Services.ProductService
             decimal? moreThanPrice, decimal? lessThanPrice, long? moreThanQuantity, long? lessThanQuantity, int? sortBy = 0, int pageSize = 20, int pageIndex = 1)
         {
 
-            IQueryable<ProductModelGet>? query;
+            IEnumerable<ProductModelGet>? query = null;
 
-        # region Fillter
+            #region Fillter
 
-            query =   (from P in  _context.Products.AsQueryable()
-                            .Where(m => m.Name.ToLower().Contains(string.IsNullOrEmpty(name) ? "" : name.ToLower().Trim())
-                            && m.Code.ToLower().Contains(string.IsNullOrEmpty(code) ? "" : code.ToLower().Trim()))
-                            join M in _context.Manufacturers
-                            on P.ManufacturerId equals M.Id
-                            join A in _context.Authors
-                            on P.AuthorId equals A.Id
-                            join C in _context.Categories
-                            on P.CategoryId equals C.Id
-                            select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
-                        P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.ViewCount, P.CreatedAt, P.UpdatedAt));
+            query = await  (from P in   _context.Products
+                            .Where(m => m.Code.ToLower().Contains(string.IsNullOrEmpty(code) ? "" : code.ToLower().Trim()))
+                            .Where(m => m.Name.ToLower().Contains(string.IsNullOrEmpty(name) ? "" : name.ToLower().Trim()))
+            join M in _context.Manufacturers
+                     on P.ManufacturerId equals M.Id
+                     join A in _context.Authors
+                     on P.AuthorId equals A.Id
+                     join C in _context.Categories
+                     on P.CategoryId equals C.Id
+                     select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
+                 P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
 
             if ((status!=null&&status.Trim().Length !=0)  && (status.ToLower().Equals(MyStatus.ACTIVE_RESULT.ToLower()) || status.ToLower().Equals(MyStatus.INACTIVE_RESULT.ToLower())))
             {
@@ -116,7 +116,7 @@ namespace ShradhaBook_API.Services.ProductService
             }
             if (categoryName != null && categoryName.Trim().Length != 0)
             {
-                query = query.Where(m => m.Category.Contains(categoryName));
+                query = query.Where(m=>m.Category!=null &&  m.Category.Contains(categoryName));
             }
             if (authorName != null && authorName.Trim().Length != 0)
             {
@@ -175,7 +175,8 @@ namespace ShradhaBook_API.Services.ProductService
             #endregion Sort
 
 
-            var allModel = await query.ToListAsync();
+
+            var allModel = query.ToList();
             var models = PaginatedList<ProductModelGet>.Create(allModel, pageIndex, pageSize);
             var totalPage = PaginatedList<ProductModelGet>.totlalPage(allModel, pageSize);
             var result = _mapper.Map<List<ProductModelGet>>(models);
@@ -270,9 +271,26 @@ namespace ShradhaBook_API.Services.ProductService
                     return MyStatusCode.DUPLICATE_NAME;
                 }
                 model.Slug = Helpers.Helpers.Slugify(model.Name);
-                var updateModel = _mapper.Map<Product>(model);
-                updateModel.UpdatedAt = DateTime.Now;
-                _context.Products.Update(updateModel);
+
+                var modelOld = await _context.Products.FindAsync(id);
+                modelOld.Name = model.Name;
+                modelOld.Code = model.Code;
+                modelOld.Slug = model.Slug;
+                modelOld.Description = model.Description;
+                modelOld.CategoryId = model.CategoryId;
+                modelOld.AuthorId = model.AuthorId;
+                modelOld.ManufacturerId = model.ManufacturerId;
+                modelOld.Price = model.Price;
+                modelOld.Quantity = model.Quantity;
+                modelOld.Intro = model.Intro;
+                modelOld.ImageProductPath = model.ImageProductPath;
+                modelOld.ImageProductName = model.ImageProductName;
+                modelOld.ViewCount = model.ViewCount;
+                modelOld.Slug = model.Slug;
+                modelOld.Status = MyStatus.changeStatusCat(model.Status);
+                modelOld.UpdatedAt = DateTime.Now;
+
+                _context.Products.Update(modelOld);
                 await _context.SaveChangesAsync();
                 return MyStatusCode.SUCCESS;
             }

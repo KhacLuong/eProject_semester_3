@@ -17,7 +17,7 @@ namespace ShradhaBook_API.ViewModels
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime? UpdatedAt { get; set; } = DateTime.Now;
+        //public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        //public DateTime? UpdatedAt { get; set; } = DateTime.Now;
     }
 }

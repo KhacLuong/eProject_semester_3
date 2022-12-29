@@ -49,12 +49,12 @@ namespace ShradhaBook_API.Services.ManufacturerService
                 return MyStatusCode.DUPLICATE_PHONE;
             }
 
-            Manufacturer newManufacturer = _mapper.Map<Manufacturer>(model);
-            newManufacturer.CreatedAt = DateTime.Now;
-            newManufacturer.UpdatedAt = DateTime.Now;
-            _context.Manufacturers!.Add(newManufacturer);
+            var newModel = _mapper.Map<Manufacturer>(model);
+            newModel.CreatedAt = DateTime.Now;
+            newModel.UpdatedAt = null;
+            _context.Manufacturers!.Add(newModel);
             await _context.SaveChangesAsync();
-            return newManufacturer.Id;
+            return newModel.Id;
         }
 
         public async Task DeleteManufacturerAsync(int id)
@@ -123,11 +123,14 @@ namespace ShradhaBook_API.Services.ManufacturerService
                 {
                     return MyStatusCode.DUPLICATE_PHONE;
                 }
-                
-
-                var updateModel = _mapper.Map<Manufacturer>(model);
-                updateModel.UpdatedAt = DateTime.Now;
-                _context.Manufacturers.Update(updateModel);
+                var modelOld = await _context.Manufacturers.FindAsync(id);
+                modelOld.Name = model.Name;
+                modelOld.Code = model.Code;
+                modelOld.Email = model.Email;
+                modelOld.PhoneNumber = model.PhoneNumber;
+                modelOld.Address = model.Address;
+                modelOld.UpdatedAt = DateTime.Now;
+                _context.Manufacturers.Update(modelOld);
                 await _context.SaveChangesAsync();
                 return MyStatusCode.SUCCESS;
             }

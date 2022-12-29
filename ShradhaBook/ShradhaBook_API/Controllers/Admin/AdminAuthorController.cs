@@ -35,18 +35,18 @@ namespace ShradhaBook_API.Controllers.Admin
         [HttpGet]
         public async Task<ActionResult<Object>> GetAllAuthor(string? name, string? phone, int? sortBy = 0, int pageSize = 20, int pageIndex = 1)
         {
-            //try
+            try
             {
                 var result = await _authorService.GetAllAuthorAsync(name, phone, sortBy, pageSize, pageIndex);
 
                 return Ok(new MyServiceResponse<Object>(result));
 
             }
-            //catch
-            //{
-            //    return StatusCode(500, new MyServiceResponse<List<Object>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            catch
+            {
+                return StatusCode(500, new MyServiceResponse<List<Object>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
 
-            //}
+            }
         }
 
         // GET: api/Author/5
