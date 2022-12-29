@@ -25,6 +25,9 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
+using ShradhaBook_API.Services.BlogService;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +58,7 @@ builder.Services.AddScoped<ITagService, TagService>();
 
 builder.Services.AddScoped<IProductTagService, ProductTagService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddScoped<IBlogService, BlogService>();
 
 builder.Services.AddAzureClients(options => {
     options.AddBlobServiceClient(builder.Configuration.GetSection("Storage:ConnectionString").Value);

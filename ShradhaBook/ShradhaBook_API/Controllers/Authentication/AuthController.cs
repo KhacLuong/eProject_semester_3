@@ -29,11 +29,11 @@ namespace ShradhaBook_API.Controllers.Authentication
         }
 
         [HttpPost("refresh-token")]
-        public async Task<IActionResult> RefreshToken(int id)
+        public async Task<IActionResult> RefreshToken(string refreshToken)
         {
             var request = Request;
             var response = Response;
-            var refreshTokenResponse = await _authService.RefreshToken(id, request, response);
+            RefreshTokenResponse refreshTokenResponse = await _authService.RefreshToken(refreshToken, request, response);
             if (refreshTokenResponse == null)
             {
                 return NotFound(new ServiceResponse<string> { Status = false, Message = "User not found." });

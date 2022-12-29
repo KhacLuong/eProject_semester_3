@@ -12,9 +12,10 @@ namespace ShradhaBook_API.Services.ProductService
         Task DeleteProductAsync(int id);
 
         Task<int> UpdateProductAsync(int id, ProductModelPost model);
-        Task<bool> checkExistProductByIdCategoryAsync(int categoryId);
-        Task<bool> checkExistProductByIdAuthorAsync(int authorId);
-        Task<bool> checkExistProductByIdManufactuerAsync(int manufacturerId);
+        Task<bool> CheckExistProductByIdCategoryAsync(int categoryId);
+        Task<bool> CheckExistProductByIdAuthorAsync(int authorId);
+        Task<bool> CheckExistProductByIdManufactuerAsync(int manufacturerId);
+        Task<bool> IncreaseViewCountProduct(int id);
 
         Task<Object> GetProductByIdCategoryAsync(int categoryId, int pageSize = 20, int pageIndex = 1);
         Task<Object> GetProductByIdAuthorAsync(int authorId, int pageSize = 20, int pageIndex = 1);
