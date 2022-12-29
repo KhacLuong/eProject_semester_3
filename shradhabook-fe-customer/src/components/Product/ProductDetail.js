@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import book14 from "../../assets/image/books/book14.png"
+import book14 from "../../assets/image/books/book3.png"
 import {getProductById, updateViewCountProductById} from "../../services/apiService";
 import {AiOutlineArrowRight} from 'react-icons/ai'
 import parse from "html-react-parser";
@@ -32,7 +32,7 @@ const ProductDetail = () => {
     const [hover, setHover] = useState(false);
     const [idProduct, setIdProduct] = useState(0);
     const tags = ['Action and Adventure', 'American Historical Romance', 'Humor', 'True Crime', 'Business', 'Bestsellers', 'Christian Fiction', 'Fantasy', 'Erotic Romance', 'Light Novel', 'Dark Romance & Erotica']
-    const [count, setCount] = useState(1);
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
         fetchDetailProduct();
@@ -65,9 +65,14 @@ const ProductDetail = () => {
     }
 
     const handleOnChangeQuantity = (count) => {
-        setCount(count);
+        if (typeof (count) === "object") {
+            setCount(parseInt(count.target.value));
+        } else {
+            setCount(count)
+        }
     }
     const handlePlusQuantity = (e) => {
+        console.log(count)
         e.preventDefault();
         let plus = count + 1
         handleOnChangeQuantity(plus)
@@ -85,6 +90,24 @@ const ProductDetail = () => {
             minus = 1
             handleOnChangeQuantity(minus)
             toast.error('Must choose at least one product')
+        }
+        if (minus > 10) {
+            minus = 10
+            handleOnChangeQuantity(minus)
+            toast.error('You can only buy up to 10 products')
+        }
+    }
+
+    const handleOnKeyUp = (e) => {
+        const number = parseInt(e.target.value)
+        if (number > 10 ) {
+            toast.error('You can only buy up to 10 products')
+            setCount(10)
+        } else if(number < 1) {
+            toast.error('Must choose at least one product')
+            setCount(1)
+        } else {
+            setCount(number)
         }
 
     }
@@ -123,7 +146,7 @@ const ProductDetail = () => {
                                 <div
                                     className={`text-[12px] text-lightColor flex items-center mr-[20px] pr-[20px] relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%]`}>
                                     Author: <div
-                                    className={`text-blackColor ml-1 cursor-pointer hover:text-dangerColor-hover_2`}>{author}</div>
+                                    className={`text-blackColor ml-1 cursor-pointer hover:text-dangerColor-hover_2 hover:underline`}>{author}</div>
                                 </div>
                                 <div
                                     className={`flex items-center mr-[20px] pr-[20px] font-semiBold relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2`}>
@@ -171,16 +194,14 @@ const ProductDetail = () => {
                                                 className="flex justify-center items-center p-0 z-9 border-0 text-[12px] font-bold w-[30%] h-[52px] rounded-none text-blackColor bg-whiteColor">
                                             <span className="m-auto text-xl font-thin"><HiOutlineMinusSm/></span>
                                         </button>
-                                        <input onKeyPress={(event) => {
-                                            if (!/[0-9]/.test(event.key)) {
-                                                event.preventDefault();
-                                            }
-                                        }}
-                                               id={`custom-input-number`}
-                                               className="py-[10px] w-[50%] border-0 text-center font-bold text-blackColor flex-1"
-                                               value={count}
-                                               readOnly={true}
-                                               onChange={handleOnChangeQuantity}/>
+                                        <input
+                                            id={`custom-input-number`}
+                                            className="py-[10px] w-[50%] border-0 text-center font-bold text-blackColor flex-1"
+                                            value={count}
+                                            onChange={handleOnChangeQuantity}
+                                            onKeyUp={handleOnKeyUp}
+                                            type="number"
+                                        />
                                         <button onClick={handlePlusQuantity} data-action="increment"
                                                 className="flex justify-center items-center p-0 z-9 border-0 text-[12px] font-bold w-[30%] h-[52px] rounded-none text-blackColor bg-whiteColor">
                                             <span className="m-auto text-xl font-thin"><FiPlus/></span>
