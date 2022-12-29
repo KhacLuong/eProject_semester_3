@@ -30,8 +30,5 @@ namespace ShradhaBook_API.Models
         [Required]        
         public DateTime? UpdatedAt { get; set; } = DateTime.Now;
         public virtual ICollection<Product> Products { get; set; }
-
-        public Category ParentCategory { get; set; } = null!;
-        public int ParentCategoryId { get; set; }
     }
 }

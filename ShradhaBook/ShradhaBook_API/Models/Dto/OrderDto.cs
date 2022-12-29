@@ -1,6 +1,4 @@
-﻿using static ShradhaBook_API.Models.Entities.Order;
-
-namespace ShradhaBook_API.Models.Dto
+﻿namespace ShradhaBook_API.Models.Dto
 {
     public class OrderDto
     {
@@ -8,8 +6,8 @@ namespace ShradhaBook_API.Models.Dto
         public string OrderNumber { get; set; } = string.Empty;
         public List<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
         public decimal Total { get; set; }
-        public PaymentForm PaymentForms { get; set; }
-        public OrderStatus OrderTracking { get; set; }
+        public string PaymentForms { get; set; } = string.Empty;
+        public string OrderTracking { get; set; } = string.Empty;
         public DateTime TrackingUpdateTime { get; set; }
     }
 }

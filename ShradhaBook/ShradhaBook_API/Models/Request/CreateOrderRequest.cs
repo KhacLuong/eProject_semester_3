@@ -1,12 +1,14 @@
-﻿using static ShradhaBook_API.Models.Entities.Order;
-
-namespace ShradhaBook_API.Models.Request
+﻿namespace ShradhaBook_API.Models.Request
 {
     public class CreateOrderRequest
     {
+        public string OrderNumber { get; set; } = string.Empty;
         public int UserId { get; set; }
-        public PaymentForm PaymentForms { get; set; } = PaymentForm.CashOnDelivery;
+        public string Email { get; set; } = string.Empty;
+        public List<CreateOrderItemsRequest> OrderItems { get; set; } = new List<CreateOrderItemsRequest>();
+        public string PaymentForms { get; set; } = string.Empty;
         public bool Payment { get; set; } = false;
+        public string OrderTracking { get; set; } = string.Empty;
         public decimal Total { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿//using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ShradhaBook_API.Models.Entities
 {
@@ -12,7 +14,9 @@ namespace ShradhaBook_API.Models.Entities
         public Product Product { get; set; } = null!;
         public int ProductId { get; set; }
         public int Quantity { get; set; }
+        [Column(TypeName = "decimal(16,4)")]
         public decimal UnitPrice { get; set; }
+        [Column(TypeName = "decimal(16,4)")]
         public decimal Subtotal { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace ShradhaBook_API.Services.OrderItemsService
             {
                 return null;
             }
-            product.Quantity = product.Quantity - request.Quantity; 
+            product.Quantity -= request.Quantity; 
 
             var orderItems = new OrderItems
             {

@@ -13,7 +13,6 @@ namespace ShradhaBook_API.Models
         public string? Phone { get; set; }
         [Required]
         public DateTime CreatedAt { get; set; }
-        [Required]
         public DateTime? UpdatedAt { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
