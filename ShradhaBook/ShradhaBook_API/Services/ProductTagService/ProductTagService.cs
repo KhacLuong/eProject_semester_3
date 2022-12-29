@@ -10,12 +10,14 @@ namespace ShradhaBook_API.Services.ProductTagService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-
-        public ProductTagService(DataContext context, IMapper mapper)
+        private readonly IProductService _productService;
+        private readonly ITagService  _tagService;
+        public ProductTagService(DataContext context, IMapper mapper, IProductService productService, ITagService tagService)
         {
             this._context = context;
             this._mapper = mapper;
-
+            _productService = productService;
+            _tagService = tagService;
         }
 
         public async Task<int> AddProductTagAsync(ProductTagPost model)
@@ -24,6 +26,11 @@ namespace ShradhaBook_API.Services.ProductTagService
             {
                 return MyStatusCode.DUPLICATE;
             }
+            if(!( _context.Products.Any(p=>p.Id == model.ProductId))||!(_context.Tags.Any(t=>t.Id==model.ProductId))){
+                return MyStatusCode.NOTFOUND;
+            }
+
+            
             var newModel = _mapper.Map<ProductTag>(model);
             newModel.CreatedAt = DateTime.Now;
             newModel.UpdatedAt = null;
@@ -77,14 +84,18 @@ namespace ShradhaBook_API.Services.ProductTagService
 
         public async  Task<ProductTagGet> GetProductTagAsync(int id)
         {
-            var model = await (from PT in _context.ProductTags
-                          join P in _context.Products
+            var model = await (from PT in _context.ProductTags.Where(m => m.Id == id)
+                               join P in _context.Products
                                    on PT.ProductId equals P.Id
                           join T in _context.Tags
                           on PT.TagId equals T.Id
                           select new ProductTagGet(PT.Id, P.Name, T.Name, PT.CreatedAt, PT.UpdatedAt)).ToListAsync();
-            var result = model[0];
-            return _mapper.Map<ProductTagGet>(result);
+            if (model == null || model.Count == 0)
+            {
+                return null;
+            }
+            return model[0];
+            
         }
 
         public async Task<int> UpdateProductTagAsync(int id, ProductTagPost model)
@@ -94,6 +105,14 @@ namespace ShradhaBook_API.Services.ProductTagService
                 if (_context.ProductTags.Any(c => c.ProductId == model.ProductId && c.TagId == model.TagId&&c.Id!=model.Id))
                 {
                     return MyStatusCode.DUPLICATE;
+                }
+                if (_context.ProductTags.Any(c => c.ProductId == model.ProductId && c.TagId == model.TagId))
+                {
+                    return MyStatusCode.DUPLICATE;
+                }
+                if (!(_context.Products.Any(p => p.Id == model.ProductId)) || !(_context.Tags.Any(t => t.Id == model.ProductId)))
+                {
+                    return MyStatusCode.NOTFOUND;
                 }
                 var updateModel = _mapper.Map<ProductTag>(model);
                 updateModel.UpdatedAt = DateTime.Now;

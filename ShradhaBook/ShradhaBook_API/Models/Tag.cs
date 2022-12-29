@@ -14,7 +14,7 @@ namespace ShradhaBook_API.Models
         public DateTime? UpdatedAt { get; set; }
 
         public virtual ICollection<ProductTag> ProductTags { get; set; }
-
+        public virtual ICollection<BlogTag> BlogTags { get; set; }
 
     }
 }

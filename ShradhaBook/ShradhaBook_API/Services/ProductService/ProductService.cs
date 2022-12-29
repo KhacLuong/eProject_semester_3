@@ -4,6 +4,7 @@ using ShradhaBook_API.Helpers;
 using ShradhaBook_API.Services.CategotyService;
 using ShradhaBook_API.Services.ManufacturerService;
 using ShradhaBook_API.ViewModels;
+using System.Globalization;
 
 namespace ShradhaBook_API.Services.ProductService
 {
@@ -108,8 +109,10 @@ namespace ShradhaBook_API.Services.ProductService
                      join C in _context.Categories
                      on P.CategoryId equals C.Id
                      select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
-                 P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
-
+                 P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.ViewCount, 
+                 P.CreatedAt,
+                 P.UpdatedAt)).ToListAsync();
+         
             if ((status!=null&&status.Trim().Length !=0)  && (status.ToLower().Equals(MyStatus.ACTIVE_RESULT.ToLower()) || status.ToLower().Equals(MyStatus.INACTIVE_RESULT.ToLower())))
             {
                 query = query.Where(m => m.Status.ToLower().Equals(status.ToLower()));
@@ -207,7 +210,11 @@ namespace ShradhaBook_API.Services.ProductService
                 _context.Products.Update(updateModel);
                 await _context.SaveChangesAsync();
             }
-
+            if (model == null || model.Count == 0)
+            {
+                return null;
+            }
+            var result = model[0];
             return model[0];
 
         }
@@ -226,9 +233,15 @@ namespace ShradhaBook_API.Services.ProductService
                               on P.CategoryId equals C.Id
                               select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
                           P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug,P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
+            
+            if (model == null || model.Count == 0)
+            {
+                return null;
+            }
             var result = model[0];
+            return model[0];
 
-            return _mapper.Map<ProductModelGet>(result);
+          
 
         }
 

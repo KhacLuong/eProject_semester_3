@@ -76,7 +76,11 @@ namespace ShradhaBook_API.Controllers.Admin
                 {
                     return BadRequest(new MyServiceResponse<ProductTagGet>(false, Helpers.MyStatusCode.UPDATE_FAILURE_RESULT + ", There is already a ProductTag of this ProductId and this TagId "));
                 }
-                
+                else if (status == MyStatusCode.NOTFOUND)
+                {
+                    return BadRequest(new MyServiceResponse<ProductTagGet>(false, MyStatusCode.ADD_FAILURE_RESULT + ",  Not found Product or Tag"));
+
+                }
 
                 else if (status == MyStatusCode.SUCCESS)
                 {
@@ -104,6 +108,10 @@ namespace ShradhaBook_API.Controllers.Admin
                 if (status == MyStatusCode.DUPLICATE)
                 {
                     return BadRequest(new MyServiceResponse<ProductTagGet>(false, MyStatusCode.ADD_FAILURE_RESULT + ", There is already a ProductTag of this ProductId and this TagId "));
+                }else if (status == MyStatusCode.NOTFOUND)
+                {
+                    return BadRequest(new MyServiceResponse<ProductTagGet>(false, MyStatusCode.ADD_FAILURE_RESULT + ",  Not found Product or Tag"));
+
                 }
 
 

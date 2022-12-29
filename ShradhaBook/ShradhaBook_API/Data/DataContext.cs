@@ -20,6 +20,8 @@ namespace ShradhaBook_API.Data
         public DbSet<Manufacturer> Manufacturers { get; set; } = null!;
         public DbSet<Tag> Tags { get; set; } = null!;
         public DbSet<ProductTag> ProductTags { get; set; } = null!;
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<BlogTag>   BlogTags { get; set; }
         public DbSet<Author> Authors { get; set; } = null!;
 
         // Seeding Data
@@ -160,5 +162,7 @@ namespace ShradhaBook_API.Data
                 );
             }
         }
+		
+
     }
 }
