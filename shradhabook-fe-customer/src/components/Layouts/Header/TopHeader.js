@@ -67,9 +67,10 @@ const TopHeader = () => {
                         :
                         <>
                             <div
-                                className="relative cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-sm px-4 py-2.5 text-center inline-flex items-center mr-1"
+                                className="relative cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-lg px-4 py-2.5 text-center inline-flex items-center mr-1"
                                 onClick={() => handleClickUser()}>
                                 {account.name}
+                                <RiUserLine></RiUserLine>
                                 <div
                                     className={`${showNavUser ? 'block' : 'hidden'} rounded-md absolute z-14 left-0 top-11 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}>
                                     <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
