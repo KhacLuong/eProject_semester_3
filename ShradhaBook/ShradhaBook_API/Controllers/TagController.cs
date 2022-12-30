@@ -59,6 +59,37 @@ namespace ShradhaBook_API.Controllers
             }
         }
 
+        // GET: api/TagModels/5
+        [HttpGet("Blog{id}")]
+        public async Task<ActionResult<Object>> GetTagsByBlogId(int id, int pageSize = 20, int pageIndex = 1)
+        {
+            try
+            {
+                var result = await _tagService.GetTagsByBlogId(id, pageSize, pageIndex);
+
+                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result, true,""));
+
+            }
+            catch
+            {
+                return StatusCode(500, new MyServiceResponse<TagModelGet>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            }
+        }
+        [HttpGet("Product{id}")]
+        public async Task<ActionResult<Object>> GetTagsByProductId(int id, int pageSize = 20, int pageIndex = 1)
+        {
+            try
+            {
+                var result = await _tagService.GetTagsByProductId(id,  pageSize,  pageIndex);
+
+                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result, true, ""));
+
+            }
+            catch
+            {
+                return StatusCode(500, new MyServiceResponse<TagModelGet>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            }
+        }
 
         //private bool TagModelExists(int id)
         //{

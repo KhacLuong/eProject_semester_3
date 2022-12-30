@@ -46,9 +46,10 @@ namespace ShradhaBook_API.Models
         public virtual Manufacturer Manufacturer { get; set; }
         public virtual ICollection<ProductTag> ProductTags { get; set; }
         public virtual Author Author { get; set; }
-
+        public virtual ICollection<WishList>? WishLists { get; set; }
 
         public List<OrderItems>? OrderItems { get; set; }
+        
 
     }
 

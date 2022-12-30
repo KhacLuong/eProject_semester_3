@@ -95,12 +95,12 @@ namespace ShradhaBook_API.Controllers
             }
         }
 
-        [HttpPost("IncreaseViewCountProduct{id}")]
-        public async Task<ActionResult> IncreaseViewCountProduct(int id)
+        [HttpPost("IncreaseViewCountBlog{id}")]
+        public async Task<ActionResult> IncreaseViewCountBlog(int id)
         {
             try
             {
-                var result = await _productService.IncreaseViewCountProduct(id);
+                var result = await _blogService.IncreseCountViewBlogAsync(id);
 
                 return result == true ? Ok(MyStatusCode.SUCCESS_RESULT) : BadRequest(MyStatusCode.FAILURE_RESULT);
 

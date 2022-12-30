@@ -6,11 +6,24 @@ namespace ShradhaBook_API.ViewModels
     {
         public int Id { get; set; }
 
-        public int? BlogId { get; set; }
+        public string? BlogTitle { get; set; }
 
-        public int? TagId { get; set; }
+        public string? TagName { get; set; }
 
-        public string? CreatedAt { get; set; }
-        public string? UpdatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+
+        public BlogTagModelGet(int id, string? blogName, string? tagName, DateTime? createdAt, DateTime? updatedAt)
+        {
+            Id = id;
+            BlogTitle = blogName;
+            TagName = tagName;
+            CreatedAt = createdAt;
+            UpdatedAt = updatedAt;
+        }
+
+        public BlogTagModelGet()
+        {
+        }
     }
 }

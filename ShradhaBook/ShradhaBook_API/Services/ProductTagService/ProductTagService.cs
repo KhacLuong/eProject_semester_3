@@ -10,14 +10,12 @@ namespace ShradhaBook_API.Services.ProductTagService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        private readonly IProductService _productService;
-        private readonly ITagService  _tagService;
-        public ProductTagService(DataContext context, IMapper mapper, IProductService productService, ITagService tagService)
+
+        public ProductTagService(DataContext context, IMapper mapper)
         {
             this._context = context;
             this._mapper = mapper;
-            _productService = productService;
-            _tagService = tagService;
+
         }
 
         public async Task<int> AddProductTagAsync(ProductTagPost model)
@@ -80,6 +78,12 @@ namespace ShradhaBook_API.Services.ProductTagService
                 Manufacturers = result,
                 totalPage = totalPage
             };
+        }
+
+        public async  Task<List<ProductTagModel>> GetAllProductTagAsync()
+        {
+            var allModel = await _context.ProductTags!.ToListAsync();
+            return _mapper.Map<List<ProductTagModel>>(allModel);
         }
 
         public async  Task<ProductTagGet> GetProductTagAsync(int id)

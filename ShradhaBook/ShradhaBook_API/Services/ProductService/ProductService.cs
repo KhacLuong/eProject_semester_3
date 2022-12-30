@@ -409,11 +409,11 @@ namespace ShradhaBook_API.Services.ProductService
 
         public async Task<bool> IncreaseViewCountProduct(int id)
         {
-            var categoty = await _context.Products.FindAsync(id);
-            if (categoty != null)
+            var model = await _context.Products.FindAsync(id);
+            if (model != null)
             {
-                categoty.ViewCount++;
-                _context.Products.Update(categoty);
+                model.ViewCount++;
+                _context.Products.Update(model);
                 await _context.SaveChangesAsync();
                 return true;
             }

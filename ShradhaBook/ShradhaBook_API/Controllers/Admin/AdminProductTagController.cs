@@ -35,7 +35,7 @@ namespace ShradhaBook_API.Controllers.Admin
             {
                 var result = await _productTagService.GetAllProductTagAsync( productName, tagName, pageSize, pageIndex);
 
-                return Ok(new MyServiceResponse<Object>(result));
+                return Ok(new MyServiceResponse<Object>(result, true, ""));
 
             }
             catch
@@ -53,7 +53,7 @@ namespace ShradhaBook_API.Controllers.Admin
             {
                 var result = await _productTagService.GetProductTagAsync(id);
 
-                return result == null ? NotFound(new MyServiceResponse<ProductTagGet>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<ProductTagGet>(result));
+                return result == null ? NotFound(new MyServiceResponse<ProductTagGet>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<ProductTagGet>(result, true, ""));
 
             }
             catch
