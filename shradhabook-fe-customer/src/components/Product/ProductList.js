@@ -29,7 +29,7 @@ const ProductList = (props) => {
     const [imageProduct, setImageProduct] = useState(book3);
 
     const handlePageClick = (event) => {
-        fetchListProducts(+event.selected + 1, selectedPerPage)
+        fetchListProducts(+event.selected + 1)
         console.log(`User requested page number ${+event.selected + 1}`)
         if (+event.selected + 1 === 1) {
             setTurnOffPrevNextBtn(true)
@@ -44,9 +44,7 @@ const ProductList = (props) => {
     }
     const handleClickGoProductDetail = async (id, slug) => {
         let res = await updateViewCountProductById(id)
-        if (res.status === true) {
-            navigate(`product-detail/${id}/${slug}`)
-        }
+        navigate(`product-detail/${id}/${slug}`)
     }
     return (<div className={`product_list col-span-3`}>
         <div className={`shadow-md flex items-start justify-between border-b-[1px] py-2 pl-2`}>

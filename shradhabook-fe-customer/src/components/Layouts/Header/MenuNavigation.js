@@ -48,7 +48,7 @@ const MenuNavigation = () => {
                          className={({isActive}) => isActive ? 'active' : defaultClass}>
                     Home
                 </NavLink>
-                <NavLink to={'/categories'}>
+                <NavLink to={'/categories'} className={`flex items-center justify-center`}>
                     <ul className="menus"> {
                         listCategory.map((menu, index) => {
                             const depthLevel = 0;
