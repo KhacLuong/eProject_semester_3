@@ -166,24 +166,25 @@ public class UserService : IUserService
 
     private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
     {
-        using (var hmac = new HMACSHA512())
-        {
-            passwordSalt = hmac.Key;
-            passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-        }
+        using var hmac = new HMACSHA512();
+        passwordSalt = hmac.Key;
+        passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
     }
 
     private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
     {
-        using (var hmac = new HMACSHA512(passwordSalt))
-        {
-            var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return computeHash.SequenceEqual(passwordHash);
-        }
+        using var hmac = new HMACSHA512(passwordSalt);
+        var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+        return computeHash.SequenceEqual(passwordHash);
     }
 
-    private static string CreateRandomToken()
+    private string CreateRandomToken()
     {
-        return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        var token = Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        if (_context.Users.Any(u => u.VerificationToken == token || u.PasswordResetToken == token))
+        {
+            token = CreateRandomToken();
+        }
+        return token;
     }
 }
