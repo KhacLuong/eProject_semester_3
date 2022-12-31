@@ -13,15 +13,14 @@ public class FileUploadController : ControllerBase
         _storageService = storageService;
     }
 
-    //public IActionResult Get()
-    //{
-    //    return Ok("File Upload API running...");
-    //}
-
     [HttpPost("avatar")]
     public IActionResult UploadAvatar(IFormFile file, string email)
     {
-        _storageService.UploadAvatar(file, email);
+        var message = _storageService.UploadAvatar(file, email);
+        if (message == null) 
+        {
+            return NotFound(new ServiceResponse<object> { Status = false, Message="User not found."});
+        }
 
         return Ok(new ServiceResponse<string> { Message = "Avatar file has been uploaded" });
     }
@@ -29,7 +28,11 @@ public class FileUploadController : ControllerBase
     [HttpPost("products")]
     public IActionResult UploadProducts(IFormFile file, string productSlug)
     {
-        _storageService.UploadProductImage(file, productSlug);
+        var message = _storageService.UploadProductImage(file, productSlug);
+        if (message == null)
+        {
+            return NotFound(new ServiceResponse<object> { Status = false, Message = "Product not found." });
+        }
 
         return Ok(new ServiceResponse<string> { Message = "Product file has been uploaded" });
     }

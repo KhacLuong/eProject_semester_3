@@ -2,6 +2,6 @@
 
 public interface IStorageService
 {
-    void UploadAvatar(IFormFile formFile, string email);
-    void UploadProductImage(IFormFile formFile, string productSlug);
+    string? UploadAvatar(IFormFile formFile, string email);
+    string? UploadProductImage(IFormFile formFile, string productSlug);
 }
