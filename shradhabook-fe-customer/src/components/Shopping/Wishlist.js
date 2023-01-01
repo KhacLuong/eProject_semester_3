@@ -1,9 +1,10 @@
 import React from 'react';
+import Banner from "../Layouts/Banner/Banner";
 
 const Wishlist = () => {
     return (
-        <div>
-            This is wishlist
+        <div className={`wishlist_page`}>
+            <Banner bannerTitle={`Wishlist`}/>
         </div>
     );
 };

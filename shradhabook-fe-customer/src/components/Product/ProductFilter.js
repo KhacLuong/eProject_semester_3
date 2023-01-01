@@ -1,9 +1,8 @@
 import React from 'react';
-import {useNavigate} from "react-router-dom";
 import Slider from "@mui/material/Slider";
 import {AiOutlineMinus} from "react-icons/ai";
 import parse from "html-react-parser";
-import {getListAuthor} from "../../services/apiService";
+import {BiRefresh} from 'react-icons/bi'
 
 const ProductFilter = (props) => {
     const {
@@ -15,24 +14,32 @@ const ProductFilter = (props) => {
         listAuthor,
         handleOnClickAuthor,
         listCategory,
-        handleOnClickCategory
+        handleOnClickCategory,
+        activeCategory,
+        activeAuthor,
+        handleRefreshCategory,
+        handleRefreshAuthor,
     } = props
-    const navigate = useNavigate();
 
     return (
         <div className={`product_filter`}>
-            <div className={`shadow-md product_genre rounded-2xl border-[1px] mb-8`}>
-                <div
-                    className={`text-lg title border-b-[1px] mx-auto px-10 py-4 text-[#000000] font-medium leading-normal`}>Genre
+            <div className={`shadow-lg product_genre rounded-2xl mb-8`}>
+                <div className={`flex items-center justify-between title border-b-[1px] mx-auto px-10 py-4`}>
+                    <div
+                        className={`text-lg text-[#000000] font-medium leading-normal`}>Genre
+                    </div>
+                    <div onClick={handleRefreshCategory} title={`Refresh`} className={`flex items-center cursor-pointer bg-dangerColor-default_2 hover:bg-dangerColor-hover_2 text-whiteColor py-1 px-1 rounded text-xl`}>
+                        <BiRefresh className={`hover:rotate-360 transform transition ease-in-out duration-700`}/>
+                    </div>
                 </div>
                 <div className={`mx-auto px-10 py-4`}>
                     <ul className={`text-[#444444]`}>
                         {
                             listCategory.map((item, index) => {
                                 return <li key={index}
-                                           className={`transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
-                                    <div onClick={() => handleOnClickCategory(item.name)}
-                                         className={`cursor-pointer flex items-center before:text-xl before:content-['☐'] before:mr-[8px]`}>
+                                           className={`${activeCategory === `category_${item.id}` ? 'text-dangerColor-default_2': ''} transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
+                                    <div onClick={() => handleOnClickCategory(item.name, item.id)}
+                                         className={`${activeCategory === `category_${item.id}` ? `before:content-['☑']`: `before:content-['☐']`}  cursor-pointer flex items-center before:text-xl before:mr-[8px]`}>
                                         {item.name}
                                     </div>
                                     <div>(1)</div>
@@ -42,18 +49,23 @@ const ProductFilter = (props) => {
                     </ul>
                 </div>
             </div>
-            <div className={`shadow-md product_author rounded-2xl border-[1px] mb-8`}>
-                <div
-                    className={`text-lg title border-b-[1px] mx-auto px-10 py-4 text-[#000000] font-medium  leading-normal`}>Authors
+            <div className={`shadow-lg product_author rounded-2xl mb-8`}>
+                <div className={`flex items-center justify-between title border-b-[1px] mx-auto px-10 py-4`}>
+                    <div
+                        className={`text-lg text-[#000000] font-medium leading-normal`}>Authors
+                    </div>
+                    <div onClick={handleRefreshAuthor} title={`Refresh`} className={`flex items-center cursor-pointer bg-dangerColor-default_2 hover:bg-dangerColor-hover_2 text-whiteColor py-1 px-1 rounded text-xl`}>
+                        <BiRefresh className={`hover:rotate-360 transform transition ease-in-out duration-700`}/>
+                    </div>
                 </div>
                 <div className={`mx-auto px-10 py-4`}>
                     <ul className={`text-[#444444]`}>
                         {
                             listAuthor.map((item, index) => {
                                 return <li key={index}
-                                           className={`transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
-                                    <div onClick={() => handleOnClickAuthor(item.name)}
-                                         className={`cursor-pointer flex items-center before:text-xl before:content-['☐'] before:mr-[8px]`}>
+                                           className={`${activeAuthor === `author_${item.id}` ? 'text-dangerColor-default_2': ''} transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
+                                    <div onClick={() => handleOnClickAuthor(item.name, item.id)}
+                                         className={`${activeAuthor === `author_${item.id}` ? `before:content-['☑']`: `before:content-['☐']`} cursor-pointer flex items-center before:text-xl before:mr-[8px]`}>
                                         {item.name}
                                     </div>
                                     <div>(1)</div>
@@ -63,7 +75,7 @@ const ProductFilter = (props) => {
                     </ul>
                 </div>
             </div>
-            <div className={`shadow-md product_filter_price rounded-2xl border-[1px] mb-8`}>
+            <div className={`shadow-lg product_filter_price rounded-2xl mb-8`}>
                 <div
                     className={`text-lg title border-b-[1px] mx-auto px-10 py-4 text-[#000000] font-medium leading-normal`}>Filter
                     By Price
@@ -101,10 +113,14 @@ const ProductFilter = (props) => {
                         className={`uppercase mx-auto px-10 pb-4 pt-4 underline text-xs font-semibold hover:text-dangerColor-default_2 transition duration-300 tracking-wider`}>filter
                 </button>
             </div>
-            <div className={`shadow-md product_rating rounded-2xl border-[1px] mb-8`}>
-                <div
-                    className={`text-lg title border-b-[1px] mx-auto px-10 py-4 text-[#000000] font-medium leading-normal`}>Review
-                    ratings
+            <div className={`shadow-lg product_rating rounded-2xl mb-8`}>
+                <div className={`flex items-center justify-between title border-b-[1px] mx-auto px-10 py-4`}>
+                    <div
+                        className={`text-lg text-[#000000] font-medium leading-normal`}>Review ratings
+                    </div>
+                    <div title={`Refresh`} className={`flex items-center cursor-pointer bg-dangerColor-default_2 hover:bg-dangerColor-hover_2 text-whiteColor py-1 px-1 rounded text-xl`}>
+                        <BiRefresh className={`hover:rotate-360 transform transition ease-in-out duration-700`}/>
+                    </div>
                 </div>
                 <div className={`mx-auto px-10 py-4`}>
                     {stars.map((item, index) => {

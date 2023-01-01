@@ -13,7 +13,7 @@ import Wishlist from "./components/Shopping/Wishlist";
 import Cart from "./components/Shopping/Cart";
 import BlogPage from "./components/Blog/BlogPage";
 import BlogDetail from "./components/Blog/BlogDetail";
-import NotFound from "./components/Product/NotFound";
+import NotFound from "./components/Layouts/NotFound";
 import PrivateRoute from "./routes/PrivateRoute";
 import Me from "./components/Auth/Me";
 import MyHistory from "./components/Auth/MyHistory";
