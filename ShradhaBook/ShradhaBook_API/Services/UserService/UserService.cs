@@ -51,8 +51,7 @@ public class UserService : IUserService
             Email = request.Email,
             PasswordSalt = passwordSalt,
             PasswordHash = passwordHash,
-            VerificationToken = CreateRandomToken(),
-            UserType = "user"
+            VerificationToken = CreateRandomToken()
         };
 
         _context.Users.Add(user);
@@ -164,26 +163,27 @@ public class UserService : IUserService
         return "ok";
     }
 
-    private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+    private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
     {
-        using (var hmac = new HMACSHA512())
-        {
-            passwordSalt = hmac.Key;
-            passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-        }
+        using var hmac = new HMACSHA512();
+        passwordSalt = hmac.Key;
+        passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
     }
 
     private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
     {
-        using (var hmac = new HMACSHA512(passwordSalt))
-        {
-            var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return computeHash.SequenceEqual(passwordHash);
-        }
+        using var hmac = new HMACSHA512(passwordSalt);
+        var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+        return computeHash.SequenceEqual(passwordHash);
     }
 
-    private static string CreateRandomToken()
+    private string CreateRandomToken()
     {
-        return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        var token = Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        if (_context.Users.Any(u => u.VerificationToken == token || u.PasswordResetToken == token))
+        {
+            token = CreateRandomToken();
+        }
+        return token;
     }
 }

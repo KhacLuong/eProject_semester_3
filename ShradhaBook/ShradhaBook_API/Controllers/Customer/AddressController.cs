@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ShradhaBook_API.Controllers.Customer;
@@ -16,7 +17,7 @@ public class AddressController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost]
+    [HttpPost, Authorize]
     public async Task<IActionResult> CreateAddress(AddAddressRequest request)
     {
         var userInfo = await _addressService.CreateAddress(request);
@@ -29,7 +30,7 @@ public class AddressController : ControllerBase
         });
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     public async Task<IActionResult> GetAllAddresses(int userInfoId)
     {
         var addresses = await _addressService.GetAllAddresses(userInfoId);
@@ -39,7 +40,7 @@ public class AddressController : ControllerBase
         });
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}"), Authorize]
     public async Task<IActionResult> UpdateAddress(int id, Address request)
     {
         var address = await _addressService.UpdateAddress(id, request);
@@ -52,7 +53,7 @@ public class AddressController : ControllerBase
         });
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}"), Authorize]
     public async Task<IActionResult> DeleteAddress(int id)
     {
         var address = await _addressService.DeleteAddress(id);
