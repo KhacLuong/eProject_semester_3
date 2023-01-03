@@ -41,7 +41,7 @@ const ProductPage = () => {
     ]
 
     const [selectedSort, setSelectedSort] = useState(optionSort[0].value);
-    const [selectedPerPage, setSelectedPerPage] = useState(optionQuantity[2].value);
+    const [selectedPerPage, setSelectedPerPage] = useState(optionQuantity[1].value);
     const [listProducts, setListProducts] = useState([])
     const [listAuthor, setListAuthor] = useState([])
     const [listCategory, setListCategory] = useState([])
@@ -57,6 +57,8 @@ const ProductPage = () => {
     const [lowPrice, setLowPrice] = useState(null);
     const [hightPrice, setHightPrice] = useState(null);
     const [sortBy, setSortBy] = useState(null);
+    const [activeCategory, setActiveCategory] = useState('');
+    const [activeAuthor, setActiveAuthor] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -90,6 +92,12 @@ const ProductPage = () => {
         }
         fetchData();
     }, [categoryName])
+    useEffect(() => {
+        const fetchData = async () => {
+            await fetchListProducts(pageIndex)
+        }
+        fetchData();
+    }, [name])
     const handleUpdatePrice = (e, data, activeThumb) => {
         if (!Array.isArray(data)) {
             return;
@@ -110,11 +118,26 @@ const ProductPage = () => {
     const handleChangeQuantity = event => {
         setSelectedPerPage(event.target.value)
     };
-    const handleOnClickAuthor = (name) => {
-        setAuthorName(name);
-    }
-    const handleOnClickCategory = (name) => {
+    const handleOnClickCategory = (name,id) => {
         setCategoryName(name);
+        const classCategory = `category_${id}`
+        setActiveCategory(classCategory)
+    }
+    const handleOnClickAuthor = (name, id) => {
+        setAuthorName(name);
+        const classAuthor = `author_${id}`
+        setActiveAuthor(classAuthor)
+    }
+    const handleSearchProduct = (e) => {
+        setName(e.target.value);
+    }
+    const handleRefreshCategory = () => {
+        setCategoryName('')
+        setActiveCategory('')
+    }
+    const handleRefreshAuthor = () => {
+        setAuthorName('')
+        setActiveAuthor('')
     }
     const fetchListProducts = async (page) => {
         setPageIndex(page)
@@ -148,8 +171,6 @@ const ProductPage = () => {
             setListCategory(res.data)
         }
     }
-
-
     return (
         <div className={`product_page`}>
             <Banner bannerTitle={`product`}/>
@@ -159,11 +180,15 @@ const ProductPage = () => {
                     handleUpdatePrice={handleUpdatePrice}
                     handleFilterByPrice={handleFilterByPrice}
                     handleOnClickCategory={handleOnClickCategory}
+                    handleRefreshCategory={handleRefreshCategory}
+                    handleRefreshAuthor={handleRefreshAuthor}
                     renderStar={renderStar}
                     stars={stars}
                     price={price}
                     listAuthor={listAuthor}
                     listCategory={listCategory}
+                    activeCategory={activeCategory}
+                    activeAuthor={activeAuthor}
                 />
                 <ProductList
                     totalPage={totalPage}
@@ -174,6 +199,7 @@ const ProductPage = () => {
                     selectedPerPage={selectedPerPage}
                     handleChangeSort={handleChangeSort}
                     handleChangeQuantity={handleChangeQuantity}
+                    handleSearchProduct={handleSearchProduct}
                     fetchListProducts={fetchListProducts}
                     renderStar={renderStar}
                 />

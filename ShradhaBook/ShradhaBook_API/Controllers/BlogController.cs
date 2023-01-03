@@ -79,6 +79,7 @@ namespace ShradhaBook_API.Controllers
             }
         }
 
+
         [HttpGet("BlogByAuthor{id}")]
         // public async Task<ActionResult<object>> GetBlogByAuthorId(int id)
         // {

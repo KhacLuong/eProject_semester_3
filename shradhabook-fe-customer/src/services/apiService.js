@@ -12,10 +12,8 @@ const postCreateUser = (name, email, password, confirmPassword, userType) => {
     }
     return instance.post('User/register', data)
 }
-const postRefreshToken = (id) => {
-    return instance.post(`Auth/refresh-token?id=${id}`, {
-        withCredentials: true
-    })
+const postRefreshToken = (refreshToken) => {
+    return instance.post(`Auth/refresh-token?refreshToken=${refreshToken}`)
 }
 const postLogin = (email, password) => {
     return instance.post('Auth/login', {email, password})
