@@ -49,7 +49,7 @@ public class StorageService : IStorageService
         using var stream = formFile.OpenReadStream();
         blobClient.Upload(stream, true);
         product.ImageProductPath = fileName;
-        product.ImageProductName = fileName[..8];
+        product.ImageProductName = fileName[..16];
         _context.SaveChanges();
         return "OK";
     }

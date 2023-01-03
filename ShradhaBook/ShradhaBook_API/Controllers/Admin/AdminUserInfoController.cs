@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ShradhaBook_API.Controllers.Admin;
@@ -16,7 +17,7 @@ public class AdminUserInfoController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost]
+    [HttpPost, Authorize]
     public async Task<IActionResult> CreateUserInfo(AddUserInfoRequest request)
     {
         var user = await _userInfoService.CreateUserInfo(request);
@@ -25,7 +26,7 @@ public class AdminUserInfoController : ControllerBase
         return Ok(new ServiceResponse<User> { Data = user, Message = "User info has been created successfully." });
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     public async Task<IActionResult> GetUsereInfo(int userId)
     {
         var userInfo = await _userInfoService.GetUserInfo(userId);
@@ -34,7 +35,7 @@ public class AdminUserInfoController : ControllerBase
         return Ok(new ServiceResponse<UserInfo> { Data = userInfo });
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}"), Authorize]
     public async Task<IActionResult> UpdateUserInfo(int id, UserInfo request)
     {
         var userInfo = await _userInfoService.UpdateUserInfo(id, request);
@@ -44,7 +45,7 @@ public class AdminUserInfoController : ControllerBase
             { Data = userInfo, Message = "User info has been updated successfully." });
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}"), Authorize]
     public async Task<IActionResult> DeleteUserInfo(int id)
     {
         var userInfo = await _userInfoService.DeleteUserInfo(id);

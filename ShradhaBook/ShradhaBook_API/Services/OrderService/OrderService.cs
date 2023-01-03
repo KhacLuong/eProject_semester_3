@@ -11,6 +11,13 @@ public class OrderService : IOrderService
     {
         _context = context;
     }
+    
+    public async Task<bool?> CheckVerify(int userId)
+    {
+        var user = await _context.Users.FindAsync(userId);
+        if (user == null) return null;
+        return user.VerifiedAt > DateTime.MinValue;
+    }
 
     public async Task<Order?> CreateOrder(CreateOrderRequest request)
     {
@@ -85,7 +92,13 @@ public class OrderService : IOrderService
         var order = await _context.Orders.FindAsync(id);
         if (order == null) return null;
         order.Cancellation = true;
-
+        var orderItemsList = _context.OrderItems.Where(oi => oi.OrderId == id).ToList();
+        foreach (var oi in orderItemsList)
+        {
+            var product = await _context.Products.FindAsync(oi.ProductId);
+            if (product == null) return null;
+            product.Quantity += oi.Quantity;
+        }
         await _context.SaveChangesAsync();
         return "order cancelled";
     }

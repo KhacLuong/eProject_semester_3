@@ -6,7 +6,4 @@ public class RefreshToken
     public DateTime Created { get; set; } = DateTime.Now;
 
     public DateTime Expires { get; set; }
-
-    //public User User { get; set; }
-    public int UserId { get; set; }
 }

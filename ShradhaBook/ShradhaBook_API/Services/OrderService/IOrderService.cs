@@ -2,6 +2,7 @@
 
 public interface IOrderService
 {
+    public Task<bool?> CheckVerify(int userId);
     public Task<Order?> CreateOrder(CreateOrderRequest request);
 
     public Task<List<Order>?> GetAllOrders(string? orderNumber,
