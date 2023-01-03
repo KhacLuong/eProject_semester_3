@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ShradhaBook_API.Controllers;
@@ -20,6 +21,19 @@ public class OrderController : ControllerBase
         _orderItemsService = orderItemsService;
         _emailService = emailService;
         _mapper = mapper;
+    }
+
+    [HttpPost("verify")]
+    public async Task<IActionResult> CheckVerify(int userId)
+    {
+        var isVerified = await _orderService.CheckVerify(userId);
+        if (isVerified == null)
+            return NotFound(new ServiceResponse<Order> { Status = false, Message = "User not found" });
+        return Ok(new ServiceResponse<bool>
+        {
+            Data = true,
+            Message = "User has been verified."
+        });
     }
 
     [HttpPost]
@@ -81,7 +95,8 @@ public class OrderController : ControllerBase
                         <td>" + order.Total.ToString("N") + @"</td>
                     </tr>
                     </tbody>
-                </table>"
+                </table>
+<a href=""#"" class=""text-align: center;"">View Order Details</a>"
         };
         _emailService.SendEmail(emailDto);
         return Ok(new ServiceResponse<Order>
@@ -91,7 +106,7 @@ public class OrderController : ControllerBase
         });
     }
 
-    [HttpGet]
+    [HttpGet, Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetAllOrders(string? orderNumber,
         int? productId, int? userId, string? orderTracking,
         string? paymentForms, decimal? fromTotal, decimal? toTotal,
@@ -114,7 +129,7 @@ public class OrderController : ControllerBase
         return Ok(new ServiceResponse<PaginationResponse<Order>> { Data = response });
     }
 
-    [HttpGet("user/{userId}")]
+    [HttpGet("user/{userId:int}"), Authorize]
     public async Task<IActionResult> GetAllOrdersByUserId(int userId, int page = 1, int itemPerPage = 5)
     {
         var orders = await _orderService.GetAllOrdersByUserId(userId);
@@ -132,7 +147,7 @@ public class OrderController : ControllerBase
         return Ok(new ServiceResponse<PaginationResponse<Order>> { Data = response });
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}"), Authorize]
     public async Task<IActionResult> GetOrderById(int id)
     {
         var order = await _orderService.GetOrderById(id);
@@ -141,7 +156,7 @@ public class OrderController : ControllerBase
         return Ok(new ServiceResponse<Order> { Data = order });
     }
 
-    [HttpPut("update/{id}")]
+    [HttpPut("update/{id:int}"), Authorize]
     public async Task<IActionResult> UpdateOrder(int id, UpdateOrderRequest request)
     {
         var order = await _orderService.UpdateOrder(id, request);
@@ -150,7 +165,7 @@ public class OrderController : ControllerBase
             { Data = order, Message = "Order tracking has been updated successfully." });
     }
 
-    [HttpPut("cancel/{id}")]
+    [HttpPut("cancel/{id:int}"), Authorize]
     public async Task<IActionResult> CancellationOrder(int id)
     {
         var order = await _orderService.CancelOrder(id);

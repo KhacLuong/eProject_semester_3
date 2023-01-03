@@ -51,8 +51,7 @@ public class UserService : IUserService
             Email = request.Email,
             PasswordSalt = passwordSalt,
             PasswordHash = passwordHash,
-            VerificationToken = CreateRandomToken(),
-            UserType = "user"
+            VerificationToken = CreateRandomToken()
         };
 
         _context.Users.Add(user);
@@ -164,7 +163,7 @@ public class UserService : IUserService
         return "ok";
     }
 
-    private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+    private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
     {
         using var hmac = new HMACSHA512();
         passwordSalt = hmac.Key;

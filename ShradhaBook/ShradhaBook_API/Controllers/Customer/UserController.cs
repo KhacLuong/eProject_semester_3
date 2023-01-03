@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ShradhaBook_API.Controllers.Customer;
 
@@ -43,19 +44,7 @@ public class UserController : ControllerBase
         });
     }
 
-    [HttpGet]
-    //[Authorize(Roles = "Admin")]
-    public async Task<IActionResult> GetAllUsers(string? query)
-    {
-        var users = await _userService.GetAllUsers(query);
-        return Ok(new ServiceResponse<IEnumerable<UserDto>>
-        {
-            Data = users.Select(user => _mapper.Map<UserDto>(user))
-        });
-    }
-
-    [HttpGet("{id}")]
-    //[Authorize]
+    [HttpGet("{id:int}"), Authorize]
     public async Task<IActionResult> GetSingleUser(int id)
     {
         var user = await _userService.GetSingleUser(id);
@@ -65,8 +54,7 @@ public class UserController : ControllerBase
         return Ok(new ServiceResponse<UserDto> { Data = _mapper.Map<UserDto>(user) });
     }
 
-    [HttpPut("{id}")]
-    //[Authorize]
+    [HttpPut("{id:int}"), Authorize]
     public async Task<IActionResult> UpdateUser(int id, User request)
     {
         var user = await _userService.UpdateUser(id, request);
@@ -80,8 +68,7 @@ public class UserController : ControllerBase
         });
     }
 
-    [HttpPut("password/{id}")]
-    //[Authorize]
+    [HttpPut("password/{id:int}"), Authorize]
     public async Task<IActionResult> ChangePassword(int id, UserChangePasswordRequest request)
     {
         var user = await _userService.ChangePassword(id, request);
@@ -95,8 +82,7 @@ public class UserController : ControllerBase
         });
     }
 
-    [HttpDelete("{id}")]
-    //[Authorize]
+    [HttpDelete("{id:int}"), Authorize]
     public async Task<IActionResult> DeleteUser(int id)
     {
         var user = await _userService.DeleteUser(id);
