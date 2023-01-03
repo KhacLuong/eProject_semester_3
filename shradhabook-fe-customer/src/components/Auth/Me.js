@@ -14,6 +14,7 @@ const Me = () => {
     })
     const fetchMyInfo = async () => {
         let res = await getMyInfo(id)
+        console.log(res.data)
         if(res.status === true) {
             setEmail(res.data.email)
             setUserName(res.data.name)
@@ -55,8 +56,8 @@ const Me = () => {
                                                     <label
                                                         className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                                                         htmlFor='grid-text-1'>email address</label>
-                                                    <input
-                                                        className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                                                    <input readOnly={true}
+                                                        className='appearance-none block w-full bg-lightColor text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                                                         id='grid-text-1' type='text' placeholder='Enter email' defaultValue={email} required/>
                                                 </div>
 

@@ -8,7 +8,7 @@ const DropDown = (props) => {
 
     return (
         <ul className = {
-            `dropdown ${dropDownClass} ${dropdown ? "show" : ""}`
+            `dropdown show ${dropDownClass} ${dropdown ? "show" : ""}`
         }>
             {
                 children.map((children, index) => {

@@ -3,9 +3,20 @@ import {useNavigate} from "react-router-dom";
 import Slider from "@mui/material/Slider";
 import {AiOutlineMinus} from "react-icons/ai";
 import parse from "html-react-parser";
+import {getListAuthor} from "../../services/apiService";
 
 const ProductFilter = (props) => {
-    const {handleUpdatePrice, renderStar, stars, price, handleFilterByPrice} = props
+    const {
+        handleUpdatePrice,
+        renderStar,
+        stars,
+        price,
+        handleFilterByPrice,
+        listAuthor,
+        handleOnClickAuthor,
+        listCategory,
+        handleOnClickCategory
+    } = props
     const navigate = useNavigate();
 
     return (
@@ -16,38 +27,18 @@ const ProductFilter = (props) => {
                 </div>
                 <div className={`mx-auto px-10 py-4`}>
                     <ul className={`text-[#444444]`}>
-                        <li className={`transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
-                            <div onClick={() => navigate('/')}
-                                 className={`cursor-pointer flex items-center before:text-xl before:content-['☐'] before:mr-[8px]`}> Action
-                                &
-                                Adventure
-                            </div>
-                            <div>(1)</div>
-                        </li>
-                        <li className={`transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
-                            <div onClick={() => navigate('/')}
-                                 className={`cursor-pointer flex items-center before:text-xl before:content-['☐'] before:mr-[8px]`}> Action
-                                &
-                                Adventure
-                            </div>
-                            <div>(1)</div>
-                        </li>
-                        <li className={`transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
-                            <div onClick={() => navigate('/')}
-                                 className={`cursor-pointer flex items-center before:text-xl before:content-['☐'] before:mr-[8px]`}> Action
-                                &
-                                Adventure
-                            </div>
-                            <div>(1)</div>
-                        </li>
-                        <li className={`transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
-                            <div onClick={() => navigate('/')}
-                                 className={`cursor-pointer flex items-center before:text-xl before:content-['☐'] before:mr-[8px]`}> Action
-                                &
-                                Adventure
-                            </div>
-                            <div>(1)</div>
-                        </li>
+                        {
+                            listCategory.map((item, index) => {
+                                return <li key={index}
+                                           className={`transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
+                                    <div onClick={() => handleOnClickCategory(item.name)}
+                                         className={`cursor-pointer flex items-center before:text-xl before:content-['☐'] before:mr-[8px]`}>
+                                        {item.name}
+                                    </div>
+                                    <div>(1)</div>
+                                </li>
+                            })
+                        }
                     </ul>
                 </div>
             </div>
@@ -57,39 +48,18 @@ const ProductFilter = (props) => {
                 </div>
                 <div className={`mx-auto px-10 py-4`}>
                     <ul className={`text-[#444444]`}>
-                        <li className={`transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
-                            <div onClick={() => navigate('/')}
-                                 className={`cursor-pointer flex items-center before:text-xl before:content-['☐'] before:mr-[8px]`}> Action
-                                &
-                                Adventure
-                            </div>
-                            <div>(1)</div>
-                        </li>
-                        <li className={`transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
-                            <div onClick={() => navigate('/')}
-                                 className={`cursor-pointer flex items-center before:text-xl before:content-['☐'] before:mr-[8px]`}> Action
-                                &
-                                Adventure
-                            </div>
-                            <div>(1)</div>
-                        </li>
-                        <li className={`transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
-                            <div onClick={() => navigate('/')}
-                                 className={`cursor-pointer flex items-center before:text-xl before:content-['☐'] before:mr-[8px]`}> Action
-                                &
-                                Adventure
-                            </div>
-                            <div>(1)</div>
-                        </li>
-                        <li className={`transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
-                            <div onClick={() => navigate('/')}
-                                 className={`cursor-pointer flex items-center before:text-xl before:content-['☐'] before:mr-[8px]`}> Action
-                                &
-                                Adventure
-                            </div>
-
-                            <div>(1)</div>
-                        </li>
+                        {
+                            listAuthor.map((item, index) => {
+                                return <li key={index}
+                                           className={`transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
+                                    <div onClick={() => handleOnClickAuthor(item.name)}
+                                         className={`cursor-pointer flex items-center before:text-xl before:content-['☐'] before:mr-[8px]`}>
+                                        {item.name}
+                                    </div>
+                                    <div>(1)</div>
+                                </li>
+                            })
+                        }
                     </ul>
                 </div>
             </div>
@@ -105,7 +75,7 @@ const ProductFilter = (props) => {
                         getAriaLabel={() => 'Minimum distance'}
                         disableSwap
                         min={0}
-                        max={1000}
+                        max={10000}
                         className={`text-black`}
                         valueLabelDisplay="off"
                         sx={{

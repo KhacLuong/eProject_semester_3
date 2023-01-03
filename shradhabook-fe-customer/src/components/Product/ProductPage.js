@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Banner from "../Layouts/Banner/Banner";
 import ProductFilter from "./ProductFilter";
 import ProductList from "./ProductList";
-import {getListProduct} from "../../services/apiService";
+import {getListAuthor, getListProduct, getListCategory} from "../../services/apiService";
 import {renderStar} from "../../ultis/renderStar";
 
 const ProductPage = () => {
@@ -43,26 +43,53 @@ const ProductPage = () => {
     const [selectedSort, setSelectedSort] = useState(optionSort[0].value);
     const [selectedPerPage, setSelectedPerPage] = useState(optionQuantity[2].value);
     const [listProducts, setListProducts] = useState([])
-    const [price, setPrice] = useState([0, 1000]);
+    const [listAuthor, setListAuthor] = useState([])
+    const [listCategory, setListCategory] = useState([])
+    const [price, setPrice] = useState([0, 10000]);
 
-    const [page, setPage] = useState(1);
+    const [pageIndex, setPageIndex] = useState(1);
     const [totalPage, setTotalPage] = useState(0);
     const [name, setName] = useState('');
     const [code, setCode] = useState('');
     const [status, setStatus] = useState('');
-    const [categoryId, setCategoryId] = useState(null);
-    const [AuthorId, setAuthorId] = useState(null);
-    const [manufactuerId, setManufactuerId] = useState(null);
+    const [categoryName, setCategoryName] = useState('');
+    const [AuthorName, setAuthorName] = useState('');
     const [lowPrice, setLowPrice] = useState(null);
     const [hightPrice, setHightPrice] = useState(null);
     const [sortBy, setSortBy] = useState(null);
 
     useEffect(() => {
-        fetchListProducts().then((res) => {
-            return res
-        });
+        const fetchData = async () => {
+            await fetchListProducts(pageIndex)
+            await fetchListAuthor()
+            await fetchListCategory()
+        }
+        fetchData();
     }, [])
-
+    useEffect(() => {
+        const fetchData = async () => {
+            await fetchListProducts(pageIndex)
+        }
+        fetchData();
+    }, [selectedPerPage])
+    useEffect(() => {
+        const fetchData = async () => {
+            await fetchListProducts(pageIndex)
+        }
+        fetchData();
+    }, [lowPrice, hightPrice])
+    useEffect(() => {
+        const fetchData = async () => {
+            await fetchListProducts(pageIndex)
+        }
+        fetchData();
+    }, [AuthorName])
+    useEffect(() => {
+        const fetchData = async () => {
+            await fetchListProducts(pageIndex)
+        }
+        fetchData();
+    }, [categoryName])
     const handleUpdatePrice = (e, data, activeThumb) => {
         if (!Array.isArray(data)) {
             return;
@@ -74,26 +101,29 @@ const ProductPage = () => {
         }
     }
     const handleFilterByPrice = () => {
-
+        setLowPrice(price[0])
+        setHightPrice(price[1])
     }
     const handleChangeSort = event => {
         setSelectedSort(event.target.value);
     };
     const handleChangeQuantity = event => {
-        setSelectedPerPage(event.target.value);
-        fetchListProducts().then((res) => {
-            return res
-        });
+        setSelectedPerPage(event.target.value)
     };
-    const fetchListProducts = async () => {
-        setPage(page)
+    const handleOnClickAuthor = (name) => {
+        setAuthorName(name);
+    }
+    const handleOnClickCategory = (name) => {
+        setCategoryName(name);
+    }
+    const fetchListProducts = async (page) => {
+        setPageIndex(page)
         const params = {
             'name': name,
             'code': code,
             'status': status,
-            'categoryId': categoryId,
-            'AuthorId': AuthorId,
-            'manufactuerId': manufactuerId,
+            'categoryName': categoryName,
+            'AuthorName': AuthorName,
             'lowPrice': lowPrice,
             'hightPrice': hightPrice,
             'sortBy': sortBy,
@@ -105,19 +135,35 @@ const ProductPage = () => {
             setTotalPage(res.data.totalPage)
             setListProducts(res.data.products)
         }
-        // console.log(page, per_page);
     }
+    const fetchListAuthor = async () => {
+        let res = await getListAuthor()
+        if (res.status === true) {
+            setListAuthor(res.data)
+        }
+    }
+    const fetchListCategory = async () => {
+        let res = await getListCategory()
+        if (res.status === true) {
+            setListCategory(res.data)
+        }
+    }
+
 
     return (
         <div className={`product_page`}>
             <Banner bannerTitle={`product`}/>
             <div className={`product_content container mx-auto xl:px-30 grid grid-cols-4 gap-8 py-14`}>
                 <ProductFilter
+                    handleOnClickAuthor={handleOnClickAuthor}
                     handleUpdatePrice={handleUpdatePrice}
                     handleFilterByPrice={handleFilterByPrice}
+                    handleOnClickCategory={handleOnClickCategory}
                     renderStar={renderStar}
                     stars={stars}
                     price={price}
+                    listAuthor={listAuthor}
+                    listCategory={listCategory}
                 />
                 <ProductList
                     totalPage={totalPage}
