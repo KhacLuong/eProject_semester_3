@@ -79,10 +79,8 @@ public class AdminManufacturerController : ControllerBase
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_EMAIL_RESULT));
 
             if (status == MyStatusCode.DUPLICATE_PHONE)
-            {
                 return BadRequest(new MyServiceResponse<ManufacturerModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_PHONE_RESULT));
-            }
 
             if (status == MyStatusCode.SUCCESS)
             {
@@ -121,10 +119,8 @@ public class AdminManufacturerController : ControllerBase
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_EMAIL_RESULT));
 
             if (status == MyStatusCode.DUPLICATE_PHONE)
-            {
                 return BadRequest(new MyServiceResponse<ManufacturerModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_PHONE_RESULT));
-            }
 
             if (status > 0)
             {

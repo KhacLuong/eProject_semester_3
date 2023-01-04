@@ -181,9 +181,7 @@ public class UserService : IUserService
     {
         var token = Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         if (_context.Users.Any(u => u.VerificationToken == token || u.PasswordResetToken == token))
-        {
             token = CreateRandomToken();
-        }
         return token;
     }
 }

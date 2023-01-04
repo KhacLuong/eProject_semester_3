@@ -17,7 +17,8 @@ public class UserInfoController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost, Authorize]
+    [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CreateUserInfo(AddUserInfoRequest request)
     {
         var user = await _userInfoService.CreateUserInfo(request);
@@ -30,14 +31,16 @@ public class UserInfoController : ControllerBase
         });
     }
 
-    [HttpGet, Authorize]
+    [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetUserInfo(int userId)
     {
         var userInfo = await _userInfoService.GetUserInfo(userId);
         return Ok(new ServiceResponse<UserInfoDto> { Data = _mapper.Map<UserInfoDto>(userInfo) });
     }
 
-    [HttpPut("{id:int}"), Authorize]
+    [HttpPut("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> UpdateUserInfo(int id, UserInfo request)
     {
         var userInfo = await _userInfoService.UpdateUserInfo(id, request);

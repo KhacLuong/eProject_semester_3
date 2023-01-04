@@ -66,7 +66,7 @@ public class DataContext : DbContext
                 Latitude = 21.0287216,
                 Longitude = 105.7817525,
                 UserInfoId = 1,
-                CreateAt = DateTime.Now,
+                CreateAt = DateTime.Now
             });
         for (var i = 1; i <= 20; i++)
         {

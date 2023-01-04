@@ -68,10 +68,8 @@ public class AdminProductTagController : ControllerBase
                     ", There is already a ProductTag of this ProductId and this TagId "));
 
             if (status == MyStatusCode.NOTFOUND)
-            {
                 return BadRequest(new MyServiceResponse<ProductTagGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ",  Not found Product or Tag"));
-            }
 
             if (status == MyStatusCode.SUCCESS)
             {
@@ -100,10 +98,8 @@ public class AdminProductTagController : ControllerBase
                     MyStatusCode.ADD_FAILURE_RESULT +
                     ", There is already a ProductTag of this ProductId and this TagId "));
             if (status == MyStatusCode.NOTFOUND)
-            {
                 return BadRequest(new MyServiceResponse<ProductTagGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ",  Not found Product or Tag"));
-            }
 
 
             if (status > 0)

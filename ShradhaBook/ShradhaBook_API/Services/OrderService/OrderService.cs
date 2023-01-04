@@ -11,7 +11,7 @@ public class OrderService : IOrderService
     {
         _context = context;
     }
-    
+
     public async Task<bool?> CheckVerify(int userId)
     {
         var user = await _context.Users.FindAsync(userId);
@@ -99,6 +99,7 @@ public class OrderService : IOrderService
             if (product == null) return null;
             product.Quantity += oi.Quantity;
         }
+
         await _context.SaveChangesAsync();
         return "order cancelled";
     }

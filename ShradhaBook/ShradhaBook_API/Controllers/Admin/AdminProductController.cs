@@ -90,10 +90,8 @@ public class AdminProductController : ControllerBase
                     MyStatusCode.UPDATE_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
 
             if (status == MyStatusCode.DUPLICATE_NAME)
-            {
                 return BadRequest(new MyServiceResponse<ManufacturerModelGet>(false,
                     MyStatusCode.UPDATE_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
-            }
 
             if (status == MyStatusCode.SUCCESS)
             {
@@ -123,10 +121,8 @@ public class AdminProductController : ControllerBase
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
 
             if (status == MyStatusCode.DUPLICATE_NAME)
-            {
                 return BadRequest(new MyServiceResponse<ProductModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
-            }
 
             if (status > 0)
             {

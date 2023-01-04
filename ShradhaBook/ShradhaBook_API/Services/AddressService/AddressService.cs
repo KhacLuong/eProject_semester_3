@@ -6,8 +6,8 @@ namespace ShradhaBook_API.Services.AddressService;
 
 public class AddressService : IAddressService
 {
-    private readonly DataContext _context;
     private readonly IConfiguration _configuration;
+    private readonly DataContext _context;
 
     public AddressService(DataContext context, IConfiguration configuration)
     {
@@ -52,7 +52,7 @@ public class AddressService : IAddressService
         var address = await _context.Addresses.FindAsync(id);
         if (address is null)
             return null;
-        
+
         var coordinates = await GetLocation(request.AddressLine1, request.AddressLine2, request.District, request.City,
             request.Country);
 
@@ -65,7 +65,7 @@ public class AddressService : IAddressService
         address.UpdateAt = DateTime.Now;
         address.Latitude = coordinates![0];
         address.Longitude = coordinates[1];
-            
+
         await _context.SaveChangesAsync();
 
         return address;
@@ -84,30 +84,6 @@ public class AddressService : IAddressService
         return address;
     }
 
-    private async Task<List<double>?> GetLocation(string addressLine1, string? addressLine2, string district, string city,
-        string country)
-    {
-        var request = new GeocodeRequest
-        {
-            BingMapsKey = _configuration.GetSection("BingMaps:Key").Value,
-            Address = new SimpleAddress
-            {
-                CountryRegion = country,
-                AddressLine = $"{addressLine1}, {addressLine2}",
-                AdminDistrict = district,
-                Locality = city,
-            }
-        };
-        var result = await request.Execute();
-        if (result.StatusCode != 200)
-        {
-            return null;
-        }
-        var toolkitLocation = result.ResourceSets?.FirstOrDefault()
-            ?.Resources?.FirstOrDefault() as Location;
-        return toolkitLocation!.Point.Coordinates.ToList();
-    }
-
     public async Task<double?> GetDistance(List<double> destination)
     {
         var origins = await _context.Addresses.FindAsync(1);
@@ -116,7 +92,7 @@ public class AddressService : IAddressService
         var request = new DistanceMatrixRequest
         {
             BingMapsKey = _configuration.GetSection("BingMaps:Key").Value,
-            Origins =  new List<SimpleWaypoint>
+            Origins = new List<SimpleWaypoint>
             {
                 new(origins.Latitude, origins.Longitude)
             },
@@ -130,5 +106,27 @@ public class AddressService : IAddressService
             return null;
         var distanceMatrix = result.ResourceSets?.FirstOrDefault()?.Resources.FirstOrDefault() as DistanceMatrix;
         return distanceMatrix!.GetCell(0, 0).TravelDistance;
+    }
+
+    private async Task<List<double>?> GetLocation(string addressLine1, string? addressLine2, string district,
+        string city,
+        string country)
+    {
+        var request = new GeocodeRequest
+        {
+            BingMapsKey = _configuration.GetSection("BingMaps:Key").Value,
+            Address = new SimpleAddress
+            {
+                CountryRegion = country,
+                AddressLine = $"{addressLine1}, {addressLine2}",
+                AdminDistrict = district,
+                Locality = city
+            }
+        };
+        var result = await request.Execute();
+        if (result.StatusCode != 200) return null;
+        var toolkitLocation = result.ResourceSets?.FirstOrDefault()
+            ?.Resources?.FirstOrDefault() as Location;
+        return toolkitLocation!.Point.Coordinates.ToList();
     }
 }
