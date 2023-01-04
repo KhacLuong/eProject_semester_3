@@ -60,10 +60,8 @@ public class AdminTagController : ControllerBase
         {
             var status = await _tagService.UpdateTagAsync(id, model);
             if (status == MyStatusCode.DUPLICATE_NAME)
-            {
                 return BadRequest(new MyServiceResponse<TagModelGet>(false,
                     MyStatusCode.UPDATE_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
-            }
 
             if (status == MyStatusCode.SUCCESS)
             {
@@ -90,10 +88,8 @@ public class AdminTagController : ControllerBase
         {
             var status = await _tagService.AddTagAsync(model);
             if (status == MyStatusCode.DUPLICATE_NAME)
-            {
                 return BadRequest(new MyServiceResponse<TagModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
-            }
 
             if (status > 0)
             {
