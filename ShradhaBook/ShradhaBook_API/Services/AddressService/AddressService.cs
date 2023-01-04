@@ -52,6 +52,9 @@ public class AddressService : IAddressService
         var address = await _context.Addresses.FindAsync(id);
         if (address is null)
             return null;
+        
+        var coordinates = await GetLocation(request.AddressLine1, request.AddressLine2, request.District, request.City,
+            request.Country);
 
         address.AddressLine1 = request.AddressLine1;
         address.AddressLine2 = request.AddressLine2;
@@ -60,7 +63,9 @@ public class AddressService : IAddressService
         address.Postcode = request.Postcode;
         address.Country = request.Country;
         address.UpdateAt = DateTime.Now;
-
+        address.Latitude = coordinates![0];
+        address.Longitude = coordinates[1];
+            
         await _context.SaveChangesAsync();
 
         return address;
