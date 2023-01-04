@@ -1,5 +1,5 @@
-﻿using Azure.Storage.Blobs;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
+using Azure.Storage.Blobs;
 
 namespace ShradhaBook_API.Services.StorageService;
 
@@ -22,7 +22,7 @@ public class StorageService : IStorageService
     public string? UploadAvatar(IFormFile formFile, string email)
     {
         var user = _context.Users.FirstOrDefault(u => u.Email == email);
-        if( user == null) { return null; }
+        if (user == null) return null;
         var containerName = _configuration.GetSection("Storage:AvatarContainerName").Value;
 
         var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
@@ -39,7 +39,7 @@ public class StorageService : IStorageService
     public string? UploadProductImage(IFormFile formFile, string productSlug)
     {
         var product = _context.Products.FirstOrDefault(p => p.Slug == productSlug);
-        if(product == null) { return null; }
+        if (product == null) return null;
         var containerName = _configuration.GetSection("Storage:ProductContainerName").Value;
 
         var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
@@ -57,11 +57,9 @@ public class StorageService : IStorageService
     private string CreateRandomFileName()
     {
         var fileName = Convert.ToHexString(RandomNumberGenerator.GetBytes(8)) + ".png";
-        if (_context.Users.Any(u => u.Avatar == fileName) 
+        if (_context.Users.Any(u => u.Avatar == fileName)
             || _context.Products.Any(p => p.ImageProductPath == fileName))
-        {
             fileName = CreateRandomFileName();
-        }
         return fileName;
     }
 }

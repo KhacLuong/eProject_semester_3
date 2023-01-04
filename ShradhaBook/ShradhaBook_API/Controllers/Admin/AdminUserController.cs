@@ -43,7 +43,8 @@ public class AdminUserController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet, Authorize(Roles = "Admin")]
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetAllUsers(string? query, int page = 1, int itemPerPage = 5)
     {
         var users = await _userService.GetAllUsers(query);
@@ -61,7 +62,8 @@ public class AdminUserController : ControllerBase
         return Ok(new ServiceResponse<PaginationResponse<User>> { Data = response });
     }
 
-    [HttpGet("{id:int}"), Authorize(Roles = "Admin")]
+    [HttpGet("{id:int}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetSingleUser(int id)
     {
         var user = await _userService.GetSingleUser(id);
@@ -70,7 +72,8 @@ public class AdminUserController : ControllerBase
         return Ok(new ServiceResponse<User> { Data = user });
     }
 
-    [HttpPut("update/{id:int}"), Authorize(Roles = "Admin")]
+    [HttpPut("update/{id:int}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> UpdateUser(int id, User request)
     {
         var user = await _userService.UpdateUser(id, request);
@@ -79,7 +82,8 @@ public class AdminUserController : ControllerBase
         return Ok(new ServiceResponse<User> { Data = user, Message = "User info has been updated successfully." });
     }
 
-    [HttpPut("password/{id:int}"), Authorize(Roles = "Admin")]
+    [HttpPut("password/{id:int}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ChangePassword(int id, UserChangePasswordRequest request)
     {
         var user = await _userService.ChangePassword(id, request);
@@ -88,7 +92,8 @@ public class AdminUserController : ControllerBase
         return Ok(new ServiceResponse<User> { Data = user, Message = "Password has been changed successfully." });
     }
 
-    [HttpDelete("delete/{id:int}"), Authorize(Roles = "Admin")]
+    [HttpDelete("delete/{id:int}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteUser(int id)
     {
         var user = await _userService.DeleteUser(id);

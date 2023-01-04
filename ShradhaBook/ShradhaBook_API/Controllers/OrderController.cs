@@ -106,7 +106,8 @@ public class OrderController : ControllerBase
         });
     }
 
-    [HttpGet, Authorize(Roles = "Admin")]
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetAllOrders(string? orderNumber,
         int? productId, int? userId, string? orderTracking,
         string? paymentForms, decimal? fromTotal, decimal? toTotal,
@@ -129,7 +130,8 @@ public class OrderController : ControllerBase
         return Ok(new ServiceResponse<PaginationResponse<Order>> { Data = response });
     }
 
-    [HttpGet("user/{userId:int}"), Authorize]
+    [HttpGet("user/{userId:int}")]
+    [Authorize]
     public async Task<IActionResult> GetAllOrdersByUserId(int userId, int page = 1, int itemPerPage = 5)
     {
         var orders = await _orderService.GetAllOrdersByUserId(userId);
@@ -147,7 +149,8 @@ public class OrderController : ControllerBase
         return Ok(new ServiceResponse<PaginationResponse<Order>> { Data = response });
     }
 
-    [HttpGet("{id:int}"), Authorize]
+    [HttpGet("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> GetOrderById(int id)
     {
         var order = await _orderService.GetOrderById(id);
@@ -156,7 +159,8 @@ public class OrderController : ControllerBase
         return Ok(new ServiceResponse<Order> { Data = order });
     }
 
-    [HttpPut("update/{id:int}"), Authorize]
+    [HttpPut("update/{id:int}")]
+    [Authorize]
     public async Task<IActionResult> UpdateOrder(int id, UpdateOrderRequest request)
     {
         var order = await _orderService.UpdateOrder(id, request);
@@ -165,7 +169,8 @@ public class OrderController : ControllerBase
             { Data = order, Message = "Order tracking has been updated successfully." });
     }
 
-    [HttpPut("cancel/{id:int}"), Authorize]
+    [HttpPut("cancel/{id:int}")]
+    [Authorize]
     public async Task<IActionResult> CancellationOrder(int id)
     {
         var order = await _orderService.CancelOrder(id);
