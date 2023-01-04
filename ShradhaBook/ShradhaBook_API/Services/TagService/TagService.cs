@@ -10,6 +10,7 @@ public class TagService : ITagService
     private readonly DataContext _context;
     private readonly IMapper _mapper;
 
+
     public TagService(DataContext context, IMapper mapper)
     {
         _context = context;
@@ -76,13 +77,35 @@ public class TagService : ITagService
         return MyStatusCode.FAILURE;
     }
 
-    public async Task<object> GetTagsByIdProduct(int id, int pageSize = 20, int pageIndex = 1)
+    public async Task<object> GetTagsByProductId(int id, int pageSize = 20, int pageIndex = 1)
     {
         var allModel = await (from P in _context.Products.Where(p => p.Id == id)
             join PT in _context.ProductTags
                 on P.Id equals PT.ProductId
             join T in _context.Tags
                 on PT.TagId equals T.Id
+            select new TagModelPost(T.Id, T.Name, T.CreatedAt, T.UpdatedAt)).ToArrayAsync();
+
+
+        var listModel = _mapper.Map<List<Tag>>(allModel);
+        var listGet = _mapper.Map<List<TagModelGet>>(listModel);
+        var models = PaginatedList<TagModelGet>.Create(listGet, pageIndex, pageSize);
+        var totalPage = PaginatedList<TagModelGet>.totlalPage(listGet, pageSize);
+        var result = _mapper.Map<List<TagModelGet>>(models);
+
+        return new
+        {
+            Products = result, totalPage
+        };
+    }
+
+    public async Task<object> GetTagsByBlogId(int id, int pageSize = 20, int pageIndex = 1)
+    {
+        var allModel = await (from B in _context.Blogs.Where(p => p.Id == id)
+            join BT in _context.BlogTags
+                on B.Id equals BT.BlogId
+            join T in _context.Tags
+                on BT.TagId equals T.Id
             select new TagModelPost(T.Id, T.Name, T.CreatedAt, T.UpdatedAt)).ToArrayAsync();
 
 

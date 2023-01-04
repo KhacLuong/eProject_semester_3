@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {GiBookAura} from "react-icons/gi"
 import {FiHeart} from "react-icons/fi"
@@ -17,36 +17,21 @@ const TopHeader = () => {
     const navigate = useNavigate();
     const [showNavUser, setShowNavUser] = useState(false);
     const dispatch = useDispatch();
-    let ref = useRef();
+
 
     let decoded = ''
     if (account.accessToken) {
         decoded = jwt_decode(account.accessToken);
     }
-
-    useEffect(() => {
-        refreshToken()
-    }, [])
-
-    useEffect(() => {
-        const handler = (event) => {
-            if (showNavUser && ref.current && !ref.current.contains(event.target)) {
-                setShowNavUser(false)
-            }
-        };
-        document.addEventListener("mousedown", handler);
-        document.addEventListener("touchstart", handler);
-        return () => {
-            // cleanup the event listener
-            document.removeEventListener("mousedown", handler);
-            document.removeEventListener("touchstart", handler);
-        }
-    }, [showNavUser])
-    const refreshToken = async () => {
-        const refreshToken = account.refreshToken
-        let res = await postRefreshToken(refreshToken);
-        console.log(res)
-    }
+    // useEffect(() => {
+    //     refreshToken()
+    // }, [])
+    //
+    // const refreshToken = async () => {
+    //     let id = decoded.Id
+    //     let res = await postRefreshToken(id);
+    //     console.log(res)
+    // }
     const handleClickUser = () => {
         setShowNavUser(!showNavUser)
     }
@@ -60,10 +45,6 @@ const TopHeader = () => {
             navigate('/')
         }
     }
-    const handleLeaveNavUser = () => {
-        window.innerWidth > 2060 && setShowNavUser(false);
-    }
-
     return (
         <nav className={'bg-dangerColor-default_2'}>
             <div className="container flex flex-wrap items-center justify-between mx-auto xl:px-30">
@@ -85,20 +66,24 @@ const TopHeader = () => {
                         </>
                         :
                         <>
-                            <div ref={ref}
-                                className="relative cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-lg px-4 py-2.5 text-center inline-flex items-center mr-1"
-                                onClick={() => handleClickUser()}
-                                onMouseLeave={() => handleLeaveNavUser()}>
-                                <RiUserLine></RiUserLine>
+                            <div
+                                className="relative cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-sm px-4 py-2.5 text-center inline-flex items-center mr-1"
+                                onClick={() => handleClickUser()}>
+                                {account.name}
                                 <div
-                                    className={`${showNavUser ? 'block' : 'hidden'} rounded-[10px] absolute z-14 left-0 top-[50px] w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 before:absolute before:content[''] before:w-[10px] before:h-[10px] before:bg-whiteColor before:top-[-5px] before:left-[13%] before:rotate-45 before:z-99999 before:border-[#e4e4e4]-[1px] before:border-b-0 before:border-r-0`}>
+                                    className={`${showNavUser ? 'block' : 'hidden'} rounded-md absolute z-14 left-0 top-11 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}>
                                     <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
                                         <div onClick={() => navigate(`/user/my-profile/${decoded.Id}`)}
-                                             className="font-medium truncate">{account.username}</div>
-                                        <div className={`font-light`}>({account.email})</div>
+                                             className="font-medium truncate">{account.email}</div>
                                     </div>
                                     <ul className="py-1 text-sm text-gray-700 dark:text-gray-200"
                                         aria-labelledby="dropdownInformationButton">
+                                        <li>
+                                            <div onClick={() => navigate(`/user/my-profile/${decoded.Id}`)}
+                                                 className="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                Profile
+                                            </div>
+                                        </li>
                                         <li>
                                             <div onClick={() => navigate(`user/my-history/${decoded.Id}`)}
                                                  className="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">

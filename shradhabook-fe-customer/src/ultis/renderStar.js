@@ -1,7 +1,7 @@
 export const renderStar = (count_of_star) => {
     let data = []
     for (let i = 1; i <= count_of_star; i++) {
-        data.push(`<svg aria-hidden="true" className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
+        data.push(`<svg aria-hidden="true" className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
                          xmlns="http://www.w3.org/2000/svg">
                     <title>Rating star</title>
                     <path

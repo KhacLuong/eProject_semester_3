@@ -3,7 +3,6 @@
 public class User
 {
     public int Id { get; set; }
-    public string? Avatar { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public byte[] PasswordHash { get; set; } = new byte[32];
@@ -20,4 +19,6 @@ public class User
     public List<Order>? Orders { get; set; }
     public DateTime CreateAt { get; set; } = DateTime.Now;
     public DateTime? UpdateAt { get; set; }
+    public virtual ICollection<WishListUser>? WishListUsers { get; set; }
+    public string Avatar { get; internal set; }
 }

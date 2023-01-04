@@ -9,16 +9,11 @@ public class ProductTagService : IProductTagService
 {
     private readonly DataContext _context;
     private readonly IMapper _mapper;
-    private readonly IProductService _productService;
-    private readonly ITagService _tagService;
 
-    public ProductTagService(DataContext context, IMapper mapper, IProductService productService,
-        ITagService tagService)
+    public ProductTagService(DataContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
-        _productService = productService;
-        _tagService = tagService;
     }
 
     public async Task<int> AddProductTagAsync(ProductTagPost model)
@@ -74,6 +69,12 @@ public class ProductTagService : IProductTagService
         };
     }
 
+    public async Task<List<ProductTagModel>> GetAllProductTagAsync()
+    {
+        var allModel = await _context.ProductTags!.ToListAsync();
+        return _mapper.Map<List<ProductTagModel>>(allModel);
+    }
+
     public async Task<ProductTagGet> GetProductTagAsync(int id)
     {
         var model = await (from PT in _context.ProductTags.Where(m => m.Id == id)
@@ -97,8 +98,14 @@ public class ProductTagService : IProductTagService
                 return MyStatusCode.DUPLICATE;
             if (!_context.Products.Any(p => p.Id == model.ProductId) ||
                 !_context.Tags.Any(t => t.Id == model.ProductId)) return MyStatusCode.NOTFOUND;
+            var modelOld = await _context.WishLists.FindAsync(id);
+            if (modelOld != null)
+            {
+                model.CreatedAt = modelOld.CreatedAt;
+                model.UpdatedAt = DateTime.Now;
+            }
+
             var updateModel = _mapper.Map<ProductTag>(model);
-            updateModel.UpdatedAt = DateTime.Now;
             _context.ProductTags.Update(updateModel);
             await _context.SaveChangesAsync();
             return MyStatusCode.SUCCESS;

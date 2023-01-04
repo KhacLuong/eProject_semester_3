@@ -8,6 +8,7 @@ public class MyStatusCode
     public static readonly int DUPLICATE_EMAIL = -4;
     public static readonly int DUPLICATE = -5;
     public static readonly int NOTFOUND = -6;
+    public static readonly int EXISTSREFERENCE = -7;
 
 
     public static readonly int FAILURE = 0;

@@ -8,7 +8,8 @@ public interface IProductTagService
     Task<ProductTagGet> GetProductTagAsync(int id);
     Task<int> AddProductTagAsync(ProductTagPost model);
     Task DeleteProductTagAsync(int id);
-
     Task<int> UpdateProductTagAsync(int id, ProductTagPost model);
+
+    Task<List<ProductTagModel>> GetAllProductTagAsync();
     //Task<List<Object>> GetAllManufacturersAsync();
 }

@@ -74,27 +74,47 @@ public class BlogController : ControllerBase
     }
 
 
-    [HttpGet("BlogByAuthor{id}")]
-    // public async Task<ActionResult<object>> GetBlogByAuthorId(int id)
-    // {
-    //     try
-    //     {
-    //         var result = await _blogService.GetBlogByAuthordIdAsync(id);
-    //
-    //         return result == null ? NotFound(new MyServiceResponse<object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<object>(result));
-    //
-    //     }
-    //     catch
-    //     {
-    //         return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-    //     }
-    // }
-    [HttpPost("IncreaseViewCountProduct{id}")]
-    public async Task<ActionResult> IncreaseViewCountProduct(int id)
+    [HttpGet("DetailBySlug{slug}")]
+    public async Task<ActionResult<object>> GetBlogDetailBySlug(string slug)
     {
         try
         {
-            var result = await _productService.IncreaseViewCountProduct(id);
+            var result = await _blogService.GetBlogDetailBySlugAsync(slug);
+
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
+        }
+        catch
+        {
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
+
+    [HttpGet("GetBlogByAuthorId{id}")]
+    public async Task<ActionResult<object>> GetBlogByAuthorId(int id)
+    {
+        try
+        {
+            var result = await _blogService.GetBlogByAuthordIdAsync(id);
+
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
+        }
+        catch
+        {
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
+
+
+    [HttpPost("IncreaseViewCountBlog{id}")]
+    public async Task<ActionResult> IncreaseViewCountBlog(int id)
+    {
+        try
+        {
+            var result = await _blogService.IncreseCountViewBlogAsync(id);
 
             return result ? Ok(MyStatusCode.SUCCESS_RESULT) : BadRequest(MyStatusCode.FAILURE_RESULT);
         }

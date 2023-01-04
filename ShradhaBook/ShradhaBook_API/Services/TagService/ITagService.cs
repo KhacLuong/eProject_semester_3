@@ -9,5 +9,6 @@ public interface ITagService
     Task<int> AddTagAsync(TagModelPost model);
     Task DeleteTagAsync(int id);
     Task<int> UpdateTagAsync(int id, TagModelPost model);
-    Task<object> GetTagsByIdProduct(int id, int pageSize = 20, int pageIndex = 1);
+    Task<object> GetTagsByProductId(int id, int pageSize = 20, int pageIndex = 1);
+    Task<object> GetTagsByBlogId(int id, int pageSize = 20, int pageIndex = 1);
 }

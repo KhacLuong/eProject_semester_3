@@ -17,5 +17,5 @@ public class Author
     public DateTime? UpdatedAt { get; set; }
 
     public virtual ICollection<Product> Products { get; set; }
-    public virtual Blog Blog { get; set; }
+    public virtual ICollection<Blog> Blogs { get; set; }
 }

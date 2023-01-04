@@ -28,7 +28,7 @@ public class AdminProductTagController : ControllerBase
         {
             var result = await _productTagService.GetAllProductTagAsync(productName, tagName, pageSize, pageIndex);
 
-            return Ok(new MyServiceResponse<object>(result));
+            return Ok(new MyServiceResponse<object>(result, true, ""));
         }
         catch
         {
@@ -46,7 +46,7 @@ public class AdminProductTagController : ControllerBase
 
             return result == null
                 ? NotFound(new MyServiceResponse<ProductTagGet>(false, MyStatusCode.NOT_FOUND_RESULT))
-                : Ok(new MyServiceResponse<ProductTagGet>(result));
+                : Ok(new MyServiceResponse<ProductTagGet>(result, true, ""));
         }
         catch
         {

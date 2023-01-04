@@ -13,6 +13,7 @@ public class AdminProductController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IProductService _productService;
 
+
     public AdminProductController(ICategoryService categoryService, IProductService productService, IMapper mapper)
     {
         _categoryService = categoryService;
@@ -27,7 +28,7 @@ public class AdminProductController : ControllerBase
         decimal? moreThanPrice, decimal? lessThanPrice, long? moreThanQuantity, long? lessThanQuantity, int? sortBy = 0,
         int pageSize = 20, int pageIndex = 1)
     {
-        try
+        //try
         {
             var result = await _productService.GetAllProductAsync(name, code, status, categoryName, authorName,
                 manufactuerName,
@@ -35,10 +36,11 @@ public class AdminProductController : ControllerBase
 
             return Ok(new MyServiceResponse<object>(result, true, ""));
         }
-        catch
-        {
-            return StatusCode(500, new MyServiceResponse<List<object>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-        }
+        //catch
+        //{
+        //    return StatusCode(500, new MyServiceResponse<List<Object>>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+
+        //}
     }
 
     // GET: api/AdminProduct/5
@@ -90,8 +92,10 @@ public class AdminProductController : ControllerBase
                     MyStatusCode.UPDATE_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
 
             if (status == MyStatusCode.DUPLICATE_NAME)
+            {
                 return BadRequest(new MyServiceResponse<ManufacturerModelGet>(false,
                     MyStatusCode.UPDATE_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
+            }
 
             if (status == MyStatusCode.SUCCESS)
             {
@@ -113,7 +117,7 @@ public class AdminProductController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ProductModelGet>> AddProductModelGet(ProductModelPost model)
     {
-        try
+        //try
         {
             var status = await _productService.AddProductAsync(model);
             if (status == MyStatusCode.DUPLICATE_CODE)
@@ -121,8 +125,10 @@ public class AdminProductController : ControllerBase
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
 
             if (status == MyStatusCode.DUPLICATE_NAME)
+            {
                 return BadRequest(new MyServiceResponse<ProductModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
+            }
 
             if (status > 0)
             {
@@ -134,11 +140,11 @@ public class AdminProductController : ControllerBase
 
             return BadRequest(new MyServiceResponse<ProductModelGet>(false, MyStatusCode.ADD_FAILURE_RESULT));
         }
-        catch
-        {
-            return StatusCode(500,
-                new MyServiceResponse<ProductModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-        }
+        //catch
+        //{
+        //    return StatusCode(500, new MyServiceResponse<ProductModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+
+        //}
     }
 
     // DELETE: api/AdminProduct/5
@@ -154,6 +160,23 @@ public class AdminProductController : ControllerBase
         {
             return StatusCode(500,
                 new MyServiceResponse<ProductModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
+
+    [HttpGet("GetProductByCategoryId{id}")]
+    public async Task<ActionResult<object>> GetProductByCategoryId(int id, int pageSize = 20, int pageIndex = 1)
+    {
+        try
+        {
+            var result = await _productService.GetProductByIdCategoryAsync(id, pageSize, pageIndex);
+
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
+        }
+        catch
+        {
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         }
     }
 

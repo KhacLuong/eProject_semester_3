@@ -29,6 +29,8 @@ public class DataContext : DbContext
     public DbSet<Blog> Blogs { get; set; }
     public DbSet<BlogTag> BlogTags { get; set; }
     public DbSet<Author> Authors { get; set; } = null!;
+    public DbSet<WishList> WishLists { get; set; }
+    public DbSet<WishListUser> WishListUsers { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
