@@ -79,7 +79,23 @@ namespace ShradhaBook_API.Controllers
             }
         }
 
-        [HttpGet("BlogByAuthor{id}")]
+        [HttpGet("DetailBySlug{slug}")]
+        public async Task<ActionResult<object>> GetBlogDetailBySlug(string slug)
+        {
+            try
+            {
+                var result = await _blogService.GetBlogDetailBySlugAsync(slug);
+
+                return result == null ? NotFound(new MyServiceResponse<object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<object>(result));
+
+            }
+            catch
+            {
+                return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            }
+        }
+
+        [HttpGet("GetBlogByAuthorId{id}")]
         public async Task<ActionResult<object>> GetBlogByAuthorId(int id)
         {
             try

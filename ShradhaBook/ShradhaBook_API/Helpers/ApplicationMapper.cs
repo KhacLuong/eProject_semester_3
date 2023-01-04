@@ -46,7 +46,7 @@ namespace ShradhaBook_API.Helpers
             CreateMap<WishListPost, WishList>();
 
             CreateMap<WishListUser, WishListUserGet>();
-            CreateMap<WishListUser, WishListUser>();
+            CreateMap<WishListUserPost, WishListUser>();
 
         }
     }

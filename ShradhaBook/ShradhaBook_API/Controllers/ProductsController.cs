@@ -76,12 +76,12 @@ namespace ShradhaBook_API.Controllers
                 return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
             }
         }
-        [HttpGet("Category{id}")]
-        public async Task<ActionResult<Object>> GetProductByCategoryId(int id)
+        [HttpGet("GetProductByCategoryId{id}")]
+        public async Task<ActionResult<Object>> GetProductByCategoryId(int id, int sortBy = 0, int pageSize = 20, int pageIndex = 1)
         {
             try
             {
-                var result = await _productService.GetProductByIdCategoryAsync(id);
+                var result = await _productService.GetProductByIdCategoryAsync(id, sortBy, pageSize, pageIndex);
 
                 return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
 
@@ -91,12 +91,13 @@ namespace ShradhaBook_API.Controllers
                 return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
             }
         }
-        [HttpGet("Author{id}")]
-        public async Task<ActionResult<Object>> GetProductByAuthorId(int id)
+
+        [HttpGet("GetProductByCategorySlug{slug}")]
+        public async Task<ActionResult<Object>> GetProductByCategoryId(string slug, int sortBy = 0, int pageSize = 20, int pageIndex = 1)
         {
             try
             {
-                var result = await _productService.GetProductByIdAuthorAsync(id);
+                var result = await _productService.GetProductBySlugCategoryAsync(slug, sortBy, pageSize, pageIndex);
 
                 return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
 
@@ -106,12 +107,29 @@ namespace ShradhaBook_API.Controllers
                 return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
             }
         }
-        [HttpGet("Manufacturer{id}")]
-        public async Task<ActionResult<Object>> GetProductByManufacturer(int id)
+
+
+        [HttpGet("GetProductByAuthorId{id}")]
+        public async Task<ActionResult<Object>> GetProductByAuthorId(int id, int sortBy = 0, int pageSize = 20, int pageIndex = 1)
         {
             try
             {
-                var result = await _productService.GetProductByIdManufactuerAsync(id);
+                var result = await _productService.GetProductByIdAuthorAsync(id, sortBy, pageSize, pageIndex);
+
+                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
+
+            }
+            catch
+            {
+                return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            }
+        }
+        [HttpGet("GetProductByManufacturer{id}")]
+        public async Task<ActionResult<Object>> GetProductByManufacturer(int id, int sortBy = 0, int pageSize = 20, int pageIndex = 1)
+        {
+            try
+            {
+                var result = await _productService.GetProductByIdManufactuerAsync(id, sortBy, pageSize, pageIndex);
 
                 return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
 
@@ -139,8 +157,37 @@ namespace ShradhaBook_API.Controllers
         }
 
 
+        [HttpGet("GetProductWishListByUserId{id}")]
+        public async Task<ActionResult<Object>> GetProductWishListByUserId(int id, int pageSize = 20, int pageIndex = 1)
+        {
+            try
+            {
+                var result = await _productService.GetProductWishListByUserIdAsync(id, pageSize, pageIndex);
 
+                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
 
+            }
+            catch
+            {
+                return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            }
+        }
+
+        [HttpGet("GetProductBySlug{slug}")]
+        public async Task<ActionResult<Object>> GetProductBySlug(string slug)
+        {
+            try
+            {
+                var result = await _productService.GetProductDetailAsync(slug);
+
+                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
+
+            }
+            catch
+            {
+                return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            }
+        }
 
 
         //private bool ViewProductExists(int id)

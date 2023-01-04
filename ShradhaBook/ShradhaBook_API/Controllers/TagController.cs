@@ -60,7 +60,7 @@ namespace ShradhaBook_API.Controllers
         }
 
         // GET: api/TagModels/5
-        [HttpGet("Blog{id}")]
+        [HttpGet("GetTagsByBlogId{id}")]
         public async Task<ActionResult<Object>> GetTagsByBlogId(int id, int pageSize = 20, int pageIndex = 1)
         {
             try

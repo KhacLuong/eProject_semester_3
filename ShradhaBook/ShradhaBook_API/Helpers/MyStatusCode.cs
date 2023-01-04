@@ -8,6 +8,7 @@
         public readonly static int DUPLICATE_EMAIL = -4;
         public readonly static int DUPLICATE=-5;
         public readonly static int NOTFOUND = -6;
+        public readonly static int EXISTSREFERENCE = -7;
 
 
         public readonly static int FAILURE = 0;

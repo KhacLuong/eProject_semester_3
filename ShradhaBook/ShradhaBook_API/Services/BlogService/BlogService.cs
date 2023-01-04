@@ -128,6 +128,23 @@ namespace ShradhaBook_API.Services.BlogService
             return model[0];
         }
 
+        public async Task<object> GetBlogDetailBySlugAsync(string slug, int pageSize = 20, int pageIndex = 1)
+        {
+            var model = await (from B in _context.Blogs.Where(B => B.Slug == slug)
+                               join A in _context.Authors
+                               on B.AuthorId equals A.Id
+                               select new BlogModelDetail(B.Id, B.Title, B.Description, B.Content, B.avatar, A,
+                               MyStatus.changeStatusCat(B.Status), B.Slug, B.ViewCount,
+                               B.CreatedAt, B.UpdatedAt)).ToListAsync();
+
+            if (model == null || model.Count == 0)
+            {
+                return null;
+            }
+            var result = model[0];
+            return model[0];
+        }
+
         public async Task<BlogModelDetail> GetBlogDetailAsync(int id)
         {
             var model = await (from B in _context.Blogs.Where(B=>B.Id==id)

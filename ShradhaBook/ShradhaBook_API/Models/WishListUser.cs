@@ -10,7 +10,7 @@ namespace ShradhaBook_API.Models
         [Required]
         public int WishListId { get; set; }
         public DateTime?  CreatedAt { get; set; }
-        public DateTime? UpdateedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         public virtual WishList WishList { get; set; }
         public virtual User User { get; set; }

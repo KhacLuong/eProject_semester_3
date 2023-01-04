@@ -121,7 +121,7 @@ namespace ShradhaBook_API.Controllers.Admin
         [HttpPost]
         public async Task<ActionResult<ProductModelGet>> AddProductModelGet(ProductModelPost model)
         {
-            try
+            //try
             {
                 var status = await _productService.AddProductAsync(model);
                 if (status == MyStatusCode.DUPLICATE_CODE)
@@ -145,11 +145,11 @@ namespace ShradhaBook_API.Controllers.Admin
 
 
             }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<ProductModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            //catch
+            //{
+            //    return StatusCode(500, new MyServiceResponse<ProductModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
 
-            }
+            //}
         }
 
         // DELETE: api/AdminProduct/5
@@ -168,6 +168,22 @@ namespace ShradhaBook_API.Controllers.Admin
             {
                 return StatusCode(500, new MyServiceResponse<ProductModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
 
+            }
+        }
+
+        [HttpGet("GetProductByCategoryId{id}")]
+        public async Task<ActionResult<Object>> GetProductByCategoryId(int id, int pageSize = 20, int pageIndex = 1)
+        {
+            try
+            {
+                var result = await _productService.GetProductByIdCategoryAsync(id, pageSize, pageIndex);
+
+                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
+
+            }
+            catch
+            {
+                return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
             }
         }
 

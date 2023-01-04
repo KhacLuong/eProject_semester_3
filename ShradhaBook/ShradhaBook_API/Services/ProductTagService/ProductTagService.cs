@@ -118,8 +118,13 @@ namespace ShradhaBook_API.Services.ProductTagService
                 {
                     return MyStatusCode.NOTFOUND;
                 }
+                var modelOld = await _context.WishLists.FindAsync(id);
+                if (modelOld != null)
+                {
+                    model.CreatedAt = modelOld.CreatedAt;
+                    model.UpdatedAt = DateTime.Now;
+                }
                 var updateModel = _mapper.Map<ProductTag>(model);
-                updateModel.UpdatedAt = DateTime.Now;
                 _context.ProductTags.Update(updateModel);
                 await _context.SaveChangesAsync();
                 return MyStatusCode.SUCCESS;

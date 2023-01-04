@@ -113,6 +113,7 @@ namespace ShradhaBook_API.Services.CategotyService
         {
             var allModel = await _context.Categories.ToListAsync();
 
+
             return _mapper.Map<List<CategoryModelGet>>(allModel);
         }
 
