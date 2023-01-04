@@ -28,15 +28,13 @@ public class AdminProductTagController : ControllerBase
         {
             var result = await _productTagService.GetAllProductTagAsync(productName, tagName, pageSize, pageIndex);
 
-                return Ok(new MyServiceResponse<Object>(result, true, ""));
-
-            }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<List<Object>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-
-            }
+            return Ok(new MyServiceResponse<object>(result, true, ""));
         }
+        catch
+        {
+            return StatusCode(500, new MyServiceResponse<List<object>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
 
     // GET: api/ProductTagPosts/5
     [HttpGet("{id}")]
@@ -46,14 +44,15 @@ public class AdminProductTagController : ControllerBase
         {
             var result = await _productTagService.GetProductTagAsync(id);
 
-                return result == null ? NotFound(new MyServiceResponse<ProductTagGet>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<ProductTagGet>(result, true, ""));
-
-            }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<ProductTagGet>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-            }
+            return result == null
+                ? NotFound(new MyServiceResponse<ProductTagGet>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<ProductTagGet>(result, true, ""));
         }
+        catch
+        {
+            return StatusCode(500, new MyServiceResponse<ProductTagGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
 
     // PUT: api/ProductTagPosts/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

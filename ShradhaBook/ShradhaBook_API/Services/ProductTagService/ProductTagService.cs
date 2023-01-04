@@ -3,19 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.Helpers;
 using ShradhaBook_API.ViewModels;
 
-namespace ShradhaBook_API.Services.ProductTagService
+namespace ShradhaBook_API.Services.ProductTagService;
+
+public class ProductTagService : IProductTagService
 {
-    public class ProductTagService : IProductTagService
+    private readonly DataContext _context;
+    private readonly IMapper _mapper;
+
+    public ProductTagService(DataContext context, IMapper mapper)
     {
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
-
-        public ProductTagService(DataContext context, IMapper mapper)
-        {
-            this._context = context;
-            this._mapper = mapper;
-
-        }
+        _context = context;
+        _mapper = mapper;
+    }
 
     public async Task<int> AddProductTagAsync(ProductTagPost model)
     {
@@ -70,56 +69,48 @@ namespace ShradhaBook_API.Services.ProductTagService
         };
     }
 
-        public async  Task<List<ProductTagModel>> GetAllProductTagAsync()
+    public async Task<List<ProductTagModel>> GetAllProductTagAsync()
+    {
+        var allModel = await _context.ProductTags!.ToListAsync();
+        return _mapper.Map<List<ProductTagModel>>(allModel);
+    }
+
+    public async Task<ProductTagGet> GetProductTagAsync(int id)
+    {
+        var model = await (from PT in _context.ProductTags.Where(m => m.Id == id)
+            join P in _context.Products
+                on PT.ProductId equals P.Id
+            join T in _context.Tags
+                on PT.TagId equals T.Id
+            select new ProductTagGet(PT.Id, P.Name, T.Name, PT.CreatedAt, PT.UpdatedAt)).ToListAsync();
+        if (model == null || model.Count == 0) return null;
+        return model[0];
+    }
+
+    public async Task<int> UpdateProductTagAsync(int id, ProductTagPost model)
+    {
+        if (id == model.Id)
         {
-            var allModel = await _context.ProductTags!.ToListAsync();
-            return _mapper.Map<List<ProductTagModel>>(allModel);
+            if (_context.ProductTags.Any(c =>
+                    c.ProductId == model.ProductId && c.TagId == model.TagId && c.Id != model.Id))
+                return MyStatusCode.DUPLICATE;
+            if (_context.ProductTags.Any(c => c.ProductId == model.ProductId && c.TagId == model.TagId))
+                return MyStatusCode.DUPLICATE;
+            if (!_context.Products.Any(p => p.Id == model.ProductId) ||
+                !_context.Tags.Any(t => t.Id == model.ProductId)) return MyStatusCode.NOTFOUND;
+            var modelOld = await _context.WishLists.FindAsync(id);
+            if (modelOld != null)
+            {
+                model.CreatedAt = modelOld.CreatedAt;
+                model.UpdatedAt = DateTime.Now;
+            }
+
+            var updateModel = _mapper.Map<ProductTag>(model);
+            _context.ProductTags.Update(updateModel);
+            await _context.SaveChangesAsync();
+            return MyStatusCode.SUCCESS;
         }
 
-        public async  Task<ProductTagGet> GetProductTagAsync(int id)
-        {
-            var model = await (from PT in _context.ProductTags.Where(m => m.Id == id)
-                               join P in _context.Products
-                                   on PT.ProductId equals P.Id
-                          join T in _context.Tags
-                          on PT.TagId equals T.Id
-                          select new ProductTagGet(PT.Id, P.Name, T.Name, PT.CreatedAt, PT.UpdatedAt)).ToListAsync();
-            if (model == null || model.Count == 0)
-            {
-                return null;
-            }
-            return model[0];
-            
-        }
-
-        public async Task<int> UpdateProductTagAsync(int id, ProductTagPost model)
-        {
-            if (id == model.Id)
-            {
-                if (_context.ProductTags.Any(c => c.ProductId == model.ProductId && c.TagId == model.TagId&&c.Id!=model.Id))
-                {
-                    return MyStatusCode.DUPLICATE;
-                }
-                if (_context.ProductTags.Any(c => c.ProductId == model.ProductId && c.TagId == model.TagId))
-                {
-                    return MyStatusCode.DUPLICATE;
-                }
-                if (!(_context.Products.Any(p => p.Id == model.ProductId)) || !(_context.Tags.Any(t => t.Id == model.ProductId)))
-                {
-                    return MyStatusCode.NOTFOUND;
-                }
-                var modelOld = await _context.WishLists.FindAsync(id);
-                if (modelOld != null)
-                {
-                    model.CreatedAt = modelOld.CreatedAt;
-                    model.UpdatedAt = DateTime.Now;
-                }
-                var updateModel = _mapper.Map<ProductTag>(model);
-                _context.ProductTags.Update(updateModel);
-                await _context.SaveChangesAsync();
-                return MyStatusCode.SUCCESS;
-            }
-            return MyStatusCode.FAILURE;
-        }
+        return MyStatusCode.FAILURE;
     }
 }

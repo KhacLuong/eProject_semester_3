@@ -1,7 +1,6 @@
-﻿namespace ShradhaBook_API.Services.UploadImageService
+﻿namespace ShradhaBook_API.Services.UploadImageService;
+
+public interface IUploadImage
 {
-    public interface IUploadImage
-    {
-        Task UploadImage();
-    }
+    Task UploadImage();
 }

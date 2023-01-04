@@ -18,6 +18,4 @@ public class Author
 
     public virtual ICollection<Product> Products { get; set; }
     public virtual ICollection<Blog> Blogs { get; set; }
-
-    
 }

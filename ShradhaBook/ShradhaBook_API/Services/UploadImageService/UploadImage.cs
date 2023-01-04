@@ -1,10 +1,9 @@
-﻿namespace ShradhaBook_API.Services.UploadImageService
+﻿namespace ShradhaBook_API.Services.UploadImageService;
+
+public class UploadImage : IUploadImage
 {
-    public class UploadImage : IUploadImage
+    Task IUploadImage.UploadImage()
     {
-        Task IUploadImage.UploadImage()
-        {
-            throw new NotImplementedException();
-        }
+        throw new NotImplementedException();
     }
 }

@@ -62,68 +62,78 @@ public class ProductsController : ControllerBase
         {
             var result = await _productService.GetProductDetailAsync(id);
 
-                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
-
-            }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-            }
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
         }
-        [HttpGet("GetProductByCategoryId{id}")]
-        public async Task<ActionResult<Object>> GetProductByCategoryId(int id, int sortBy = 0, int pageSize = 20, int pageIndex = 1)
+        catch
         {
-            try
-            {
-                var result = await _productService.GetProductByIdCategoryAsync(id, sortBy, pageSize, pageIndex);
-
-                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
-
-            }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-            }
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         }
+    }
 
-        [HttpGet("GetProductByCategorySlug{slug}")]
-        public async Task<ActionResult<Object>> GetProductByCategoryId(string slug, int sortBy = 0, int pageSize = 20, int pageIndex = 1)
+    [HttpGet("GetProductByCategoryId{id}")]
+    public async Task<ActionResult<object>> GetProductByCategoryId(int id, int sortBy = 0, int pageSize = 20,
+        int pageIndex = 1)
+    {
+        try
         {
-            try
-            {
-                var result = await _productService.GetProductBySlugCategoryAsync(slug, sortBy, pageSize, pageIndex);
+            var result = await _productService.GetProductByIdCategoryAsync(id, sortBy, pageSize, pageIndex);
 
-                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
-
-            }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-            }
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
         }
-
-
-        [HttpGet("GetProductByAuthorId{id}")]
-        public async Task<ActionResult<Object>> GetProductByAuthorId(int id, int sortBy = 0, int pageSize = 20, int pageIndex = 1)
+        catch
         {
-            try
-            {
-                var result = await _productService.GetProductByIdAuthorAsync(id, sortBy, pageSize, pageIndex);
-
-                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
-
-            }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-            }
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         }
-        [HttpGet("GetProductByManufacturer{id}")]
-        public async Task<ActionResult<Object>> GetProductByManufacturer(int id, int sortBy = 0, int pageSize = 20, int pageIndex = 1)
+    }
+
+    [HttpGet("GetProductByCategorySlug{slug}")]
+    public async Task<ActionResult<object>> GetProductByCategoryId(string slug, int sortBy = 0, int pageSize = 20,
+        int pageIndex = 1)
+    {
+        try
         {
-            try
-            {
-                var result = await _productService.GetProductByIdManufactuerAsync(id, sortBy, pageSize, pageIndex);
+            var result = await _productService.GetProductBySlugCategoryAsync(slug, sortBy, pageSize, pageIndex);
+
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
+        }
+        catch
+        {
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
+
+
+    [HttpGet("GetProductByAuthorId{id}")]
+    public async Task<ActionResult<object>> GetProductByAuthorId(int id, int sortBy = 0, int pageSize = 20,
+        int pageIndex = 1)
+    {
+        try
+        {
+            var result = await _productService.GetProductByIdAuthorAsync(id, sortBy, pageSize, pageIndex);
+
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
+        }
+        catch
+        {
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
+
+    [HttpGet("GetProductByManufacturer{id}")]
+    public async Task<ActionResult<object>> GetProductByManufacturer(int id, int sortBy = 0, int pageSize = 20,
+        int pageIndex = 1)
+    {
+        try
+        {
+            var result = await _productService.GetProductByIdManufactuerAsync(id, sortBy, pageSize, pageIndex);
 
             return result == null
                 ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
@@ -151,42 +161,43 @@ public class ProductsController : ControllerBase
     }
 
 
-        [HttpGet("GetProductWishListByUserId{id}")]
-        public async Task<ActionResult<Object>> GetProductWishListByUserId(int id, int pageSize = 20, int pageIndex = 1)
+    [HttpGet("GetProductWishListByUserId{id}")]
+    public async Task<ActionResult<object>> GetProductWishListByUserId(int id, int pageSize = 20, int pageIndex = 1)
+    {
+        try
         {
-            try
-            {
-                var result = await _productService.GetProductWishListByUserIdAsync(id, pageSize, pageIndex);
+            var result = await _productService.GetProductWishListByUserIdAsync(id, pageSize, pageIndex);
 
-                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
-
-            }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-            }
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
         }
-
-        [HttpGet("GetProductBySlug{slug}")]
-        public async Task<ActionResult<Object>> GetProductBySlug(string slug)
+        catch
         {
-            try
-            {
-                var result = await _productService.GetProductDetailAsync(slug);
-
-                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
-
-            }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-            }
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         }
+    }
+
+    [HttpGet("GetProductBySlug{slug}")]
+    public async Task<ActionResult<object>> GetProductBySlug(string slug)
+    {
+        try
+        {
+            var result = await _productService.GetProductDetailAsync(slug);
+
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
+        }
+        catch
+        {
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
 
 
-        //private bool ViewProductExists(int id)
-        //{
-        //    return _context.ViewProduct.Any(e => e.Id == id);
-        //}
-    
+    //private bool ViewProductExists(int id)
+    //{
+    //    return _context.ViewProduct.Any(e => e.Id == id);
+    //}
 }

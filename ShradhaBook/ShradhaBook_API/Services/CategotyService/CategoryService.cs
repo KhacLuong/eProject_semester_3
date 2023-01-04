@@ -81,8 +81,8 @@ public class CategoryService : ICategoryService
         var allModel = await _context.Categories.ToListAsync();
 
 
-            return _mapper.Map<List<CategoryModelGet>>(allModel);
-        }
+        return _mapper.Map<List<CategoryModelGet>>(allModel);
+    }
 
     public async Task<CategoryModelGet> GetCategoryAsync(int id)
     {

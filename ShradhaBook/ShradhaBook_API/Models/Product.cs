@@ -49,8 +49,4 @@ public class Product
     public virtual ICollection<WishList>? WishLists { get; set; }
 
     public List<OrderItems>? OrderItems { get; set; }
-        
-
-    
-
 }
