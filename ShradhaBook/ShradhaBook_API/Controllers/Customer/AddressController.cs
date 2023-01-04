@@ -65,4 +65,17 @@ public class AddressController : ControllerBase
             Message = "Address has been deleted successfully."
         });
     }
+
+    [HttpPost("distance")]
+    public async Task<IActionResult> GetDistance(List<double> destination)
+    {
+        var travelDistance = await _addressService.GetDistance(destination);
+        if (travelDistance == null)
+            return BadRequest(new ServiceResponse<double> { Status = false, Message = "API error, please try again." });
+        return Ok(new ServiceResponse<double?>
+        {
+            Data = travelDistance,
+            Message = "Successfully get distance."
+        });
+    }
 }

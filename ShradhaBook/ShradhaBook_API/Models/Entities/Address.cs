@@ -10,6 +10,9 @@ public class Address
     public string District { get; set; } = string.Empty;
     public string City { get; set; } = string.Empty;
     public int? Postcode { get; set; }
+    public string Country { get; set; } = string.Empty;
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
     public DateTime CreateAt { get; set; } = DateTime.Now;
     public DateTime? UpdateAt { get; set; }
 
