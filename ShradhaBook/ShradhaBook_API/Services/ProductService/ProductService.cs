@@ -1,27 +1,21 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.Helpers;
-using ShradhaBook_API.Services.CategotyService;
-using ShradhaBook_API.Services.ManufacturerService;
 using ShradhaBook_API.ViewModels;
-using System.Globalization;
 
-namespace ShradhaBook_API.Services.ProductService
+namespace ShradhaBook_API.Services.ProductService;
+
+public class ProductService : IProductService
 {
-    public class ProductService : IProductService
+    private readonly DataContext _context;
+    private readonly IMapper _mapper;
+
+
+    public ProductService(DataContext context, IMapper mapper)
     {
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
-
-
-
-
-        public ProductService(DataContext context, IMapper mapper)
-        {
-            this._context = context;
-            this._mapper = mapper;
-
-        }
+        _context = context;
+        _mapper = mapper;
+    }
 
 
 
@@ -99,78 +93,59 @@ namespace ShradhaBook_API.Services.ProductService
         }
 
 
-        public async Task DeleteProductAsync(int id)
+    public async Task DeleteProductAsync(int id)
+    {
+        var result = _context.Products!.SingleOrDefault(c => c.Id == id);
+        if (result != null)
         {
-            var result = _context.Products!.SingleOrDefault(c => c.Id == id);
-            if (result != null)
-            {
-                _context.Products!.Remove(result);
-                await _context.SaveChangesAsync();
-            }
+            _context.Products!.Remove(result);
+            await _context.SaveChangesAsync();
         }
+    }
 
-     
 
-        public async Task<Object> GetAllProductAsync(string? name, string? code, string? status, string? categoryName, string? authorName, string? manufactuerName,
-            decimal? moreThanPrice, decimal? lessThanPrice, long? moreThanQuantity, long? lessThanQuantity, int? sortBy = 0, int pageSize = 20, int pageIndex = 1)
-        {
+    public async Task<object> GetAllProductAsync(string? name, string? code, string? status, string? categoryName,
+        string? authorName, string? manufactuerName,
+        decimal? moreThanPrice, decimal? lessThanPrice, long? moreThanQuantity, long? lessThanQuantity, int? sortBy = 0,
+        int pageSize = 20, int pageIndex = 1)
+    {
+        IEnumerable<ProductModelGet>? query = null;
 
-            IEnumerable<ProductModelGet>? query = null;
+        #region Fillter
 
-            #region Fillter
-
-            query = await  (from P in   _context.Products
-                            .Where(m => m.Code.ToLower().Contains(string.IsNullOrEmpty(code) ? "" : code.ToLower().Trim()))
-                            .Where(m => m.Name.ToLower().Contains(string.IsNullOrEmpty(name) ? "" : name.ToLower().Trim()))
+        query = await (from P in _context.Products
+                .Where(m => m.Code.ToLower().Contains(string.IsNullOrEmpty(code) ? "" : code.ToLower().Trim()))
+                .Where(m => m.Name.ToLower().Contains(string.IsNullOrEmpty(name) ? "" : name.ToLower().Trim()))
             join M in _context.Manufacturers
-                     on P.ManufacturerId equals M.Id
-                     join A in _context.Authors
-                     on P.AuthorId equals A.Id
-                     join C in _context.Categories
-                     on P.CategoryId equals C.Id
-                     select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
-                 P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.ViewCount, 
-                 P.CreatedAt,
-                 P.UpdatedAt)).ToListAsync();
-         
-            if ((status!=null&&status.Trim().Length !=0)  && (status.ToLower().Equals(MyStatus.ACTIVE_RESULT.ToLower()) || status.ToLower().Equals(MyStatus.INACTIVE_RESULT.ToLower())))
-            {
-                query = query.Where(m => m.Status.ToLower().Equals(status.ToLower()));
-            }
-            if (categoryName != null && categoryName.Trim().Length != 0)
-            {
-                query = query.Where(m=>m.Category!=null &&  m.Category.Contains(categoryName));
-            }
-            if (authorName != null && authorName.Trim().Length != 0)
-            {
-                query = query.Where(m => m.Author.Contains(authorName));
-            }
-            if (authorName != null && authorName.Trim().Length != 0)
-            {
-                query = query.Where(m => m.Author.Contains(authorName));
-            }
-            if (manufactuerName != null && manufactuerName.Trim().Length != 0)
-            {
-                query = query.Where(m => m.Manufacturer.Contains(manufactuerName));
-            }
-            if (lessThanPrice > 0)
-            {
-                query = query.Where(m => m.Price <= lessThanPrice);
-            }
-            if (moreThanPrice >= 0)
-            {
-                query = query.Where(m => m.Price >= moreThanPrice);
-            }
-            if (lessThanQuantity > 0)
-            {
-                query = query.Where(m => m.Quantity <= lessThanQuantity);
-            }
-            if (moreThanQuantity >= 0)
-            {
-                query = query.Where(m => m.Quantity >= moreThanQuantity);
-            }
+                on P.ManufacturerId equals M.Id
+            join A in _context.Authors
+                on P.AuthorId equals A.Id
+            join C in _context.Categories
+                on P.CategoryId equals C.Id
+            select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
+                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug,
+                P.ViewCount,
+                P.CreatedAt,
+                P.UpdatedAt)).ToListAsync();
 
-            #endregion Fillter
+        if (status != null && status.Trim().Length != 0 && (status.ToLower().Equals(MyStatus.ACTIVE_RESULT.ToLower()) ||
+                                                            status.ToLower()
+                                                                .Equals(MyStatus.INACTIVE_RESULT.ToLower())))
+            query = query.Where(m => m.Status.ToLower().Equals(status.ToLower()));
+        if (categoryName != null && categoryName.Trim().Length != 0)
+            query = query.Where(m => m.Category != null && m.Category.Contains(categoryName));
+        if (authorName != null && authorName.Trim().Length != 0)
+            query = query.Where(m => m.Author.Contains(authorName));
+        if (authorName != null && authorName.Trim().Length != 0)
+            query = query.Where(m => m.Author.Contains(authorName));
+        if (manufactuerName != null && manufactuerName.Trim().Length != 0)
+            query = query.Where(m => m.Manufacturer.Contains(manufactuerName));
+        if (lessThanPrice > 0) query = query.Where(m => m.Price <= lessThanPrice);
+        if (moreThanPrice >= 0) query = query.Where(m => m.Price >= moreThanPrice);
+        if (lessThanQuantity > 0) query = query.Where(m => m.Quantity <= lessThanQuantity);
+        if (moreThanQuantity >= 0) query = query.Where(m => m.Quantity >= moreThanQuantity);
+
+        #endregion Fillter
 
 
             #region Sort
@@ -192,53 +167,42 @@ namespace ShradhaBook_API.Services.ProductService
         }
 
 
-        public async Task<object> GetProductDetailAsync(int id)
-        {
+    public async Task<object> GetProductDetailAsync(int id)
+    {
+        var model = await (from P in _context.Products.Where(m => m.Id == id)
+            join M in _context.Manufacturers
+                on P.ManufacturerId equals M.Id
+            join A in _context.Authors
+                on P.AuthorId equals A.Id
+            join C in _context.Categories
+                on P.CategoryId equals C.Id
+            select new ProductDetail(P.Id, P.Code, P.Name, _mapper.Map<CategoryModelGet>(C), P.Price, P.Quantity,
+                _mapper.Map<ManufacturerModelGet>(M), _mapper.Map<AuthorModelGet>(A), P.Description,
+                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug,
+                P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
 
-            var model = await (from P in _context.Products.Where(m=>m.Id ==id)
-                        join M in _context.Manufacturers
-                        on P.ManufacturerId equals M.Id
-                        join A in _context.Authors
-                        on P.AuthorId equals A.Id
-                        join C in _context.Categories
-                        on P.CategoryId equals C.Id
-                        select new ProductDetail (P.Id,P.Code,P.Name, _mapper.Map<CategoryModelGet>(C), P.Price,P.Quantity, _mapper.Map<ManufacturerModelGet>(M), _mapper.Map<AuthorModelGet>(A), P.Description,
-                        P.Intro,P.ImageProductPath,P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.ViewCount,P.CreatedAt,P.UpdatedAt)).ToListAsync();
-            
-            if (model == null || model.Count == 0)
-            {
-                return null;
-            }
-            var result = model[0];
-            return model[0];
+        if (model == null || model.Count == 0) return null;
+        var result = model[0];
+        return model[0];
+    }
 
-        }
-        public async Task<ProductModelGet> GetProductAsync(int id)
-        {
-          
+    public async Task<ProductModelGet> GetProductAsync(int id)
+    {
+        var model = await (from P in _context.Products.Where(p => p.Id == id)
+            join M in _context.Manufacturers
+                on P.ManufacturerId equals M.Id
+            join A in _context.Authors
+                on P.AuthorId equals A.Id
+            join C in _context.Categories
+                on P.CategoryId equals C.Id
+            select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
+                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug,
+                P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
 
-            var model = await (from P in _context.Products.Where(p=>p.Id==id)
-                         
-
-                              join M in _context.Manufacturers
-                              on P.ManufacturerId equals M.Id
-                              join A in _context.Authors
-                              on P.AuthorId equals A.Id
-                              join C in _context.Categories
-                              on P.CategoryId equals C.Id
-                              select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
-                          P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug,P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
-            
-            if (model == null || model.Count == 0)
-            {
-                return null;
-            }
-            var result = model[0];
-            return model[0];
-
-          
-
-        }
+        if (model == null || model.Count == 0) return null;
+        var result = model[0];
+        return model[0];
+    }
 
         public async Task<int> UpdateProductAsync(int id, ProductModelPost model)
         {
@@ -278,30 +242,31 @@ namespace ShradhaBook_API.Services.ProductService
                 model.Code = "ABC";
                 model.Slug = Helpers.Helpers.Slugify(model.Name);
 
-                var modelOld = await _context.Products.FindAsync(id);
-                modelOld.Name = model.Name;
-                modelOld.Code = model.Code;
-                modelOld.Slug = model.Slug;
-                modelOld.Description = model.Description;
-                modelOld.CategoryId = model.CategoryId;
-                modelOld.AuthorId = model.AuthorId;
-                modelOld.ManufacturerId = model.ManufacturerId;
-                modelOld.Price = model.Price;
-                modelOld.Quantity = model.Quantity;
-                modelOld.Intro = model.Intro;
-                modelOld.ImageProductPath = model.ImageProductPath;
-                modelOld.ImageProductName = model.ImageProductName;
-                modelOld.ViewCount = model.ViewCount;
-                modelOld.Slug = model.Slug;
-                modelOld.Status = MyStatus.changeStatusCat(model.Status);
-                modelOld.UpdatedAt = DateTime.Now;
+            var modelOld = await _context.Products.FindAsync(id);
+            modelOld.Name = model.Name;
+            modelOld.Code = model.Code;
+            modelOld.Slug = model.Slug;
+            modelOld.Description = model.Description;
+            modelOld.CategoryId = model.CategoryId;
+            modelOld.AuthorId = model.AuthorId;
+            modelOld.ManufacturerId = model.ManufacturerId;
+            modelOld.Price = model.Price;
+            modelOld.Quantity = model.Quantity;
+            modelOld.Intro = model.Intro;
+            modelOld.ImageProductPath = model.ImageProductPath;
+            modelOld.ImageProductName = model.ImageProductName;
+            modelOld.ViewCount = model.ViewCount;
+            modelOld.Slug = model.Slug;
+            modelOld.Status = MyStatus.changeStatusCat(model.Status);
+            modelOld.UpdatedAt = DateTime.Now;
 
-                _context.Products.Update(modelOld);
-                await _context.SaveChangesAsync();
-                return MyStatusCode.SUCCESS;
-            }
-            return MyStatusCode.FAILURE;
+            _context.Products.Update(modelOld);
+            await _context.SaveChangesAsync();
+            return MyStatusCode.SUCCESS;
         }
+
+        return MyStatusCode.FAILURE;
+    }
 
         public async Task<Object> GetProductByIdCategoryAsync(int categoryId,int? sortBy =0, int pageSize = 20, int pageIndex = 1)
         {
@@ -381,38 +346,28 @@ namespace ShradhaBook_API.Services.ProductService
             };
         }
 
-        public  async Task<bool> CheckExistProductByIdCategoryAsync(int categoryId)
-        {
-            var allModel =  await  _context.Products.Where(p => p.Id == categoryId).ToListAsync();
-            if (allModel != null && allModel.Count!=0 )
-            {
-                return true;
-            }
-            return false;
-        }
+    public async Task<bool> CheckExistProductByIdCategoryAsync(int categoryId)
+    {
+        var allModel = await _context.Products.Where(p => p.Id == categoryId).ToListAsync();
+        if (allModel != null && allModel.Count != 0) return true;
+        return false;
+    }
 
 
-
-        public async  Task<bool> CheckExistProductByIdAuthorAsync(int authorId)
-        {
-            var allModel = await _context.Products.Where(p => p.Id == authorId).ToListAsync();
-            if (allModel != null && allModel.Count != 0)
-            {
-                return true;
-            }
-            return false;
-        }
+    public async Task<bool> CheckExistProductByIdAuthorAsync(int authorId)
+    {
+        var allModel = await _context.Products.Where(p => p.Id == authorId).ToListAsync();
+        if (allModel != null && allModel.Count != 0) return true;
+        return false;
+    }
 
 
-        public async Task<bool> CheckExistProductByIdManufactuerAsync(int manufacturerId)
-        {
-            var allModel = await _context.Products.Where(p => p.Id == manufacturerId).ToListAsync();
-            if (allModel != null && allModel.Count != 0)
-            {
-                return true;
-            }
-            return false;
-        }
+    public async Task<bool> CheckExistProductByIdManufactuerAsync(int manufacturerId)
+    {
+        var allModel = await _context.Products.Where(p => p.Id == manufacturerId).ToListAsync();
+        if (allModel != null && allModel.Count != 0) return true;
+        return false;
+    }
 
         public async Task<bool> IncreaseViewCountProduct(int id)
         {
@@ -539,5 +494,5 @@ namespace ShradhaBook_API.Services.ProductService
                 totalPage = totalPage
             };
         }
-    }
+    
 }

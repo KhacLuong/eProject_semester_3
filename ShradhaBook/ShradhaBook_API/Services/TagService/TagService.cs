@@ -3,12 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.Helpers;
 using ShradhaBook_API.ViewModels;
 
-namespace ShradhaBook_API.Services.TagService
+namespace ShradhaBook_API.Services.TagService;
+
+public class TagService : ITagService
 {
-    public class TagService : ITagService
-    {
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
+    private readonly DataContext _context;
+    private readonly IMapper _mapper;
+
+
 
         public TagService(DataContext context, IMapper mapper)
         {
@@ -130,5 +132,7 @@ namespace ShradhaBook_API.Services.TagService
                 totalPage = totalPage
             };
         }
-    }
+    
+
+
 }

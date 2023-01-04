@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.Helpers;
 using ShradhaBook_API.ViewModels;

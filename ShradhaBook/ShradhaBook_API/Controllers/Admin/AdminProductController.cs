@@ -1,26 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ShradhaBook_API.Data;
 using ShradhaBook_API.Helpers;
-using ShradhaBook_API.Services.CategotyService;
-using ShradhaBook_API.Services.ProductService;
 using ShradhaBook_API.ViewModels;
 
-namespace ShradhaBook_API.Controllers.Admin
+namespace ShradhaBook_API.Controllers.Admin;
+
+[Route("api/[controller]")]
+[ApiController]
+public class AdminProductController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AdminProductController : ControllerBase
-    {
         private readonly ICategoryService _categoryService;
-        private readonly IProductService _productService;
         private readonly IMapper _mapper;
+        private readonly IProductService _productService;
+
+
 
         public AdminProductController(ICategoryService categoryService, IProductService productService, IMapper mapper)
         {
@@ -35,7 +28,7 @@ namespace ShradhaBook_API.Controllers.Admin
         public async Task<ActionResult<Object>> GetAllProduc(string? name, string? code, string? status, string? categoryName, string? authorName, string? manufactuerName,
             decimal? moreThanPrice, decimal? lessThanPrice, long? moreThanQuantity, long? lessThanQuantity, int? sortBy = 0, int pageSize = 20, int pageIndex = 1)
         {
-            try
+            //try
             {
                 var result = await _productService.GetAllProductAsync(name,code,status, categoryName, authorName, manufactuerName,
            moreThanPrice, lessThanPrice, moreThanQuantity, lessThanQuantity, sortBy,pageSize,pageIndex);
@@ -43,11 +36,11 @@ namespace ShradhaBook_API.Controllers.Admin
                 return Ok(new MyServiceResponse<Object>(result,true,""));
 
             }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<List<Object>>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            //catch
+            //{
+            //    return StatusCode(500, new MyServiceResponse<List<Object>>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
 
-            }
+            //}
         }
 
         // GET: api/AdminProduct/5
@@ -191,5 +184,9 @@ namespace ShradhaBook_API.Controllers.Admin
         //{
         //    return _context.ProductModelGet.Any(e => e.Id == id);
         //}
+
     }
-}
+
+    
+
+

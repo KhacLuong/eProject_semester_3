@@ -79,6 +79,7 @@ namespace ShradhaBook_API.Controllers
             }
         }
 
+
         [HttpGet("DetailBySlug{slug}")]
         public async Task<ActionResult<object>> GetBlogDetailBySlug(string slug)
         {
@@ -110,6 +111,7 @@ namespace ShradhaBook_API.Controllers
                 return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
             }
         }
+
 
         [HttpPost("IncreaseViewCountBlog{id}")]
         public async Task<ActionResult> IncreaseViewCountBlog(int id)

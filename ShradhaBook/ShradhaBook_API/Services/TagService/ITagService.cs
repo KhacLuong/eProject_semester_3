@@ -1,7 +1,8 @@
 ﻿using ShradhaBook_API.ViewModels;
 
-namespace ShradhaBook_API.Services.TagService
-{
+namespace ShradhaBook_API.Services.TagService;
+
+
     public interface ITagService
     {
         Task<Object> GetAllTagAsync(string? name, int sortBy = 0, int pageSize = 20, int pageIndex = 1);
@@ -16,4 +17,4 @@ namespace ShradhaBook_API.Services.TagService
 
 
     }
-}
+
