@@ -20,5 +20,4 @@ public class User
     public DateTime CreateAt { get; set; } = DateTime.Now;
     public DateTime? UpdateAt { get; set; }
     public virtual ICollection<WishListUser>? WishListUsers { get; set; }
-    public string Avatar { get; internal set; }
 }

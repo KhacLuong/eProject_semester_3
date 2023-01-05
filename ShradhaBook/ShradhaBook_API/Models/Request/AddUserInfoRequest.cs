@@ -5,9 +5,7 @@ namespace ShradhaBook_API.Models.Request;
 public class AddUserInfoRequest
 {
     public string? Avatar { get; set; }
-
-    [Required]
-    [RegularExpression("^0[0-9]{9}$")]
+    [Phone]
     public string Phone { get; set; } = string.Empty;
 
     public string? Gender { get; set; }
