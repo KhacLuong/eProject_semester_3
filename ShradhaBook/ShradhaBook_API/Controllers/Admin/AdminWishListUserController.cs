@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShradhaBook_API.Helpers;
-using ShradhaBook_API.Services.WishListUserService;
-using ShradhaBook_API.ViewModels;
 
 namespace ShradhaBook_API.Controllers.Admin;
 
@@ -72,10 +70,8 @@ public class AdminWishListUserController : ControllerBase
                     ", There is already a WishListUser of this WhishListId and this UserId"));
 
             if (status == MyStatusCode.NOTFOUND)
-            {
                 return BadRequest(new MyServiceResponse<WishListGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", Not found User or Wishlist"));
-            }
 
             if (status == MyStatusCode.SUCCESS)
             {
@@ -124,10 +120,8 @@ public class AdminWishListUserController : ControllerBase
                     ", There is already a WishListUser of this WhishListId and this UserId"));
 
             if (status == MyStatusCode.NOTFOUND)
-            {
                 return BadRequest(new MyServiceResponse<WishListGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", Not found User or Wishlist"));
-            }
 
             if (status > 0)
             {

@@ -10,9 +10,11 @@ public class DataContext : DbContext
     // Seeding Data
     private static readonly Random _random = new();
     private static readonly LipsumGenerator generator = new();
+    private readonly DataContext _context;
 
-    public DataContext(DbContextOptions<DataContext> options) : base(options)
+    public DataContext(DbContextOptions<DataContext> options, DataContext context) : base(options)
     {
+        _context = context;
     }
 
     public DbSet<User> Users { get; set; } = null!;
@@ -26,10 +28,10 @@ public class DataContext : DbContext
     public DbSet<Manufacturer> Manufacturers { get; set; } = null!;
     public DbSet<Tag> Tags { get; set; } = null!;
     public DbSet<ProductTag> ProductTags { get; set; } = null!;
-    public DbSet<Blog> Blogs { get; set; }
-    public DbSet<BlogTag> BlogTags { get; set; }
+    public DbSet<Blog> Blogs { get; set; } = null!;
+    public DbSet<BlogTag> BlogTags { get; set; } = null!;
     public DbSet<Author> Authors { get; set; } = null!;
-    public DbSet<WishList> WishLists { get; set; }
+    public DbSet<WishList> WishLists { get; set; } = null!;
     public DbSet<WishListUser> WishListUsers { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,6 +40,9 @@ public class DataContext : DbContext
         modelBuilder.Entity<UserInfo>().Navigation(ui => ui.Addresses).AutoInclude();
         modelBuilder.Entity<Product>().Navigation(c => c.Manufacturer).AutoInclude();
         modelBuilder.Entity<Order>().Navigation(o => o.OrderItems).AutoInclude();
+
+        _context.Database.EnsureDeleted();
+        _context.Database.Migrate();
 
         var hmac = new HMACSHA512();
         var passwordSalt = hmac.Key;
