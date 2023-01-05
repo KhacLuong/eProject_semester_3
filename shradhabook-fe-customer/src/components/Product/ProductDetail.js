@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import book14 from "../../assets/image/books/book3.png"
+import book14 from "../../assets/image/books/book14.png"
 import {getProductById, updateViewCountProductById} from "../../services/apiService";
 import {AiOutlineArrowRight} from 'react-icons/ai'
 import parse from "html-react-parser";
@@ -142,17 +142,17 @@ const ProductDetail = () => {
                             </div>
                             <h1 className={`text-[36px] leading-tight font-semiBold mb-[10px] clear-none`}>{productName}</h1>
                             <div
-                                className={`flex items-center flex-wrap pb-[10px] mb-[23px] border-b-[1px] leading-loose text-[12px] relative`}>
+                                className={`flex items-center flex-wrap pb-[10px] mb-[23px] border-b-[1px] leading-loose relative`}>
                                 <div
-                                    className={`text-[12px] text-lightColor flex items-center mr-[20px] pr-[20px] relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%]`}>
+                                    className={`text-sm text-lightColor flex items-center mr-[20px] pr-[20px] relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%]`}>
                                     Author: <div
-                                    className={`text-blackColor ml-1 cursor-pointer hover:text-dangerColor-hover_2 hover:underline`}>{author}</div>
+                                    className={`text-blackColor ml-1 text-sm cursor-pointer hover:text-dangerColor-hover_2 hover:underline`}>{author}</div>
                                 </div>
                                 <div
-                                    className={`flex items-center mr-[20px] pr-[20px] font-semiBold relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2`}>
+                                    className={`text-sm flex items-center mr-[20px] pr-[20px] font-medium relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2`}>
                                     {parse(renderStar(4))}
                                     <svg aria-hidden="true"
-                                         className="w-4 h-4 text-gray-300 dark:text-gray-500 "
+                                         className="w-5 h-5 text-gray-300 dark:text-gray-500 "
                                          fill="currentColor" viewBox="0 0 20 20"
                                          xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title>
                                         <path
@@ -161,24 +161,24 @@ const ProductDetail = () => {
                                     <span className={`ml-1`}>4</span>
                                 </div>
                                 <div
-                                    className={`flex items-center mr-[20px] pr-[20px] font-semiBold relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2`}>
-                                    <BiCommentDetail className={`text-successColor text-[15px]`}/>
-                                    <span className={`ml-1`}>50</span>
+                                    className={`flex items-center mr-[20px] pr-[20px] font-medium relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2`}>
+                                    <BiCommentDetail className={`text-dangerColor-default_2 text-[15px]`}/>
+                                    <span className={`ml-1 text-sm `}>50</span>
                                 </div>
                                 <div
-                                    className={`flex text-blue-600 text-center items-center mr-[20px] pr-[20px] font-semiBold relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2`}>
+                                    className={`flex text-center items-center mr-[20px] pr-[20px] font-medium relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2`}>
                                     <FiEye className={`text-blue-600 text-[15px]`}/>
-                                    <span className={`ml-1`}>{view}</span>
+                                    <span className={`ml-1 text-sm`}>{view}</span>
                                 </div>
                                 <div
-                                    className={`flex text-center items-center mr-[20px] pr-[20px] font-semiBold relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2 `}>
+                                    className={`flex text-center items-center mr-[20px] pr-[20px] font-medium relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2 `}>
                                     <FiPackage className={`text-yellow-600 text-[15px]`}/>
-                                    <span className={`ml-1`}>{quantity}</span>
+                                    <span className={`ml-1 text-sm`}>{quantity}</span>
                                 </div>
-                                <div className={`flex items-center text-lightColor mb-[6px] uppercase`}>sku: <span
-                                    className={`text-blackColor ml-1`}>{codeProduct}</span></div>
+                                <div className={`flex items-center text-lightColor mb-[6px] uppercase text-sm`}>sku: <span
+                                    className={`text-blackColor ml-1 text-sm`}>{codeProduct}</span></div>
                             </div>
-                            <p className={`flex text-[30px] font-semiBold leading-[1.4] items-center text-dangerColor-default_2 mb-[15px]`}>
+                            <p className={`flex text-[30px] font-medium leading-[1.4] items-center text-lime-600 mb-[15px]`}>
                                 <span>${price}</span>
                             </p>
                             <div className={`mb-[20px] font-light`}>

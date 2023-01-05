@@ -1,7 +1,6 @@
-﻿namespace ShradhaBook_API.Services.OrderItemsService
+﻿namespace ShradhaBook_API.Services.OrderItemsService;
+
+public interface IOrderItemsService
 {
-    public interface IOrderItemsService
-    {
-        public Task<OrderItems?> CreateOrderItems(CreateOrderItemsRequest request);
-    }
+    public Task<OrderItems?> CreateOrderItems(CreateOrderItemsRequest request);
 }

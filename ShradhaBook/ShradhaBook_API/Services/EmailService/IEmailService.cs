@@ -1,7 +1,6 @@
-﻿namespace ShradhaBook_API.Services.EmailService
+﻿namespace ShradhaBook_API.Services.EmailService;
+
+public interface IEmailService
 {
-    public interface IEmailService
-    {
-        void SendEmail(EmailDto request);
-    }
+    void SendEmail(EmailDto request);
 }

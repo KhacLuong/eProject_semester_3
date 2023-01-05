@@ -1,10 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace ShradhaBook_API.ViewModels;
 
-namespace ShradhaBook_API.ViewModels
+public class BlogTagModelGet
 {
-    public class BlogTagModelGet
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
         public string? BlogTitle { get; set; }
 

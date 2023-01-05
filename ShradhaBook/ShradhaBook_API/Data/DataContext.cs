@@ -1,13 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ShradhaBook_API.ViewModels;
+﻿using System.Security.Cryptography;
+using System.Text;
+using Microsoft.EntityFrameworkCore;
 using NLipsum.Core;
-using System.Security.Cryptography;
 
-namespace ShradhaBook_API.Data
+namespace ShradhaBook_API.Data;
+
+public class DataContext : DbContext
 {
-    public class DataContext : DbContext
-    {
-        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+    // Seeding Data
+    private static readonly Random _random = new();
+    private static readonly LipsumGenerator generator = new();
 
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<UserInfo> UserInfo { get; set; } = null!;

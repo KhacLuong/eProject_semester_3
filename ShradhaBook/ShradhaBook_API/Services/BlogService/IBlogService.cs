@@ -1,9 +1,11 @@
-﻿using ShradhaBook_API.ViewModels;
+using ShradhaBook_API.ViewModels;
 
-namespace ShradhaBook_API.Services.BlogService
+namespace ShradhaBook_API.Services.BlogService;
+
+public interface IBlogService
 {
-    public interface IBlogService
-    {
+    Task<object> GetAllBlogAsync(string? tiltle, string? AuthorName, string? status, int pageSize = 20,
+        int pageIndex = 1);
 
         Task<Object> GetAllBlogAsync(string? tiltle, string? AuthorName, string? status, int pageSize = 20, int pageIndex = 1);
         Task<BlogModelGet> GetBlogAsync(int id);

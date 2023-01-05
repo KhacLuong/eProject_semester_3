@@ -1,195 +1,187 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
+using System.Text;
+using Microsoft.EntityFrameworkCore;
 
-namespace ShradhaBook_API.Services.UserService
+namespace ShradhaBook_API.Services.UserService;
+
+public class UserService : IUserService
 {
-    public class UserService : IUserService
+    private readonly DataContext _context;
+
+    public UserService(DataContext context)
     {
-        private readonly DataContext _context;
-        public UserService(DataContext context)
+        _context = context;
+    }
+
+    public async Task<User?> Register(UserRegisterRequest request)
+    {
+        // check existing user email
+        if (_context.Users.Any(u => u.Email == request.Email)) return null;
+
+        // encoding password
+        CreatePasswordHash(request.Password, out var passwordHash, out var passwordSalt);
+
+        var user = new User
         {
-            _context = context;
-        }
+            Name = request.Name,
+            Email = request.Email,
+            PasswordSalt = passwordSalt,
+            PasswordHash = passwordHash,
+            VerificationToken = CreateRandomToken(),
+            UserType = request.UserType
+        };
 
-        public async Task<User?> Register(UserRegisterRequest request)
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+
+        return user;
+    }
+
+    public async Task<User?> RegisterCus(UserRegisterRequest request)
+    {
+        // check existing user email
+        if (_context.Users.Any(u => u.Email == request.Email)) return null;
+
+        // encoding password
+        CreatePasswordHash(request.Password, out var passwordHash, out var passwordSalt);
+
+        var user = new User
         {
-            // check existing user email
-            if (_context.Users.Any(u => u.Email == request.Email))
-            {
-                return null;
-            }
-            
-            // encoding password
-            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            Name = request.Name,
+            Email = request.Email,
+            PasswordSalt = passwordSalt,
+            PasswordHash = passwordHash,
+            VerificationToken = CreateRandomToken()
+        };
 
-            var user = new User
-            {
-                Name = request.Name,
-                Email = request.Email,
-                PasswordSalt = passwordSalt,
-                PasswordHash = passwordHash,
-                VerificationToken = CreateRandomToken(),
-                UserType = request.UserType
-            };
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+        return user;
+    }
 
-            return user;
-        }
+    public async Task<List<User>> GetAllUsers(string? query)
+    {
+        var users = await _context.Users.Where(u =>
+            string.IsNullOrEmpty(query) || string.IsNullOrEmpty(u.Name) || u.Name.ToLower().Contains(query.ToLower())
+            || string.IsNullOrEmpty(query) || u.Email.ToLower().Contains(query.ToLower())
+        ).ToListAsync();
+        return users;
+    }
 
-        public async Task<User?> RegisterCus(UserRegisterRequest request)
-        {
-            // check existing user email
-            if (_context.Users.Any(u => u.Email == request.Email))
-            {
-                return null;
-            }
+    public async Task<User?> GetSingleUser(int id)
+    {
+        var user = await _context.Users.FindAsync(id);
+        if (user is null)
+            return null;
 
-            // encoding password
-            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+        return user;
+    }
 
-            var user = new User
-            {
-                Name = request.Name,
-                Email = request.Email,
-                PasswordSalt = passwordSalt,
-                PasswordHash = passwordHash,
-                VerificationToken = CreateRandomToken(),
-                UserType = "user"
-            };
+    public async Task<User?> UpdateUser(int id, User request)
+    {
+        var user = await _context.Users.FindAsync(id);
+        if (user is null)
+            return null;
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+        user.Name = request.Name;
+        user.UpdateAt = DateTime.Now;
 
-            return user;
-        }
+        await _context.SaveChangesAsync();
 
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
+        return user;
+    }
 
-        public async Task<List<User>> GetAllUsers(string? query)
-        {
-            var users = await _context.Users.Where(u =>
-                (string.IsNullOrEmpty(query) || string.IsNullOrEmpty(u.Name) || u.Name.ToLower().Contains(query.ToLower()))
-             || (string.IsNullOrEmpty(query) || u.Email.ToLower().Contains(query.ToLower()))
-            ).ToListAsync();
-            return users;
-        }
+    public async Task<User?> ChangePassword(int id, UserChangePasswordRequest request)
+    {
+        var user = await _context.Users.FindAsync(id);
+        if (user is null)
+            return null;
 
-        public async Task<User?> GetSingleUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user is null)
-                return null;
+        if (!VerifyPasswordHash(request.OldPassword, user.PasswordHash, user.PasswordSalt)) return null;
 
-            return user;
-        }
+        CreatePasswordHash(request.Password, out var passwordHash, out var passwordSalt);
 
-        public async Task<User?> UpdateUser(int id, User request)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user is null)
-                return null;
+        user.PasswordHash = passwordHash;
+        user.PasswordSalt = passwordSalt;
 
-            user.Name = request.Name;
-            user.UpdateAt = DateTime.Now;
+        return user;
+    }
 
-            await _context.SaveChangesAsync();
+    public async Task<User?> DeleteUser(int id)
+    {
+        var user = await _context.Users.FindAsync(id);
+        if (user is null)
+            return null;
 
-            return user;
-        }
-        public async Task<User?> ChangePassword(int id, UserChangePasswordRequest request)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user is null)
-                return null;
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
 
-            if (!VerifyPasswordHash(request.OldPassword, user.PasswordHash, user.PasswordSalt))
-            {
-                return null;
-            }
+        return user;
+    }
 
-            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+    public async Task<string?> Verify(string token)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.VerificationToken == token);
+        if (user is null)
+            return null;
 
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+        user.VerifiedAt = DateTime.Now;
+        await _context.SaveChangesAsync();
 
-            return user;
-        }
-        private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512(passwordSalt))
-            {
-                var computeHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                return computeHash.SequenceEqual(passwordHash);
-            }
-        }
+        return "ok";
+    }
 
-        public async Task<User?> DeleteUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user is null)
-                return null;
+    public async Task<string?> ForgotPassword(string email)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        if (user is null)
+            return null;
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+        user.PasswordResetToken = CreateRandomToken();
+        user.ResetTokenExpires = DateTime.Now.AddHours(1);
+        await _context.SaveChangesAsync();
 
-            return user;
-        }
+        return user.PasswordResetToken;
+    }
 
-        public async Task<string?> Verify(string token)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.VerificationToken == token);
-            if (user is null)
-                return null;
+    public async Task<string?> ResetPassword(ResetPasswordRequest request)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == request.Token);
+        if (user is null || user.ResetTokenExpires < DateTime.Now)
+            return null;
 
-            user.VerifiedAt = DateTime.Now;
-            await _context.SaveChangesAsync();
+        CreatePasswordHash(request.Password, out var passwordHash, out var passwordSalt);
 
-            return "ok";
-        }
+        user.PasswordHash = passwordHash;
+        user.PasswordSalt = passwordSalt;
+        user.PasswordResetToken = null;
+        user.ResetTokenExpires = null;
 
-        public async Task<string?> ForgotPassword(string email)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-            if (user is null)
-                return null;
+        await _context.SaveChangesAsync();
 
-            user.PasswordResetToken = CreateRandomToken();
-            user.ResetTokenExpires = DateTime.Now.AddHours(1);
-            await _context.SaveChangesAsync();
+        return "ok";
+    }
 
-            return user.PasswordResetToken;
-        }
+    private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+    {
+        using var hmac = new HMACSHA512();
+        passwordSalt = hmac.Key;
+        passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+    }
 
-        public async Task<string?> ResetPassword(ResetPasswordRequest request)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == request.Token);
-            if (user is null || user.ResetTokenExpires < DateTime.Now)
-                return null;
+    private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+    {
+        using var hmac = new HMACSHA512(passwordSalt);
+        var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+        return computeHash.SequenceEqual(passwordHash);
+    }
 
-            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
-
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
-            user.PasswordResetToken = null;
-            user.ResetTokenExpires = null;
-
-            await _context.SaveChangesAsync();
-
-            return "ok";
-        }
-
-        private static string CreateRandomToken()
-        {
-            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
-        }
+    private string CreateRandomToken()
+    {
+        var token = Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        if (_context.Users.Any(u => u.VerificationToken == token || u.PasswordResetToken == token))
+            token = CreateRandomToken();
+        return token;
     }
 }

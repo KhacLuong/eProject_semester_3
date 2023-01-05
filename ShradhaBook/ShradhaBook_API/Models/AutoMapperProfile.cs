@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
 
-namespace ShradhaBook_API.Models
+namespace ShradhaBook_API.Models;
+
+public class AutoMapperProfile : Profile
 {
-    public class AutoMapperProfile : Profile
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
-            CreateMap<User, UserDto>().ReverseMap();
-            CreateMap<UserInfo, UserInfoDto>().ReverseMap();
-            CreateMap<Address, AddressDto>().ReverseMap();
-            CreateMap<Order, OrderDto>().ReverseMap();
-            CreateMap<OrderItems, OrderItemsDto>().ReverseMap();
-        }
+        CreateMap<User, UserDto>().ReverseMap();
+        CreateMap<UserInfo, UserInfoDto>().ReverseMap();
+        CreateMap<Address, AddressDto>().ReverseMap();
+        CreateMap<Order, OrderDto>().ReverseMap();
+        CreateMap<OrderItems, OrderItemsDto>().ReverseMap();
     }
 }
