@@ -46,7 +46,7 @@ const ProductGridView = (props) => {
                                         <FiEye/>
                                     </div>
                                     <button onClick={() => setOpen(true)}
-                                        className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8 invisible'} actionBtn delay-200 duration-300`}>
+                                            className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8 invisible'} actionBtn delay-200 duration-300`}>
                                         <TbShoppingCart/></button>
                                 </div>
                             </div>

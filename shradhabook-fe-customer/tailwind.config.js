@@ -98,9 +98,10 @@ module.exports = {
                 'extra-bold': 800,
                 black: 900,
             },
-            aspectRatio: {
-                '600/840': 'auto 600 / 840',
-            },
+            rotate: {
+                '360': '360deg',
+            }
+
         },
     },
     plugins: [
