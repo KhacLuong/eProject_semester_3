@@ -425,11 +425,13 @@ public class ProductService : IProductService
         {
 
             IEnumerable<Product>? query = null;
-            query = await (from p in _context.Products
-                           from w in p.WishLists
-                           from wu in w.WishListUsers
-                           where(wu.UserId == id)
-                           select p).ToListAsync();
+            query = await (from P in _context.Products
+                           join wp in _context.WishListProducts
+                           on P.Id equals wp.ProductId
+                           join w in _context.WishLists.Where(w=>w.UserId==id)
+                           on wp.WishListId equals w.Id
+                         
+                           select P).ToListAsync();
 
 
             IEnumerable<ProductModelGet>? queryModdelGet = null;
@@ -529,17 +531,5 @@ public class ProductService : IProductService
         return _mapper.Map<List<ProductModelGet>>(latestRelease);
 
     }
-    //public async Task<List<ProductModelGet>> GetProductBysLatestRelseasesAsync(int numberRetrieving)
-    //{
-    //    IEnumerable<ProductModelGet>? query = null;
-    //        query = await(from P in _context.Products
-    //                      join OI in _context.OrderItems.W
-                         
-                        
-    //                      select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
-    //                  P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star, P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
-
-
-    //}
 
 }

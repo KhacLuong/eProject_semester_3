@@ -31,9 +31,13 @@
 
 
 
-        // Order status
-        public static readonly string ORDER_DONE = "Done";
-        public static readonly string ORDER_PREPARING = "Preparing";
+        // Order 
+        public readonly static int NOTFOUD_ORDER = -8;
+
+
+        public static readonly string ORDER_DONE_RESUL = "Done";
+        public static readonly string ORDER_PREPARING_RESUL= "Preparing";
+        public static readonly string NOTFOUND_ORDER_RESUL = "Notfound order";
         //
     }
 }

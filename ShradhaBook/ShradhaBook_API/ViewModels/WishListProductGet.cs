@@ -2,7 +2,7 @@
 
 namespace ShradhaBook_API.ViewModels
 {
-    public class WishListUserGet
+    public class WishListProductGet
     {
         public int Id { get; set; }
         public string? UserName { get; set; }
@@ -10,7 +10,7 @@ namespace ShradhaBook_API.ViewModels
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdateedAt { get; set; }
 
-        public WishListUserGet(int id, string? userNme, string? productName, DateTime? createdAt, DateTime? updateedAt)
+        public WishListProductGet(int id, string? userNme, string? productName, DateTime? createdAt, DateTime? updateedAt)
         {
             Id = id;
             UserName = userNme;
@@ -19,7 +19,7 @@ namespace ShradhaBook_API.ViewModels
             UpdateedAt = updateedAt;
         }
 
-        public WishListUserGet()
+        public WishListProductGet()
         {
         }
     }

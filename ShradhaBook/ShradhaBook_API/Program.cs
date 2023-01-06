@@ -32,6 +32,7 @@ using ShradhaBook_API.Services.WishListService;
 using ShradhaBook_API.Services.WishListUserService;
 using Swashbuckle.AspNetCore.Filters;
 using ShradhaBook_API.Services.RateService;
+using ShradhaBook_API.Services.WishListProductService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,7 +67,7 @@ builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<IBlogTagService, BlogTagService>();
 builder.Services.AddScoped<IWishListService, WishListService>();
-builder.Services.AddScoped<IWishListUserService, WishListUserService>();
+builder.Services.AddScoped<IWishListProductService, WishListProductService>();
 builder.Services.AddScoped<IRateService, RateService>();
 
 
