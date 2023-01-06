@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using ShradhaBook_API.Helpers;
-using ShradhaBook_API.ViewModels;
 
 namespace ShradhaBook_API.Services.CategotyService;
 
@@ -81,8 +79,8 @@ public class CategoryService : ICategoryService
         var allModel = await _context.Categories.ToListAsync();
 
 
-            return _mapper.Map<List<CategoryModelGet>>(allModel);
-        }
+        return _mapper.Map<List<CategoryModelGet>>(allModel);
+    }
 
     public async Task<CategoryModelGet> GetCategoryAsync(int id)
     {
