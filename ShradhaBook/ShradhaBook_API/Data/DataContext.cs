@@ -10,11 +10,9 @@ public class DataContext : DbContext
     // Seeding Data
     private static readonly Random _random = new();
     private static readonly LipsumGenerator generator = new();
-    private readonly DataContext _context;
 
-    public DataContext(DbContextOptions<DataContext> options, DataContext context) : base(options)
+    public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
-        _context = context;
     }
 
     public DbSet<User> Users { get; set; } = null!;
@@ -40,9 +38,6 @@ public class DataContext : DbContext
         modelBuilder.Entity<UserInfo>().Navigation(ui => ui.Addresses).AutoInclude();
         modelBuilder.Entity<Product>().Navigation(c => c.Manufacturer).AutoInclude();
         modelBuilder.Entity<Order>().Navigation(o => o.OrderItems).AutoInclude();
-
-        _context.Database.EnsureDeleted();
-        _context.Database.Migrate();
 
         var hmac = new HMACSHA512();
         var passwordSalt = hmac.Key;
@@ -70,6 +65,7 @@ public class DataContext : DbContext
                 AddressLine1 = "8 Ton That Thuyet",
                 District = "Cau Giay",
                 City = "Hanoi",
+                Country = "VN",
                 Latitude = 21.0287216,
                 Longitude = 105.7817525,
                 UserInfoId = 1,
