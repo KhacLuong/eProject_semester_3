@@ -11,6 +11,7 @@ public class DataContext : DbContext
     private static readonly Random _random = new();
     private static readonly LipsumGenerator generator = new();
 
+
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
     }
@@ -31,6 +32,9 @@ public class DataContext : DbContext
     public DbSet<Author> Authors { get; set; } = null!;
     public DbSet<WishList> WishLists { get; set; } = null!;
     public DbSet<WishListUser> WishListUsers { get; set; } = null!;
+    public DbSet<Rate> Rates { get; set; } = null!;
+    public DbSet<Comment> Comments { get; set; } = null!;
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -58,30 +62,14 @@ public class DataContext : DbContext
             "Science Fiction & Fantasy", "Self-Help", "Sports & Outdoors", "Teen & Young Adult", "Test Preparation",
             "Travel"
         };
-        modelBuilder.Entity<Address>().HasData(
-            new Address
-            {
-                Id = 1,
-                AddressLine1 = "8 Ton That Thuyet",
-                District = "Cau Giay",
-                City = "Hanoi",
-                Country = "VN",
-                Latitude = 21.0287216,
-                Longitude = 105.7817525,
-                UserInfoId = 1,
-                CreateAt = DateTime.Now
-            });
         for (var i = 1; i <= 20; i++)
         {
             var name = generator.GenerateWords(1)[0];
             var day = _random.Next(1, 31);
             var month = _random.Next(1, 12);
-            day = month switch
-            {
-                2 when day > 28 => 28,
-                4 or 6 or 9 or 11 when day == 31 => 30,
-                _ => day
-            };
+            if (month == 2 && day > 28)
+                day = 28;
+            else if ((month == 4 || month == 6 || month == 9 || month == 11) && day == 31) day = 30;
             var year = 2022 - _random.Next(0, 80);
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -115,7 +103,7 @@ public class DataContext : DbContext
             modelBuilder.Entity<Address>().HasData(
                 new Address
                 {
-                    Id = i * 2,
+                    Id = i * 2 - 1,
                     AddressLine1 = address1[0] + " " + address1[1] + " " + address1[2],
                     AddressLine2 = address1[3] + " " + address1[4],
                     District = generator.GenerateWords(1)[0],
@@ -126,7 +114,7 @@ public class DataContext : DbContext
                 },
                 new Address
                 {
-                    Id = i * 2 + 1,
+                    Id = i * 2,
                     AddressLine1 = address2[0] + " " + address2[1] + " " + address2[2],
                     AddressLine2 = address2[3] + " " + address2[4],
                     District = generator.GenerateWords(1)[0],

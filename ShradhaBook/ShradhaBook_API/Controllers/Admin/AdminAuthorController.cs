@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ShradhaBook_API.Helpers;
 
 namespace ShradhaBook_API.Controllers.Admin;
 
@@ -25,16 +24,16 @@ public class AdminAuthorController : ControllerBase
     public async Task<ActionResult<object>> GetAllAuthor(string? name, string? phone, int? sortBy = 0,
         int pageSize = 20, int pageIndex = 1)
     {
-        try
+        //try
         {
             var result = await _authorService.GetAllAuthorAsync(name, phone, sortBy, pageSize, pageIndex);
 
             return Ok(new MyServiceResponse<object>(result));
         }
-        catch
-        {
-            return StatusCode(500, new MyServiceResponse<List<object>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-        }
+        //catch
+        //{
+        //    return StatusCode(500, new MyServiceResponse<List<object>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        //}
     }
 
     // GET: api/Author/5

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using ShradhaBook_API.Helpers;
 
 namespace ShradhaBook_API.Services.ProductService;
 
@@ -38,12 +37,14 @@ public class ProductService : IProductService
         ////}
         ///
 
-        if (model.Name.Trim().Length == 0) return MyStatusCode.FAILURE;
+        if (model.Name.Trim().Length == 0 || model.Code.Trim().Length == 0) return MyStatusCode.FAILURE;
+
         if (model.CategoryId < 1 || model.ManufacturerId < 1 || model.AuthorId < 1
             || model.Price < 0 || model.Quantity < 0)
             return MyStatusCode.FAILURE;
 
         if (_context.Products.Any(c => c.Name.Trim() == model.Name.Trim())) return MyStatusCode.DUPLICATE_NAME;
+        if (_context.Products.Any(c => c.Code.Trim() == model.Code.Trim())) return MyStatusCode.DUPLICATE_CODE;
         //int a = 0;
         //string code ="";
         //if (productLast != null||productLast.Count!=0)
@@ -64,8 +65,10 @@ public class ProductService : IProductService
         //}
 
         //model.Code = code.ToUpper();
-        model.Code = "ABC";
+
         model.ViewCount = 0;
+
+        model.Star = null;
         model.Slug = Helpers.Helpers.Slugify(model.Name);
         var newProduct = _mapper.Map<Product>(model);
         newProduct.CreatedAt = DateTime.Now;
@@ -107,7 +110,7 @@ public class ProductService : IProductService
             join C in _context.Categories
                 on P.CategoryId equals C.Id
             select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
-                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug,
+                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star,
                 P.ViewCount,
                 P.CreatedAt,
                 P.UpdatedAt)).ToListAsync();
@@ -160,7 +163,7 @@ public class ProductService : IProductService
                 on P.CategoryId equals C.Id
             select new ProductDetail(P.Id, P.Code, P.Name, _mapper.Map<CategoryModelGet>(C), P.Price, P.Quantity,
                 _mapper.Map<ManufacturerModelGet>(M), _mapper.Map<AuthorModelGet>(A), P.Description,
-                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug,
+                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star,
                 P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
 
         if (model == null || model.Count == 0) return null;
@@ -178,7 +181,7 @@ public class ProductService : IProductService
             join C in _context.Categories
                 on P.CategoryId equals C.Id
             select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
-                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug,
+                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star,
                 P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
 
         if (model == null || model.Count == 0) return null;
@@ -254,7 +257,7 @@ public class ProductService : IProductService
             join C in _context.Categories
                 on P.CategoryId equals C.Id
             select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
-                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug,
+                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star,
                 P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
 
         var allModel = SortProduct(query, sortBy);
@@ -283,7 +286,7 @@ public class ProductService : IProductService
             join C in _context.Categories
                 on P.CategoryId equals C.Id
             select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
-                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug,
+                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star,
                 P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
 
         var allModel = SortProduct(query, sortBy);
@@ -308,7 +311,7 @@ public class ProductService : IProductService
             join C in _context.Categories
                 on P.CategoryId equals C.Id
             select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
-                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug,
+                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star,
                 P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
 
 
@@ -413,7 +416,7 @@ public class ProductService : IProductService
             join C in _context.Categories
                 on P.CategoryId equals C.Id
             select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
-                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug,
+                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star,
                 P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToList();
         var allModel = queryModdelGet.ToList();
 
@@ -437,7 +440,7 @@ public class ProductService : IProductService
                 on P.CategoryId equals C.Id
             select new ProductDetail(P.Id, P.Code, P.Name, _mapper.Map<CategoryModelGet>(C), P.Price, P.Quantity,
                 _mapper.Map<ManufacturerModelGet>(M), _mapper.Map<AuthorModelGet>(A), P.Description,
-                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug,
+                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star,
                 P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
 
         if (model == null || model.Count == 0) return null;
@@ -457,7 +460,7 @@ public class ProductService : IProductService
             join C in _context.Categories.Where(c => c.Slug.Equals(categorySlug))
                 on P.CategoryId equals C.Id
             select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
-                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug,
+                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star,
                 P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
 
         var allModel = SortProduct(query, sortBy);
@@ -471,4 +474,44 @@ public class ProductService : IProductService
             totalPage
         };
     }
+
+    public async Task<ProductModel> GetProduct2Async(int id)
+    {
+        var model = await _context.Products!.FindAsync(id);
+        return _mapper.Map<ProductModel>(model);
+    }
+
+    public async Task<List<ProductModelGet>> GetProductByTheMostViewAsync(int numberRetrieving)
+    {
+        var mostViewerModel =
+            await _context.Products.OrderByDescending(t => t.ViewCount).Take(numberRetrieving).ToListAsync();
+
+        return _mapper.Map<List<ProductModelGet>>(mostViewerModel);
+    }
+
+    public async Task<List<ProductModelGet>> GetProductByTheLowestPricedAsync(int numberRetrieving)
+    {
+        var lowestPriceModel = await _context.Products.OrderBy(t => t.Price).Take(numberRetrieving).ToListAsync();
+
+        return _mapper.Map<List<ProductModelGet>>(lowestPriceModel);
+    }
+
+    public async Task<List<ProductModelGet>> GetProductByLatestReleasesAsync(int numberRetrieving)
+    {
+        var latestRelease = await _context.Products.OrderByDescending(t => t.CreatedAt).Take(numberRetrieving)
+            .ToListAsync();
+        return _mapper.Map<List<ProductModelGet>>(latestRelease);
+    }
+    //public async Task<List<ProductModelGet>> GetProductBysLatestRelseasesAsync(int numberRetrieving)
+    //{
+    //    IEnumerable<ProductModelGet>? query = null;
+    //        query = await(from P in _context.Products
+    //                      join OI in _context.OrderItems.W
+
+
+    //                      select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
+    //                  P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star, P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
+
+
+    //}
 }

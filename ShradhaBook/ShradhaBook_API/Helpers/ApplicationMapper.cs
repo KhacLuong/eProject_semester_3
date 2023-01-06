@@ -12,10 +12,8 @@ public class ApplicationMapper : Profile
         CreateMap<Order, OrderDto>().ReverseMap();
         CreateMap<OrderItems, OrderItemsDto>().ReverseMap();
 
-
-        CreateMap<Category, CategoryModelGet>().ForMember(item => item.Status,
-            otp => otp.MapFrom(entity =>
-                entity.Status == MyStatus.ACTIVE ? MyStatus.ACTIVE_RESULT : MyStatus.INACTIVE_RESULT));
+        CreateMap<Category, CategoryModelGet>().ForMember(item => item.Status, otp => otp.MapFrom(entity =>
+            entity.Status == MyStatus.ACTIVE ? MyStatus.ACTIVE_RESULT : MyStatus.INACTIVE_RESULT));
         CreateMap<CategoryModelPost, Category>().ForMember(entity => entity.Status,
                 otp => otp.MapFrom(item =>
                     item.Status.Trim().Equals(MyStatus.ACTIVE_RESULT) ? MyStatus.ACTIVE : MyStatus.INACTIVE))
@@ -28,17 +26,22 @@ public class ApplicationMapper : Profile
             otp => otp.MapFrom(item => item.Code.Trim().ToUpper()));
 
         CreateMap<Product, ProductModelGet>().ForMember(item => item.Status,
-                otp => otp.MapFrom(entity =>
-                    entity.Status == MyStatus.ACTIVE ? MyStatus.ACTIVE_RESULT : MyStatus.INACTIVE_RESULT))
-            ;
+            otp => otp.MapFrom(entity =>
+                entity.Status == MyStatus.ACTIVE ? MyStatus.ACTIVE_RESULT : MyStatus.INACTIVE_RESULT));
 
         CreateMap<ProductModelPost, Product>().ForMember(entity => entity.Status,
                 otp => otp.MapFrom(item =>
                     item.Status.Trim().Equals(MyStatus.ACTIVE_RESULT) ? MyStatus.ACTIVE : MyStatus.INACTIVE))
             .ForMember(entity => entity.Code, otp => otp.MapFrom(item => item.Code.Trim().ToUpper()));
 
+        CreateMap<Product, ProductModel>().ForMember(item => item.Status,
+            otp => otp.MapFrom(entity =>
+                entity.Status == MyStatus.ACTIVE ? MyStatus.ACTIVE_RESULT : MyStatus.INACTIVE_RESULT));
+
+
         CreateMap<Tag, TagModelGet>();
         CreateMap<TagModelPost, Tag>();
+
 
         CreateMap<ProductTag, ProductTagGet>();
         CreateMap<ProductTagPost, ProductTag>();
@@ -64,5 +67,11 @@ public class ApplicationMapper : Profile
 
         CreateMap<WishListUser, WishListUserGet>();
         CreateMap<WishListUserPost, WishListUser>();
+
+        CreateMap<Rate, RateModelGet>();
+        CreateMap<RateModelPost, Rate>();
+
+        CreateMap<Comment, CommentModelGet>();
+        CreateMap<CommentModelPost, Comment>();
     }
 }

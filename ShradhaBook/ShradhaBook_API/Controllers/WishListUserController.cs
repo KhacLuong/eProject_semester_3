@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ShradhaBook_API.Helpers;
 
 namespace ShradhaBook_API.Controllers;
 
@@ -43,12 +42,14 @@ public class WishListUserController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<WishListUserPost>> AddWishListUserG(int userId, int prouctId)
     {
-        //try
+        try
         {
             var status = await _wishListUserService.AddWishListUserAsync(userId, prouctId);
             if (status == MyStatusCode.DUPLICATE)
+            {
                 return BadRequest(new MyServiceResponse<WishListUserGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", product already exists in wishlist "));
+            }
 
             if (status > 0)
             {
@@ -60,16 +61,15 @@ public class WishListUserController : ControllerBase
 
             return BadRequest(new MyServiceResponse<WishListUserGet>(false, MyStatusCode.ADD_FAILURE_RESULT));
         }
-        //catch
-        //{
-        //    return StatusCode(500, new MyServiceResponse<WishListUserGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-
-
-        //}
+        catch
+        {
+            return StatusCode(500,
+                new MyServiceResponse<WishListUserGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
     }
 
     // DELETE: api/WishListUser/5
-    [HttpDelete("{id}")]
+    [HttpDelete]
     public async Task<IActionResult> DeleteWishListUserGet(int userId, int prouctId)
     {
         try
@@ -85,6 +85,23 @@ public class WishListUserController : ControllerBase
         {
             return StatusCode(500,
                 new MyServiceResponse<WishListUserGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
+
+    [HttpGet("GetTotalWishListAndCart{userId}")]
+    public async Task<ActionResult<object>> GetTotalWishListAndCart(int userId)
+    {
+        try
+        {
+            var result = await _wishListUserService.GetCountWishListAndCart(userId);
+
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
+        }
+        catch
+        {
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         }
     }
 }

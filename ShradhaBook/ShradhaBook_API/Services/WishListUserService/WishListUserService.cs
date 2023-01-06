@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using ShradhaBook_API.Helpers;
 
 namespace ShradhaBook_API.Services.WishListUserService;
 
@@ -106,6 +105,22 @@ public class WishListUserService : IWishListUserService
         throw new NotImplementedException();
     }
 
+    public async Task<object> GetCountWishListAndCart(int userId)
+    {
+        var totalWishlistUser = _context.WishListUsers.Where(u => u.UserId == userId).Count();
+        var totalOrderIsDone = _context.Orders
+            .Where(o => o.UserId == userId && o.OrderTracking.Equals(MyStatusCode.ORDER_DONE)).Count();
+        var totalOrderIsPreparing = _context.Orders
+            .Where(o => o.UserId == userId && o.OrderTracking.Equals(MyStatusCode.ORDER_DONE)).Count();
+
+        return new
+        {
+            totalWishlist = totalWishlistUser,
+            totalOrderIsDone,
+            totalOrderIsPreparing
+        };
+    }
+
     public async Task<WishListUserGet> GetWishListUserAsync(int id)
     {
         var models = await (from WU in _context.WishListUsers.Where(w => w.Id == id)
@@ -121,7 +136,7 @@ public class WishListUserService : IWishListUserService
     }
 
 
-    public async Task<WishListUserGet> GetWishListUsersByUserIdAsync(int id)
+    public async Task<List<WishListUserGet>> GetWishListUsersByUserIdAsync(int id)
     {
         var models = await (from U in _context.Users.Where(u => u.Id == id)
             join WU in _context.WishListUsers
@@ -131,7 +146,9 @@ public class WishListUserService : IWishListUserService
             join P in _context.Products
                 on W.ProductId equals P.Id
             select new WishListUserGet(WU.Id, U.Name, P.Name, WU.CreatedAt, WU.UpdatedAt))!.ToListAsync();
-        return _mapper.Map<WishListUserGet>(models);
+
+
+        return _mapper.Map<List<WishListUserGet>>(models);
     }
 
 

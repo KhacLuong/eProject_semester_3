@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ShradhaBook_API.Helpers;
 
 namespace ShradhaBook_API.Controllers.Admin;
 
@@ -70,8 +69,10 @@ public class AdminWishListUserController : ControllerBase
                     ", There is already a WishListUser of this WhishListId and this UserId"));
 
             if (status == MyStatusCode.NOTFOUND)
+            {
                 return BadRequest(new MyServiceResponse<WishListGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", Not found User or Wishlist"));
+            }
 
             if (status == MyStatusCode.SUCCESS)
             {
@@ -91,19 +92,18 @@ public class AdminWishListUserController : ControllerBase
     [HttpGet("GetAllWishListUserByUserId{id}")]
     public async Task<ActionResult<WishListUserGet>> GetAllWishListUserByUserId(int id)
     {
-        try
+        //try
         {
             var result = await _wishListUserService.GetWishListUsersByUserIdAsync(id);
 
             return result == null
-                ? NotFound(new MyServiceResponse<WishListUserGet>(false, MyStatusCode.NOT_FOUND_RESULT))
-                : Ok(new MyServiceResponse<WishListUserGet>(result));
+                ? NotFound(new MyServiceResponse<List<WishListUserGet>>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<List<WishListUserGet>>(result));
         }
-        catch
-        {
-            return StatusCode(500,
-                new MyServiceResponse<WishListUserGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-        }
+        //catch
+        //{
+        //    return StatusCode(500, new MyServiceResponse<WishListUserGet>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        //}
     }
 
     // POST: api/WishListUserGets
@@ -120,8 +120,10 @@ public class AdminWishListUserController : ControllerBase
                     ", There is already a WishListUser of this WhishListId and this UserId"));
 
             if (status == MyStatusCode.NOTFOUND)
+            {
                 return BadRequest(new MyServiceResponse<WishListGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", Not found User or Wishlist"));
+            }
 
             if (status > 0)
             {

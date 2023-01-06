@@ -16,6 +16,7 @@ global using ShradhaBook_API.Services.BlogService;
 global using ShradhaBook_API.Services.BlogTagService;
 global using ShradhaBook_API.Services.WishListService;
 global using ShradhaBook_API.Services.WishListUserService;
+global using ShradhaBook_API.Services.RateService;
 global using ShradhaBook_API.Data;
 global using ShradhaBook_API.Helpers;
 global using ShradhaBook_ClassLibrary.Dto;
@@ -30,7 +31,6 @@ using Microsoft.Extensions.Azure;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,7 +64,7 @@ builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<IBlogTagService, BlogTagService>();
 builder.Services.AddScoped<IWishListService, WishListService>();
 builder.Services.AddScoped<IWishListUserService, WishListUserService>();
-
+builder.Services.AddScoped<IRateService, RateService>();
 
 builder.Services.AddAzureClients(options =>
 {

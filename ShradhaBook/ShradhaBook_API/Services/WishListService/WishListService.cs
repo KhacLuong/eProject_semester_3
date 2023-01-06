@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using ShradhaBook_API.Helpers;
 
 namespace ShradhaBook_API.Services.WishListService;
 
@@ -68,6 +67,7 @@ public class WishListService : IWishListService
 
         return _mapper.Map<List<WishListGet>>(result);
     }
+
 
     public async Task<WishListGet> GetWishListAsync(int id)
     {

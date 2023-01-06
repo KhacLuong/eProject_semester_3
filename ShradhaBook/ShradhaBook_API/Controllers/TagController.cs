@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShradhaBook_API.Helpers;
 
 namespace ShradhaBook_API.Controllers;
 
@@ -83,8 +82,9 @@ public class TagController : ControllerBase
             return StatusCode(500, new MyServiceResponse<TagModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         }
     }
+
+    //private bool TagModelExists(int id)
+    //{
+    //    return _context.TagModel.Any(e => e.Id == id);
+    //}
 }
-//private bool TagModelExists(int id)
-//{
-//    return _context.TagModel.Any(e => e.Id == id);
-//}

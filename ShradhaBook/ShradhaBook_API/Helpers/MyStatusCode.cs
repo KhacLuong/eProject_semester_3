@@ -27,4 +27,11 @@ public class MyStatusCode
     public static readonly string ADD_FAILURE_RESULT = "Addition failure";
     public static readonly string DELLETE_FAILURE_RESULT = "Delete failure";
     public static readonly string DELLETE_SUCCESS_RESULT = "Delete success";
+
+
+    // Order status
+    public static readonly string ORDER_DONE = "Done";
+
+    public static readonly string ORDER_PREPARING = "Preparing";
+    //
 }

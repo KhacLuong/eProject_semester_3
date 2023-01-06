@@ -11,5 +11,7 @@ public interface IWishListUserService
 
     Task<int> UpdateWishListUserAsync(int id, WishListUserPost model);
     Task<List<WishListUserGet>> GetAllWishListUserAsync();
-    Task<WishListUserGet> GetWishListUsersByUserIdAsync(int id);
+    Task<List<WishListUserGet>> GetWishListUsersByUserIdAsync(int id);
+
+    Task<object> GetCountWishListAndCart(int userId);
 }

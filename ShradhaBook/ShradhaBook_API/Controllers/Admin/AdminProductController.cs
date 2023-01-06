@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ShradhaBook_API.Helpers;
 
 namespace ShradhaBook_API.Controllers.Admin;
 
@@ -11,7 +10,6 @@ public class AdminProductController : ControllerBase
     private readonly ICategoryService _categoryService;
     private readonly IMapper _mapper;
     private readonly IProductService _productService;
-
 
     public AdminProductController(ICategoryService categoryService, IProductService productService, IMapper mapper)
     {
@@ -37,8 +35,7 @@ public class AdminProductController : ControllerBase
         }
         //catch
         //{
-        //    return StatusCode(500, new MyServiceResponse<List<Object>>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-
+        //    return StatusCode(500, new MyServiceResponse<List<object>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         //}
     }
 
@@ -58,6 +55,24 @@ public class AdminProductController : ControllerBase
         {
             return StatusCode(500,
                 new MyServiceResponse<ProductModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
+
+    [HttpGet("GetProduct{id}")]
+    public async Task<ActionResult<ProductModelPost>> GetProduct2(int id)
+    {
+        try
+        {
+            var result = await _productService.GetProduct2Async(id);
+
+            return result == null
+                ? NotFound(new MyServiceResponse<ProductModelPost>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
+        }
+        catch
+        {
+            return StatusCode(500,
+                new MyServiceResponse<ProductModelPost>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         }
     }
 
@@ -114,13 +129,15 @@ public class AdminProductController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ProductModelGet>> AddProductModelGet(ProductModelPost model)
     {
-        //try
+        try
         {
             var status = await _productService.AddProductAsync(model);
             if (status == MyStatusCode.DUPLICATE_CODE)
                 return BadRequest(new MyServiceResponse<ProductModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
-
+            if (status == MyStatusCode.DUPLICATE_NAME)
+                return BadRequest(new MyServiceResponse<ProductModelGet>(false,
+                    MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
             if (status == MyStatusCode.DUPLICATE_NAME)
                 return BadRequest(new MyServiceResponse<ProductModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
@@ -135,11 +152,11 @@ public class AdminProductController : ControllerBase
 
             return BadRequest(new MyServiceResponse<ProductModelGet>(false, MyStatusCode.ADD_FAILURE_RESULT));
         }
-        //catch
-        //{
-        //    return StatusCode(500, new MyServiceResponse<ProductModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-
-        //}
+        catch
+        {
+            return StatusCode(500,
+                new MyServiceResponse<ProductModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
     }
 
     // DELETE: api/AdminProduct/5

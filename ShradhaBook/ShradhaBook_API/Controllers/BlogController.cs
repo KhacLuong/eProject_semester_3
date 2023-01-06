@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ShradhaBook_API.Helpers;
 
 namespace ShradhaBook_API.Controllers;
 
@@ -71,7 +70,6 @@ public class BlogController : ControllerBase
         }
     }
 
-
     [HttpGet("DetailBySlug{slug}")]
     public async Task<ActionResult<object>> GetBlogDetailBySlug(string slug)
     {
@@ -105,7 +103,6 @@ public class BlogController : ControllerBase
             return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         }
     }
-
 
     [HttpPost("IncreaseViewCountBlog{id}")]
     public async Task<ActionResult> IncreaseViewCountBlog(int id)
