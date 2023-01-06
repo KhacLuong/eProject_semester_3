@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import Banner from "../Layouts/Banner/Banner";
-import ProductFilter from "./ProductFilter";
-import ProductList from "./ProductList";
+import ProductFilter from "./ProductFilter/ProductFilter";
+import ProductList from "./ProductAll/ProductList";
 import {getListAuthor, getListProduct, getListCategory} from "../../services/apiService";
 import {renderStar} from "../../ultis/renderStar";
 
-const ProductPage = () => {
+const ProductPage = (props) => {
+    const {setOpen} = props
     const minDistance = 0;
     const stars = [
         {
@@ -59,7 +60,7 @@ const ProductPage = () => {
     const [sortBy, setSortBy] = useState(null);
     const [activeCategory, setActiveCategory] = useState('');
     const [activeAuthor, setActiveAuthor] = useState('');
-
+    const [bannerTitle, setBannerTitle] = useState('product')
     useEffect(() => {
         const fetchData = async () => {
             await fetchListProducts(pageIndex)
@@ -118,8 +119,9 @@ const ProductPage = () => {
     const handleChangeQuantity = event => {
         setSelectedPerPage(event.target.value)
     };
-    const handleOnClickCategory = (name,id) => {
+    const handleOnClickCategory = (name, id) => {
         setCategoryName(name);
+        setBannerTitle(name)
         const classCategory = `category_${id}`
         setActiveCategory(classCategory)
     }
@@ -134,6 +136,7 @@ const ProductPage = () => {
     const handleRefreshCategory = () => {
         setCategoryName('')
         setActiveCategory('')
+        setBannerTitle('product')
     }
     const handleRefreshAuthor = () => {
         setAuthorName('')
@@ -171,9 +174,10 @@ const ProductPage = () => {
             setListCategory(res.data)
         }
     }
+
     return (
         <div className={`product_page`}>
-            <Banner bannerTitle={`product`}/>
+            <Banner bannerTitle={bannerTitle}/>
             <div className={`product_content container mx-auto xl:px-30 grid grid-cols-4 gap-8 py-14`}>
                 <ProductFilter
                     handleOnClickAuthor={handleOnClickAuthor}
@@ -202,6 +206,7 @@ const ProductPage = () => {
                     handleSearchProduct={handleSearchProduct}
                     fetchListProducts={fetchListProducts}
                     renderStar={renderStar}
+                    setOpen={setOpen}
                 />
             </div>
         </div>

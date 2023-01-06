@@ -16,7 +16,7 @@ const BottomHeader = () => {
                     </div>
                 </div>
                 <MenuNavigation/>
-                <div className={`flex items-center justify-between mr-3`}>
+                <div className={`flex items-center justify-between`}>
                     <div className={`mr-1 rounded-full bg-bgWhiteColor p-2.5`}>
                         <BiPhoneCall className={``}/>
                     </div>

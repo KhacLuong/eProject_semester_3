@@ -9,6 +9,7 @@ const MenuItem = ({items, depthLevel}) => {
     const [dropdown, setDropdown] = useState(false)
     const navigate = useNavigate();
     let ref = useRef();
+
     useEffect(() => {
         const handler = (event) => {
             if (dropdown && ref.current && !ref.current.contains(event.target)) {
@@ -24,33 +25,31 @@ const MenuItem = ({items, depthLevel}) => {
         }
     }, [dropdown])
 
-    const onMouseClick = () => {
-        window.innerWidth > 960 && setDropdown(true);
+    const onMouseClick = (e) => {
+        setDropdown(true);
     }
-    const onMouseLeave = (e) => {
-        console.log(e.offsetTop)
-        window.innerWidth > 1500 && setDropdown(false);
-    }
-
     return (
-        <li className="menu-items py-5" ref={ref} onMouseOver={onMouseClick} onMouseLeave={onMouseLeave}>
+        <li className="menu-items" ref={ref} onClick={onMouseClick}>
             {
                 items.children.length !== 0 ? (
                     <>
-                        <button className={`flex items-center justify-between px-4`} type="button" aria-haspopup="menu" aria-expanded={dropdown ? "true" : "false"}
+                        <button className={`flex items-center justify-between`} type="button" aria-haspopup="menu"
+                                aria-expanded={dropdown ? "true" : "false"}
                                 onClick={() => setDropdown((prev) => !prev)}>
                             {items.name}
                             {" "}
-                            {depthLevel > 0 && items.children.length != 0 ? <BiChevronRight className={`text-xl`}/> : <BiChevronDown className={`ml-1 text-xl`}/>}
+                            {depthLevel > 0 && items.children.length != 0 ? <BiChevronRight className={`text-xl`}/> :
+                                <BiChevronDown className={`ml-1 text-xl`}/>}
                         </button>
                         <DropDown depthLevel={depthLevel}
                                   children={items.children}
                                   dropdown={dropdown}/>
                     </>
                 ) : (
-                    <div className={`cursor-pointer px-4`} >
+                    <div className={`cursor-pointer`}
+                         onClick={() => navigate((`/categories/${items.id}/${items.slug}`))}>
                         {items.name}
-                    < /div>
+                    </div>
                 )
             }
         </li>

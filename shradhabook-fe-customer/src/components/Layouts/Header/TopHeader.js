@@ -24,9 +24,9 @@ const TopHeader = () => {
         decoded = jwt_decode(account.accessToken);
     }
 
-    useEffect(() => {
-        refreshToken()
-    }, [])
+    // useEffect(() => {
+    //     refreshToken()
+    // }, [])
 
     useEffect(() => {
         const handler = (event) => {
@@ -71,7 +71,7 @@ const TopHeader = () => {
                     <div className={`text-3xl mr-2`}>
                         <GiBookAura/>
                     </div>
-                    <span className="self-center text-2xl font-semibold whitespace-nowrap ">ShradhaBook</span>
+                    <span className="self-center text-2xl font-semibold whitespace-nowrap ">Shradha</span>
                 </div>
                 <Search/>
                 <div className="items-center text-white text-xl justify-between w-full md:flex md:w-auto md:order-1">
@@ -91,7 +91,7 @@ const TopHeader = () => {
                                 onMouseLeave={() => handleLeaveNavUser()}>
                                 <RiUserLine></RiUserLine>
                                 <div
-                                    className={`${showNavUser ? 'block' : 'hidden'} rounded-[10px] absolute z-14 left-0 top-[50px] w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 before:absolute before:content[''] before:w-[10px] before:h-[10px] before:bg-whiteColor before:top-[-5px] before:left-[13%] before:rotate-45 before:z-99999 before:border-[#e4e4e4]-[1px] before:border-b-0 before:border-r-0`}>
+                                    className={`${showNavUser ? 'block' : 'hidden'} rounded-[10px] border-[1px]  absolute left-0 top-[50px] w-44 bg-white divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 before:absolute before:content[''] before:w-[10px] before:h-[10px] before:bg-whiteColor before:top-[-5px] before:left-[13%] before:rotate-45 z-[9999] before:border-[#e4e4e4]-[1px] before:border-b-0 before:border-r-0`}>
                                     <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
                                         <div onClick={() => navigate(`/user/my-profile/${decoded.Id}`)}
                                              className="font-medium truncate">{account.username}</div>
@@ -100,6 +100,11 @@ const TopHeader = () => {
                                     <ul className="py-1 text-sm text-gray-700 dark:text-gray-200"
                                         aria-labelledby="dropdownInformationButton">
                                         <li>
+                                            <div onClick={() => navigate(`user/wishlist/${decoded.Id}`)}
+                                                 className="relative cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                Wish list <span className={`absolute right-[25px] top-[17%] bg-dangerColor-default_2 text-whiteColor rounded-full text-xs font-semiBold py-1 px-2`}>2</span>
+                                            </div>
+                                        </li> <li>
                                             <div onClick={() => navigate(`user/my-history/${decoded.Id}`)}
                                                  className="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                                 History
@@ -112,10 +117,6 @@ const TopHeader = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div onClick={() => navigate(`user/wishlist/${decoded.Id}`)}
-                                 className={`cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-lg px-4 py-2.5 text-center inline-flex items-center mr-1`}>
-                                <FiHeart className={`hover:text-blackColor`}/>
                             </div>
                             <div onClick={() => navigate(`user/shopping-cart/${decoded.Id}`)}
                                  className={`cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-lg px-4 py-2.5 text-center inline-flex items-center`}>

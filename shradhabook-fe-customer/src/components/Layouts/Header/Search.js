@@ -2,7 +2,7 @@ import React from 'react';
 
 const Search = () => {
     return (
-        <div className={`w-2/4`}>
+        <div className={`w-3/5`}>
             <form className={`my-2 focus:border-none focus:outline-none w-full `}>
                 <label htmlFor="default-search"
                        className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>

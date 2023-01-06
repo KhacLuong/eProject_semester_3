@@ -1,8 +1,9 @@
 import React from 'react';
 import Slider from "@mui/material/Slider";
 import {AiOutlineMinus} from "react-icons/ai";
+import {BiRefresh} from "react-icons/bi";
 import parse from "html-react-parser";
-import {BiRefresh} from 'react-icons/bi'
+import {getListAuthor} from "../../../services/apiService";
 
 const ProductFilter = (props) => {
     const {
@@ -28,8 +29,8 @@ const ProductFilter = (props) => {
                     <div
                         className={`text-lg text-[#000000] font-medium leading-normal`}>Genre
                     </div>
-                    <div onClick={handleRefreshCategory} title={`Refresh`} className={`flex items-center cursor-pointer bg-dangerColor-default_2 hover:bg-dangerColor-hover_2 text-whiteColor py-1 px-1 rounded text-xl`}>
-                        <BiRefresh className={`hover:rotate-360 transform transition ease-in-out duration-700`}/>
+                    <div onClick={handleRefreshCategory} title={`Refresh`} className={`group/refresh flex items-center cursor-pointer bg-blackColor hover:bg-dangerColor-default_2 text-whiteColor py-1 px-1 rounded text-xl`}>
+                       <BiRefresh className={`transform duration-700 group-hover/refresh:rotate-360`}/>
                     </div>
                 </div>
                 <div className={`mx-auto px-10 py-4`}>
@@ -37,9 +38,9 @@ const ProductFilter = (props) => {
                         {
                             listCategory.map((item, index) => {
                                 return <li key={index}
-                                           className={`${activeCategory === `category_${item.id}` ? 'text-dangerColor-default_2': ''} transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
+                                           className={`${activeCategory === `category_${item.id}` ? 'text-dangerColor-default_2': ''} duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
                                     <div onClick={() => handleOnClickCategory(item.name, item.id)}
-                                         className={`${activeCategory === `category_${item.id}` ? `before:content-['☑']`: `before:content-['☐']`}  cursor-pointer flex items-center before:text-xl before:mr-[8px]`}>
+                                         className={`${activeCategory === `category_${item.id}` ? `before:content-['☑']`: `before:content-['☐']`} cursor-pointer flex items-center before:text-xl before:mr-[8px]`}>
                                         {item.name}
                                     </div>
                                     <div>(1)</div>
@@ -54,8 +55,8 @@ const ProductFilter = (props) => {
                     <div
                         className={`text-lg text-[#000000] font-medium leading-normal`}>Authors
                     </div>
-                    <div onClick={handleRefreshAuthor} title={`Refresh`} className={`flex items-center cursor-pointer bg-dangerColor-default_2 hover:bg-dangerColor-hover_2 text-whiteColor py-1 px-1 rounded text-xl`}>
-                        <BiRefresh className={`hover:rotate-360 transform transition ease-in-out duration-700`}/>
+                    <div onClick={handleRefreshAuthor} title={`Refresh`} className={`group/refresh flex items-center cursor-pointer bg-blackColor hover:bg-dangerColor-default_2 text-whiteColor py-1 px-1 rounded text-xl`}>
+                       <BiRefresh className={`transform duration-700 group-hover/refresh:rotate-360`}/>
                     </div>
                 </div>
                 <div className={`mx-auto px-10 py-4`}>
@@ -63,7 +64,7 @@ const ProductFilter = (props) => {
                         {
                             listAuthor.map((item, index) => {
                                 return <li key={index}
-                                           className={`${activeAuthor === `author_${item.id}` ? 'text-dangerColor-default_2': ''} transition duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
+                                           className={`${activeAuthor === `author_${item.id}` ? 'text-dangerColor-default_2': ''} duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
                                     <div onClick={() => handleOnClickAuthor(item.name, item.id)}
                                          className={`${activeAuthor === `author_${item.id}` ? `before:content-['☑']`: `before:content-['☐']`} cursor-pointer flex items-center before:text-xl before:mr-[8px]`}>
                                         {item.name}
@@ -118,8 +119,8 @@ const ProductFilter = (props) => {
                     <div
                         className={`text-lg text-[#000000] font-medium leading-normal`}>Review ratings
                     </div>
-                    <div title={`Refresh`} className={`flex items-center cursor-pointer bg-dangerColor-default_2 hover:bg-dangerColor-hover_2 text-whiteColor py-1 px-1 rounded text-xl`}>
-                        <BiRefresh className={`hover:rotate-360 transform transition ease-in-out duration-700`}/>
+                    <div title={`Refresh`} className={`group/refresh flex items-center cursor-pointer bg-blackColor hover:bg-dangerColor-default_2 text-whiteColor py-1 px-1 rounded text-xl`}>
+                        <BiRefresh className={`transform duration-700 group-hover/refresh:rotate-360`}/>
                     </div>
                 </div>
                 <div className={`mx-auto px-10 py-4`}>
@@ -127,8 +128,8 @@ const ProductFilter = (props) => {
                         return <div className="flex items-center" key={index}>
                             {parse(renderStar(item.star))}
                             <span className="w-1 h-1 mx-3 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-                            <a href="#"
-                               className="text-sm font-medium text-gray-900 underline hover:no-underline hover:text-dangerColor-default_2 dark:text-white transition duration-300">
+                            <a href="src/components/Product#"
+                               className="text-sm font-medium text-gray-900 underline hover:no-underline hover:text-dangerColor-default_2 dark:text-white duration-300">
                                 {item.count} products
                             </a>
                         </div>
