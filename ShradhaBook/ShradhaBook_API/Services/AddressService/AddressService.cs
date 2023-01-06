@@ -1,6 +1,6 @@
 ﻿using BingMapsRESTToolkit;
 using Microsoft.EntityFrameworkCore;
-using Address = ShradhaBook_API.Models.Entities.Address;
+using Address = ShradhaBook_ClassLibrary.Entities.Address;
 
 namespace ShradhaBook_API.Services.AddressService;
 

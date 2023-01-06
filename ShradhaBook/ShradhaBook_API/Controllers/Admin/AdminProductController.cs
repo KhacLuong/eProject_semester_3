@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ShradhaBook_API.Helpers;
-using ShradhaBook_API.ViewModels;
 
 namespace ShradhaBook_API.Controllers.Admin;
 
@@ -135,74 +133,67 @@ public class AdminProductController : ControllerBase
         {
             var status = await _productService.AddProductAsync(model);
             if (status == MyStatusCode.DUPLICATE_CODE)
-            {
-                return BadRequest(new MyServiceResponse<ProductModelGet>(false, MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
-            }
-            else if (status == MyStatusCode.DUPLICATE_NAME)
-            {
-                return BadRequest(new MyServiceResponse<ProductModelGet>(false, MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
-            }
+                return BadRequest(new MyServiceResponse<ProductModelGet>(false,
+                    MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
             if (status == MyStatusCode.DUPLICATE_NAME)
-            {
                 return BadRequest(new MyServiceResponse<ProductModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
-            }
+            if (status == MyStatusCode.DUPLICATE_NAME)
+                return BadRequest(new MyServiceResponse<ProductModelGet>(false,
+                    MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
 
             if (status > 0)
             {
                 var newEntity = await _productService.GetProductAsync(status);
 
-                return Ok(new MyServiceResponse<ProductModelGet>(_mapper.Map<ProductModelGet>(newEntity), true, MyStatusCode.ADD_SUCCESS_RESULT));
+                return Ok(new MyServiceResponse<ProductModelGet>(_mapper.Map<ProductModelGet>(newEntity), true,
+                    MyStatusCode.ADD_SUCCESS_RESULT));
             }
-            return BadRequest(new MyServiceResponse<ProductModelGet>(false, MyStatusCode.ADD_FAILURE_RESULT));
 
+            return BadRequest(new MyServiceResponse<ProductModelGet>(false, MyStatusCode.ADD_FAILURE_RESULT));
         }
         catch
         {
-            return StatusCode(500, new MyServiceResponse<ProductModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-
+            return StatusCode(500,
+                new MyServiceResponse<ProductModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         }
-
     }
 
-        // DELETE: api/AdminProduct/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProductModelGet(int id)
+    // DELETE: api/AdminProduct/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProductModelGet(int id)
+    {
+        try
         {
-            try
-            {
-
-
-                await _productService.DeleteProductAsync(id);
-                return Ok(new MyServiceResponse<ProductModelGet>(true, MyStatusCode.DELLETE_SUCCESS_RESULT));
-
-            }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<ProductModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-
-            }
+            await _productService.DeleteProductAsync(id);
+            return Ok(new MyServiceResponse<ProductModelGet>(true, MyStatusCode.DELLETE_SUCCESS_RESULT));
         }
-
-        [HttpGet("GetProductByCategoryId{id}")]
-        public async Task<ActionResult<Object>> GetProductByCategoryId(int id, int pageSize = 20, int pageIndex = 1)
+        catch
         {
-            try
-            {
-                var result = await _productService.GetProductByIdCategoryAsync(id, pageSize, pageIndex);
-
-                return result == null ? NotFound(new MyServiceResponse<Object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<Object>(result));
-
-            }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<Object>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-            }
+            return StatusCode(500,
+                new MyServiceResponse<ProductModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         }
+    }
 
-        //private bool ProductModelGetExists(int id)
-        //{
-        //    return _context.ProductModelGet.Any(e => e.Id == id);
-        //}
-    
+    [HttpGet("GetProductByCategoryId{id}")]
+    public async Task<ActionResult<object>> GetProductByCategoryId(int id, int pageSize = 20, int pageIndex = 1)
+    {
+        try
+        {
+            var result = await _productService.GetProductByIdCategoryAsync(id, pageSize, pageIndex);
+
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
+        }
+        catch
+        {
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
+
+    //private bool ProductModelGetExists(int id)
+    //{
+    //    return _context.ProductModelGet.Any(e => e.Id == id);
+    //}
 }

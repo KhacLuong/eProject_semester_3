@@ -7,7 +7,7 @@
     }
 }
 .active {
-    @apply block py-2  mx-5 rounded md:bg-transparent text-dangerColor-default_2 md:p-0 text-base font-medium
+    @apply flex items-center justify-center py-4 mx-4 rounded md:bg-transparent text-dangerColor-default_2 md:p-0 text-base font-medium
 }
 
 .btn {

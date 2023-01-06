@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ShradhaBook_API.Helpers;
-using ShradhaBook_API.Services.BlogService;
-using ShradhaBook_API.ViewModels;
 
 namespace ShradhaBook_API.Controllers;
 
@@ -73,44 +70,46 @@ public class BlogController : ControllerBase
         }
     }
 
-        [HttpGet("DetailBySlug{slug}")]
-        public async Task<ActionResult<object>> GetBlogDetailBySlug(string slug)
+    [HttpGet("DetailBySlug{slug}")]
+    public async Task<ActionResult<object>> GetBlogDetailBySlug(string slug)
+    {
+        try
         {
-            try
-            {
-                var result = await _blogService.GetBlogDetailBySlugAsync(slug);
+            var result = await _blogService.GetBlogDetailBySlugAsync(slug);
 
-                return result == null ? NotFound(new MyServiceResponse<object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<object>(result));
-
-            }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-            }
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
         }
-
-        [HttpGet("GetBlogByAuthorId{id}")]
-        public async Task<ActionResult<object>> GetBlogByAuthorId(int id)
+        catch
         {
-            try
-            {
-                var result = await _blogService.GetBlogByAuthordIdAsync(id);
-
-                return result == null ? NotFound(new MyServiceResponse<object>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<object>(result));
-
-            }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-            }
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         }
+    }
 
-        [HttpPost("IncreaseViewCountBlog{id}")]
-        public async Task<ActionResult> IncreaseViewCountBlog(int id)
+    [HttpGet("GetBlogByAuthorId{id}")]
+    public async Task<ActionResult<object>> GetBlogByAuthorId(int id)
+    {
+        try
         {
-            try
-            {
-                var result = await _blogService.IncreseCountViewBlogAsync(id);
+            var result = await _blogService.GetBlogByAuthordIdAsync(id);
+
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
+        }
+        catch
+        {
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
+
+    [HttpPost("IncreaseViewCountBlog{id}")]
+    public async Task<ActionResult> IncreaseViewCountBlog(int id)
+    {
+        try
+        {
+            var result = await _blogService.IncreseCountViewBlogAsync(id);
 
             return result ? Ok(MyStatusCode.SUCCESS_RESULT) : BadRequest(MyStatusCode.FAILURE_RESULT);
         }

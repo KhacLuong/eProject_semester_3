@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ShradhaBook_API.Helpers;
-using ShradhaBook_API.ViewModels;
 
 namespace ShradhaBook_API.Controllers.Admin;
 
@@ -96,54 +94,55 @@ public class AdminCategoryController : ControllerBase
         {
             var status = await _categoryService.AddCategoryAsync(model);
             if (status == MyStatusCode.DUPLICATE_CODE)
+                return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
+                    MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
+
+            if (status == MyStatusCode.DUPLICATE_NAME)
             {
-                return BadRequest(new MyServiceResponse<CategoryModelGet>(false, MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
+                return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
+                    MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
             }
-            else if (status == MyStatusCode.DUPLICATE_NAME)
-            {
-                return BadRequest(new MyServiceResponse<CategoryModelGet>(false, MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
-            }
-            else if (status > 0)
+
+            if (status > 0)
             {
                 //var newCategoryId = status;
                 //var category = await _categoryService.GetCategoryAsync(newCategoryId);
                 //return category == null ? NotFound(SUCCESS) : Ok();
                 var newEntity = await _categoryService.GetCategoryAsync(status);
 
-                return Ok(new MyServiceResponse<CategoryModelGet>(_mapper.Map<CategoryModelGet>(newEntity), true, MyStatusCode.ADD_SUCCESS_RESULT));
+                return Ok(new MyServiceResponse<CategoryModelGet>(_mapper.Map<CategoryModelGet>(newEntity), true,
+                    MyStatusCode.ADD_SUCCESS_RESULT));
             }
-            return BadRequest(new MyServiceResponse<CategoryModelGet>(false, MyStatusCode.ADD_FAILURE_RESULT));
 
+            return BadRequest(new MyServiceResponse<CategoryModelGet>(false, MyStatusCode.ADD_FAILURE_RESULT));
         }
         catch
         {
-            return StatusCode(500, new MyServiceResponse<CategoryModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-
-
-        } 
+            return StatusCode(500,
+                new MyServiceResponse<CategoryModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
     }
 
 
-        // DELETE: api/AdminCategory/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategory(int id)
+    // DELETE: api/AdminCategory/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCategory(int id)
+    {
+        try
         {
-            try
+            var result = await _productService.CheckExistProductByIdCategoryAsync(id);
+            if (result == false)
             {
-                var result = await _productService.CheckExistProductByIdCategoryAsync(id);
-                if (result == false)
-                {
-                    await _categoryService.DeleteCategoryAsync(id);
-                    return Ok(new MyServiceResponse<CategoryModelGet>(true, MyStatusCode.DELLETE_SUCCESS_RESULT));
-                }
+                await _categoryService.DeleteCategoryAsync(id);
+                return Ok(new MyServiceResponse<CategoryModelGet>(true, MyStatusCode.DELLETE_SUCCESS_RESULT));
+            }
 
-                return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
-                    MyStatusCode.DELLETE_FAILURE_RESULT + ", " + "There are already products in this Category"));
-            }
-            catch
-            {
-                return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
-            }
+            return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
+                MyStatusCode.DELLETE_FAILURE_RESULT + ", " + "There are already products in this Category"));
         }
-    
+        catch
+        {
+            return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
+        }
+    }
 }

@@ -43,11 +43,11 @@
 .dropdown.show {
     display: block;
     position: absolute;
-    top: 100%;
+    top: 200%;
     border: 1px solid #e4e4e4;
 
     .menu-items {
-        padding: 10px 0px;
+        padding: 10px 10px;
         font-weight: 400;
         color: #223143;
         margin-bottom: 1px;

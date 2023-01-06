@@ -23,6 +23,8 @@ public class StorageService : IStorageService
     {
         var user = _context.Users.FirstOrDefault(u => u.Email == email);
         if (user == null) return null;
+        var userInfo = _context.UserInfo.FirstOrDefault(ui => ui.UserId == user.Id);
+        if (userInfo == null) return null;
         var containerName = _configuration.GetSection("Storage:AvatarContainerName").Value;
 
         var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
@@ -31,7 +33,7 @@ public class StorageService : IStorageService
 
         using var stream = formFile.OpenReadStream();
         blobClient.Upload(stream, true);
-        user.Avatar = fileName;
+        userInfo.Avatar = fileName;
         _context.SaveChanges();
         return "ok";
     }
@@ -57,7 +59,7 @@ public class StorageService : IStorageService
     private string CreateRandomFileName()
     {
         var fileName = Convert.ToHexString(RandomNumberGenerator.GetBytes(8)) + ".png";
-        if (_context.Users.Any(u => u.Avatar == fileName)
+        if (_context.UserInfo.Any(ui => ui.Avatar == fileName)
             || _context.Products.Any(p => p.ImageProductPath == fileName))
             fileName = CreateRandomFileName();
         return fileName;

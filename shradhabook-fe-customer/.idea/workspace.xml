@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="111af772-affb-4a61-b11c-ff31b85bd981" name="Changes" comment="feature/home_page_desgin merge conflig">
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminBlogTagController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminWishListController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminWishListUserController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/BlogTagController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/ProductTagController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/WishListUserController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/WishList.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/WishListUser.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/UploadImageService/IUploadImage.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/UploadImageService/UploadImage.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/WishListService/IWishListService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/WishListService/WishListService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/WishListUserService/IWishListUserService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/WishListUserService/WishListUserService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/ViewModels/WishListGet.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/ViewModels/WishListPost.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/ViewModels/WishListUserGet.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/ViewModels/WishListUserPost.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminAddressController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminAddressController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminAuthorController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminAuthorController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminCategoryController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminCategoryController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminManufacturerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminManufacturerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminProductController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminProductController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminProductTagController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminProductTagController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminTagController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminTagController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminUserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminUserController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminUserInfoController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Admin/AdminUserInfoController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/BlogController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/BlogController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Customer/AddressController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Customer/AddressController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Customer/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Customer/UserController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Customer/UserInfoController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/Customer/UserInfoController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/FileUploadController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/FileUploadController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/OrderController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/OrderController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/ProductsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/ProductsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/TagController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Controllers/TagController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Data/DataContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Data/DataContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Helpers/ApplicationMapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Helpers/ApplicationMapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Helpers/Helpers.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Helpers/Helpers.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Helpers/MyStatus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Helpers/MyStatus.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Helpers/MyStatusCode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Helpers/MyStatusCode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Author.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Author.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Dto/AddressDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Dto/AddressDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Dto/UserDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Dto/UserDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Dto/UserInfoDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Dto/UserInfoDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Entities/Address.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Entities/Address.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Entities/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Entities/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Product.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Product.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/RefreshToken.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/RefreshToken.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Request/AddAddressRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Request/AddAddressRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Request/AddUserInfoRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Models/Request/AddUserInfoRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/AddressService/AddressService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/AddressService/AddressService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/AddressService/IAddressService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/AddressService/IAddressService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/AuthService/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/AuthService/AuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/BlogService/BlogService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/BlogService/BlogService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/BlogService/IBlogService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/BlogService/IBlogService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/BlogTagService/BlogTagService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/BlogTagService/BlogTagService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/BlogTagService/IBlogTagService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/BlogTagService/IBlogTagService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/CategotyService/CategoryService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/CategotyService/CategoryService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/OrderService/OrderService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/OrderService/OrderService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/ProductService/IProductService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/ProductService/IProductService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/ProductService/ProductService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/ProductService/ProductService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/ProductTagService/IProductTagService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/ProductTagService/IProductTagService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/ProductTagService/ProductTagService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/ProductTagService/ProductTagService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/StorageService/StorageService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/StorageService/StorageService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/TagService/ITagService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/TagService/ITagService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/TagService/TagService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/TagService/TagService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/UserService/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/Services/UserService/UserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/ShradhaBook_API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/ShradhaBook_API.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/ViewModels/BlogTagModelGet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/ViewModels/BlogTagModelGet.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../ShradhaBook/ShradhaBook_API/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Auth/Me.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/Me.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layouts/Banner/Banner.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layouts/Banner/Banner.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layouts/Header/BottomHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layouts/Header/BottomHeader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layouts/Header/DropDown.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layouts/Header/DropDown.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layouts/Header/MenuItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layouts/Header/MenuItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layouts/Header/MenuNavigation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layouts/Header/MenuNavigation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layouts/Header/TopHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layouts/Header/TopHeader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layouts/Header/nav.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layouts/Header/nav.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Product/Data.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Product/Data.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Product/ProductAll/ProductGridView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Product/ProductAll/ProductGridView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Product/ProductAll/ProductListView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Product/ProductAll/ProductListView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Product/ProductDetail/ProductDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Product/ProductDetail/ProductDetail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Product/ProductFilter/ProductFilter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Product/ProductFilter/ProductFilter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Product/ProductPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Product/ProductPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Shopping/Cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Shopping/Cart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Shopping/Wishlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Shopping/Wishlist.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/apiService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/apiService.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "ts.external.directory.path": "E:\\WebStorm\\WebStorm 2022.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\eProject_.NET\shradhabook-fe-customer\src\components\Layouts" />
+    </key>
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+</project>
