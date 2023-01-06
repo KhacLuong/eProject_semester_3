@@ -13,4 +13,5 @@ public class Comment
     public DateTime? UpdatedAt { get; set; }
     public virtual Product Product { get; set; }
     public virtual User User { get; set; }
+    public virtual Rate Rate { get; set; }
 }

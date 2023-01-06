@@ -13,6 +13,8 @@ namespace ShradhaBook_API.Services.WishListUserService
 
         Task<int> UpdateWishListUserAsync(int id, WishListUserPost model);
         Task<List<WishListUserGet>> GetAllWishListUserAsync();
-        Task<WishListUserGet> GetWishListUsersByUserIdAsync(int id);
+        Task<List<WishListUserGet>> GetWishListUsersByUserIdAsync(int id);
+
+        Task<Object> GetCountWishListAndCart(int userId);
     }
 }

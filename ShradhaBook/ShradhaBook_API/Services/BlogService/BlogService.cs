@@ -52,11 +52,11 @@ public class BlogService : IBlogService
 
         query = await (from B in _context.Blogs
                 .Where(m => m.Title.ToLower().Contains(string.IsNullOrEmpty(tiltle) ? "" : tiltle.ToLower().Trim()))
-            join A in _context.Authors
-                on B.AuthorId equals A.Id
-            select new BlogModelGet(B.Id, B.Title, B.Description, B.Content, B.avatar, A.Name,
-                MyStatus.changeStatusCat(B.Status), B.Slug, B.ViewCount,
-                B.CreatedAt, B.UpdatedAt)).ToListAsync();
+                       join A in _context.Authors
+                      on B.AuthorId equals A.Id
+                       select new BlogModelGet(B.Id, B.Title, B.Description, B.Content, B.avatar, A.Name,
+                       MyStatus.changeStatusCat(B.Status), B.Slug, B.ViewCount,
+                       B.CreatedAt, B.UpdatedAt)).ToListAsync();
 
         if (status != null && status.Trim().Length != 0 && (status.ToLower().Equals(MyStatus.ACTIVE_RESULT.ToLower()) ||
                                                             status.ToLower()
@@ -71,49 +71,50 @@ public class BlogService : IBlogService
         var result = _mapper.Map<List<BlogModelGet>>(models);
         return new
         {
-            Products = result, totalPage
+            Products = result,
+            totalPage
         };
     }
 
     public async Task<BlogModelGet> GetBlogAsync(int id)
     {
         var model = await (from B in _context.Blogs.Where(B => B.Id == id)
-            join A in _context.Authors
-                on B.AuthorId equals A.Id
-            select new BlogModelGet(B.Id, B.Title, B.Description, B.Content, B.avatar, A.Name,
-                MyStatus.changeStatusCat(B.Status), B.Slug, B.ViewCount,
-                B.CreatedAt, B.UpdatedAt)).ToListAsync();
+                           join A in _context.Authors
+                           on B.AuthorId equals A.Id
+                           select new BlogModelGet(B.Id, B.Title, B.Description, B.Content, B.avatar, A.Name,
+                           MyStatus.changeStatusCat(B.Status), B.Slug, B.ViewCount,
+                           B.CreatedAt, B.UpdatedAt)).ToListAsync();
 
         if (model == null || model.Count == 0) return null;
         var result = model[0];
         return model[0];
     }
 
-        public async Task<object> GetBlogDetailBySlugAsync(string slug, int pageSize = 20, int pageIndex = 1)
-        {
-            var model = await (from B in _context.Blogs.Where(B => B.Slug == slug)
-                               join A in _context.Authors
-                               on B.AuthorId equals A.Id
-                               select new BlogModelDetail(B.Id, B.Title, B.Description, B.Content, B.avatar, A,
-                               MyStatus.changeStatusCat(B.Status), B.Slug, B.ViewCount,
-                               B.CreatedAt, B.UpdatedAt)).ToListAsync();
+    public async Task<object> GetBlogDetailBySlugAsync(string slug, int pageSize = 20, int pageIndex = 1)
+    {
+        var model = await (from B in _context.Blogs.Where(B => B.Slug == slug)
+                           join A in _context.Authors
+                           on B.AuthorId equals A.Id
+                           select new BlogModelDetail(B.Id, B.Title, B.Description, B.Content, B.avatar, A,
+                           MyStatus.changeStatusCat(B.Status), B.Slug, B.ViewCount,
+                           B.CreatedAt, B.UpdatedAt)).ToListAsync();
 
-            if (model == null || model.Count == 0)
-            {
-                return null;
-            }
-            var result = model[0];
-            return model[0];
+        if (model == null || model.Count == 0)
+        {
+            return null;
         }
+        var result = model[0];
+        return model[0];
+    }
 
-        public async Task<BlogModelDetail> GetBlogDetailAsync(int id)
-        {
-            var model = await (from B in _context.Blogs.Where(B=>B.Id==id)
-                          join A in _context.Authors
-                          on B.AuthorId equals A.Id
-                          select new BlogModelDetail(B.Id, B.Title, B.Description, B.Content, B.avatar, A,
-                          MyStatus.changeStatusCat(B.Status), B.Slug, B.ViewCount,
-                          B.CreatedAt, B.UpdatedAt)).ToListAsync();
+    public async Task<BlogModelDetail> GetBlogDetailAsync(int id)
+    {
+        var model = await (from B in _context.Blogs.Where(B => B.Id == id)
+                           join A in _context.Authors
+                           on B.AuthorId equals A.Id
+                           select new BlogModelDetail(B.Id, B.Title, B.Description, B.Content, B.avatar, A,
+                           MyStatus.changeStatusCat(B.Status), B.Slug, B.ViewCount,
+                           B.CreatedAt, B.UpdatedAt)).ToListAsync();
 
         if (model == null || model.Count == 0) return null;
         var result = model[0];
@@ -159,5 +160,23 @@ public class BlogService : IBlogService
         }
 
         return MyStatusCode.FAILURE;
+    }
+
+    public async Task<object> GetBlogByAuthordIdAsync(int authorId, int pageSize = 20, int pageIndex = 1)
+    {
+        var model = await(from B in _context.Blogs.Where(b => b.AuthorId == authorId)
+                          join A in _context.Authors
+                          on B.AuthorId equals A.Id
+                          select new BlogModelGet(B.Id, B.Title, B.Description, B.Content, B.avatar, A.Name,
+                          MyStatus.changeStatusCat(B.Status), B.Slug, B.ViewCount,
+                          B.CreatedAt, B.UpdatedAt)).ToListAsync();
+
+        if (model == null || model.Count == 0)
+        {
+            return null;
+        }
+        var result = model[0];
+        return model[0];
+
     }
 }

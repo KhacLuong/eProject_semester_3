@@ -24,7 +24,7 @@ public class CategoryService : ICategoryService
         var str = model.Code.Substring(1, 1);
         if (model.Code.Length > 2) return MyStatusCode.FAILURE;
         if (!str.Equals("0") && int.TryParse(str, out var value) == false) return MyStatusCode.FAILURE;
-        if (char.TryParse(model.Code.Substring(0, 1), out var val) == false) return MyStatusCode.FAILURE;
+        //if (char.TryParse(model.Code.Substring(0, 1), out var val) == false) return MyStatusCode.FAILURE;
         if (model.Name.Trim() == null) return MyStatusCode.FAILURE;
         if (_context.Categories.Any(c => c.Code == model.Code)) return MyStatusCode.DUPLICATE_CODE;
         if (_context.Categories.Any(c => c.Name == model.Name)) return MyStatusCode.DUPLICATE_NAME;

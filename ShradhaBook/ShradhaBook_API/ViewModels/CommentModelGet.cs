@@ -11,6 +11,5 @@ public class CommentModelGet
 
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
-    public virtual Product Product { get; set; }
-    public virtual User User { get; set; }
+
 }

@@ -13,6 +13,9 @@ namespace ShradhaBook_API.Services.WishListService
         Task<WishListGet> GetWishListByProductIdAsync(int id);
         Task<bool> checkExistsWishListByProductId(int id);
 
+    
+
+
 
     }
 }

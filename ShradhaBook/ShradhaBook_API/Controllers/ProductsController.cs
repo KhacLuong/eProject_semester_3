@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShradhaBook_API.Helpers;
 using ShradhaBook_API.ViewModels;
+using System.Collections.Generic;
 
 namespace ShradhaBook_API.Controllers;
 
@@ -167,6 +168,7 @@ public class ProductsController : ControllerBase
             }
         }
 
+       
         [HttpGet("GetProductBySlug{slug}")]
         public async Task<ActionResult<Object>> GetProductBySlug(string slug)
         {
@@ -183,10 +185,62 @@ public class ProductsController : ControllerBase
             }
         }
 
+       
+    
+        [HttpGet("GetProductByTheLowestPrice")]
+        public async Task<ActionResult<List<ProductModelGet>>> GetProductByTheLowestPrice(int numberRetrieving)
+        {
+            try
+            {
+                var result = await _productService.GetProductByTheLowestPricedAsync(numberRetrieving);
 
-        //private bool ViewProductExists(int id)
-        //{
-        //    return _context.ViewProduct.Any(e => e.Id == id);
-        //}
-    }
+                return result == null ? NotFound(new MyServiceResponse< List < ProductModelGet >> (false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse< List < ProductModelGet >> (result));
+
+            }
+            catch
+            {
+                return StatusCode(500, new MyServiceResponse<List<ProductModelGet>>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            }
+        }
+        
+    
+        [HttpGet("GetProductByLatestReleases")]
+        public async Task<ActionResult<List<ProductModelGet>>> GetProductByLatestReleases(int numberRetrieving)
+        {
+            try
+            {
+                var result = await _productService.GetProductByLatestReleasesAsync(numberRetrieving);
+
+                return result == null ? NotFound(new MyServiceResponse<List<ProductModelGet>>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<List<ProductModelGet>>(result));
+
+            }
+            catch
+            {
+                return StatusCode(500, new MyServiceResponse<List<ProductModelGet>>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            }
+        }
+       
+    
+    
+        [HttpGet("GetProductByTheMostView")]
+        public async Task<ActionResult<List<ProductModelGet>>> GetProductByTheMostView(int numberRetrieving)
+        {
+            try
+            {
+                var result = await _productService.GetProductByTheMostViewAsync(numberRetrieving);
+
+                return result == null ? NotFound(new MyServiceResponse<List<ProductModelGet>>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<List<ProductModelGet>>(result));
+
+            }
+            catch
+            {
+                return StatusCode(500, new MyServiceResponse<List<ProductModelGet>>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            }
+        }
+
+    //private bool ViewProductExists(int id)
+    //{
+    //    return _context.ViewProduct.Any(e => e.Id == id);
+    //}
+
 }

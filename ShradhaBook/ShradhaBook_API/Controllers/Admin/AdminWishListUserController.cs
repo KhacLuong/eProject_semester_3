@@ -99,17 +99,17 @@ namespace ShradhaBook_API.Controllers.Admin
         [HttpGet("GetAllWishListUserByUserId{id}")]
         public async Task<ActionResult<WishListUserGet>> GetAllWishListUserByUserId(int id)
         {
-            try
+            //try
             {
                 var result = await _wishListUserService.GetWishListUsersByUserIdAsync(id);
 
-                return result == null ? NotFound(new MyServiceResponse<WishListUserGet>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<WishListUserGet>(result));
+                return result == null ? NotFound(new MyServiceResponse<List<WishListUserGet>>(false, Helpers.MyStatusCode.NOT_FOUND_RESULT)) : Ok(new MyServiceResponse<List<WishListUserGet>>(result));
 
             }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<WishListUserGet>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-            }
+            //catch
+            //{
+            //    return StatusCode(500, new MyServiceResponse<WishListUserGet>(false, Helpers.MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            //}
         }
 
         // POST: api/WishListUserGets

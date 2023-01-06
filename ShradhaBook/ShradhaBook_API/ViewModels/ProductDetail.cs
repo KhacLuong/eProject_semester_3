@@ -2,10 +2,14 @@
 
 public class ProductDetail
 {
-    public ProductDetail(int id, string code, string name, CategoryModelGet category, decimal price, long quantity,
-        ManufacturerModelGet manufacturer, AuthorModelGet author, string? description, string? intro,
-        string? imageProductPath, string? imageProductName, string? status, string? slug, long? viewCount,
-        DateTime? createdAt, DateTime? updatedAt)
+
+
+    public ProductDetail()
+    {
+    }
+
+    public ProductDetail(int id, string code, string name, CategoryModelGet category, decimal price, long quantity, ManufacturerModelGet manufacturer, AuthorModelGet author, string? description, string? intro, 
+        string? imageProductPath, string? imageProductName, string? status, string? slug, float? star, long? viewCount, DateTime? createdAt, DateTime? updatedAt)
     {
         Id = id;
         Code = code;
@@ -21,13 +25,10 @@ public class ProductDetail
         ImageProductName = imageProductName;
         Status = status;
         Slug = slug;
+        Star = star;
+        ViewCount = viewCount;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
-        ViewCount = viewCount;
-    }
-
-    public ProductDetail()
-    {
     }
 
     public int Id { get; set; }
@@ -46,6 +47,8 @@ public class ProductDetail
     public string? ImageProductName { get; set; }
     public string? Status { get; set; }
     public string? Slug { get; set; }
+    public float? Star { get; set; }
+
     public long? ViewCount { get; set; }
 
     public DateTime? CreatedAt { get; set; }

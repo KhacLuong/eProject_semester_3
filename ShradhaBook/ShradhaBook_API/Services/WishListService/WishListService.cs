@@ -87,6 +87,8 @@ namespace ShradhaBook_API.Services.WishListService
             return _mapper.Map<List<WishListGet>>(result);
         }
 
+
+
         public  async Task<WishListGet> GetWishListAsync(int id)
         {
             var models = await (from W in _context.WishLists.Where(w=>w.Id == id)

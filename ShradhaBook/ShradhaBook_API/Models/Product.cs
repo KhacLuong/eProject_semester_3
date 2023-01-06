@@ -33,7 +33,8 @@ public class Product
     [Required] public int Status { get; set; }
 
     [Required] public string? Slug { get; set; }
-
+    
+    public float ? Star { get; set;}
     [Required] public long? ViewCount { get; set; }
 
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
@@ -43,14 +44,14 @@ public class Product
 
     public virtual Category Category { get; set; }
 
-        public virtual Manufacturer Manufacturer { get; set; }
-        public virtual ICollection<ProductTag> ProductTags { get; set; }
-        public virtual Author Author { get; set; }
-        public virtual ICollection<WishList>? WishLists { get; set; }
 
-        public List<OrderItems>? OrderItems { get; set; }
-        
-
-    }
-
+    public virtual Manufacturer Manufacturer { get; set; }
+    public virtual ICollection<ProductTag> ProductTags { get; set; }
+    public virtual Author Author { get; set; }
+    public virtual ICollection<WishList>? WishLists { get; set; }
+    public virtual ICollection<Rate>? Rates { get; set; }
+    public virtual ICollection<Comment> Comments { get; set; }
+    public List<OrderItems>? OrderItems { get; set; }
+       
 }
+
