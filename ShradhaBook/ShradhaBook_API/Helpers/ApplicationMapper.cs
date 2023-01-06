@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ShradhaBook_API.ViewModels;
 
 namespace ShradhaBook_API.Helpers;
 
@@ -7,6 +6,13 @@ public class ApplicationMapper : Profile
 {
     public ApplicationMapper()
     {
+        CreateMap<User, UserDto>().ReverseMap();
+        CreateMap<UserInfo, UserInfoDto>().ReverseMap();
+        CreateMap<Address, AddressDto>().ReverseMap();
+        CreateMap<Order, OrderDto>().ReverseMap();
+        CreateMap<OrderItems, OrderItemsDto>().ReverseMap();
+
+
         CreateMap<Category, CategoryModelGet>().ForMember(item => item.Status,
             otp => otp.MapFrom(entity =>
                 entity.Status == MyStatus.ACTIVE ? MyStatus.ACTIVE_RESULT : MyStatus.INACTIVE_RESULT));

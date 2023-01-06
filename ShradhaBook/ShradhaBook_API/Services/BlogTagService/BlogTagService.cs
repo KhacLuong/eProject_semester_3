@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.Helpers;
-using ShradhaBook_API.ViewModels;
 
-namespace ShradhaBook_API.Services.BlogTagService; 
+namespace ShradhaBook_API.Services.BlogTagService;
 
 public class BlogTagService : IBlogTagService
 {

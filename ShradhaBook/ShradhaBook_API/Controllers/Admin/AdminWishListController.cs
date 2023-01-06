@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShradhaBook_API.Helpers;
-using ShradhaBook_API.Services.WishListService;
-using ShradhaBook_API.ViewModels;
 
 namespace ShradhaBook_API.Controllers.Admin;
 
@@ -69,10 +67,8 @@ public class AdminWishListController : ControllerBase
                     MyStatusCode.UPDATE_FAILURE_RESULT + ", There is already a WishList of this ProductId"));
 
             if (status == MyStatusCode.NOTFOUND)
-            {
                 return BadRequest(new MyServiceResponse<WishListGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", Not found Product"));
-            }
 
             if (status == MyStatusCode.SUCCESS)
             {
@@ -101,10 +97,8 @@ public class AdminWishListController : ControllerBase
                     MyStatusCode.ADD_FAILURE_RESULT + ", There is already a WishList of this ProductId"));
 
             if (status == MyStatusCode.NOTFOUND)
-            {
                 return BadRequest(new MyServiceResponse<WishListGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", Not found Product"));
-            }
 
             if (status > 0)
             {

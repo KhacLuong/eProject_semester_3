@@ -1,6 +1,4 @@
-﻿using ShradhaBook_API.ViewModels;
-
-namespace ShradhaBook_API.Services.CategotyService;
+﻿namespace ShradhaBook_API.Services.CategotyService;
 
 public interface ICategoryService
 {

@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShradhaBook_API.Helpers;
-using ShradhaBook_API.Services.BlogTagService;
-using ShradhaBook_API.ViewModels;
 
 namespace ShradhaBook_API.Controllers;
 

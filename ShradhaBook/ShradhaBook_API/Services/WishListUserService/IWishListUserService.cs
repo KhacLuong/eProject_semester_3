@@ -1,6 +1,4 @@
-﻿using ShradhaBook_API.ViewModels;
-
-namespace ShradhaBook_API.Services.WishListUserService;
+﻿namespace ShradhaBook_API.Services.WishListUserService;
 
 public interface IWishListUserService
 {

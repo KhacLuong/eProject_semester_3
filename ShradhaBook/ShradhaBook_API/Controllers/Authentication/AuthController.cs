@@ -19,7 +19,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login(UserLoginRequest request)
     {
         var response = Response;
-        var userLoginResponse = await _authService.Login(request, response);
+        var userLoginResponse = await _authService.Login(request);
         if (userLoginResponse == null)
             return BadRequest(new ServiceResponse<string>
                 { Status = false, Message = "User and password combination not found." });
@@ -29,20 +29,20 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("refresh-token")]
-    public async Task<IActionResult> RefreshToken(string refreshToken)
+    public async Task<IActionResult> RefreshToken(RefreshTokenRequest request)
     {
-        var request = Request;
-        var response = Response;
-        var refreshTokenResponse = await _authService.RefreshToken(refreshToken, request, response);
+        var refreshTokenResponse = await _authService.RefreshToken(request);
         if (refreshTokenResponse == null)
             return NotFound(new ServiceResponse<string> { Status = false, Message = "User not found." });
-        if (refreshTokenResponse.RefreshToken == "1")
-            return BadRequest(new ServiceResponse<string> { Status = false, Message = "Invalid token." });
-        if (refreshTokenResponse.RefreshToken == "2")
-            return BadRequest(new ServiceResponse<string> { Status = false, Message = "Token expired" });
-
-        return Ok(new ServiceResponse<RefreshTokenResponse>
-            { Data = refreshTokenResponse, Message = "Refresh token has been re-created." });
+        return refreshTokenResponse.RefreshToken switch
+        {
+            "1" => BadRequest(new ServiceResponse<string> { Status = false, Message = "Invalid token." }),
+            "2" => BadRequest(new ServiceResponse<string> { Status = false, Message = "Token expired" }),
+            _ => Ok(new ServiceResponse<RefreshTokenResponse>
+            {
+                Data = refreshTokenResponse, Message = "Refresh token has been re-created."
+            })
+        };
     }
 
     [Authorize]

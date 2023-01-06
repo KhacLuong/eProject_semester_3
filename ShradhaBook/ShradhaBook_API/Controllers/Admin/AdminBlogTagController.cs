@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShradhaBook_API.Helpers;
-using ShradhaBook_API.Services.BlogTagService;
-using ShradhaBook_API.ViewModels;
 
 namespace ShradhaBook_API.Controllers.Admin;
 
@@ -70,10 +68,8 @@ public class AdminBlogTagController : ControllerBase
                     ", There is already a BlogTag of this BlogId and this TagId "));
 
             if (status == MyStatusCode.NOTFOUND)
-            {
                 return BadRequest(new MyServiceResponse<BlogTagModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ",  Not found Blog or Tag"));
-            }
 
             if (status == MyStatusCode.SUCCESS)
             {
@@ -104,10 +100,8 @@ public class AdminBlogTagController : ControllerBase
                     ", There is already a BlogTag of this BlogId and this TagId "));
 
             if (status == MyStatusCode.NOTFOUND)
-            {
                 return BadRequest(new MyServiceResponse<BlogTagModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ",  Not found Blog or Tag"));
-            }
 
 
             if (status > 0)

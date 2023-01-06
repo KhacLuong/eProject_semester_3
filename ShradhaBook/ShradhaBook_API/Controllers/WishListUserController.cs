@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShradhaBook_API.Helpers;
-using ShradhaBook_API.Services.WishListUserService;
-using ShradhaBook_API.ViewModels;
 
 namespace ShradhaBook_API.Controllers;
 
@@ -49,10 +47,8 @@ public class WishListUserController : ControllerBase
         {
             var status = await _wishListUserService.AddWishListUserAsync(userId, prouctId);
             if (status == MyStatusCode.DUPLICATE)
-            {
                 return BadRequest(new MyServiceResponse<WishListUserGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", product already exists in wishlist "));
-            }
 
             if (status > 0)
             {

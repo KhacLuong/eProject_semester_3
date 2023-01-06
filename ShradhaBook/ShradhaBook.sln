@@ -5,6 +5,10 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShradhaBook_API", "ShradhaBook_API\ShradhaBook_API.csproj", "{ACE68CEC-613D-4D92-8401-EE834E1AD6A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShradhaBook_ClassLibrary", "ShradhaBook_ClassLibrary\ShradhaBook_ClassLibrary.csproj", "{F741044E-E66D-424D-9C82-A36F3BFD9283}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShradhaBook_UnitTest", "ShradhaBook_UnitTest\ShradhaBook_UnitTest.csproj", "{80224CEF-F5C1-4127-85A9-B95DFFB876D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{ACE68CEC-613D-4D92-8401-EE834E1AD6A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACE68CEC-613D-4D92-8401-EE834E1AD6A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACE68CEC-613D-4D92-8401-EE834E1AD6A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F741044E-E66D-424D-9C82-A36F3BFD9283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F741044E-E66D-424D-9C82-A36F3BFD9283}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F741044E-E66D-424D-9C82-A36F3BFD9283}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F741044E-E66D-424D-9C82-A36F3BFD9283}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80224CEF-F5C1-4127-85A9-B95DFFB876D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80224CEF-F5C1-4127-85A9-B95DFFB876D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80224CEF-F5C1-4127-85A9-B95DFFB876D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80224CEF-F5C1-4127-85A9-B95DFFB876D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

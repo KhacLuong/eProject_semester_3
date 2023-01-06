@@ -1,6 +1,4 @@
-﻿using ShradhaBook_API.ViewModels;
-
-namespace ShradhaBook_API.Services.ProductTagService;
+﻿namespace ShradhaBook_API.Services.ProductTagService;
 
 public interface IProductTagService
 {

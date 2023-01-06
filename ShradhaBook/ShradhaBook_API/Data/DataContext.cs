@@ -26,10 +26,10 @@ public class DataContext : DbContext
     public DbSet<Manufacturer> Manufacturers { get; set; } = null!;
     public DbSet<Tag> Tags { get; set; } = null!;
     public DbSet<ProductTag> ProductTags { get; set; } = null!;
-    public DbSet<Blog> Blogs { get; set; }
-    public DbSet<BlogTag> BlogTags { get; set; }
+    public DbSet<Blog> Blogs { get; set; } = null!;
+    public DbSet<BlogTag> BlogTags { get; set; } = null!;
     public DbSet<Author> Authors { get; set; } = null!;
-    public DbSet<WishList> WishLists { get; set; }
+    public DbSet<WishList> WishLists { get; set; } = null!;
     public DbSet<WishListUser> WishListUsers { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -65,6 +65,7 @@ public class DataContext : DbContext
                 AddressLine1 = "8 Ton That Thuyet",
                 District = "Cau Giay",
                 City = "Hanoi",
+                Country = "VN",
                 Latitude = 21.0287216,
                 Longitude = 105.7817525,
                 UserInfoId = 1,

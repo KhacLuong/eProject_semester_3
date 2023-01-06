@@ -1,6 +1,4 @@
-﻿using ShradhaBook_API.ViewModels;
-
-namespace ShradhaBook_API.Services.BlogTagService;
+﻿namespace ShradhaBook_API.Services.BlogTagService;
 
 public interface IBlogTagService
 {

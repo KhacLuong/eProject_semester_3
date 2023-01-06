@@ -22,8 +22,9 @@ public class StorageService : IStorageService
     public string? UploadAvatar(IFormFile formFile, string email)
     {
         var user = _context.Users.FirstOrDefault(u => u.Email == email);
-        var userInfo = _context.UserInfo.FirstOrDefault(ui => ui.UserId == user!.Id);
-        if (user == null || userInfo == null) return null;
+        if (user == null) return null;
+        var userInfo = _context.UserInfo.FirstOrDefault(ui => ui.UserId == user.Id);
+        if (userInfo == null) return null;
         var containerName = _configuration.GetSection("Storage:AvatarContainerName").Value;
 
         var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShradhaBook_API.Helpers;
-using ShradhaBook_API.ViewModels;
 
 namespace ShradhaBook_API.Controllers.Admin;
 
@@ -69,10 +68,8 @@ public class AdminCategoryController : ControllerBase
                     MyStatusCode.UPDATE_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
 
             if (status == MyStatusCode.DUPLICATE_NAME)
-            {
                 return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
                     MyStatusCode.UPDATE_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
-            }
 
             if (status == MyStatusCode.SUCCESS)
             {
@@ -102,10 +99,8 @@ public class AdminCategoryController : ControllerBase
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
 
             if (status == MyStatusCode.DUPLICATE_NAME)
-            {
                 return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
-            }
 
             if (status > 0)
             {
