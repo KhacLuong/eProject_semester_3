@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {HiOutlineArrowNarrowRight} from 'react-icons/hi'
 
 const Banner = (props) => {
@@ -13,7 +13,7 @@ const Banner = (props) => {
                 <div className={`text-6xl capitalize  font-bold text-black leading-tight`}>{bannerTitle}</div>
                 <div
                     className={`text-dangerColor-default_2 uppercase text-xs flex items-center justify-between leading-relaxed font-medium`}>
-                    <div onClick={()=>navigate('/')} className={`hover:text-black text-lightColor transition duration-300 cursor-pointer`}>home</div>
+                    <div onClick={()=>navigate('/')} className={`hover:text-black text-lightColor duration-300 cursor-pointer`}>home</div>
                     <HiOutlineArrowNarrowRight className={`text-lightColor mx-4`}/>
                     {bannerTitle}
                 </div>

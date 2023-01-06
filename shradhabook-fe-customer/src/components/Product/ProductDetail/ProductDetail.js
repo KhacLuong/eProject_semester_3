@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import book14 from "../../assets/image/books/book3.png"
-import {getProductById, updateViewCountProductById} from "../../services/apiService";
+import book14 from "../../../assets/image/books/book14.png"
+import {getProductById, updateViewCountProductById} from "../../../services/apiService";
 import {AiOutlineArrowRight} from 'react-icons/ai'
 import parse from "html-react-parser";
 import {FiEye, FiPackage, FiHeart, FiPlus} from "react-icons/fi";
@@ -10,12 +10,13 @@ import {HiOutlineMinusSm} from "react-icons/hi";
 import {BiCommentDetail} from "react-icons/bi";
 import {RxDotFilled} from "react-icons/rx";
 import {BsFillCartFill, BsFillSuitHeartFill} from "react-icons/bs";
-import './Product.scss'
-import {Data} from "./Data";
-import {renderStar} from "../../ultis/renderStar";
+import '../Product.scss'
+import {Data} from "../Data";
+import {renderStar} from "../../../ultis/renderStar";
 import {toast} from "react-toastify";
 
-const ProductDetail = () => {
+const ProductDetail = (props) => {
+    const {setOpen} = props
     const {id, slug} = useParams();
     const navigate = useNavigate();
     const [imageProduct, setImageProduct] = useState(book14);
@@ -32,7 +33,7 @@ const ProductDetail = () => {
     const [hover, setHover] = useState(false);
     const [idProduct, setIdProduct] = useState(0);
     const tags = ['Action and Adventure', 'American Historical Romance', 'Humor', 'True Crime', 'Business', 'Bestsellers', 'Christian Fiction', 'Fantasy', 'Erotic Romance', 'Light Novel', 'Dark Romance & Erotica']
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(1);
 
     useEffect(() => {
         fetchDetailProduct();
@@ -142,17 +143,17 @@ const ProductDetail = () => {
                             </div>
                             <h1 className={`text-[36px] leading-tight font-semiBold mb-[10px] clear-none`}>{productName}</h1>
                             <div
-                                className={`flex items-center flex-wrap pb-[10px] mb-[23px] border-b-[1px] leading-loose text-[12px] relative`}>
+                                className={`flex items-center flex-wrap pb-[10px] mb-[23px] border-b-[1px] leading-loose relative`}>
                                 <div
-                                    className={`text-[12px] text-lightColor flex items-center mr-[20px] pr-[20px] relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%]`}>
+                                    className={`text-sm text-lightColor flex items-center mr-[20px] pr-[20px] relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%]`}>
                                     Author: <div
-                                    className={`text-blackColor ml-1 cursor-pointer hover:text-dangerColor-hover_2 hover:underline`}>{author}</div>
+                                    className={`text-blackColor ml-1 text-sm cursor-pointer hover:text-dangerColor-hover_2 hover:underline`}>{author}</div>
                                 </div>
                                 <div
-                                    className={`flex items-center mr-[20px] pr-[20px] font-semiBold relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2`}>
+                                    className={`text-sm flex items-center mr-[20px] pr-[20px] font-medium relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2`}>
                                     {parse(renderStar(4))}
                                     <svg aria-hidden="true"
-                                         className="w-4 h-4 text-gray-300 dark:text-gray-500 "
+                                         className="w-5 h-5 text-gray-300 dark:text-gray-500 "
                                          fill="currentColor" viewBox="0 0 20 20"
                                          xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title>
                                         <path
@@ -161,24 +162,24 @@ const ProductDetail = () => {
                                     <span className={`ml-1`}>4</span>
                                 </div>
                                 <div
-                                    className={`flex items-center mr-[20px] pr-[20px] font-semiBold relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2`}>
-                                    <BiCommentDetail className={`text-successColor text-[15px]`}/>
-                                    <span className={`ml-1`}>50</span>
+                                    className={`flex items-center mr-[20px] pr-[20px] font-medium relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2`}>
+                                    <BiCommentDetail className={`text-dangerColor-default_2 text-[15px]`}/>
+                                    <span className={`ml-1 text-sm `}>50</span>
                                 </div>
                                 <div
-                                    className={`flex text-blue-600 text-center items-center mr-[20px] pr-[20px] font-semiBold relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2`}>
+                                    className={`flex text-center items-center mr-[20px] pr-[20px] font-medium relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2`}>
                                     <FiEye className={`text-blue-600 text-[15px]`}/>
-                                    <span className={`ml-1`}>{view}</span>
+                                    <span className={`ml-1 text-sm`}>{view}</span>
                                 </div>
                                 <div
-                                    className={`flex text-center items-center mr-[20px] pr-[20px] font-semiBold relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2 `}>
+                                    className={`flex text-center items-center mr-[20px] pr-[20px] font-medium relative mb-[6px] after:content-[''] after:h-[11px] after:w-[1px] after:bg-borderColor after:absolute after:right-0 after:top-1/2 after:translate-y-[-50%] cursor-pointer hover:underline hover:text-dangerColor-hover_2 `}>
                                     <FiPackage className={`text-yellow-600 text-[15px]`}/>
-                                    <span className={`ml-1`}>{quantity}</span>
+                                    <span className={`ml-1 text-sm`}>{quantity}</span>
                                 </div>
-                                <div className={`flex items-center text-lightColor mb-[6px] uppercase`}>sku: <span
-                                    className={`text-blackColor ml-1`}>{codeProduct}</span></div>
+                                <div className={`flex items-center text-lightColor mb-[6px] uppercase text-sm`}>sku: <span
+                                    className={`text-blackColor ml-1 text-sm`}>{codeProduct}</span></div>
                             </div>
-                            <p className={`flex text-[30px] font-semiBold leading-[1.4] items-center text-dangerColor-default_2 mb-[15px]`}>
+                            <p className={`flex text-[30px] font-medium leading-[1.4] items-center text-dangerColor-default_2 mb-[15px]`}>
                                 <span>${price}</span>
                             </p>
                             <div className={`mb-[20px] font-light`}>
@@ -208,13 +209,13 @@ const ProductDetail = () => {
                                         </button>
                                     </div>
                                 </div>
-                                <div
-                                    className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor transition duration-300 ease bg-lime-600 hover:bg-lime-700 cursor-pointer`}>
+                                <div onClick={() => setOpen(true)}
+                                     className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor duration-300 bg-lime-600 hover:bg-lime-700 cursor-pointer`}>
                                     <BsFillCartFill className={`mr-2`}/>
                                     Add to cart
                                 </div>
                                 <div
-                                    className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor bg-dangerColor-default_2 hover:bg-dangerColor-hover_2 transition duration-300 ease cursor-pointer`}>
+                                    className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor bg-dangerColor-default_2 hover:bg-dangerColor-hover_2 duration-300 cursor-pointer`}>
                                     <BsFillSuitHeartFill className={`mr-2`}/>
                                     Add to wishlist
                                 </div>
@@ -253,7 +254,7 @@ const ProductDetail = () => {
                                     if (item.id >= 17) {
                                         return <li className={``} title={item.name} key={index}>
                                             <div
-                                                className={`px-[15px] mb-[60px] w-full  transition duration-300 ease ${item.id === 22 ? 'border-0' : 'border-r-[1px]'} cursor-pointer`}>
+                                                className={`px-[15px] mb-[60px] w-full duration-300 ${item.id === 22 ? 'border-0' : 'border-r-[1px]'} cursor-pointer`}>
                                                 <div className={`flex relative items-center flex-col`}>
                                                     <div onMouseOver={(e) => handleOnMouseOver(e, index)} state={item}
                                                          className={`overflow-hidden rounded-[15px] w-56`}>
@@ -268,17 +269,17 @@ const ProductDetail = () => {
                                                                 className={`shop_action flex flex-col items-start relative`}>
                                                                 <button
                                                                     className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8'} 
-                                                actionBtn text-dangerColor-default_3 transition duration-300 ease-in-out`}>
+                                                actionBtn text-dangerColor-default_3 duration-300`}>
                                                                     <FiHeart/>
                                                                 </button>
                                                                 <div
                                                                     onClick={() => handleClickGoProductDetail(item.id, item.slug)}
                                                                     state={item.id}
-                                                                    className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible' + ' translate-x-0' : 'opacity-0 translate-x-8' + ' invisible'} actionBtn delay-100 transition duration-300 ease-in-out`}>
+                                                                    className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible' + ' translate-x-0' : 'opacity-0 translate-x-8' + ' invisible'} actionBtn delay-100 duration-300`}>
                                                                     <FiEye/>
                                                                 </div>
-                                                                <button
-                                                                    className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8 invisible'} actionBtn delay-200 transition duration-300 ease-in-out`}>
+                                                                <button onClick={() => setOpen(true)}
+                                                                        className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8 invisible'} actionBtn delay-200 duration-300`}>
                                                                     <TbShoppingCart/></button>
                                                             </div>
                                                         </div>
@@ -298,7 +299,7 @@ const ProductDetail = () => {
                                                         {item.author}
                                                     </div>
                                                     <span
-                                                        className={`text-[20px] leading-normal font-semiBold text-dangerColor-default_2`}>
+                                                        className={`text-[20px] leading-normal font-medium text-dangerColor-default_2`}>
                                                         {item.price}
                                                     </span>
                                                 </div>

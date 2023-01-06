@@ -1,9 +1,9 @@
 import './App.css';
 import {Route, Routes} from "react-router-dom";
-import React from "react";
+import React, {useState} from "react";
 import HomePage from "./components/Home/HomePage";
 import ProductPage from "./components/Product/ProductPage";
-import ProductDetail from "./components/Product/ProductDetail";
+import ProductDetail from "./components/Product/ProductDetail/ProductDetail";
 import ContactPage from "./components/Contact/ContactPage";
 import Auth from "./components/Auth/Auth";
 import Layout from "./components/Layouts/Layout";
@@ -13,21 +13,22 @@ import Wishlist from "./components/Shopping/Wishlist";
 import Cart from "./components/Shopping/Cart";
 import BlogPage from "./components/Blog/BlogPage";
 import BlogDetail from "./components/Blog/BlogDetail";
-import NotFound from "./components/Product/NotFound";
+import NotFound from "./components/Layouts/NotFound";
 import PrivateRoute from "./routes/PrivateRoute";
 import Me from "./components/Auth/Me";
 import MyHistory from "./components/Auth/MyHistory";
 import CategoryPage from "./components/Category/CategoryPage";
-
+import ModalCart from './ultis/ModalCart'
 const App = () => {
+    const [open, setOpen] = useState(false)
     return (
         <>
             <Routes>
                 <Route path={'/'} element={<Layout/>}>
-                    <Route path={'/'} index element={<HomePage/>}/>
-                    <Route path={'/categories'} element={<CategoryPage/>}/>
-                    <Route path={'/products'} element={<ProductPage/>}/>
-                    <Route path={`/products/product-detail/:id/:slug`} element={<ProductDetail/>}/>
+                    <Route path={'/'} index element={<HomePage setOpen={setOpen}/>}/>
+                    <Route path={'/categories/:id/:slug'} element={<CategoryPage/>}/>
+                    <Route path={'/products'} element={<ProductPage setOpen={setOpen}/>}/>
+                    <Route path={`/products/product-detail/:id/:slug`} element={<ProductDetail setOpen={setOpen}/>}/>
                     <Route path={'/blogs'} element={<BlogPage/>}/>
                     <Route path={'/blogs/blog-detail/:id/:slug'} element={<BlogDetail/>}/>
                     <Route path={'/contact'} element={<ContactPage/>}/>
@@ -59,6 +60,7 @@ const App = () => {
                 pauseOnHover
                 theme="light"
             />
+            <ModalCart open={open} setOpen={setOpen}/>
         </>
     );
 }

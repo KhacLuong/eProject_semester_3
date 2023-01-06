@@ -2,7 +2,7 @@ import React from 'react';
 
 const Search = () => {
     return (
-        <div className={`w-2/4`}>
+        <div className={`w-3/5`}>
             <form className={`my-2 focus:border-none focus:outline-none w-full `}>
                 <label htmlFor="default-search"
                        className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
@@ -16,7 +16,7 @@ const Search = () => {
                     </div>
                     <input type="search" id="default-search"
                            className="border-none focus:border-none focus:outline-none outline-none block w-full p-4 pl-10 text-sm text-gray-900 rounded-full bg-gray-50 dark:bg-gray-700 dark:text-white"
-                           placeholder="Search product..." required/>
+                           placeholder="Search..." required/>
                     <button type="submit"
                             className="text-white absolute right-2 bottom-2 bg-dangerColor-default_3 focus:outline-none font-medium rounded-full text-sm px-4 py-2 hover:bg-dangerColor-hover_2">Search
                     </button>
