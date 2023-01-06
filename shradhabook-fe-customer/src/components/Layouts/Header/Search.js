@@ -16,7 +16,7 @@ const Search = () => {
                     </div>
                     <input type="search" id="default-search"
                            className="border-none focus:border-none focus:outline-none outline-none block w-full p-4 pl-10 text-sm text-gray-900 rounded-full bg-gray-50 dark:bg-gray-700 dark:text-white"
-                           placeholder="Search..." required/>
+                           placeholder="Search product..." required/>
                     <button type="submit"
                             className="text-white absolute right-2 bottom-2 bg-dangerColor-default_3 focus:outline-none font-medium rounded-full text-sm px-4 py-2 hover:bg-dangerColor-hover_2">Search
                     </button>

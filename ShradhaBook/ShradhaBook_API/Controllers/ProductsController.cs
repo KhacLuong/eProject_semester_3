@@ -72,12 +72,13 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("Category{id}")]
-    public async Task<ActionResult<object>> GetProductByCategoryId(int id)
+    [HttpGet("GetProductByCategoryId{id}")]
+    public async Task<ActionResult<object>> GetProductByCategoryId(int id, int sortBy = 0, int pageSize = 20,
+        int pageIndex = 1)
     {
         try
         {
-            var result = await _productService.GetProductByIdCategoryAsync(id);
+            var result = await _productService.GetProductByIdCategoryAsync(id, sortBy, pageSize, pageIndex);
 
             return result == null
                 ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
@@ -89,12 +90,13 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("Author{id}")]
-    public async Task<ActionResult<object>> GetProductByAuthorId(int id)
+    [HttpGet("GetProductByCategorySlug{slug}")]
+    public async Task<ActionResult<object>> GetProductByCategoryId(string slug, int sortBy = 0, int pageSize = 20,
+        int pageIndex = 1)
     {
         try
         {
-            var result = await _productService.GetProductByIdAuthorAsync(id);
+            var result = await _productService.GetProductBySlugCategoryAsync(slug, sortBy, pageSize, pageIndex);
 
             return result == null
                 ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
@@ -106,12 +108,32 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("Manufacturer{id}")]
-    public async Task<ActionResult<object>> GetProductByManufacturer(int id)
+
+    [HttpGet("GetProductByAuthorId{id}")]
+    public async Task<ActionResult<object>> GetProductByAuthorId(int id, int sortBy = 0, int pageSize = 20,
+        int pageIndex = 1)
     {
         try
         {
-            var result = await _productService.GetProductByIdManufactuerAsync(id);
+            var result = await _productService.GetProductByIdAuthorAsync(id, sortBy, pageSize, pageIndex);
+
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
+        }
+        catch
+        {
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
+
+    [HttpGet("GetProductByManufacturer{id}")]
+    public async Task<ActionResult<object>> GetProductByManufacturer(int id, int sortBy = 0, int pageSize = 20,
+        int pageIndex = 1)
+    {
+        try
+        {
+            var result = await _productService.GetProductByIdManufactuerAsync(id, sortBy, pageSize, pageIndex);
 
             return result == null
                 ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
@@ -135,6 +157,41 @@ public class ProductsController : ControllerBase
         catch
         {
             return StatusCode(500, MyStatusCode.INTERN_SEVER_ERROR_RESULT);
+        }
+    }
+
+
+    [HttpGet("GetProductWishListByUserId{id}")]
+    public async Task<ActionResult<object>> GetProductWishListByUserId(int id, int pageSize = 20, int pageIndex = 1)
+    {
+        try
+        {
+            var result = await _productService.GetProductWishListByUserIdAsync(id, pageSize, pageIndex);
+
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
+        }
+        catch
+        {
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
+
+    [HttpGet("GetProductBySlug{slug}")]
+    public async Task<ActionResult<object>> GetProductBySlug(string slug)
+    {
+        try
+        {
+            var result = await _productService.GetProductDetailAsync(slug);
+
+            return result == null
+                ? NotFound(new MyServiceResponse<object>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<object>(result));
+        }
+        catch
+        {
+            return StatusCode(500, new MyServiceResponse<object>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         }
     }
 

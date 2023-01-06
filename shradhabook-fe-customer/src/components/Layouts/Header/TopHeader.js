@@ -86,9 +86,9 @@ const TopHeader = () => {
                         :
                         <>
                             <div ref={ref}
-                                className="relative cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-lg px-4 py-2.5 text-center inline-flex items-center mr-1"
-                                onClick={() => handleClickUser()}
-                                onMouseLeave={() => handleLeaveNavUser()}>
+                                 className="relative cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-lg px-4 py-2.5 text-center inline-flex items-center mr-1"
+                                 onClick={() => handleClickUser()}
+                                 onMouseLeave={() => handleLeaveNavUser()}>
                                 <RiUserLine></RiUserLine>
                                 <div
                                     className={`${showNavUser ? 'block' : 'hidden'} rounded-[10px] border-[1px]  absolute left-0 top-[50px] w-44 bg-white divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 before:absolute before:content[''] before:w-[10px] before:h-[10px] before:bg-whiteColor before:top-[-5px] before:left-[13%] before:rotate-45 z-[9999] before:border-[#e4e4e4]-[1px] before:border-b-0 before:border-r-0`}>
@@ -105,11 +105,11 @@ const TopHeader = () => {
                                                 Wish list <span className={`absolute right-[25px] top-[17%] bg-dangerColor-default_2 text-whiteColor rounded-full text-xs font-semiBold py-1 px-2`}>2</span>
                                             </div>
                                         </li> <li>
-                                            <div onClick={() => navigate(`user/my-history/${decoded.Id}`)}
-                                                 className="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                                History
-                                            </div>
-                                        </li>
+                                        <div onClick={() => navigate(`user/my-history/${decoded.Id}`)}
+                                             className="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                            History
+                                        </div>
+                                    </li>
                                     </ul>
                                     <div className="py-1">
                                         <div onClick={handLogout}

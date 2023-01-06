@@ -16,10 +16,7 @@ public class MyStatus
 
     public static int changeStatusCat(string status)
     {
-        if (status.Equals(ACTIVE_RESULT))
-        {
-            return ACTIVE;
-        }
+        if (status.Equals(ACTIVE_RESULT)) return ACTIVE;
 
         if (status.Equals(INACTIVE_RESULT))
         {

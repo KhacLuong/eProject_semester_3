@@ -47,6 +47,4 @@ const getProductById = (id) => {
     return instance.get(`Products/Detail${id}`);
 }
 
-
-
 export {postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo, updateViewCountProductById, getProductById, postRefreshToken, getListAuthor}

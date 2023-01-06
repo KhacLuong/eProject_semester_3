@@ -17,7 +17,8 @@ public class AdminAddressController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost, Authorize]
+    [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CreateAddress(AddAddressRequest request)
     {
         var userInfo = await _addressService.CreateAddress(request);
@@ -27,14 +28,16 @@ public class AdminAddressController : ControllerBase
             { Data = userInfo, Message = "Address has been created successfully." });
     }
 
-    [HttpGet, Authorize]
+    [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAllAddresses(int userInfoId)
     {
         var addresses = await _addressService.GetAllAddresses(userInfoId);
         return Ok(new ServiceResponse<List<Address>> { Data = addresses });
     }
 
-    [HttpPut("{id:int}"), Authorize]
+    [HttpPut("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> UpdateAddress(int id, Address request)
     {
         var address = await _addressService.UpdateAddress(id, request);
@@ -43,7 +46,8 @@ public class AdminAddressController : ControllerBase
         return Ok(new ServiceResponse<Address> { Data = address, Message = "Address has been updated successfully." });
     }
 
-    [HttpDelete("{id:int}"), Authorize]
+    [HttpDelete("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> DeleteAddress(int id)
     {
         var address = await _addressService.DeleteAddress(id);

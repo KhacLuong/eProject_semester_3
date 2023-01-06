@@ -71,7 +71,7 @@ public class AuthService : IAuthService
         return "Ok";
     }
 
-    private static RefreshToken GenerateRefreshToken()
+    private RefreshToken GenerateRefreshToken()
     {
         var refreshToken = new RefreshToken
         {
@@ -89,7 +89,7 @@ public class AuthService : IAuthService
             HttpOnly = true,
             Expires = newRefreshToken.Expires
         };
-        // response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
+        response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
 
         user.RefreshToken = newRefreshToken.Token;
         user.TokenCreated = newRefreshToken.Created;
@@ -111,12 +111,12 @@ public class AuthService : IAuthService
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
             _configuration.GetSection("AppSettings:Token").Value));
 
-        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
         var token = new JwtSecurityToken(
             claims: claims,
             expires: DateTime.Now.AddMinutes(30),
-            signingCredentials: credentials);
+            signingCredentials: creds);
 
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
@@ -125,8 +125,10 @@ public class AuthService : IAuthService
 
     private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
     {
-        using var hmac = new HMACSHA512(passwordSalt);
-        var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-        return computeHash.SequenceEqual(passwordHash);
+        using (var hmac = new HMACSHA512(passwordSalt))
+        {
+            var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            return computeHash.SequenceEqual(passwordHash);
+        }
     }
 }

@@ -17,7 +17,8 @@ public class AddressController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost, Authorize]
+    [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CreateAddress(AddAddressRequest request)
     {
         var userInfo = await _addressService.CreateAddress(request);
@@ -30,7 +31,8 @@ public class AddressController : ControllerBase
         });
     }
 
-    [HttpGet, Authorize]
+    [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAllAddresses(int userInfoId)
     {
         var addresses = await _addressService.GetAllAddresses(userInfoId);
@@ -40,7 +42,8 @@ public class AddressController : ControllerBase
         });
     }
 
-    [HttpPut("{id:int}"), Authorize]
+    [HttpPut("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> UpdateAddress(int id, Address request)
     {
         var address = await _addressService.UpdateAddress(id, request);
@@ -53,7 +56,8 @@ public class AddressController : ControllerBase
         });
     }
 
-    [HttpDelete("{id:int}"), Authorize]
+    [HttpDelete("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> DeleteAddress(int id)
     {
         var address = await _addressService.DeleteAddress(id);
@@ -63,6 +67,19 @@ public class AddressController : ControllerBase
         {
             Data = _mapper.Map<AddressDto>(address),
             Message = "Address has been deleted successfully."
+        });
+    }
+
+    [HttpPost("distance")]
+    public async Task<IActionResult> GetDistance(List<double> destination)
+    {
+        var travelDistance = await _addressService.GetDistance(destination);
+        if (travelDistance == null)
+            return BadRequest(new ServiceResponse<double> { Status = false, Message = "API error, please try again." });
+        return Ok(new ServiceResponse<double?>
+        {
+            Data = travelDistance,
+            Message = "Successfully get distance."
         });
     }
 }

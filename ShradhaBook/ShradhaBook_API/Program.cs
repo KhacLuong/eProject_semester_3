@@ -25,6 +25,9 @@ using Microsoft.Extensions.Azure;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ShradhaBook_API.Services.BlogService;
+using ShradhaBook_API.Services.BlogTagService;
+using ShradhaBook_API.Services.WishListService;
+using ShradhaBook_API.Services.WishListUserService;
 using Swashbuckle.AspNetCore.Filters;
 
 
@@ -59,6 +62,10 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IProductTagService, ProductTagService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
+builder.Services.AddScoped<IBlogTagService, BlogTagService>();
+builder.Services.AddScoped<IWishListService, WishListService>();
+builder.Services.AddScoped<IWishListUserService, WishListUserService>();
+
 
 builder.Services.AddAzureClients(options =>
 {

@@ -30,7 +30,7 @@ const ProductFilter = (props) => {
                         className={`text-lg text-[#000000] font-medium leading-normal`}>Genre
                     </div>
                     <div onClick={handleRefreshCategory} title={`Refresh`} className={`group/refresh flex items-center cursor-pointer bg-blackColor hover:bg-dangerColor-default_2 text-whiteColor py-1 px-1 rounded text-xl`}>
-                       <BiRefresh className={`transform duration-700 group-hover/refresh:rotate-360`}/>
+                        <BiRefresh className={`transform duration-700 group-hover/refresh:rotate-360`}/>
                     </div>
                 </div>
                 <div className={`mx-auto px-10 py-4`}>
@@ -56,7 +56,7 @@ const ProductFilter = (props) => {
                         className={`text-lg text-[#000000] font-medium leading-normal`}>Authors
                     </div>
                     <div onClick={handleRefreshAuthor} title={`Refresh`} className={`group/refresh flex items-center cursor-pointer bg-blackColor hover:bg-dangerColor-default_2 text-whiteColor py-1 px-1 rounded text-xl`}>
-                       <BiRefresh className={`transform duration-700 group-hover/refresh:rotate-360`}/>
+                        <BiRefresh className={`transform duration-700 group-hover/refresh:rotate-360`}/>
                     </div>
                 </div>
                 <div className={`mx-auto px-10 py-4`}>

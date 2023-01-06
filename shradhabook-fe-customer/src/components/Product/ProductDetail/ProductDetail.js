@@ -210,7 +210,7 @@ const ProductDetail = (props) => {
                                     </div>
                                 </div>
                                 <div onClick={() => setOpen(true)}
-                                    className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor duration-300 bg-lime-600 hover:bg-lime-700 cursor-pointer`}>
+                                     className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor duration-300 bg-lime-600 hover:bg-lime-700 cursor-pointer`}>
                                     <BsFillCartFill className={`mr-2`}/>
                                     Add to cart
                                 </div>
@@ -279,7 +279,7 @@ const ProductDetail = (props) => {
                                                                     <FiEye/>
                                                                 </div>
                                                                 <button onClick={() => setOpen(true)}
-                                                                    className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8 invisible'} actionBtn delay-200 duration-300`}>
+                                                                        className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8 invisible'} actionBtn delay-200 duration-300`}>
                                                                     <TbShoppingCart/></button>
                                                             </div>
                                                         </div>

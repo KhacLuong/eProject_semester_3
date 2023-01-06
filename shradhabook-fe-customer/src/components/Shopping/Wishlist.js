@@ -63,7 +63,7 @@ const Wishlist = () => {
                                         Add to cart
                                     </div>
                                     <div onClick={() => handleRemoveProduct()}
-                                        className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor duration-300 bg-dangerColor-default_2 hover:bg-dangerColor-hover_2 cursor-pointer`}>
+                                         className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor duration-300 bg-dangerColor-default_2 hover:bg-dangerColor-hover_2 cursor-pointer`}>
                                         <BsFillTrashFill className={`mr-2`}/>
                                         Remove
                                     </div>

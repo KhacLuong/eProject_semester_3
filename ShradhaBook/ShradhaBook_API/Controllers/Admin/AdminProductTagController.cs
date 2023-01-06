@@ -28,7 +28,7 @@ public class AdminProductTagController : ControllerBase
         {
             var result = await _productTagService.GetAllProductTagAsync(productName, tagName, pageSize, pageIndex);
 
-            return Ok(new MyServiceResponse<object>(result));
+            return Ok(new MyServiceResponse<object>(result, true, ""));
         }
         catch
         {
@@ -46,7 +46,7 @@ public class AdminProductTagController : ControllerBase
 
             return result == null
                 ? NotFound(new MyServiceResponse<ProductTagGet>(false, MyStatusCode.NOT_FOUND_RESULT))
-                : Ok(new MyServiceResponse<ProductTagGet>(result));
+                : Ok(new MyServiceResponse<ProductTagGet>(result, true, ""));
         }
         catch
         {
@@ -68,10 +68,8 @@ public class AdminProductTagController : ControllerBase
                     ", There is already a ProductTag of this ProductId and this TagId "));
 
             if (status == MyStatusCode.NOTFOUND)
-            {
                 return BadRequest(new MyServiceResponse<ProductTagGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ",  Not found Product or Tag"));
-            }
 
             if (status == MyStatusCode.SUCCESS)
             {
@@ -100,10 +98,8 @@ public class AdminProductTagController : ControllerBase
                     MyStatusCode.ADD_FAILURE_RESULT +
                     ", There is already a ProductTag of this ProductId and this TagId "));
             if (status == MyStatusCode.NOTFOUND)
-            {
                 return BadRequest(new MyServiceResponse<ProductTagGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ",  Not found Product or Tag"));
-            }
 
 
             if (status > 0)

@@ -34,7 +34,6 @@ public class ApplicationMapper : Profile
         CreateMap<Tag, TagModelGet>();
         CreateMap<TagModelPost, Tag>();
 
-
         CreateMap<ProductTag, ProductTagGet>();
         CreateMap<ProductTagPost, ProductTag>();
 
@@ -44,5 +43,20 @@ public class ApplicationMapper : Profile
         CreateMap<BlogModelPost, Blog>().ForMember(entity => entity.Status,
             otp => otp.MapFrom(item =>
                 item.Status.Trim().Equals(MyStatus.ACTIVE_RESULT) ? MyStatus.ACTIVE : MyStatus.INACTIVE));
+
+        CreateMap<ProductTag, ProductTagGet>();
+        CreateMap<ProductTagPost, ProductTag>();
+
+        CreateMap<BlogTag, BlogTagModelGet>();
+        CreateMap<BlogTagModelPost, BlogTag>();
+
+        CreateMap<WishList, BlogTagModelGet>();
+        CreateMap<BlogTagModelPost, BlogTag>();
+
+        CreateMap<WishList, WishListGet>();
+        CreateMap<WishListPost, WishList>();
+
+        CreateMap<WishListUser, WishListUserGet>();
+        CreateMap<WishListUserPost, WishListUser>();
     }
 }
