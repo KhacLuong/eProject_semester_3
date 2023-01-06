@@ -65,8 +65,8 @@ public class ApplicationMapper : Profile
         CreateMap<WishList, WishListGet>();
         CreateMap<WishListPost, WishList>();
 
-        CreateMap<WishListUser, WishListProductGet>();
-        CreateMap<WishListProductPost, WishListUser>();
+        CreateMap<WishListProduct, WishListProductGet>();
+        CreateMap<WishListProductPost, WishListProduct>();
 
         CreateMap<Rate, RateModelGet>();
         CreateMap<RateModelPost, Rate>();

@@ -2,7 +2,7 @@
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using NLipsum.Core;
-using ShradhaBook_API.ViewModels;
+
 
 namespace ShradhaBook_API.Data;
 
@@ -182,4 +182,3 @@ public class DataContext : DbContext
     }
 
 
-}

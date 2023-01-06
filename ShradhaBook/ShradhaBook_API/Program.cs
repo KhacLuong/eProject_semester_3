@@ -15,7 +15,7 @@ global using ShradhaBook_API.Services.AuthorService;
 global using ShradhaBook_API.Services.BlogService;
 global using ShradhaBook_API.Services.BlogTagService;
 global using ShradhaBook_API.Services.WishListService;
-global using ShradhaBook_API.Services.WishListUserService;
+
 global using ShradhaBook_API.Services.RateService;
 global using ShradhaBook_API.Data;
 global using ShradhaBook_API.Helpers;

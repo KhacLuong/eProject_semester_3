@@ -38,6 +38,13 @@ public class MyStatusCode
         public static readonly string ORDER_DONE_RESUL = "Done";
         public static readonly string ORDER_PREPARING_RESUL= "Preparing";
         public static readonly string NOTFOUND_ORDER_RESUL = "Notfound order";
-        //
-    }
+    //
+
+
+    // Order status
+    public static readonly string ORDER_DONE = "Done";
+
+
+
+    
 }

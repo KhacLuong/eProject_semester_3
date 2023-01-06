@@ -1,7 +1,7 @@
 ﻿namespace ShradhaBook_API.Services.RateService;
 
-namespace ShradhaBook_API.Services.RateService
-{
+
+
     public interface IRateService
     {
         //Task<RateModelGet> GetRateAsync(int id);
@@ -11,4 +11,4 @@ namespace ShradhaBook_API.Services.RateService
         Task<List<RateModelGet>> GetRatesByProductIdAsync(int productId, int pageSize = 20, int pageIndex = 1);
 
     }
-}
+

@@ -1,7 +1,8 @@
-﻿namespace ShradhaBook_API.Services.WishListService;
+﻿
 
-namespace ShradhaBook_API.Services.WishListService
-{
+namespace ShradhaBook_API.Services.WishListService;
+
+
     public interface IWishListService
     {
         //Task<List<WishListGet>> GetAllWishListAsync(int pageSize = 20, int pageIndex = 1);
@@ -16,7 +17,3 @@ namespace ShradhaBook_API.Services.WishListService
     }
 
 
-
-
-
-}

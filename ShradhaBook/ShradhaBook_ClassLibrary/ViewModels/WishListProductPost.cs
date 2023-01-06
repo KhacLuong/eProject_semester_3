@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShradhaBook_API.ViewModels
-{
+namespace ShradhaBook_ClassLibrary.ViewModels;
+
     public class WishListProductPost
     {
         public int Id { get; set; }
@@ -23,4 +23,4 @@ namespace ShradhaBook_API.ViewModels
         {
         }
     }
-}
+

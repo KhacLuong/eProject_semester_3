@@ -19,5 +19,5 @@ public class User
     public List<Order>? Orders { get; set; }
     public DateTime CreateAt { get; set; } = DateTime.Now;
     public DateTime? UpdateAt { get; set; }
-    public virtual ICollection<WishListUser>? WishListUsers { get; set; }
+    public virtual WishList WishList { get; set; }
 }

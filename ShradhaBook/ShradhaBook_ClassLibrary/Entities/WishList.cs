@@ -1,25 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace ShradhaBook_ClassLibrary.Entities;
-
 public class WishList
 {
-    public WishList(int id, int productId, DateTime? createdAt, DateTime? updatedAt)
+    public int Id { get; set; }
+    [Required]
+    public int UserId { get; set; }
+    public DateTime? CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+
+    public virtual User? User { get; set; }
+
+    public virtual ICollection<WishListProduct>? WishListProducts { get; set; }
+
+    public WishList(int id, int userId, DateTime? createdAt, DateTime? updatedAt)
     {
         Id = id;
-        ProductId = productId;
+        UserId = userId;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
     }
 
-    public int Id { get; set; }
-
-    [Required] public int ProductId { get; set; }
-
-    public DateTime? CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
-
-    public virtual Product? Product { get; set; }
-
-    public virtual ICollection<WishListUser>? WishListUsers { get; set; }
 }
