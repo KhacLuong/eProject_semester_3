@@ -12,10 +12,8 @@ const postCreateUser = (name, email, password, confirmPassword, userType) => {
     }
     return instance.post('User/register', data)
 }
-const postRefreshToken = (id) => {
-    return instance.post(`Auth/refresh-token?id=${id}`, {
-        withCredentials: true
-    })
+const postRefreshToken = (refreshToken) => {
+    return instance.post(`Auth/refresh-token?refreshToken=${refreshToken}`)
 }
 const postLogin = (email, password) => {
     return instance.post('Auth/login', {email, password})
@@ -33,6 +31,9 @@ const getMyInfo = (id) => {
 const getListCategory = () => {
     return instance.get('Categories')
 }
+const getListAuthor = () => {
+    return instance.get('Authors')
+}
 const getListProduct = (query) => {
     return instance.get(`Products`, {
             params: query
@@ -40,11 +41,10 @@ const getListProduct = (query) => {
     )
 }
 const updateViewCountProductById = (id) => {
-    return instance.get(`Products/Detail${id}`);
+    return instance.post(`Products/IncreaseViewCountProduct${id}`);
 }
 const getProductById = (id) => {
     return instance.get(`Products/Detail${id}`);
 }
 
-
-export {postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo, updateViewCountProductById, getProductById, postRefreshToken}
+export {postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo, updateViewCountProductById, getProductById, postRefreshToken, getListAuthor}
