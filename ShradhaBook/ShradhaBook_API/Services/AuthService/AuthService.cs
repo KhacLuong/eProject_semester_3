@@ -18,7 +18,7 @@ public class AuthService : IAuthService
         _context = context;
     }
 
-    public async Task<UserLoginResponse?> Login(UserLoginRequest request, HttpResponse response)
+    public async Task<UserLoginResponse?> Login(UserLoginRequest request)
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
@@ -28,7 +28,7 @@ public class AuthService : IAuthService
 
         var token = CreateToken(user);
         var refreshToken = GenerateRefreshToken();
-        SetRefreshToken(refreshToken, user, response);
+        SetRefreshToken(refreshToken, user);
         var userLoginResponse = new UserLoginResponse
         {
             Name = user.Name,
@@ -39,22 +39,19 @@ public class AuthService : IAuthService
         return userLoginResponse;
     }
 
-    public async Task<RefreshTokenResponse?> RefreshToken(string refreshToken, HttpRequest request,
-        HttpResponse response)
+    public async Task<RefreshTokenResponse?> RefreshToken(RefreshTokenRequest request)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
         if (user is null)
             return null;
 
-        //var newRefreshToken = request.Cookies["refreshToken"];
-
-        if (!user.RefreshToken.Equals(refreshToken))
+        if (!user.RefreshToken.Equals(request.RefreshToken))
             return new RefreshTokenResponse { AccessToken = "", RefreshToken = "1" };
         if (user.TokenExpires < DateTime.Now) return new RefreshTokenResponse { AccessToken = "", RefreshToken = "2" };
 
         var token = CreateToken(user);
         var newRefreshToken = GenerateRefreshToken();
-        SetRefreshToken(newRefreshToken, user, response);
+        SetRefreshToken(newRefreshToken, user);
 
         await _context.SaveChangesAsync();
         return new RefreshTokenResponse { AccessToken = token, RefreshToken = newRefreshToken.Token };
@@ -71,7 +68,7 @@ public class AuthService : IAuthService
         return "Ok";
     }
 
-    private static RefreshToken GenerateRefreshToken()
+    private RefreshToken GenerateRefreshToken()
     {
         var refreshToken = new RefreshToken
         {
@@ -82,14 +79,13 @@ public class AuthService : IAuthService
         return refreshToken;
     }
 
-    private void SetRefreshToken(RefreshToken newRefreshToken, User user, HttpResponse response)
+    private void SetRefreshToken(RefreshToken newRefreshToken, User user)
     {
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
             Expires = newRefreshToken.Expires
         };
-        // response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
 
         user.RefreshToken = newRefreshToken.Token;
         user.TokenCreated = newRefreshToken.Created;
@@ -111,19 +107,19 @@ public class AuthService : IAuthService
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
             _configuration.GetSection("AppSettings:Token").Value));
 
-        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
         var token = new JwtSecurityToken(
             claims: claims,
             expires: DateTime.Now.AddMinutes(30),
-            signingCredentials: credentials);
+            signingCredentials: creds);
 
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
         return jwt;
     }
 
-    private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+    private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
     {
         using var hmac = new HMACSHA512(passwordSalt);
         var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));

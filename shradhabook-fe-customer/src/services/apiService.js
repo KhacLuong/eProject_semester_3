@@ -31,6 +31,9 @@ const getMyInfo = (id) => {
 const getListCategory = () => {
     return instance.get('Categories')
 }
+const getListAuthor = () => {
+    return instance.get('Authors')
+}
 const getListProduct = (query) => {
     return instance.get(`Products`, {
             params: query
@@ -43,9 +46,5 @@ const updateViewCountProductById = (id) => {
 const getProductById = (id) => {
     return instance.get(`Products/Detail${id}`);
 }
-const getListAuthor = () => {
-    return instance.get('Authors')
-}
-
 
 export {postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo, updateViewCountProductById, getProductById, postRefreshToken, getListAuthor}

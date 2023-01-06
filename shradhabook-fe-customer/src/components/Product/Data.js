@@ -11,7 +11,7 @@ import book10 from "../../assets/image/books/book10.png";
 import book11 from "../../assets/image/books/book11.png";
 import book12 from "../../assets/image/books/book12.png";
 import book13 from "../../assets/image/books/book13.png";
-import book14 from "../../assets/image/books/book15.png";
+import book14 from "../../assets/image/books/book14.png";
 import book15 from "../../assets/image/books/book15.png";
 import book16 from "../../assets/image/books/book16.png";
 import book17 from "../../assets/image/books/book17.png";

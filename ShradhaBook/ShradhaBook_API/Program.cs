@@ -6,30 +6,30 @@ global using ShradhaBook_API.Services.EmailService;
 global using ShradhaBook_API.Services.OrderService;
 global using ShradhaBook_API.Services.OrderItemsService;
 global using ShradhaBook_API.Services.StorageService;
-global using ShradhaBook_API.Services.CategotyService;
+global using ShradhaBook_API.Services.CategoryService;
 global using ShradhaBook_API.Services.ManufacturerService;
 global using ShradhaBook_API.Services.ProductService;
 global using ShradhaBook_API.Services.ProductTagService;
 global using ShradhaBook_API.Services.TagService;
 global using ShradhaBook_API.Services.AuthorService;
+global using ShradhaBook_API.Services.BlogService;
+global using ShradhaBook_API.Services.BlogTagService;
+global using ShradhaBook_API.Services.WishListService;
+global using ShradhaBook_API.Services.WishListUserService;
+global using ShradhaBook_API.Services.RateService;
 global using ShradhaBook_API.Data;
-global using ShradhaBook_API.Models;
-global using ShradhaBook_API.Models.Dto;
-global using ShradhaBook_API.Models.Entities;
-global using ShradhaBook_API.Models.Request;
-global using ShradhaBook_API.Models.Response;
+global using ShradhaBook_API.Helpers;
+global using ShradhaBook_ClassLibrary.Dto;
+global using ShradhaBook_ClassLibrary.Entities;
+global using ShradhaBook_ClassLibrary.Request;
+global using ShradhaBook_ClassLibrary.Response;
+global using ShradhaBook_ClassLibrary.ViewModels;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using ShradhaBook_API.Services.BlogService;
-
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using ShradhaBook_API.Services.BlogTagService;
-using ShradhaBook_API.Services.WishListService;
-using ShradhaBook_API.Services.WishListUserService;
 using Swashbuckle.AspNetCore.Filters;
 using ShradhaBook_API.Services.RateService;
 using ShradhaBook_API.Services.WishListProductService;
@@ -59,9 +59,7 @@ builder.Services.AddScoped<IStorageService, StorageService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IManufacturerService, ManufacturerService>();
-
 builder.Services.AddScoped<ITagService, TagService>();
-
 builder.Services.AddScoped<IProductTagService, ProductTagService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
@@ -69,8 +67,6 @@ builder.Services.AddScoped<IBlogTagService, BlogTagService>();
 builder.Services.AddScoped<IWishListService, WishListService>();
 builder.Services.AddScoped<IWishListProductService, WishListProductService>();
 builder.Services.AddScoped<IRateService, RateService>();
-
-
 
 builder.Services.AddAzureClients(options =>
 {

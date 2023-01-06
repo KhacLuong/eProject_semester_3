@@ -50,7 +50,7 @@ public class AdminUserController : ControllerBase
         var users = await _userService.GetAllUsers(query);
 
         // Pagination
-        var pageCount = Math.Ceiling(users.Count() / (float)itemPerPage);
+        var pageCount = Math.Ceiling(users.Count / (float)itemPerPage);
         users = users.Skip((page - 1) * itemPerPage).Take(itemPerPage).ToList();
         var response = new PaginationResponse<User>
         {

@@ -1,6 +1,4 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.Helpers;
 using ShradhaBook_API.ViewModels;
@@ -11,7 +9,6 @@ namespace ShradhaBook_API.Services.RateService;
 
 public class RateService : IRateService
 {
-
     private readonly DataContext _context;
     private readonly IMapper _mapper;
 
@@ -69,7 +66,7 @@ public class RateService : IRateService
         }
     }
 
-    public Task<RateModelGet> GetRateAsync(int id)
+    public Task<List<RateModelGet>> GetRatesByProductIdAsync()
     {
         throw new NotImplementedException();
     }

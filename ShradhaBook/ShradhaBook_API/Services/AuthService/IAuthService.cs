@@ -2,7 +2,7 @@
 
 public interface IAuthService
 {
-    Task<UserLoginResponse?> Login(UserLoginRequest request, HttpResponse response);
-    Task<RefreshTokenResponse?> RefreshToken(string refreshToken, HttpRequest request, HttpResponse response);
+    Task<UserLoginResponse?> Login(UserLoginRequest request);
+    Task<RefreshTokenResponse?> RefreshToken(RefreshTokenRequest request);
     Task<string?> Logout(int id);
 }

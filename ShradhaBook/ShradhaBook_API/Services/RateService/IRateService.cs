@@ -1,4 +1,4 @@
-﻿using ShradhaBook_API.ViewModels;
+﻿namespace ShradhaBook_API.Services.RateService;
 
 namespace ShradhaBook_API.Services.RateService
 {

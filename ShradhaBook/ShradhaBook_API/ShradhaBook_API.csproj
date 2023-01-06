@@ -32,11 +32,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Migrations"/>
         <Folder Include="Migrations\"/>
-        <Folder Include="Controllers\Customer\"/>
-        <Folder Include="Data\"/>
-        <Folder Include="wwwroot\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ShradhaBook_ClassLibrary\ShradhaBook_ClassLibrary.csproj"/>
     </ItemGroup>
 
 </Project>

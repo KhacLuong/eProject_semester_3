@@ -1,6 +1,4 @@
-﻿using ShradhaBook_API.ViewModels;
-
-namespace ShradhaBook_API.Services.ManufacturerService;
+﻿namespace ShradhaBook_API.Services.ManufacturerService;
 
 public interface IManufacturerService
 {

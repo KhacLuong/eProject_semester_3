@@ -1,21 +1,18 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using ShradhaBook_API.Helpers;
-using ShradhaBook_API.ViewModels;
 
-namespace ShradhaBook_API.Services.WishListService
+namespace ShradhaBook_API.Services.WishListService;
+
+public class WishListService : IWishListService
 {
-    public class WishListService : IWishListService
+    private readonly DataContext _context;
+    private readonly IMapper _mapper;
+
+    public WishListService(DataContext context, IMapper mapper)
     {
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
-
-        public WishListService(DataContext context, IMapper mapper)
-        {
-            this._context = context;
-            this._mapper = mapper;
-
-        }
+        _context = context;
+        _mapper = mapper;
+    }
 
         public async  Task<int> AddWishListAsync(WishListPost model)
         {

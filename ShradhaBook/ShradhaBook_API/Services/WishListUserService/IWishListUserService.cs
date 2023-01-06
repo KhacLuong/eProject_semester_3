@@ -1,4 +1,4 @@
-﻿using ShradhaBook_API.ViewModels;
+﻿namespace ShradhaBook_API.Services.WishListUserService;
 
 namespace ShradhaBook_API.Services.WishListUserService
 {
@@ -15,6 +15,5 @@ namespace ShradhaBook_API.Services.WishListUserService
         Task<List<WishListProductGet>> GetAllWishListUserAsync();
         Task<List<WishListProductGet>> GetWishListUsersByUserIdAsync(int id);
 
-        Task<Object> GetCountWishListAndCart(int userId);
-    }
+    Task<object> GetCountWishListAndCart(int userId);
 }

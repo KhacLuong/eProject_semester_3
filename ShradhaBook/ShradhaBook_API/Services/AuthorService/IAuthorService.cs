@@ -1,6 +1,4 @@
-﻿using ShradhaBook_API.ViewModels;
-
-namespace ShradhaBook_API.Services.AuthorService;
+﻿namespace ShradhaBook_API.Services.AuthorService;
 
 public interface IAuthorService
 {
