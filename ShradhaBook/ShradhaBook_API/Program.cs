@@ -6,7 +6,7 @@ global using ShradhaBook_API.Services.EmailService;
 global using ShradhaBook_API.Services.OrderService;
 global using ShradhaBook_API.Services.OrderItemsService;
 global using ShradhaBook_API.Services.StorageService;
-global using ShradhaBook_API.Services.CategotyService;
+global using ShradhaBook_API.Services.CategoryService;
 global using ShradhaBook_API.Services.ManufacturerService;
 global using ShradhaBook_API.Services.ProductService;
 global using ShradhaBook_API.Services.ProductTagService;

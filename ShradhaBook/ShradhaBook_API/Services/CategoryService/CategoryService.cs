@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
-namespace ShradhaBook_API.Services.CategotyService;
+namespace ShradhaBook_API.Services.CategoryService;
 
 public class CategoryService : ICategoryService
 {

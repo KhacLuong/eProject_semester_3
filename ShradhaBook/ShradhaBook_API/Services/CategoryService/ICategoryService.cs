@@ -1,4 +1,4 @@
-﻿namespace ShradhaBook_API.Services.CategotyService;
+﻿namespace ShradhaBook_API.Services.CategoryService;
 
 public interface ICategoryService
 {
