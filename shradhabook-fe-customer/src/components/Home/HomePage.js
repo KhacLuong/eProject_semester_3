@@ -7,7 +7,12 @@ import "swiper/css/autoplay";
 import parse from "html-react-parser";
 import {renderStar} from "../../ultis/renderStar";
 import './home.scss'
-import {getListCategory, updateViewCountProductById} from "../../services/apiService";
+import {
+    getListCategory,
+    getListProductLatestReleases, getListProductLowestPrice,
+    getListProductMostView,
+    updateViewCountProductById
+} from "../../services/apiService";
 import {MdAttractions, MdKeyboardArrowRight} from 'react-icons/md'
 import {HiOutlineStar, HiOutlineUsers, HiOutlineEmojiHappy} from 'react-icons/hi'
 import {BsPencil, BsBook} from 'react-icons/bs'
@@ -30,11 +35,12 @@ import Book2 from '../../assets/image/books/book14.png'
 import Book3 from '../../assets/image/books/book12.png'
 import Book4 from '../../assets/image/books/book16.png'
 import Book5 from '../../assets/image/books/book22.png'
+import book14 from "../../assets/image/books/book14.png"
 
 import {useNavigate} from "react-router-dom";
 import {TbShoppingCart} from "react-icons/tb";
 import {Data} from '../Product/Data'
-import {useDispatch, useSelector} from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import {doAddToCart} from "../../redux/action/cartAction";
 import {AddProductToWishList} from "../../ultis/AddProductToWishList";
 import jwt_decode from "jwt-decode";
@@ -44,12 +50,14 @@ const HomePage = (props) => {
     const navigate = useNavigate();
     const [listCategory, setListCategory] = useState([])
     const [activeTitle, setActiveTitle] = useState(1)
-    const dispatch = useDispatch();
-    const {setOpen} = props
+    const {setOpen, doAddToCart} = props
     const [userId, setUserId] = useState('')
     const account = useSelector(state => state.user.account);
     let decoded = ''
-
+    const [productMostView, setProductMostView] = useState([])
+    const [productLatestReleases, setProductLatestReleases] = useState([])
+    const [productLowPrice, setProductLowPrice] = useState([])
+    const [allProduct, setAllProduct] = useState([])
     const listIconCategory = [MdAttractions, HiOutlineStar, BsPencil, BsBook, GiVerticalBanner, GiChessQueen, TiWeatherPartlySunny]
     const listTopInWeek = [
         {id: 1, img: Book1, name: 'life flight', author: 'misty figueroa', color: '#facc15'},
@@ -86,7 +94,6 @@ const HomePage = (props) => {
     const classActiveHeaderTitle = `text-blackColor after:opacity-100 after:scale-100 after:content[''] after:inline-block after:absolute after:w-full after:h-[4px] after:left-0 after:bottom-[-5px] after:bg-dangerColor-default_2 after:duration-500`;
     const classHoverHeaderTitle = `hover:after:opacity-100 hover:after:scale-100 hover:after:content[''] hover:after:inline-block hover:after:absolute hover:after:w-full hover:after:h-[4px] hover:after:left-0 hover:after:bottom-[-5px] hover:after:bg-dangerColor-default_2 hover:text-blackColor hover:after:duration-500`
 
-
     useEffect(() => {
         if (account.accessToken) {
             decoded = jwt_decode(account.accessToken);
@@ -94,14 +101,36 @@ const HomePage = (props) => {
         setUserId(decoded.Id)
         const fetchData = async () => {
             await fetchListCategories()
+            await fetchListProductMostView()
+            await fetchListProductLatestReleases()
+            await fetchListProductLowPrice()
         }
         fetchData();
     }, [])
 
     const fetchListCategories = async () => {
         let res = await getListCategory()
-        if (res.status === true) {
+        if (res.status === true && res) {
             setListCategory(res.data)
+        }
+    }
+    const fetchListProductMostView = async () => {
+        let res = await getListProductMostView(10)
+        if (res.status === true && res) {
+            setProductMostView(res.data)
+            setAllProduct(res.data)
+        }
+    }
+    const fetchListProductLatestReleases = async () => {
+        let res = await getListProductLatestReleases(10)
+        if (res.status === true && res) {
+            setProductLatestReleases(res.data)
+        }
+    }
+    const fetchListProductLowPrice= async () => {
+        let res = await getListProductLowestPrice(10)
+        if (res.status === true && res) {
+            setProductLowPrice(res.data)
         }
     }
     const BtnShopNow = () => (
@@ -112,7 +141,6 @@ const HomePage = (props) => {
         </button>
     )
     const [hover, setHover] = useState(false);
-
     const [idProduct, setIdProduct] = useState(0);
     const handleOnMouseOver = (event, index) => {
         setHover(true);
@@ -120,13 +148,25 @@ const HomePage = (props) => {
     }
     const handleClickGoProductDetail = async (id, slug) => {
         let res = await updateViewCountProductById(id)
-        if (res.status === true) {
-            navigate(`product-detail/${id}/${slug}`)
+        if (res === 'Success') {
+            navigate(`products/product-detail/${id}/${slug}`)
         }
     }
-     const handleAddProductToCart = () => {
-        dispatch(doAddToCart())
-     }
+    const handleAddProductToCart = (data) => {
+        console.log(data)
+        doAddToCart(data)
+        setOpen(true);
+    }
+    const handleActiveTitle = (id) => {
+        setActiveTitle(id)
+        if (id === 1) {
+            setAllProduct(productMostView)
+        } else if (id === 2) {
+            setAllProduct(productLowPrice)
+        } else {
+            setAllProduct(productLatestReleases)
+        }
+    }
     return (
         <div className={`home_page`}>
             <div className={`container mx-auto xl:px-30 py-8`}>
@@ -221,22 +261,28 @@ const HomePage = (props) => {
                             <a onClick={() => navigate('/products')}
                                className={`group/image relative flex overflow-hidden duration-300 rounded-[20px] cursor-pointer w-full`}>
                                 <div className={`absolute top-0 left-0 right-0 bottom-0 duration-300 rounded-[20px]`}>
-                                    <div className={`z-0 group-hover/image:scale-110 duration-300 absolute top-0 left-0 right-0 bottom-0 w-full h-full`}
-                                         style={{
-                                             backgroundImage: `url(${ImageSale})`,
-                                             backgroundSize: 'cover',
-                                             backgroundPosition: 'center',
-                                             backgroundRepeat: 'no-repeat'
-                                         }}>
+                                    <div
+                                        className={`z-0 group-hover/image:scale-110 duration-300 absolute top-0 left-0 right-0 bottom-0 w-full h-full`}
+                                        style={{
+                                            backgroundImage: `url(${ImageSale})`,
+                                            backgroundSize: 'cover',
+                                            backgroundPosition: 'center',
+                                            backgroundRepeat: 'no-repeat'
+                                        }}>
                                     </div>
                                 </div>
-                                <div className={`z-10 min-h-[400px] w-full text-center pb-[40px] justify-center flex items-end`}>
+                                <div
+                                    className={`z-10 min-h-[400px] w-full text-center pb-[40px] justify-center flex items-end`}>
                                     <div className={`text-center block`}>
-                                        <div className={`mb-[10px] uppercase text-blackColor font-semiBold leading-loose text-[12px]`}>
-                                            <span className={`relative duration before:content[''] before:inline-block before:absolute before:w-0 before:bg-blackColor before:h-[2px] before:left-auto before:right-0 before:duration-300 before:bottom-[-2px] group-hover/image:before:w-full group-hover/image:before:duration-300 group-hover/image:before:left-0 group-hover/image:before:right-auto`}>best seller books</span>
+                                        <div
+                                            className={`mb-[10px] uppercase text-blackColor font-semiBold leading-loose text-[12px]`}>
+                                            <span
+                                                className={`relative duration before:content[''] before:inline-block before:absolute before:w-0 before:bg-blackColor before:h-[2px] before:left-auto before:right-0 before:duration-300 before:bottom-[-2px] group-hover/image:before:w-full group-hover/image:before:duration-300 group-hover/image:before:left-0 group-hover/image:before:right-auto`}>best seller books</span>
                                         </div>
-                                        <h3 className={`capitalize mb-[10px] font-semiBold  text-dangerColor-default_2 text-[36px] tracking-tighter`}>sale 50%</h3>
-                                        <div className={`hover:text-dangerColor-default_2 duration-300 text-[14px] capitalize font-semiBold flex items-center justify-center `}>
+                                        <h3 className={`capitalize mb-[10px] font-semiBold  text-dangerColor-default_2 text-[36px] tracking-tighter`}>sale
+                                            50%</h3>
+                                        <div
+                                            className={`hover:text-dangerColor-default_2 duration-300 text-[14px] capitalize font-semiBold flex items-center justify-center `}>
                                             shop now <MdKeyboardArrowRight className={`ml-2`}/>
                                         </div>
                                     </div>
@@ -291,7 +337,8 @@ const HomePage = (props) => {
                                         className={`h-full rounded-2xl flex px-20 py-36 flex items-center justify-end flex`}>
                                         <div className={`text-darkColor uppercase font-medium w-2/5`}>
                                             <div className={`text-sm mb-6`}>a sale for the page</div>
-                                            <div className={`text-4xl font-semiBold mb-4`}>50% off hundreds of books</div>
+                                            <div className={`text-4xl font-semiBold mb-4`}>50% off hundreds of books
+                                            </div>
                                             <div className={`w-2/3`}>
                                                 <span className={`text-dangerColor-default_2 ml-2`}>
                                                      Online And In Stores Only
@@ -365,7 +412,7 @@ const HomePage = (props) => {
                                                     listTitle.map((item, index) => {
                                                         return <div
                                                             className={`${index + 1 === activeTitle ? classActiveHeaderTitle : 'after:scale-0 after:opacity-0'} ${classHoverHeaderTitle} duration-500 relative mr-[25px] cursor-pointer`}
-                                                            onClick={() => setActiveTitle(item.id)} key={index}>
+                                                            onClick={() => handleActiveTitle(item.id)} key={index}>
                                                             {item.title}
                                                         </div>
                                                     })
@@ -376,8 +423,7 @@ const HomePage = (props) => {
                                             <div>
                                                 <ul className={`mt-8 mb-0 clear-both grid grid-cols-5 shadow-md rounded-[15px]`}>
                                                     {
-                                                        Data.DT.products.map((item, index) => {
-                                                            if (item.id > 12) {
+                                                        allProduct.map((item, index) => {
                                                                 return <li key={index} className={`mx-2`}>
                                                                     <div
                                                                         className={`px-[15px] mb-[60px] w-full rounded-t-[15px] duration-300 shadow-inner cursor-pointer`}>
@@ -385,29 +431,29 @@ const HomePage = (props) => {
                                                                             className={`flex relative items-center flex-col`}>
                                                                             <div
                                                                                 onMouseOver={(e) => handleOnMouseOver(e, index)}
-                                                                                state={item}
                                                                                 className={`overflow-hidden rounded-[15px] w-56`}>
                                                                                 <div>
                                                                                     <img width={`600`} height={`840`}
                                                                                          className={`max-w-full h-auto p-2 rounded-[15px]`}
-                                                                                         src={item.imageProductName}/>
+                                                                                         src={book14}/>
                                                                                 </div>
                                                                                 <div
                                                                                     className={`group_action absolute right-[10px] bottom-[10px] z-10`}>
                                                                                     <div
                                                                                         className={`shop_action flex flex-col items-start relative`}>
-                                                                                        <button onClick={()=>AddProductToWishList(userId, item.id)}
+                                                                                        <button
+                                                                                            onClick={() => AddProductToWishList(userId, item.id)}
                                                                                             className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8'} 
                                                     actionBtn text-dangerColor-default_3 duration-300`}>
                                                                                             <FiHeart/>
                                                                                         </button>
                                                                                         <div
                                                                                             onClick={() => handleClickGoProductDetail(item.id, item.slug)}
-                                                                                            state={item.id}
                                                                                             className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible' + ' translate-x-0' : 'opacity-0 translate-x-8' + ' invisible'} actionBtn delay-100 duration-300`}>
                                                                                             <FiEye/>
                                                                                         </div>
-                                                                                        <button onClick={() => setOpen(true)}
+                                                                                        <button
+                                                                                            onClick={() => handleAddProductToCart(item)}
                                                                                             className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8 invisible'} actionBtn delay-200 duration-300`}>
                                                                                             <TbShoppingCart/></button>
                                                                                     </div>
@@ -435,7 +481,6 @@ const HomePage = (props) => {
                                                                         </div>
                                                                     </div>
                                                                 </li>
-                                                            }
                                                         })
                                                     }
                                                 </ul>
@@ -677,7 +722,9 @@ const HomePage = (props) => {
                              }}>
                             <div className={`w-[40%] relative`}>
                                 <div className={`flex flex-col`}>
-                                    <div className={`w-full`}><h4 className={`mb-[5px] capitalize text-blackColor font-semiBold clear-bold text-[26px]`}>get 10% off your order</h4></div>
+                                    <div className={`w-full`}><h4
+                                        className={`mb-[5px] capitalize text-blackColor font-semiBold clear-bold text-[26px]`}>get
+                                        10% off your order</h4></div>
                                     <div className={`w-full`}>
                                         <div className={`text-[#444444] text-sm`}>
                                             Enter your email and receive a 10% discount on your next order!
@@ -690,8 +737,12 @@ const HomePage = (props) => {
                                     <div className={`w-full`}>
                                         <form className={`relative`}>
                                             <div className={`flex items-center`}>
-                                                <input className={`py-[14px] pr-[140px] pl-[25px] w-full rounded-full text-[13px] leading-loose text-blackColor bg-whiteColor border-[1px] border-borderColor`} type={`email`} name={`email`} placeholder={`Your email address`} required={true}/>
-                                                <button className={`absolute right-0 flex items-center justify-center text-[14px] font-bold py-[19px] px-[20px] rounded-full border-0 bg-dangerColor-default_2 duration-300 text-whiteColor hover:bg-dangerColor-hover_2`}>
+                                                <input
+                                                    className={`py-[14px] pr-[140px] pl-[25px] w-full rounded-full text-[13px] leading-loose text-blackColor bg-whiteColor border-[1px] border-borderColor`}
+                                                    type={`email`} name={`email`} placeholder={`Your email address`}
+                                                    required={true}/>
+                                                <button
+                                                    className={`absolute right-0 flex items-center justify-center text-[14px] font-bold py-[19px] px-[20px] rounded-full border-0 bg-dangerColor-default_2 duration-300 text-whiteColor hover:bg-dangerColor-hover_2`}>
                                                     Subscribe <MdKeyboardArrowRight className={`ml-1`}/>
                                                 </button>
                                             </div>
@@ -706,5 +757,9 @@ const HomePage = (props) => {
         </div>
     );
 };
-
-export default HomePage;
+const mapDispatchToProps = dispatch => {
+    return {
+        doAddToCart: (data) => dispatch(doAddToCart(data))
+    }
+}
+export default connect(null,mapDispatchToProps)(HomePage);
