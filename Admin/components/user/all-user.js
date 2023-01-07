@@ -8,7 +8,7 @@ const config = {
 };
 instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
-instance.get('AdminUser?itemPerPage=100')
+instance.get('AdminUser')
     .then(response => {
         if (response.status === 200) {
             document.querySelector('#list-users').innerHTML = '';
