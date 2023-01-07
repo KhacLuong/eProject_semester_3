@@ -496,24 +496,52 @@ public class ProductService : IProductService
 
     public async Task<List<ProductModelGet>> GetProductByTheMostViewAsync(int numberRetrieving)
     {
-        var mostViewerModel =
-            await _context.Products.OrderByDescending(t => t.ViewCount).Take(numberRetrieving).ToListAsync();
+     
 
-        return _mapper.Map<List<ProductModelGet>>(mostViewerModel);
+        var mostViewerModel = await (from P in _context.Products.OrderByDescending(t => t.ViewCount).Take(numberRetrieving)
+                                      join M in _context.Manufacturers
+                                      on P.ManufacturerId equals M.Id
+                                      join A in _context.Authors
+                                      on P.AuthorId equals A.Id
+                                      join C in _context.Categories
+                                      on P.CategoryId equals C.Id
+                                      select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
+                                  P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star, P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
+
+        return mostViewerModel;
     }
 
     public async Task<List<ProductModelGet>> GetProductByTheLowestPricedAsync(int numberRetrieving)
     {
-        var lowestPriceModel = await _context.Products.OrderBy(t => t.Price).Take(numberRetrieving).ToListAsync();
+    
+        var lowestPriceModel = await (from P in _context.Products.OrderBy(t => t.Price).Take(numberRetrieving)
+                                   join M in _context.Manufacturers
+                                   on P.ManufacturerId equals M.Id
+                                   join A in _context.Authors
+                                   on P.AuthorId equals A.Id
+                                   join C in _context.Categories
+                                   on P.CategoryId equals C.Id
+                                   select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
+                               P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star, P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
 
-        return _mapper.Map<List<ProductModelGet>>(lowestPriceModel);
+       
+
+        return lowestPriceModel;
     }
 
     public async Task<List<ProductModelGet>> GetProductByLatestReleasesAsync(int numberRetrieving)
     {
-        var latestRelease = await _context.Products.OrderByDescending(t => t.CreatedAt).Take(numberRetrieving)
-            .ToListAsync();
-        return _mapper.Map<List<ProductModelGet>>(latestRelease);
+        var latestRelease =  await (from P in _context.Products.OrderByDescending(t => t.CreatedAt).Take(numberRetrieving)
+                             join M in _context.Manufacturers
+                             on P.ManufacturerId equals M.Id
+                             join A in _context.Authors
+                             on P.AuthorId equals A.Id
+                             join C in _context.Categories
+                             on P.CategoryId equals C.Id
+                             select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
+                         P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star, P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
+
+        return latestRelease;
     }
 
 
