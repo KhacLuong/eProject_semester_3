@@ -12,8 +12,10 @@ const postCreateUser = (name, email, password, confirmPassword, userType) => {
     }
     return instance.post('User/register', data)
 }
-const postRefreshToken = (refreshToken) => {
-    return instance.post(`Auth/refresh-token?refreshToken=${refreshToken}`)
+const postRefreshToken = (query) => {
+    return instance.post(`Auth/refresh-token`, {
+        params: query
+    })
 }
 const postLogin = (email, password) => {
     return instance.post('Auth/login', {email, password})
@@ -46,5 +48,20 @@ const updateViewCountProductById = (id) => {
 const getProductById = (id) => {
     return instance.get(`Products/Detail${id}`);
 }
+const getProduct = (id) => {
+    return instance.get(`Products/${id}`)
+}
+const getWishListById = (id, query) => {
+    return instance.get(`WishListUser/GetProductWishListByUserId${id}`, {
+        params: query
+    })
+}
+const postProductToWishList = (userId, productId) => {
+    return instance.post(`WishListUser?userId=${userId}&prouctId=${productId}`)
+}
 
-export {postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo, updateViewCountProductById, getProductById, postRefreshToken, getListAuthor}
+const deleteProductInWishList = (userId, productId) => {
+    return instance.post(`WishListUser?userId=${userId}&prouctId=${productId}`)
+}
+
+export {postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo, updateViewCountProductById, getProductById, getProduct, postRefreshToken, getListAuthor, getWishListById, postProductToWishList}

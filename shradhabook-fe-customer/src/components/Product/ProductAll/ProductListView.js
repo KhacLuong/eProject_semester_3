@@ -5,6 +5,7 @@ import parse from "html-react-parser";
 import {BiCommentDetail} from "react-icons/bi";
 import {BsFillCartFill, BsFillSuitHeartFill} from "react-icons/bs";
 import {useNavigate} from "react-router-dom";
+import {AddProductToWishList} from "../../../ultis/AddProductToWishList";
 
 const ProductListView = (props) => {
     const navigate = useNavigate();
@@ -17,7 +18,8 @@ const ProductListView = (props) => {
         hover,
         idProduct,
         renderStar,
-        setOpen
+        setOpen,
+        userId
     } = props
     return (
         <div className={`render_product grid grid-cols-1 gap-4 py-3`}>
@@ -36,7 +38,7 @@ const ProductListView = (props) => {
                             </div>
                             <div className={`group_action absolute right-[10px] bottom-[10px] z-10`}>
                                 <div className={`shop_action flex flex-col items-start relative`}>
-                                    <button
+                                    <button onClick={() => AddProductToWishList(userId, item.id)}
                                         className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8'} 
                                                     actionBtn text-dangerColor-default_3 duration-300`}>
                                         <FiHeart/></button>
@@ -113,7 +115,7 @@ const ProductListView = (props) => {
                                         <BsFillCartFill className={`mr-2`}/>
                                         Add to cart
                                     </div>
-                                    <div
+                                    <div onClick={() => AddProductToWishList(userId, item.id)}
                                         className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor bg-dangerColor-default_2 hover:bg-dangerColor-hover_2 duration-300 cursor-pointer`}>
                                         <BsFillSuitHeartFill className={`mr-2`}/>
                                         Add to wishlist

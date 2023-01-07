@@ -1,15 +1,36 @@
-import {FETCH_ADD_PRODUCT_TO_CART} from "../action/cartAction";
+import {ADD_PRODUCT_TO_CART, REMOVE_FROM_CART, ADJUST_QTY, LOAD_CURRENT_ITEM} from "../action/cartAction";
 
 const INITIAL_STATE = {
-    isOpenCartModel: false,
+    cart: [], // {id, name, description, price, img, qty}
+    currentItem: null
 };
 
 const CartReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case FETCH_ADD_PRODUCT_TO_CART:
+        case ADD_PRODUCT_TO_CART:
+            // Check if item is in cart already
+            const inCart = state.cart.find(item => item.id === action.payload.data.id ? true : false)
             return {
-                isOpenCartModel: true
-            };
+                ...state,
+                cart: inCart
+                    ? state.cart.map(item => item.id === action.payload.data.id ? {...item, qty: item.qty + 1} : item)
+                    : [...state.cart, {...action.payload.data, qty: 1}]
+            }
+        case REMOVE_FROM_CART:
+            return {
+                ...state,
+                cart: state.cart.filter(item => item.id !== action.payload.id)
+            }
+        case ADJUST_QTY:
+            return {
+                ...state,
+                cart: state.cart.map(item => item.id === action.payload.id ? {...item, qty: +action.payload.qty} : item)
+            }
+        case LOAD_CURRENT_ITEM:
+            return {
+                ...state,
+                currentItem: action.payload
+            }
         default:
             return state;
     }

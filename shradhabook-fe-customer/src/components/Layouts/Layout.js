@@ -4,11 +4,12 @@ import BottomHeader from "./Header/BottomHeader";
 import {Outlet} from "react-router-dom";
 import Footer from "./Footer/Footer";
 
-const Layout = () => {
+const Layout = (props) => {
+    const {setOpen} = props
     return (
         <div className={`app-container`}>
             <div className={`header-container w-full`}>
-                <TopHeader/>
+                <TopHeader setOpen={setOpen}/>
                 <BottomHeader/>
             </div>
             <div className={`main-container w-full`}>

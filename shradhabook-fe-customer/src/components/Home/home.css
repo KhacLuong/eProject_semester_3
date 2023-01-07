@@ -1,0 +1,15 @@
+.swiper-pagination-bullet-active {
+  background: #F65D4E !important;
+}
+
+.swiper-pagination-bullet.swiper-pagination-bullet-active-next {
+  background: #ffffff !important;
+  opacity: 1;
+}
+
+.swiper-pagination-bullet.swiper-pagination-bullet-active-prev {
+  background: #ffffff !important;
+  opacity: 1;
+}
+
+/*# sourceMappingURL=home.css.map */
