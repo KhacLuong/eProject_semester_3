@@ -2,10 +2,14 @@ import React, {useEffect, useState} from 'react';
 import Banner from "../Layouts/Banner/Banner";
 import {getMyInfo} from "../../services/apiService";
 import jwt_decode from "jwt-decode";
-import {useSelector} from "react-redux";
 import {IoCloseSharp} from 'react-icons/io5'
+import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
+import {removeAllProdcut} from "../../redux/action/cartAction";
+import {connect, useSelector} from "react-redux";
 
-const Checkout = () => {
+const Checkout = (props) => {
+    const {removeAllProdcut} = props
     const account = useSelector(state => state.user.account);
     const [userId, setUserId] = useState('')
     const [userInfo, setUserInfo] = useState({})
@@ -25,7 +29,7 @@ const Checkout = () => {
     const [email, setEmail] = useState('')
     const [userAddress, setUserAddress] = useState([])
     const [district, setDistrict] = useState('')
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         setUserId(decoded)
@@ -74,6 +78,11 @@ const Checkout = () => {
     }
     const onChangeDistrict = (e) => {
         console.log(e.target)
+    }
+    const handlePlaceOrder = () => {
+        removeAllProdcut();
+        navigate('/')
+        toast.success('Order Success')
     }
     return (
         <div className={`checkout_page`}>
@@ -223,7 +232,7 @@ const Checkout = () => {
                                 <span className={`text-xs text-lightColor`}>
                                     Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.
                                 </span>
-                                <div
+                                <div onClick={handlePlaceOrder}
                                     className={`bg-dangerColor-default_2 text-whiteColor py-3 rounded-full text-center font-medium hover:bg-dangerColor-hover_2 duration-300 mt-6 cursor-pointer`}>
                                     Place order
                                 </div>
@@ -235,5 +244,9 @@ const Checkout = () => {
         </div>
     );
 };
-
-export default Checkout;
+const mapDispatchToProps = dispatch => {
+    return {
+        removeAllProdcut: () => dispatch(removeAllProdcut())
+    }
+}
+export default connect(null, mapDispatchToProps)(Checkout);

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Banner from "../Layouts/Banner/Banner";
 import {useSelector} from "react-redux";
 import CartItem from "./CartItem";
+import {toast} from "react-toastify";
 
 const Cart = () => {
     const [listProduct, setListProduct] = useState([])

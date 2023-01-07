@@ -20,7 +20,10 @@ const TopHeader = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     let ref = useRef();
-    let userId = jwt_decode(account.accessToken).Id
+    let userId = ''
+    if(account.accessToken) {
+        userId = jwt_decode(account.accessToken).Id
+    }
     const [totalWishList, setTotalWishList] = useState(0)
 
     useEffect(() => {
@@ -52,7 +55,12 @@ const TopHeader = (props) => {
             document.removeEventListener("touchstart", handler);
         }
     }, [showNavUser])
-
+    const fetchCountProduct = async () =>  {
+        let res = await getCountProductInWishList(userId)
+        if(res && res.status === true) {
+            setTotalWishList(res.data.totalWishlist)
+        }
+    }
     const handleClickUser = () => {
         setShowNavUser(!showNavUser)
     }
@@ -67,12 +75,7 @@ const TopHeader = (props) => {
     const handleLeaveNavUser = () => {
         window.innerWidth > 2060 && setShowNavUser(false);
     }
-    const fetchCountProduct = async () =>  {
-        let res = await getCountProductInWishList(userId)
-        if(res && res.status === true) {
-            setTotalWishList(res.data.totalWishlist)
-        }
-    }
+
 
     return (
         <nav className={'bg-dangerColor-default_2'}>

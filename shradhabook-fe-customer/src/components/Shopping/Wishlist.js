@@ -6,9 +6,12 @@ import {BsFillCartFill, BsFillTrashFill} from "react-icons/bs";
 import {useNavigate, useParams} from "react-router-dom";
 import {deleteProductInWishList, getWishListById} from "../../services/apiService";
 import {toast} from "react-toastify";
+import {doAddToCart} from "../../redux/action/cartAction";
+import {connect} from "react-redux";
 
 const Wishlist = (props) => {
-    const {setOpen} = props
+
+    const {setOpen, doAddToCart} = props
     const navigate = useNavigate();
     const {id} = useParams();
     const [listProduct, setListProduct] = useState([])
@@ -27,7 +30,6 @@ const Wishlist = (props) => {
 
     const handleRemoveProduct = async (id, productId) => {
         let res = await deleteProductInWishList(id, productId)
-        console.log(res)
         if (res && res.status === true) {
             toast.success(res.message);
             const params = {
@@ -49,6 +51,10 @@ const Wishlist = (props) => {
         if(res && res.status === true) {
             setListProduct(res.data.products)
         }
+    }
+    const handleAddToCart = (data) => {
+        doAddToCart(data)
+        setOpen(true)
     }
     return (
         <div className={`wishlist_page`}>
@@ -93,7 +99,7 @@ const Wishlist = (props) => {
                                     </td>
                                     <td className="px-6 py-4 text-left">
                                         <div className={`flex items-center`}>
-                                            <div onClick={() => setOpen(true)}
+                                            <div onClick={() => handleAddToCart(item)}
                                                 className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor duration-300 bg-lime-600 hover:bg-lime-700 cursor-pointer`}>
                                                 <BsFillCartFill className={`mr-2`}/>
                                                 Add to cart
@@ -115,5 +121,9 @@ const Wishlist = (props) => {
         </div>
     );
 };
-
-export default Wishlist;
+const mapDispatchToProps = dispatch => {
+    return {
+        doAddToCart: (data) => dispatch(doAddToCart(data))
+    }
+}
+export default connect(null,mapDispatchToProps)(Wishlist);
