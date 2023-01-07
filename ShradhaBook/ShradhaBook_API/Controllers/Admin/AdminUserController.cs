@@ -5,6 +5,8 @@ namespace ShradhaBook_API.Controllers.Admin;
 
 [Route("api/[controller]")]
 [ApiController]
+[Produces(MediaTypeNames.Application.Json)]
+[Consumes(MediaTypeNames.Application.Json)]
 public class AdminUserController : ControllerBase
 {
     private readonly IEmailService _emailService;
@@ -15,8 +17,14 @@ public class AdminUserController : ControllerBase
         _userService = userService;
         _emailService = emailService;
     }
-
+    /// <summary>
+    /// Register new user account
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost("register")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Register(UserRegisterRequest request)
     {
         var user = await _userService.Register(request);
@@ -42,9 +50,16 @@ public class AdminUserController : ControllerBase
         };
         return Ok(response);
     }
-
+    /// <summary>
+    /// Return all user accounts
+    /// </summary>
+    /// <param name="query"></param>
+    /// <param name="page"></param>
+    /// <param name="itemPerPage"></param>
+    /// <returns></returns>
     [HttpGet]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllUsers(string? query, int page = 1, int itemPerPage = 5)
     {
         var users = await _userService.GetAllUsers(query);
@@ -61,9 +76,15 @@ public class AdminUserController : ControllerBase
         };
         return Ok(new ServiceResponse<PaginationResponse<User>> { Data = response });
     }
-
+    /// <summary>
+    /// Return user account given by id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("{id:int}")]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetSingleUser(int id)
     {
         var user = await _userService.GetSingleUser(id);
@@ -71,9 +92,16 @@ public class AdminUserController : ControllerBase
             return NotFound(new ServiceResponse<User> { Status = false, Message = "User not found." });
         return Ok(new ServiceResponse<User> { Data = user });
     }
-
+    /// <summary>
+    /// Update user account name
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPut("update/{id:int}")]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateUser(int id, User request)
     {
         var user = await _userService.UpdateUser(id, request);
@@ -81,9 +109,16 @@ public class AdminUserController : ControllerBase
             return NotFound(new ServiceResponse<User> { Status = false, Message = "User not found." });
         return Ok(new ServiceResponse<User> { Data = user, Message = "User info has been updated successfully." });
     }
-
+    /// <summary>
+    /// Change user password given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPut("password/{id:int}")]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> ChangePassword(int id, UserChangePasswordRequest request)
     {
         var user = await _userService.ChangePassword(id, request);
@@ -91,9 +126,15 @@ public class AdminUserController : ControllerBase
             return BadRequest(new ServiceResponse<User> { Status = false, Message = "Old password not match." });
         return Ok(new ServiceResponse<User> { Data = user, Message = "Password has been changed successfully." });
     }
-
+    /// <summary>
+    /// Delete user account given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("delete/{id:int}")]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteUser(int id)
     {
         var user = await _userService.DeleteUser(id);

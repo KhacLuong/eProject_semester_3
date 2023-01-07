@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace ShradhaBook_API.Controllers.Admin;
 
 [Route("api/[controller]")]
+[Produces(MediaTypeNames.Application.Json)]
+[Consumes(MediaTypeNames.Application.Json)]
 [ApiController]
 public class AdminAuthorController : ControllerBase
 {
@@ -18,9 +20,18 @@ public class AdminAuthorController : ControllerBase
         _productService = productService;
         _mapper = mapper;
     }
-
+    /// <summary>
+    /// Return all author 
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="phone"></param>
+    /// <param name="sortBy"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
     // GET: api/Author
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<object>> GetAllAuthor(string? name, string? phone, int? sortBy = 0,
         int pageSize = 20, int pageIndex = 1)
     {
@@ -35,9 +46,15 @@ public class AdminAuthorController : ControllerBase
         //    return StatusCode(500, new MyServiceResponse<List<object>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         //}
     }
-
+    /// <summary>
+    /// Return author given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/Author/5
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<AuthorModelGet>> GetAuthor(int id)
     {
         try
@@ -54,10 +71,17 @@ public class AdminAuthorController : ControllerBase
                 new MyServiceResponse<AuthorModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         }
     }
-
+    /// <summary>
+    /// Update author given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // PUT: api/Author/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateAuthor(int id, AuthorModelPost model)
     {
         try
