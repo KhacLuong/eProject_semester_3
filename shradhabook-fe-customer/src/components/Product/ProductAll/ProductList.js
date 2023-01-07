@@ -8,6 +8,9 @@ import book14 from "../../../assets/image/books/book14.png"
 import {updateViewCountProductById} from "../../../services/apiService";
 import ProductGridView from "./ProductGridView";
 import ProductListView from "./ProductListView";
+import {connect} from "react-redux";
+import {doAddToCart} from '../../../redux/action/cartAction'
+
 const ProductList = (props) => {
     const navigate = useNavigate();
     const {
@@ -22,7 +25,8 @@ const ProductList = (props) => {
         handleSearchProduct,
         fetchListProducts,
         renderStar,
-        setOpen
+        setOpen,
+        userId,
     } = props
     const [hover, setHover] = useState(false);
     const [idProduct, setIdProduct] = useState(0);
@@ -101,8 +105,16 @@ const ProductList = (props) => {
         <div className={`show_product_list`}>
             {
                 activeLayout
-                    ? <ProductGridView listProducts={listProducts} hover={hover} setHover={setHover} handleClickGoProductDetail={handleClickGoProductDetail} handleOnMouseOver={handleOnMouseOver} imageProduct={imageProduct} idProduct={idProduct} renderStar={renderStar} setOpen={setOpen}/>
-                    : <ProductListView listProducts={listProducts} hover={hover} setHover={setHover} handleClickGoProductDetail={handleClickGoProductDetail} handleOnMouseOver={handleOnMouseOver} imageProduct={imageProduct} idProduct={idProduct} renderStar={renderStar} setOpen={setOpen}/>
+                    ? <ProductGridView userId={userId} listProducts={listProducts} hover={hover} setHover={setHover}
+                                       handleClickGoProductDetail={handleClickGoProductDetail}
+                                       handleOnMouseOver={handleOnMouseOver} imageProduct={imageProduct}
+                                       idProduct={idProduct} renderStar={renderStar} setOpen={setOpen}
+                                       doAddToCart={props.doAddToCart}/>
+                    : <ProductListView userId={userId} listProducts={listProducts} hover={hover} setHover={setHover}
+                                       handleClickGoProductDetail={handleClickGoProductDetail}
+                                       handleOnMouseOver={handleOnMouseOver} imageProduct={imageProduct}
+                                       idProduct={idProduct} renderStar={renderStar} setOpen={setOpen}
+                                       doAddToCart={props.doAddToCart}/>
             }
             <div className={`pagination flex items-center justify-center mt-10`}>
                 <ReactPaginate
@@ -130,5 +142,9 @@ const ProductList = (props) => {
         </div>
     </div>);
 };
-
-export default ProductList;
+const mapDispatchToProps = dispatch => {
+    return {
+        doAddToCart: (data) => dispatch(doAddToCart(data))
+    }
+}
+export default connect(null,mapDispatchToProps)(ProductList);

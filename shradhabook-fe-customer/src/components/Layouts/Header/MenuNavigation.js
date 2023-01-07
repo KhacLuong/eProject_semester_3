@@ -78,22 +78,22 @@ const MenuNavigation = () => {
                          className={({isActive}) => isActive ? 'active' : defaultClass}>
                     Products
                 </NavLink>
-                <a className={`relative flex items-center py-2 mx-4 justify-center cursor-pointer text-blackColor hover:text-dangerColor-default_2 md:p-0 ease-in duration-200 text-base font-medium`} onClick={handleShowMenuPage}>
-                    <div className={`flex`}>
-                        Pages<BiChevronDown className={`ml-1 text-xl`}/>
-                    </div>
-                    <ul className={`menu_page  ${showMenuPage?'block':'hidden'} absolute`}>
-                        {
-                            listMenuPage.map((item, index) => {
-                                return <li key={index}>
-                                    <div onClick={() => navigate(item.path)}>
-                                        {item.name}
-                                    </div>
-                                </li>
-                            })
-                        }
-                    </ul>
-                </a>
+                {/*<a className={`relative flex items-center py-2 mx-4 justify-center cursor-pointer text-blackColor hover:text-dangerColor-default_2 md:p-0 ease-in duration-200 text-base font-medium`} onClick={handleShowMenuPage}>*/}
+                {/*    <div className={`flex`}>*/}
+                {/*        Pages<BiChevronDown className={`ml-1 text-xl`}/>*/}
+                {/*    </div>*/}
+                {/*    <ul className={`menu_page  ${showMenuPage?'block':'hidden'} absolute`}>*/}
+                {/*        {*/}
+                {/*            listMenuPage.map((item, index) => {*/}
+                {/*                return <li key={index}>*/}
+                {/*                    <div onClick={() => navigate(item.path)}>*/}
+                {/*                        {item.name}*/}
+                {/*                    </div>*/}
+                {/*                </li>*/}
+                {/*            })*/}
+                {/*        }*/}
+                {/*    </ul>*/}
+                {/*</a>*/}
                 <NavLink to={'/blogs'}
                          className={({isActive}) => isActive ? 'active' : defaultClass}>
                     Blogs

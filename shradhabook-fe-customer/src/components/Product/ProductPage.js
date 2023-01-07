@@ -4,8 +4,10 @@ import ProductFilter from "./ProductFilter/ProductFilter";
 import ProductList from "./ProductAll/ProductList";
 import {getListAuthor, getListProduct, getListCategory} from "../../services/apiService";
 import {renderStar} from "../../ultis/renderStar";
+import jwt_decode from "jwt-decode";
+import {useSelector} from "react-redux";
 
-const ProductPage = (props) => {
+const ProductPage = (props,{doAddToCart}) => {
     const {setOpen} = props
     const minDistance = 0;
     const stars = [
@@ -61,7 +63,15 @@ const ProductPage = (props) => {
     const [activeCategory, setActiveCategory] = useState('');
     const [activeAuthor, setActiveAuthor] = useState('');
     const [bannerTitle, setBannerTitle] = useState('product')
+    const account = useSelector(state => state.user.account);
+    const [userId, setUserId] = useState('')
+
+    let decoded = ''
     useEffect(() => {
+        if (account.accessToken) {
+            decoded = jwt_decode(account.accessToken);
+            setUserId(decoded.Id)
+        }
         const fetchData = async () => {
             await fetchListProducts(pageIndex)
             await fetchListAuthor()
@@ -195,6 +205,7 @@ const ProductPage = (props) => {
                     activeAuthor={activeAuthor}
                 />
                 <ProductList
+                    userId={userId}
                     totalPage={totalPage}
                     listProducts={listProducts}
                     selectedSort={selectedSort}
@@ -207,10 +218,12 @@ const ProductPage = (props) => {
                     fetchListProducts={fetchListProducts}
                     renderStar={renderStar}
                     setOpen={setOpen}
+                    doAddToCart={doAddToCart}
                 />
             </div>
         </div>
     );
 };
+
 
 export default ProductPage;

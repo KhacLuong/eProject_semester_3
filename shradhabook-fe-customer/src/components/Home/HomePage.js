@@ -6,7 +6,7 @@ import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import parse from "html-react-parser";
 import {renderStar} from "../../ultis/renderStar";
-
+import './home.scss'
 import {getListCategory, updateViewCountProductById} from "../../services/apiService";
 import {MdAttractions, MdKeyboardArrowRight} from 'react-icons/md'
 import {HiOutlineStar, HiOutlineUsers, HiOutlineEmojiHappy} from 'react-icons/hi'
@@ -16,6 +16,8 @@ import {TiWeatherPartlySunny} from 'react-icons/ti'
 import {FiEye, FiHeart, FiShoppingBag} from "react-icons/fi";
 import {BiBookAlt} from "react-icons/bi";
 import {AiOutlineShoppingCart} from "react-icons/ai";
+
+import ImageBanner3 from '../../assets/image/banner/revslider_1.png'
 import ImageBanner4 from '../../assets/image/banner/revslider_book-4.png'
 import ImageBanner5 from '../../assets/image/banner/revslider_book-5.png'
 import ImageBanner6 from '../../assets/image/banner/h7_bn-2.png'
@@ -34,15 +36,19 @@ import {TbShoppingCart} from "react-icons/tb";
 import {Data} from '../Product/Data'
 import {useDispatch, useSelector} from "react-redux";
 import {doAddToCart} from "../../redux/action/cartAction";
-import ModalCart from "../../ultis/ModalCart";
+import {AddProductToWishList} from "../../ultis/AddProductToWishList";
+import jwt_decode from "jwt-decode";
 
 const HomePage = (props) => {
-    SwiperCore.use([Autoplay]);
+    // SwiperCore.use([Autoplay]);
     const navigate = useNavigate();
     const [listCategory, setListCategory] = useState([])
     const [activeTitle, setActiveTitle] = useState(1)
     const dispatch = useDispatch();
     const {setOpen} = props
+    const [userId, setUserId] = useState('')
+    const account = useSelector(state => state.user.account);
+    let decoded = ''
 
     const listIconCategory = [MdAttractions, HiOutlineStar, BsPencil, BsBook, GiVerticalBanner, GiChessQueen, TiWeatherPartlySunny]
     const listTopInWeek = [
@@ -82,6 +88,10 @@ const HomePage = (props) => {
 
 
     useEffect(() => {
+        if (account.accessToken) {
+            decoded = jwt_decode(account.accessToken);
+        }
+        setUserId(decoded.Id)
         const fetchData = async () => {
             await fetchListCategories()
         }
@@ -273,6 +283,26 @@ const HomePage = (props) => {
                             >
                                 <SwiperSlide>
                                     <div
+                                        style={{
+                                            backgroundImage: `url(${ImageBanner3})`,
+                                            backgroundSize: 'cover',
+                                            backgroundPosition: 'center'
+                                        }}
+                                        className={`h-full rounded-2xl flex px-20 py-36 flex items-center justify-end flex`}>
+                                        <div className={`text-darkColor uppercase font-medium w-2/5`}>
+                                            <div className={`text-sm mb-6`}>a sale for the page</div>
+                                            <div className={`text-4xl font-semiBold mb-4`}>50% off hundreds of books</div>
+                                            <div className={`w-2/3`}>
+                                                <span className={`text-dangerColor-default_2 ml-2`}>
+                                                     Online And In Stores Only
+                                                </span>
+                                            </div>
+                                            <BtnShopNow/>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <div
                                         className={`rounded-2xl bg-[#223d4d] flex px-20 py-20 items-center justify-between`}>
                                         <div className={`text-whiteColor uppercase font-medium`}>
                                             <div className={`text-sm mb-6`}>special offer</div>
@@ -366,7 +396,7 @@ const HomePage = (props) => {
                                                                                     className={`group_action absolute right-[10px] bottom-[10px] z-10`}>
                                                                                     <div
                                                                                         className={`shop_action flex flex-col items-start relative`}>
-                                                                                        <button
+                                                                                        <button onClick={()=>AddProductToWishList(userId, item.id)}
                                                                                             className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8'} 
                                                     actionBtn text-dangerColor-default_3 duration-300`}>
                                                                                             <FiHeart/>
@@ -671,7 +701,6 @@ const HomePage = (props) => {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

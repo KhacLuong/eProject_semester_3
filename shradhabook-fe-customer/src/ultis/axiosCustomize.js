@@ -1,9 +1,10 @@
 import axios from "axios";
 import NProgress from "nprogress"
 import {store} from '../redux/store'
+import {postRefreshToken} from "../services/apiService";
 
 const instance = axios.create({
-    baseURL: 'https://localhost:7000/api/'
+    baseURL: 'https://localhost:7000/api/',
 });
 
 NProgress.configure({
@@ -14,7 +15,7 @@ NProgress.configure({
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
     // Do something before request is sent
-    const access_token = store?.getState()?.user?.account?.accessToken
+    const access_token = store.getState().user.account.accessToken
     config.headers["Authorization"] = `Bearer ${access_token}`
     NProgress.start();
     return config;
@@ -29,10 +30,18 @@ instance.interceptors.response.use(function (response) {
     // Do something with response data
     NProgress.done();
     return response && response.data ? response.data : response;
-}, function (error) {
-
-    // token expired
-
+}, async function (error) {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true
+        const params = {
+            email: store.getState().user.account.email,
+            refreshToken: store.getState().user.account.refreshToken
+        }
+        const res = await postRefreshToken(params);
+        axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`
+        return instance(originalRequest)
+    }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     NProgress.done();

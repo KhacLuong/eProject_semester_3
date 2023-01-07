@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import book14 from "../../../assets/image/books/book14.png"
-import {getProductById, updateViewCountProductById} from "../../../services/apiService";
+import {getProduct, getProductById, updateViewCountProductById} from "../../../services/apiService";
 import {AiOutlineArrowRight} from 'react-icons/ai'
 import parse from "html-react-parser";
 import {FiEye, FiPackage, FiHeart, FiPlus} from "react-icons/fi";
@@ -14,9 +14,14 @@ import '../Product.scss'
 import {Data} from "../Data";
 import {renderStar} from "../../../ultis/renderStar";
 import {toast} from "react-toastify";
+import {AddProductToWishList} from "../../../ultis/AddProductToWishList";
+import jwt_decode from "jwt-decode";
+import { useSelector} from "react-redux";
+import {doAddToCart} from "../../../redux/action/cartAction";
+import {connect} from "react-redux";
 
 const ProductDetail = (props) => {
-    const {setOpen} = props
+    const {setOpen, doAddToCart} = props
     const {id, slug} = useParams();
     const navigate = useNavigate();
     const [imageProduct, setImageProduct] = useState(book14);
@@ -32,12 +37,26 @@ const ProductDetail = (props) => {
     const [categoryName, setCategoryName] = useState('')
     const [hover, setHover] = useState(false);
     const [idProduct, setIdProduct] = useState(0);
+    const [product, setProduct] = useState({})
     const tags = ['Action and Adventure', 'American Historical Romance', 'Humor', 'True Crime', 'Business', 'Bestsellers', 'Christian Fiction', 'Fantasy', 'Erotic Romance', 'Light Novel', 'Dark Romance & Erotica']
+
     const [count, setCount] = useState(1);
+    const [userId, setUserId] = useState('')
+    const account = useSelector(state => state.user.account);
+
+    let decoded = ''
 
     useEffect(() => {
-        fetchDetailProduct();
-    }, []);
+        if (account.accessToken) {
+            decoded = jwt_decode(account.accessToken);
+            setUserId(decoded.Id)
+        }
+        const fetchData = async () => {
+            await fetchDetailProduct();
+            await fetchProductById();
+        }
+        fetchData();
+    }, [id, slug]);
 
     const handleOnMouseOver = (event, index) => {
         setHover(true);
@@ -64,7 +83,12 @@ const ProductDetail = (props) => {
             setCategoryName(res.data.category.name)
         }
     }
-
+    const fetchProductById = async () => {
+        let res = await getProduct(id);
+        if(res && res.status === true) {
+            setProduct(res.data)
+        }
+    }
     const handleOnChangeQuantity = (count) => {
         if (typeof (count) === "object") {
             setCount(parseInt(count.target.value));
@@ -83,6 +107,11 @@ const ProductDetail = (props) => {
             toast.error('You can only buy up to 10 products')
         }
     }
+    const handleAddToCart = (data) => {
+        doAddToCart(data)
+        setOpen(true);
+    }
+
     const handleMinusQuantity = (e) => {
         e.preventDefault();
         let minus = count - 1
@@ -91,11 +120,6 @@ const ProductDetail = (props) => {
             minus = 1
             handleOnChangeQuantity(minus)
             toast.error('Must choose at least one product')
-        }
-        if (minus > 10) {
-            minus = 10
-            handleOnChangeQuantity(minus)
-            toast.error('You can only buy up to 10 products')
         }
     }
 
@@ -110,7 +134,6 @@ const ProductDetail = (props) => {
         } else {
             setCount(number)
         }
-
     }
     return (
         <div className={`product_details`}>
@@ -209,12 +232,12 @@ const ProductDetail = (props) => {
                                         </button>
                                     </div>
                                 </div>
-                                <div onClick={() => setOpen(true)}
+                                <div onClick={() => handleAddToCart(product)}
                                      className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor duration-300 bg-lime-600 hover:bg-lime-700 cursor-pointer`}>
                                     <BsFillCartFill className={`mr-2`}/>
                                     Add to cart
                                 </div>
-                                <div
+                                <div onClick={()=>AddProductToWishList(userId, id)}
                                     className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor bg-dangerColor-default_2 hover:bg-dangerColor-hover_2 duration-300 cursor-pointer`}>
                                     <BsFillSuitHeartFill className={`mr-2`}/>
                                     Add to wishlist
@@ -316,4 +339,9 @@ const ProductDetail = (props) => {
     );
 };
 
-export default ProductDetail;
+const mapDispatchToProps = dispatch => {
+    return {
+        doAddToCart: (data) => dispatch(doAddToCart(data))
+    }
+}
+export default connect(null,mapDispatchToProps)(ProductDetail);

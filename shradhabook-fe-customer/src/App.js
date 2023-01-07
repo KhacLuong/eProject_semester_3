@@ -19,24 +19,26 @@ import Me from "./components/Auth/Me";
 import MyHistory from "./components/Auth/MyHistory";
 import CategoryPage from "./components/Category/CategoryPage";
 import ModalCart from './ultis/ModalCart'
+import Checkout from "./components/Shopping/Checkout";
 const App = () => {
     const [open, setOpen] = useState(false)
     return (
         <>
             <Routes>
-                <Route path={'/'} element={<Layout/>}>
+                <Route path={'/'} element={<Layout setOpen={setOpen}/>}>
                     <Route path={'/'} index element={<HomePage setOpen={setOpen}/>}/>
                     <Route path={'/categories/:id/:slug'} element={<CategoryPage/>}/>
                     <Route path={'/products'} element={<ProductPage setOpen={setOpen}/>}/>
-                    <Route path={`/products/product-detail/:id/:slug`} element={<ProductDetail setOpen={setOpen}/>}/>
+                    <Route path={`/products/product-detail/:id/:slug`} element={ <ProductDetail setOpen={setOpen} />} />
                     <Route path={'/blogs'} element={<BlogPage/>}/>
                     <Route path={'/blogs/blog-detail/:id/:slug'} element={<BlogDetail/>}/>
                     <Route path={'/contact'} element={<ContactPage/>}/>
                     <Route path={'/user/wishlist/:id'} element={<PrivateRoute>
-                        <Wishlist/>
+                        <Wishlist setOpen={setOpen} />
                     </PrivateRoute>}/>
-                    <Route path={'/user/shopping-cart/:id'} element={<PrivateRoute>
-                        <Cart/>
+                    <Route path={'shopping-cart'} element={<Cart/>}/>
+                    <Route path={'/user/checkout/:id'} element={<PrivateRoute>
+                        <Checkout/>
                     </PrivateRoute>}/>
                     <Route path={'/user/my-profile/:id'} element={<PrivateRoute>
                         <Me/>

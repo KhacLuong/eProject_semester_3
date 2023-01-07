@@ -4,7 +4,7 @@ import {TbShoppingCart} from "react-icons/tb";
 import parse from "html-react-parser";
 import {BiCommentDetail} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
-
+import {AddProductToWishList} from "../../../ultis/AddProductToWishList";
 const ProductGridView = (props) => {
     const navigate = useNavigate();
     const {
@@ -16,8 +16,14 @@ const ProductGridView = (props) => {
         hover,
         idProduct,
         renderStar,
-        setOpen
+        setOpen,
+        userId,
+        doAddToCart
     } = props
+    const handleAddToCart = (data) => {
+        doAddToCart(data)
+        setOpen(true)
+    }
     return (
         <div className={`render_product grid grid-cols-3 gap-4 py-3`}>
             {listProducts.map((item, index) => {
@@ -36,7 +42,7 @@ const ProductGridView = (props) => {
                             </div>
                             <div className={`group_action absolute right-[10px] bottom-[10px] z-10`}>
                                 <div className={`shop_action flex flex-col items-start relative`}>
-                                    <button
+                                    <button onClick={()=>AddProductToWishList(userId, item.id)}
                                         className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8'} 
                                                     actionBtn text-dangerColor-default_3 duration-300`}>
                                         <FiHeart/></button>
@@ -45,7 +51,7 @@ const ProductGridView = (props) => {
                                          className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible' + ' translate-x-0' : 'opacity-0 translate-x-8' + ' invisible'} actionBtn delay-100 duration-300`}>
                                         <FiEye/>
                                     </div>
-                                    <button onClick={() => setOpen(true)}
+                                    <button onClick={() => handleAddToCart(item)}
                                             className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8 invisible'} actionBtn delay-200 duration-300`}>
                                         <TbShoppingCart/></button>
                                 </div>
