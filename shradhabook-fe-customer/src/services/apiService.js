@@ -1,4 +1,6 @@
 import instance from "../ultis/axiosCustomize";
+import {doRefreshToken} from "../redux/action/userAction";
+import {useDispatch} from "react-redux";
 
 
 // =================== API FOR USER ===================
@@ -12,9 +14,14 @@ const postCreateUser = (name, email, password, confirmPassword, userType) => {
     }
     return instance.post('User/register', data)
 }
-const postRefreshToken = (query) => {
-    return instance.post(`Auth/refresh-token`, {
-        params: query
+const PostRefreshToken = (email, refreshToken) => {
+    const dispatch = useDispatch();
+    return instance.post(`Auth/refresh-token`, {email,refreshToken}).then((res) => {
+        const data = {
+            refreshToken: res.data.refreshToken,
+            accessToken: res.data.accessToken
+        }
+        dispatch(doRefreshToken(data))
     })
 }
 const postLogin = (email, password) => {
@@ -59,9 +66,20 @@ const getWishListById = (id, query) => {
 const postProductToWishList = (userId, productId) => {
     return instance.post(`WishListUser?userId=${userId}&prouctId=${productId}`)
 }
-
 const deleteProductInWishList = (userId, productId) => {
-    return instance.post(`WishListUser?userId=${userId}&prouctId=${productId}`)
+    return instance.delete(`WishListUser?userId=${userId}&prouctId=${productId}`)
+}
+const getCountProductInWishList = (userId) => {
+    return instance.get(`WishListUser/GetTotalWishListAndCart${userId}`)
+}
+const getListProductMostView = (number) => {
+    return instance.get(`Products/GetProductByTheMostView?numberRetrieving=${number}`)
+}
+const getListProductLatestReleases = (number) => {
+    return instance.get(`Products/GetProductByLatestReleases?numberRetrieving=${number}`)
+}
+const getListProductLowestPrice = (number) => {
+    return instance.get(`Products/GetProductByTheLowestPrice?numberRetrieving=${number}`)
 }
 
-export {postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo, updateViewCountProductById, getProductById, getProduct, postRefreshToken, getListAuthor, getWishListById, postProductToWishList}
+export {postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo, updateViewCountProductById, getProductById, getProduct, PostRefreshToken, getListAuthor, getWishListById, postProductToWishList, getListProductMostView, getListProductLatestReleases, getListProductLowestPrice, deleteProductInWishList, getCountProductInWishList}

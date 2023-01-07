@@ -97,7 +97,6 @@ const CartItem = (props) => {
                             <span className="m-auto font-thin"><HiOutlineMinusSm/></span>
                         </button>
                         <input
-                            id={`custom-input-number`}
                             className="py-[10px] w-[50%] border-0 text-center text-[12px] font-bold text-blackColor flex-1"
                             value={count}
                             onChange={handleOnChangeQuantity}

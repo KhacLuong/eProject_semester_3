@@ -28,12 +28,12 @@ const ProductPage = (props,{doAddToCart}) => {
         },
     ]
     const optionSort = [
-        {value: '', text: 'Default sorting'},
-        {value: 'popularity', text: 'Sort by popularity'},
-        {value: 'rating', text: 'Sort by average rating'},
-        {value: 'date', text: 'Sort by latest'},
-        {value: 'price', text: 'Sort by price: low to high'},
-        {value: 'price-desc', text: 'Sort by price: high to low'},
+        {id: 0, value: '', text: 'Default sorting'},
+        {id: 1, value: 'popularity', text: 'Sort by name'},
+        {id: 2, value: 'rating', text: 'Sort by most view'},
+        {id: 3, value: 'date', text: 'Sort by release date'},
+        {id: 4, value: 'price', text: 'Sort by price: high to low'},
+        {id: 5, value: 'price-desc', text: 'Sort by price: low to high'},
     ]
     const optionQuantity = [
         {value: '6', text: '6'},
@@ -43,7 +43,7 @@ const ProductPage = (props,{doAddToCart}) => {
         {value: '18', text: '18'},
     ]
 
-    const [selectedSort, setSelectedSort] = useState(optionSort[0].value);
+    const [selectedSort, setSelectedSort] = useState(optionSort[0].id);
     const [selectedPerPage, setSelectedPerPage] = useState(optionQuantity[1].value);
     const [listProducts, setListProducts] = useState([])
     const [listAuthor, setListAuthor] = useState([])
@@ -79,36 +79,14 @@ const ProductPage = (props,{doAddToCart}) => {
         }
         fetchData();
     }, [])
+
     useEffect(() => {
         const fetchData = async () => {
             await fetchListProducts(pageIndex)
         }
         fetchData();
-    }, [selectedPerPage])
-    useEffect(() => {
-        const fetchData = async () => {
-            await fetchListProducts(pageIndex)
-        }
-        fetchData();
-    }, [lowPrice, hightPrice])
-    useEffect(() => {
-        const fetchData = async () => {
-            await fetchListProducts(pageIndex)
-        }
-        fetchData();
-    }, [AuthorName])
-    useEffect(() => {
-        const fetchData = async () => {
-            await fetchListProducts(pageIndex)
-        }
-        fetchData();
-    }, [categoryName])
-    useEffect(() => {
-        const fetchData = async () => {
-            await fetchListProducts(pageIndex)
-        }
-        fetchData();
-    }, [name])
+    }, [selectedPerPage, lowPrice, hightPrice,AuthorName, categoryName, name, selectedSort ])
+
     const handleUpdatePrice = (e, data, activeThumb) => {
         if (!Array.isArray(data)) {
             return;
@@ -152,6 +130,7 @@ const ProductPage = (props,{doAddToCart}) => {
         setAuthorName('')
         setActiveAuthor('')
     }
+
     const fetchListProducts = async (page) => {
         setPageIndex(page)
         const params = {
@@ -162,7 +141,7 @@ const ProductPage = (props,{doAddToCart}) => {
             'AuthorName': AuthorName,
             'lowPrice': lowPrice,
             'hightPrice': hightPrice,
-            'sortBy': sortBy,
+            'sortBy': selectedSort,
             'pageSize': selectedPerPage,
             'pageIndex': page
         }
@@ -172,6 +151,7 @@ const ProductPage = (props,{doAddToCart}) => {
             setListProducts(res.data.products)
         }
     }
+
     const fetchListAuthor = async () => {
         let res = await getListAuthor()
         if (res.status === true) {

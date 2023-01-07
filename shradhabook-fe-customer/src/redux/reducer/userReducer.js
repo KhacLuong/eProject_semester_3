@@ -38,14 +38,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 isAuthenticated: false
             }
         case REFRESH_USER_TOKEN:
+            console.log(action.payload)
             return {
                 ...state,
                 account: {
                     accessToken: action?.payload?.data?.accessToken,
                     refreshToken: action?.payload?.data?.refreshToken,
-                    username: action?.payload?.data?.name,
-                    email: action?.payload?.data?.email,
-                    user_type: action?.payload?.data?.userType,
                 },
                 isAuthenticated: true
             }
