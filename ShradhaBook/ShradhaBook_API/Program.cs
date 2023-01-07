@@ -24,6 +24,7 @@ global using ShradhaBook_ClassLibrary.Entities;
 global using ShradhaBook_ClassLibrary.Request;
 global using ShradhaBook_ClassLibrary.Response;
 global using ShradhaBook_ClassLibrary.ViewModels;
+global using System.Net.Mime;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,7 @@ using Microsoft.Extensions.Azure;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using System.Reflection;
 //using ShradhaBook_API.Services.RateService;
 using ShradhaBook_API.Services.WishListProductService;
 using ShradhaBook_API.Services.CommentService;
@@ -40,7 +42,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -91,6 +92,11 @@ builder.Services.AddSwaggerGen(options =>
     });
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
+
+    // Generate the xml docs that'll drive the swagger docs
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
 });
 
 // Automapper

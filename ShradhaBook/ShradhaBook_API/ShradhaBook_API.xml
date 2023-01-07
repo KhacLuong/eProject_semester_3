@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ShradhaBook_API</name>
+    </assembly>
+    <members>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminAddressController.CreateAddress(ShradhaBook_ClassLibrary.Request.AddAddressRequest)">
+            <summary>
+            Create new address
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminAddressController.GetAllAddresses(System.Int32)">
+            <summary>
+            Return all address given user info id
+            </summary>
+            <param name="userInfoId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminAddressController.UpdateAddress(System.Int32,ShradhaBook_ClassLibrary.Entities.Address)">
+            <summary>
+            Update address information, given address id
+            </summary>
+            <param name="id"></param>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminAddressController.DeleteAddress(System.Int32)">
+            <summary>
+            Delete an address given address id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminAuthorController.GetAllAuthor(System.String,System.String,System.Nullable{System.Int32},System.Int32,System.Int32)">
+            <summary>
+            Return all author 
+            </summary>
+            <param name="name"></param>
+            <param name="phone"></param>
+            <param name="sortBy"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminAuthorController.GetAuthor(System.Int32)">
+            <summary>
+            Return author given id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminAuthorController.UpdateAuthor(System.Int32,ShradhaBook_ClassLibrary.ViewModels.AuthorModelPost)">
+            <summary>
+            Update author given id
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserController.Register(ShradhaBook_ClassLibrary.Request.UserRegisterRequest)">
+            <summary>
+            Register new user account
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserController.GetAllUsers(System.String,System.Int32,System.Int32)">
+            <summary>
+            Return all user accounts
+            </summary>
+            <param name="query"></param>
+            <param name="page"></param>
+            <param name="itemPerPage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserController.GetSingleUser(System.Int32)">
+            <summary>
+            Return user account given by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserController.UpdateUser(System.Int32,ShradhaBook_ClassLibrary.Entities.User)">
+            <summary>
+            Update user account name
+            </summary>
+            <param name="id"></param>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserController.ChangePassword(System.Int32,ShradhaBook_ClassLibrary.Request.UserChangePasswordRequest)">
+            <summary>
+            Change user password given id
+            </summary>
+            <param name="id"></param>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserController.DeleteUser(System.Int32)">
+            <summary>
+            Delete user account given id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

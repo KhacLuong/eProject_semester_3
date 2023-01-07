@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ShradhaBook_API.Controllers.Customer;
+namespace ShradhaBook_API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

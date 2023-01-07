@@ -1,18 +1,16 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using NLipsum.Core;
+using System.Security.Cryptography;
+using System.Text;
 using ShradhaBook_ClassLibrary.ViewModels;
-
 
 namespace ShradhaBook_API.Data;
 
 public class DataContext : DbContext
 {
-    // Seeding Data
-    private static readonly Random _random = new();
-    private static readonly LipsumGenerator generator = new();
-
+    private readonly DataContext _context;
+    private readonly Random _random = new();
+    private readonly LipsumGenerator _generator = new();
 
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
@@ -70,14 +68,54 @@ public class DataContext : DbContext
             "Science Fiction & Fantasy", "Self-Help", "Sports & Outdoors", "Teen & Young Adult", "Test Preparation",
             "Travel"
         };
-        for (var i = 1; i <= 20; i++)
+        modelBuilder.Entity<User>().HasData(
+            new User()
+            {
+                Id = 1,
+                Name = "admin",
+                Email = "admin@mail.com",
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                VerificationToken = Convert.ToHexString(RandomNumberGenerator.GetBytes(64)),
+                UserType = "Admin",
+                CreateAt = DateTime.Now
+            });
+        modelBuilder.Entity<UserInfo>().HasData(
+            new UserInfo()
+            {
+                Id = 1,
+                UserId = 1,
+                Phone = "0"
+                        + _random.Next(0, 9) + _random.Next(0, 9) + _random.Next(0, 9)
+                        + _random.Next(0, 9) + _random.Next(0, 9) + _random.Next(0, 9)
+                        + _random.Next(0, 9) + _random.Next(0, 9) + _random.Next(0, 9),
+                Gender = gender[_random.Next(1, 100) < 50 ? 0 : 1],
+                DateofBirth = Convert.ToDateTime("2000/01/01"),
+                CreateAt = DateTime.Now
+            });
+        modelBuilder.Entity<Address>().HasData(
+            new Address()
+            {
+                Id = 1,
+                UserInfoId = 1,
+                AddressLine1 = "8 Ton That Thuyet",
+                AddressLine2 = "",
+                District = "Cau Giay",
+                City = "Hanoi",
+                Country = "VN",
+                CreateAt = DateTime.Now
+            });
+        for (var i = 2; i <= 20; i++)
         {
-            var name = generator.GenerateWords(1)[0];
+            var name = _generator.GenerateWords(1)[0];
             var day = _random.Next(1, 31);
             var month = _random.Next(1, 12);
-            if (month == 2 && day > 28)
-                day = 28;
-            else if ((month == 4 || month == 6 || month == 9 || month == 11) && day == 31) day = 30;
+            day = month switch
+            {
+                2 when day > 28 => 28,
+                4 or 6 or 9 or 11 when day == 31 => 30,
+                _ => day
+            };
             var year = 2022 - _random.Next(0, 80);
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -88,10 +126,11 @@ public class DataContext : DbContext
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                     VerificationToken = Convert.ToHexString(RandomNumberGenerator.GetBytes(64)),
-                    UserType = "user",
+                    UserType = "",
                     CreateAt = DateTime.Now
                 }
             );
+
             modelBuilder.Entity<UserInfo>().HasData(
                 new UserInfo
                 {
@@ -106,17 +145,17 @@ public class DataContext : DbContext
                     CreateAt = DateTime.Now
                 }
             );
-            var address1 = generator.GenerateWords(6);
-            var address2 = generator.GenerateWords(6);
+            var address1 = _generator.GenerateWords(6);
+            var address2 = _generator.GenerateWords(6);
+
             modelBuilder.Entity<Address>().HasData(
                 new Address
                 {
                     Id = i * 2 - 1,
                     AddressLine1 = address1[0] + " " + address1[1] + " " + address1[2],
                     AddressLine2 = address1[3] + " " + address1[4],
-                    District = generator.GenerateWords(1)[0],
-                    City = generator.GenerateWords(1)[0],
-                    Postcode = _random.Next(10000, 99999),
+                    District = _generator.GenerateWords(1)[0],
+                    City = _generator.GenerateWords(1)[0],
                     UserInfoId = i,
                     CreateAt = DateTime.Now
                 },
@@ -125,9 +164,8 @@ public class DataContext : DbContext
                     Id = i * 2,
                     AddressLine1 = address2[0] + " " + address2[1] + " " + address2[2],
                     AddressLine2 = address2[3] + " " + address2[4],
-                    District = generator.GenerateWords(1)[0],
-                    City = generator.GenerateWords(1)[0],
-                    Postcode = _random.Next(10000, 99999),
+                    District = _generator.GenerateWords(1)[0],
+                    City = _generator.GenerateWords(1)[0],
                     UserInfoId = i,
                     CreateAt = DateTime.Now
                 }
@@ -135,33 +173,34 @@ public class DataContext : DbContext
             modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
-                    Id = i,
+                    Id = i - 1,
                     Code = "PR",
-                    Name = generator.GenerateWords(1)[0],
-                    CategoryId = _random.Next(1, 7),
+                    Name = _generator.GenerateWords(1)[0],
+                    CategoryId = _random.Next(8, 31),
                     AuthorId = _random.Next(1, 20),
-                    Price = _random.Next(100, 10000),
+                    Price = _random.Next(100, 1000),
                     Quantity = _random.Next(10, 1000),
                     ManufacturerId = _random.Next(1, 20),
                     Status = 1,
-                    ImageProductPath = generator.GenerateWords(1)[0],
-                    Slug = generator.GenerateWords(1)[0],
+                    ImageProductPath = $"https://erojectaspnet.blob.core.windows.net/products/book{i - 1}.png",
+                    ImageProductName = $"book{i - 1}",
+                    Slug = _generator.GenerateWords(1)[0],
                     ViewCount = _random.Next(0, 100)
                 }
             );
             modelBuilder.Entity<Author>().HasData(
                 new Author
                 {
-                    Id = i,
-                    Name = generator.GenerateWords(1)[0]
+                    Id = i - 1,
+                    Name = _generator.GenerateWords(1)[0]
                 }
             );
             modelBuilder.Entity<Manufacturer>().HasData(
                 new Manufacturer
                 {
-                    Id = i,
-                    Code = "MA",
-                    Name = generator.GenerateWords(1)[0]
+                    Id = i - 1,
+                    Code = "MAF",
+                    Name = "MAF " + _generator.GenerateWords(1)[0]
                 }
             );
         }
@@ -173,20 +212,27 @@ public class DataContext : DbContext
                     Id = i,
                     Code = cat[i - 1][..2],
                     Name = cat[i - 1],
-                    Description = generator.GenerateParagraphs(1)[0],
+                    Description = _generator.GenerateParagraphs(1)[0],
                     Slug = cat[i - 1].ToLower(),
                     ParentId = 0,
                     Status = 1
                 }
             );
+        for (var i = 8; i <= 39; i++)
+        {
+            modelBuilder.Entity<Category>().HasData(
+                new Category
+                {
+                    Id = i,
+                    Code = bookcat[i - 8][..2],
+                    Name = bookcat[i - 8],
+                    Description = _generator.GenerateParagraphs(1)[0],
+                    Slug = bookcat[i - 8].ToLower(),
+                    ParentId = 1,
+                    Status = 1
+                }
+            );
         }
-
-
-
-
-
-
-
     }
 
 

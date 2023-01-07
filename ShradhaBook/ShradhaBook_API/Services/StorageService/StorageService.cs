@@ -33,7 +33,7 @@ public class StorageService : IStorageService
 
         using var stream = formFile.OpenReadStream();
         blobClient.Upload(stream, true);
-        userInfo.Avatar = fileName;
+        userInfo.Avatar = "https://erojectaspnet.blob.core.windows.net/avatar/" + fileName;
         _context.SaveChanges();
         return "ok";
     }
@@ -50,7 +50,7 @@ public class StorageService : IStorageService
 
         using var stream = formFile.OpenReadStream();
         blobClient.Upload(stream, true);
-        product.ImageProductPath = fileName;
+        product.ImageProductPath = "https://erojectaspnet.blob.core.windows.net/products/" + fileName;
         product.ImageProductName = fileName[..16];
         _context.SaveChanges();
         return "OK";
