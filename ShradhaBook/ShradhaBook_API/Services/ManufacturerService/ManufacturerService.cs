@@ -17,8 +17,8 @@ public class ManufacturerService : IManufacturerService
     public async Task<int> AddManufacturerAsync(ManufacturerModelPost model)
     {
         if (model.PhoneNumber.Trim() != null && !Helpers.Helpers.IsValidPhone(model.PhoneNumber))
-            return MyStatusCode.FAILURE;
-        if (model.Email.Trim() != null && !Helpers.Helpers.IsValidEmail(model.Email)) return MyStatusCode.FAILURE;
+            return MyStatusCode.PHONE_INVALID;
+        if (model.Email.Trim() != null && !Helpers.Helpers.IsValidEmail(model.Email)) return MyStatusCode.EMAIL_INVALID;
 
         if (model.Code.Trim().Length < 3 || !Helpers.Helpers.IsValidCode(model.Code)) return MyStatusCode.FAILURE;
         if (model.Name.Trim() == null || model.Name.Trim().Length < 1) return MyStatusCode.FAILURE;
@@ -73,8 +73,8 @@ public class ManufacturerService : IManufacturerService
         if (id == model.Id)
         {
             if (model.PhoneNumber.Trim() != null && !Helpers.Helpers.IsValidPhone(model.PhoneNumber))
-                return MyStatusCode.FAILURE;
-            if (model.Email.Trim() != null && !Helpers.Helpers.IsValidEmail(model.Email)) return MyStatusCode.FAILURE;
+                return MyStatusCode.PHONE_INVALID;
+            if (model.Email.Trim() != null && !Helpers.Helpers.IsValidEmail(model.Email)) return MyStatusCode.EMAIL_INVALID;
             if (model.Code.Trim().Length < 3 || !Helpers.Helpers.IsValidCode(model.Code)) return MyStatusCode.FAILURE;
             if (model.Name.Trim() == null || model.Name.Trim().Length < 1) return MyStatusCode.FAILURE;
             if (_context.Manufacturers.Any(m => m.Code == model.Code && m.Id != model.Id))

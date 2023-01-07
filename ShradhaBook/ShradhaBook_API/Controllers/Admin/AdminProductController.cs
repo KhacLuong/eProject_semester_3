@@ -98,7 +98,7 @@ public class AdminProductController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProduct(int id, ProductModelPost model)
     {
-        try
+        //try
         {
             var status = await _productService.UpdateProductAsync(id, model);
             if (status == MyStatusCode.DUPLICATE_CODE)
@@ -117,11 +117,11 @@ public class AdminProductController : ControllerBase
 
             return BadRequest(new MyServiceResponse<ManufacturerModelGet>(false, MyStatusCode.UPDATE_FAILURE_RESULT));
         }
-        catch
-        {
-            return StatusCode(500,
-                new MyServiceResponse<ManufacturerModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
-        }
+        //catch
+        //{
+        //    return StatusCode(500,
+        //        new MyServiceResponse<ManufacturerModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        //}
     }
 
     // POST: api/AdminProduct

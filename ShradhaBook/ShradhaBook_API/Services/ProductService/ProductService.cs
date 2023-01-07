@@ -193,10 +193,10 @@ public class ProductService : IProductService
     {
         if (id == model.Id)
         {
-            var categoty = (Category)_context.Categories.Where(m => m.Id == model.CategoryId);
-            var manufacturer = (Manufacturer)_context.Manufacturers.Where(m => m.Id == model.ManufacturerId);
-            var code = categoty.Code.Trim().Substring(0, 2) + categoty.Code.Trim().Substring(0, 3);
-            model.Code = code.ToUpper();
+            var categoty = _context.Categories.SingleOrDefault(m => m.Id == model.CategoryId);
+            var manufacturer = _context.Manufacturers.SingleOrDefault(m => m.Id == model.ManufacturerId);
+            //var code = categoty.Code.Trim().Substring(0, 2) + manufacturer.Code.Trim().Substring(0, 3);
+            //model.Code = code.ToUpper();
             //if (model.Code.Length != 7 || !Helpers.Helpers.IsValidCode(model.Code))
             //{
             //    return MyStatusCode.FAILURE;
@@ -216,12 +216,12 @@ public class ProductService : IProductService
 
             if (_context.Products.Any(c => c.Name.Trim() == model.Name.Trim() && c.Id != model.Id))
                 return MyStatusCode.DUPLICATE_NAME;
-            model.Code = "ABC";
+
             model.Slug = Helpers.Helpers.Slugify(model.Name);
 
             var modelOld = await _context.Products.FindAsync(id);
             modelOld.Name = model.Name;
-            modelOld.Code = model.Code;
+            modelOld.Code = model.Code.ToUpper();
             modelOld.Slug = model.Slug;
             modelOld.Description = model.Description;
             modelOld.CategoryId = model.CategoryId;
@@ -268,7 +268,7 @@ public class ProductService : IProductService
         {
             Products = result,
             totalProduct = allModel.Count,
-            totalPage
+            totalPages = totalPage
         };
     }
 
@@ -348,19 +348,107 @@ public class ProductService : IProductService
         return false;
     }
 
-    public async Task<bool> IncreaseViewCountProduct(int id)
-    {
-        var model = await _context.Products.FindAsync(id);
-        if (model != null)
+
+        public async Task<bool> IncreaseViewCountProduct(int id)
         {
-            model.ViewCount++;
-            _context.Products.Update(model);
-            await _context.SaveChangesAsync();
-            return true;
+            var model = await _context.Products.FindAsync(id);
+            if (model != null)
+            {
+                model.ViewCount++;
+                _context.Products.Update(model);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
-        return false;
-    }
+
+
+        public async  Task<object> GetProductWishListByUserIdAsync(int id, int pageSize = 20, int pageIndex = 1)
+        {
+
+            IEnumerable<Product>? query = null;
+            query = await (from P in _context.Products
+                           join wp in _context.WishListProducts
+                           on P.Id equals wp.ProductId
+                           join w in _context.WishLists.Where(w=>w.UserId==id)
+                           on wp.WishListId equals w.Id
+                         
+                           select P).ToListAsync();
+
+
+            IEnumerable<ProductModelGet>? queryModdelGet = null;
+        
+        
+                queryModdelGet = (from P in query
+                                  join M in _context.Manufacturers
+                                  on P.ManufacturerId equals M.Id
+                                  join A in _context.Authors
+                                  on P.AuthorId equals A.Id
+                                  join C in _context.Categories
+                                  on P.CategoryId equals C.Id
+                                  select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
+                              P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star, P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToList();
+            var allModel = queryModdelGet.ToList();
+            
+            var models = PaginatedList<ProductModelGet>.Create(allModel, pageIndex, pageSize);
+            var totalPage = PaginatedList<ProductModelGet>.totlalPage(allModel, pageSize);
+            var result = _mapper.Map<List<ProductModelGet>>(models);
+            return new
+            {
+                Products = result,
+                totalPages = totalPage
+            };
+        }
+
+        public async Task<ProductDetail> GetProductDetailAsync(string slug)
+        {
+
+            var model = await(from P in _context.Products.Where(m => m.Slug == slug)
+                              join M in _context.Manufacturers
+                              on P.ManufacturerId equals M.Id
+                              join A in _context.Authors
+                              on P.AuthorId equals A.Id
+                              join C in _context.Categories
+                              on P.CategoryId equals C.Id
+                              select new ProductDetail(P.Id, P.Code, P.Name, _mapper.Map<CategoryModelGet>(C), P.Price, P.Quantity, _mapper.Map<ManufacturerModelGet>(M), _mapper.Map<AuthorModelGet>(A), P.Description,
+                              P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star, P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
+
+            if (model == null || model.Count == 0)
+            {
+                return null;
+            }
+            var result = model[0];
+            return result;
+        }
+
+ 
+    public async Task<object> GetProductBySlugCategoryAsync(string categorySlug, int? sortBy = 0, int pageSize = 20, int pageIndex = 1)
+        {
+            IEnumerable<ProductModelGet>? query = null;
+            query = await(from P in _context.Products
+                          join M in _context.Manufacturers
+                          on P.ManufacturerId equals M.Id
+                          join A in _context.Authors
+                          on P.AuthorId equals A.Id
+                          join C in _context.Categories.Where(c=>c.Slug.Equals(categorySlug))
+                          on P.CategoryId equals C.Id
+                          select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
+                      P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star, P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
+
+            var allModel = SortProduct(query, sortBy);
+            var models = PaginatedList<ProductModelGet>.Create(allModel, pageIndex, pageSize);
+            var totalPage = PaginatedList<ProductModelGet>.totlalPage(allModel, pageSize);
+            var result = _mapper.Map<List<ProductModelGet>>(models);
+            return new
+            {
+                Products = result,
+                totalProduct = allModel.Count,
+                totalPage = totalPage
+            };
+        }
+
+
 
 
     public List<ProductModelGet> SortProduct(IEnumerable<ProductModelGet> query, int? sortBy = 0)
@@ -395,85 +483,10 @@ public class ProductService : IProductService
         return result;
     }
 
-    public async Task<object> GetProductWishListByUserIdAsync(int id, int pageSize = 20, int pageIndex = 1)
-    {
-        IEnumerable<Product>? query = null;
-        query = await (from p in _context.Products
-            from w in p.WishLists
-            from wu in w.WishListUsers
-            where wu.UserId == id
-            select p).ToListAsync();
 
 
-        IEnumerable<ProductModelGet>? queryModdelGet = null;
 
-
-        queryModdelGet = (from P in query
-            join M in _context.Manufacturers
-                on P.ManufacturerId equals M.Id
-            join A in _context.Authors
-                on P.AuthorId equals A.Id
-            join C in _context.Categories
-                on P.CategoryId equals C.Id
-            select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
-                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star,
-                P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToList();
-        var allModel = queryModdelGet.ToList();
-
-        var models = PaginatedList<ProductModelGet>.Create(allModel, pageIndex, pageSize);
-        var totalPage = PaginatedList<ProductModelGet>.totlalPage(allModel, pageSize);
-        var result = _mapper.Map<List<ProductModelGet>>(models);
-        return new
-        {
-            Products = result, totalPage
-        };
-    }
-
-    public async Task<ProductDetail> GetProductDetailAsync(string slug)
-    {
-        var model = await (from P in _context.Products.Where(m => m.Slug == slug)
-            join M in _context.Manufacturers
-                on P.ManufacturerId equals M.Id
-            join A in _context.Authors
-                on P.AuthorId equals A.Id
-            join C in _context.Categories
-                on P.CategoryId equals C.Id
-            select new ProductDetail(P.Id, P.Code, P.Name, _mapper.Map<CategoryModelGet>(C), P.Price, P.Quantity,
-                _mapper.Map<ManufacturerModelGet>(M), _mapper.Map<AuthorModelGet>(A), P.Description,
-                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star,
-                P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
-
-        if (model == null || model.Count == 0) return null;
-        var result = model[0];
-        return result;
-    }
-
-    public async Task<object> GetProductBySlugCategoryAsync(string categorySlug, int? sortBy = 0, int pageSize = 20,
-        int pageIndex = 1)
-    {
-        IEnumerable<ProductModelGet>? query = null;
-        query = await (from P in _context.Products
-            join M in _context.Manufacturers
-                on P.ManufacturerId equals M.Id
-            join A in _context.Authors
-                on P.AuthorId equals A.Id
-            join C in _context.Categories.Where(c => c.Slug.Equals(categorySlug))
-                on P.CategoryId equals C.Id
-            select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
-                P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star,
-                P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
-
-        var allModel = SortProduct(query, sortBy);
-        var models = PaginatedList<ProductModelGet>.Create(allModel, pageIndex, pageSize);
-        var totalPage = PaginatedList<ProductModelGet>.totlalPage(allModel, pageSize);
-        var result = _mapper.Map<List<ProductModelGet>>(models);
-        return new
-        {
-            Products = result,
-            totalProduct = allModel.Count,
-            totalPage
-        };
-    }
+   
 
     public async Task<ProductModel> GetProduct2Async(int id)
     {
@@ -502,16 +515,6 @@ public class ProductService : IProductService
             .ToListAsync();
         return _mapper.Map<List<ProductModelGet>>(latestRelease);
     }
-    //public async Task<List<ProductModelGet>> GetProductBysLatestRelseasesAsync(int numberRetrieving)
-    //{
-    //    IEnumerable<ProductModelGet>? query = null;
-    //        query = await(from P in _context.Products
-    //                      join OI in _context.OrderItems.W
 
 
-    //                      select new ProductModelGet(P.Id, P.Code, P.Name, C.Name, P.Price, P.Quantity, M.Name, A.Name, P.Description,
-    //                  P.Intro, P.ImageProductPath, P.ImageProductName, MyStatus.changeStatusCat(P.Status), P.Slug, P.Star, P.ViewCount, P.CreatedAt, P.UpdatedAt)).ToListAsync();
-
-
-    //}
 }

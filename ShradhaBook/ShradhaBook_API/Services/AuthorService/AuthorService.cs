@@ -18,8 +18,8 @@ public class AuthorService : IAuthorService
 
     public async Task<int> AddAuthorAsync(AuthorModelPost model)
     {
-        if (model.Email.Trim() != null && !Helpers.Helpers.IsValidEmail(model.Email)) return MyStatusCode.FAILURE;
-        if (model.Phone.Trim() != null && !Helpers.Helpers.IsValidPhone(model.Phone)) return MyStatusCode.FAILURE;
+        if (model.Email.Trim() != null && !Helpers.Helpers.IsValidEmail(model.Email)) return MyStatusCode.EMAIL_INVALID;
+        if (model.Phone.Trim() != null && !Helpers.Helpers.IsValidPhone(model.Phone)) return MyStatusCode.PHONE_INVALID;
         if (model.Name.Trim() == null || model.Name.Trim().Length < 1) return MyStatusCode.FAILURE;
         if (model.Email.Trim() != null && _context.Authors.Any(c => c.Email.Trim() == model.Email.Trim()))
             return MyStatusCode.DUPLICATE_EMAIL;
@@ -78,8 +78,8 @@ public class AuthorService : IAuthorService
     {
         if (id == model.Id)
         {
-            if (model.Phone.Trim() != null && !Helpers.Helpers.IsValidPhone(model.Phone)) return MyStatusCode.FAILURE;
-            if (model.Email.Trim() != null && !Helpers.Helpers.IsValidEmail(model.Email)) return MyStatusCode.FAILURE;
+            if (model.Phone.Trim() != null && !Helpers.Helpers.IsValidPhone(model.Phone)) return MyStatusCode.EMAIL_INVALID;
+            if (model.Email.Trim() != null && !Helpers.Helpers.IsValidEmail(model.Email)) return MyStatusCode.PHONE_INVALID;
 
             if (model.Name.Trim() == null || model.Name.Trim().Length < 1) return MyStatusCode.FAILURE;
             if (model.Email.Trim() != null &&

@@ -30,7 +30,7 @@ const Register = (props) => {
         isValidPassword,
         lottie
     } = props
-    const [userType, setUserType] = useState("CUSTOMER");
+    const [userType, setUserType] = useState("user");
 
     const checkValidateRegister = () => {
         const checkEmail = validateEmail(email)

@@ -10,14 +10,13 @@ public class Rate
 
     [Required] public int ProductId { get; set; }
 
-    public int? CommentId { get; set; }
 
     [Required] [Range(1, 5)] public int Star { get; set; }
 
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual Comment Comment { get; set; }
+    public virtual Comment? Comment { get; set; }
     public virtual Product Product { get; set; }
     public virtual User User { get; set; }
 }

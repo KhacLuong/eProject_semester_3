@@ -28,6 +28,7 @@ const ProductList = (props) => {
         setOpen,
         userId,
     } = props
+
     const [hover, setHover] = useState(false);
     const [idProduct, setIdProduct] = useState(0);
     const [turnOffPrevNextBtn, setTurnOffPrevNextBtn] = useState(true)
@@ -82,7 +83,7 @@ const ProductList = (props) => {
                         className={`relative after:content-[''] after:absolute after:w-[1px] after:h-[20px] after:bg-lightColor after:left-12 after:top-[10%]`}>
                         <select value={selectedSort} onChange={handleChangeSort}
                                 className="cursor-pointer text-right block py-0 pr-[30px] text-sm leading-6 text-gray-500 bg-transparent border-0 appearance-none dark:text-gray-400 focus:outline-none focus:ring-0 peer ">
-                            {optionSort.map((option, index) => (<option key={index} value={option.value}>
+                            {optionSort.map((option, index) => (<option key={index} value={option.id}>
                                 {option.text}
                             </option>))}
                         </select>

@@ -15,11 +15,30 @@ const Checkout = () => {
     const [totalItem, setTotalItem] = useState(0)
     const shop = useSelector(state => state.cart)
 
+    const [name, setName] = useState('')
+    const [streetAddressOne, setStreetAddressOne] = useState('')
+    const [streetAddressTwo, setStreetAddressTwo] = useState('')
+    const [city, setCity] = useState('')
+    const [state, setState] = useState('')
+    const [zipCode, setZipCode] = useState('')
+    const [phone, setPhone] = useState('')
+    const [email, setEmail] = useState('')
+    const [userAddress, setUserAddress] = useState([])
+    const [district, setDistrict] = useState('')
+
+
     useEffect(() => {
         setUserId(decoded)
         const fetchData = async () => {
             let res = await getMyInfo(decoded)
-            console.log(res)
+            if (res.status === true) {
+                setEmail(res.data.email)
+                setName(res.data.name)
+                setPhone(res.data.userInfo.phone)
+                setDistrict(res.data.userInfo.addresses[0].district)
+                setStreetAddressOne(res.data.userInfo.addresses[0].addressLine1)
+                setStreetAddressTwo(res.data.userInfo.addresses[0].addressLine2)
+            }
         }
         fetchData();
     }, [userId, setUserId])
@@ -36,7 +55,26 @@ const Checkout = () => {
         setTotalItem(items)
         setListProduct(shop.cart)
     }, [shop.cart, total, totalItem, setTotal, setTotalItem])
+    const validatePhone = (phone) => {
+        return String(phone)
+            .toLowerCase()
+            .match(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/)
+    }
+    const onChangeName = () => {
 
+    }
+    const onChangeEmail = () => {
+
+    }
+    const onChangePhone = () => {
+
+    }
+    const onChangeAddress = (e) => {
+        console.log(e.target)
+    }
+    const onChangeDistrict = (e) => {
+        console.log(e.target)
+    }
     return (
         <div className={`checkout_page`}>
             <Banner bannerTitle={`checkout`}/>
@@ -46,29 +84,27 @@ const Checkout = () => {
                         <form>
                             <h2 className={`text-[28px] mb-[15px] font-semiBold`}>Billing details</h2>
                             <div className={`mb-10`}>
-                                <div className={`grid grid-cols-2 gap-6 mb-4`}>
-                                    <div className={`flex flex-col`}>
-                                        <label className={`text-sm`}>First name <span className={`text-dangerColor-default_2`}>*</span></label>
-                                        <input className={`py-4 pl-6 text-sm text-darkColor rounded-full border-borderColor focus:border-blackColor hover:border-blackColor mt-2`} type={`text`} placeholder={``}/>
-                                    </div>
-                                    <div className={`flex flex-col`}>
-                                        <label className={`text-sm`}>Last name <span className={`text-dangerColor-default_2`}>*</span></label>
-                                        <input className={`py-4 pl-6 mt-2 text-sm text-darkColor rounded-full border-borderColor focus:border-blackColor hover:border-blackColor`} type={`text`} placeholder={``}/>
-                                    </div>
+                                <div className={`flex flex-col mb-4`}>
+                                    <label className={`text-sm`}>Your name<span className={`text-dangerColor-default_2`}>*</span></label>
+                                    <input onChange={onChangeName} value={name} className={`py-4 pl-6 text-sm text-darkColor rounded-full border-borderColor focus:border-blackColor hover:border-blackColor mt-2`} type={`text`}/>
+                                </div>
+                                {/*<div className={`flex flex-col mb-4`}>*/}
+                                {/*    <label className={`text-sm`}>Country / Region <span className={`text-dangerColor-default_2`}>*</span></label>*/}
+                                {/*    <select className={`py-4 pl-6 mt-2 text-sm text-darkColor rounded-full border-borderColor focus:border-blackColor hover:border-blackColor`}>*/}
+                                {/*        <option></option>*/}
+                                {/*    </select>*/}
+                                {/*</div>*/}
+                                <div className={`flex flex-col mb-4`}>
+                                    <label className={`text-sm`}>Street address 1<span className={`text-dangerColor-default_2`}>*</span></label>
+                                    <input value={streetAddressOne} onChange={onChangeAddress} className={`py-4 pl-6 mt-2 text-sm text-darkColor rounded-full border-borderColor focus:border-blackColor hover:border-blackColor`} type={`text`}/>
                                 </div>
                                 <div className={`flex flex-col mb-4`}>
-                                    <label className={`text-sm`}>Country / Region <span className={`text-dangerColor-default_2`}>*</span></label>
-                                    <select className={`py-4 pl-6 mt-2 text-sm text-darkColor rounded-full border-borderColor focus:border-blackColor hover:border-blackColor`}>
-                                        <option></option>
-                                    </select>
-                                </div>
-                                <div className={`flex flex-col mb-4`}>
-                                    <label className={`text-sm`}>Street address <span className={`text-dangerColor-default_2`}>*</span></label>
-                                    <input className={`py-4 pl-6 mt-2 text-sm text-darkColor rounded-full border-borderColor focus:border-blackColor hover:border-blackColor`} type={`text`}/>
+                                    <label className={`text-sm`}>Street address 2<span className={`text-dangerColor-default_2`}>*</span></label>
+                                    <input value={streetAddressTwo} onChange={onChangeAddress} className={`py-4 pl-6 mt-2 text-sm text-darkColor rounded-full border-borderColor focus:border-blackColor hover:border-blackColor`} type={`text`}/>
                                 </div>
                                 <div className={`flex flex-col mb-4`}>
                                     <label className={`text-sm`}>Town / City <span className={`text-dangerColor-default_2`}>*</span></label>
-                                    <input className={`py-4 pl-6 mt-2 text-sm text-darkColor rounded-full border-borderColor focus:border-blackColor hover:border-blackColor`} type={`text`}/>
+                                    <input value={district} onChange={onChangeDistrict} className={`py-4 pl-6 mt-2 text-sm text-darkColor rounded-full border-borderColor focus:border-blackColor hover:border-blackColor`} type={`text`}/>
                                 </div>
                                 <div className={`flex flex-col mb-4`}>
                                     <label className={`text-sm`}>State <span className={`text-dangerColor-default_2`}>*</span></label>
@@ -80,11 +116,11 @@ const Checkout = () => {
                                 </div>
                                 <div className={`flex flex-col mb-4`}>
                                     <label className={`text-sm`}>Phone <span className={`text-dangerColor-default_2`}>*</span></label>
-                                    <input className={`py-4 pl-6 mt-2 text-sm text-darkColor rounded-full border-borderColor focus:border-blackColor hover:border-blackColor`} type={`text`}/>
+                                    <input onChange={onChangePhone} value={phone} onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} className={`py-4 pl-6 mt-2 text-sm text-darkColor rounded-full border-borderColor focus:border-blackColor hover:border-blackColor`} type={`text`}/>
                                 </div>
                                 <div className={`flex flex-col mb-4`}>
-                                    <label className={`text-sm`}>Email address <span className={`text-dangerColor-default_2`}>*</span></label>
-                                    <input className={`py-4 pl-6 mt-2 text-sm text-darkColor rounded-full border-borderColor focus:border-blackColor hover:border-blackColor`} type={`text`}/>
+                                    <label className={`text-sm`}>Email address<span className={`text-dangerColor-default_2`}>*</span></label>
+                                    <input onChange={onChangeEmail} value={email} className={`py-4 pl-6 mt-2 text-sm text-darkColor rounded-full border-borderColor focus:border-blackColor hover:border-blackColor`} type={`text`}/>
                                 </div>
                             </div>
                             <h2 className={`text-[28px] mb-1 font-semiBold`}>Additional information</h2>
@@ -112,9 +148,18 @@ const Checkout = () => {
                                             return <tr key={index} className={`cart_subtotal table-row border-b-[1px] border-borderColor`}>
                                                 <th className={`text-[18px] font-light text-left break-words align-top py-4 w-10/12`}>
                                                     <div>
-                                                        <h3 className={`flex items-center`}>{item.name} <IoCloseSharp className={`mx-2 text-sm`}/> {item.qty}</h3>
-                                                        <div>
-                                                            <span>Manufacturer: </span>{item.manufacturer}
+                                                        <h3 className={`flex items-center mb-1 uppercase text-lg font-medium`}>{item.name} <IoCloseSharp className={`mx-2 text-sm`}/> {item.qty}</h3>
+                                                        <code className={`text-xs`}>
+                                                            <span>Code: </span>{item.code}
+                                                        </code>
+                                                        <div className={`text-xs`}>
+                                                            <span className={`font-medium`}>Category: </span>{item.category}
+                                                        </div>
+                                                        <div className={`text-xs`}>
+                                                            <span className={`font-medium`}>Author: </span>{item.author}
+                                                        </div>
+                                                        <div className={`text-xs`}>
+                                                            <span className={`font-medium`}>Manufacturer: </span>{item.manufacturer}
                                                         </div>
                                                     </div>
                                                 </th>

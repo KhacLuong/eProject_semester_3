@@ -6,7 +6,7 @@ import {TbShoppingCart} from "react-icons/tb"
 import {RiUserLine} from "react-icons/ri"
 import Search from "./Search";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteLogout, postRefreshToken} from "../../../services/apiService";
+import {deleteLogout, getCountProductInWishList} from "../../../services/apiService";
 import {toast} from "react-toastify";
 import {doLogout} from "../../../redux/action/userAction";
 import jwt_decode from "jwt-decode";
@@ -15,20 +15,20 @@ import {connect} from "react-redux";
 const TopHeader = (props) => {
     const [showNavUser, setShowNavUser] = useState(false);
     const [cartCount, setCartCount] = useState(0)
-    const [userId, setUserId] = useState('')
     const isAuthenticated = useSelector(state => state.user.isAuthenticated);
     const account = useSelector(state => state.user.account);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     let ref = useRef();
+    let userId = jwt_decode(account.accessToken).Id
+    const [totalWishList, setTotalWishList] = useState(0)
 
     useEffect(() => {
-        let decoded = ''
-        if (account.accessToken) {
-            decoded = jwt_decode(account.accessToken);
+        const fetchData = async () => {
+            await fetchCountProduct()
         }
-        setUserId(decoded.Id)
-    }, [account])
+        fetchData();
+    }, [])
 
     useEffect(() => {
         let count = 0;
@@ -57,7 +57,6 @@ const TopHeader = (props) => {
         setShowNavUser(!showNavUser)
     }
     const handLogout = async () => {
-
         let res = await deleteLogout();
         if (res.status === true) {
             dispatch(doLogout());
@@ -67,6 +66,12 @@ const TopHeader = (props) => {
     }
     const handleLeaveNavUser = () => {
         window.innerWidth > 2060 && setShowNavUser(false);
+    }
+    const fetchCountProduct = async () =>  {
+        let res = await getCountProductInWishList(userId)
+        if(res && res.status === true) {
+            setTotalWishList(res.data.totalWishlist)
+        }
     }
 
     return (
@@ -107,7 +112,7 @@ const TopHeader = (props) => {
                                         <li>
                                             <div onClick={() => navigate(`user/wishlist/${userId}`)}
                                                  className="relative cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                                Wish list <span className={`absolute right-[25px] top-[17%] bg-dangerColor-default_2 text-whiteColor rounded-full text-xs font-semiBold py-1 px-2`}>2</span>
+                                                Wish list <span className={`${totalWishList !== 0 ? 'block' : 'hidden'} absolute right-[25px] top-[17%] bg-dangerColor-default_2 text-whiteColor rounded-full text-xs font-semiBold w-[20px] h-[20px] flex items-center justify-center text-center`}>{totalWishList}</span>
                                             </div>
                                         </li>
                                         <li>
