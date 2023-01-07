@@ -7,9 +7,10 @@ public class CommentModelPost
     public int ProductId { get; set; }
 
     public int ParentId { get; set; }
+
     public string? Content { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
+    //public DateTime? CreatedAt { get; set; }
+    //public DateTime? UpdatedAt { get; set; }
 
 }

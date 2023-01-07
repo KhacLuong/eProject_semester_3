@@ -25,7 +25,7 @@ namespace ShradhaBook_API.Services.WishListProductService
         public async  Task<int> AddWishListProductAsync(int userId, int productId)
         {
             WishListPost wishLispost = new WishListPost(0, userId, DateTime.Now, null);
-            var wishList = _wishListService.GetWishListByUserIdAsync(userId);
+            var wishList = await _wishListService.GetWishListByUserIdAsync(userId);
             if (wishList == null)
             {
                 var addWishList =  await _wishListService.AddWishListAsync(wishLispost);

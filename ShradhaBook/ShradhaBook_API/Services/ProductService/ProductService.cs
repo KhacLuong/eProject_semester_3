@@ -193,10 +193,10 @@ public class ProductService : IProductService
     {
         if (id == model.Id)
         {
-            var categoty = (Category)_context.Categories.Where(m => m.Id == model.CategoryId);
-            var manufacturer = (Manufacturer)_context.Manufacturers.Where(m => m.Id == model.ManufacturerId);
-            var code = categoty.Code.Trim().Substring(0, 2) + categoty.Code.Trim().Substring(0, 3);
-            model.Code = code.ToUpper();
+            var categoty = _context.Categories.SingleOrDefault(m => m.Id == model.CategoryId);
+            var manufacturer = _context.Manufacturers.SingleOrDefault(m => m.Id == model.ManufacturerId);
+            //var code = categoty.Code.Trim().Substring(0, 2) + manufacturer.Code.Trim().Substring(0, 3);
+            //model.Code = code.ToUpper();
             //if (model.Code.Length != 7 || !Helpers.Helpers.IsValidCode(model.Code))
             //{
             //    return MyStatusCode.FAILURE;
@@ -216,12 +216,12 @@ public class ProductService : IProductService
 
             if (_context.Products.Any(c => c.Name.Trim() == model.Name.Trim() && c.Id != model.Id))
                 return MyStatusCode.DUPLICATE_NAME;
-            model.Code = "ABC";
+
             model.Slug = Helpers.Helpers.Slugify(model.Name);
 
             var modelOld = await _context.Products.FindAsync(id);
             modelOld.Name = model.Name;
-            modelOld.Code = model.Code;
+            modelOld.Code = model.Code.ToUpper();
             modelOld.Slug = model.Slug;
             modelOld.Description = model.Description;
             modelOld.CategoryId = model.CategoryId;
@@ -268,7 +268,7 @@ public class ProductService : IProductService
         {
             Products = result,
             totalProduct = allModel.Count,
-            totalPage
+            totalPages = totalPage
         };
     }
 
@@ -397,7 +397,7 @@ public class ProductService : IProductService
             return new
             {
                 Products = result,
-                totalPage = totalPage
+                totalPages = totalPage
             };
         }
 

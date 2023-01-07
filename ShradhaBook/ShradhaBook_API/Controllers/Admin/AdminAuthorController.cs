@@ -63,6 +63,16 @@ public class AdminAuthorController : ControllerBase
         try
         {
             var status = await _authorService.UpdateAuthorAsync(id, model);
+            if (status == MyStatusCode.EMAIL_INVALID)
+            {
+                return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
+                    MyStatusCode.EMAIL_INVALID_RESULT));
+            }
+            if (status == MyStatusCode.PHONE_INVALID)
+            {
+                return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
+                    MyStatusCode.PHONE_INVALID_RESULT));
+            }
             if (status == MyStatusCode.DUPLICATE_EMAIL)
                 return BadRequest(new MyServiceResponse<AuthorModelGet>(false,
                     MyStatusCode.UPDATE_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_EMAIL_RESULT));
@@ -95,6 +105,16 @@ public class AdminAuthorController : ControllerBase
         try
         {
             var status = await _authorService.AddAuthorAsync(model);
+            if (status == MyStatusCode.EMAIL_INVALID)
+            {
+                return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
+                    MyStatusCode.EMAIL_INVALID_RESULT));
+            }
+            if (status == MyStatusCode.PHONE_INVALID)
+            {
+                return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
+                    MyStatusCode.PHONE_INVALID_RESULT));
+            }
             if (status == MyStatusCode.DUPLICATE_EMAIL)
                 return BadRequest(new MyServiceResponse<AuthorModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_EMAIL_RESULT));

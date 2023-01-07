@@ -9,6 +9,8 @@ public class MyStatusCode
     public static readonly int DUPLICATE = -5;
     public static readonly int NOTFOUND = -6;
     public static readonly int EXISTSREFERENCE = -7;
+    public static readonly int EMAIL_INVALID = -10;
+    public static readonly int PHONE_INVALID = -11;
 
 
     public static readonly int FAILURE = 0;
@@ -27,24 +29,20 @@ public class MyStatusCode
     public static readonly string ADD_FAILURE_RESULT = "Addition failure";
     public static readonly string DELLETE_FAILURE_RESULT = "Delete failure";
     public static readonly string DELLETE_SUCCESS_RESULT = "Delete success";
-
-
-
-
-        // Order 
-        public readonly static int NOTFOUD_ORDER = -8;
-
-
-        public static readonly string ORDER_DONE_RESUL = "Done";
-        public static readonly string ORDER_PREPARING_RESUL= "Preparing";
-        public static readonly string NOTFOUND_ORDER_RESUL = "Notfound order";
-    //
-
+    public static readonly string EMAIL_INVALID_RESULT = "Email  incorrect format";
+    public static readonly string PHONE_INVALID_RESULT = "Phone  incorrect format";
 
     // Order status
-    public static readonly string ORDER_DONE = "Done";
+    public readonly static int NOTFOUND_ORDER = -8;
+    public static readonly string ORDER_DONE_RESUL = "Done";
+    public static readonly string ORDER_PREPARING_RESUL= "Preparing";
+    public static readonly string NOTFOUND_ORDER_RESUL = "Notfound order";
+
+    //Rate&Comment satatus
+    public readonly static int NOTFOUND_RATE = -9;
+    public static readonly string NOTFOUND_RATE_RESUL = "Notfound rate";
 
 
 
-    
+
 }

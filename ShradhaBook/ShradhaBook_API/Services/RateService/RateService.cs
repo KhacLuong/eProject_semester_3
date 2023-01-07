@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using ShradhaBook_API.Helpers;
 
 
@@ -37,13 +38,9 @@ public class RateService : IRateService
 
         if (query == null || query.Count == 0)
         {
-            return MyStatusCode.NOTFOUD_ORDER;
+            return MyStatusCode.NOTFOUND_ORDER;
         }
-        var checkCommentExists = _context.Comments.Any(c => c.Id == model.CommentId);
-        if (!checkCommentExists)
-        {
-            model.CommentId = null;
-        }
+ 
         if(model.Star<1|| model.Star>5) 
         {
             return MyStatusCode.FAILURE;
@@ -53,7 +50,13 @@ public class RateService : IRateService
         newModel.UpdatedAt = null;
         _context.Rates!.Add(newModel);
         await _context.SaveChangesAsync();
-        if (await _context.Products!.FindAsync(newModel.Id) == null) return MyStatusCode.FAILURE;
+        var product = await _context.Products.FindAsync(model.ProductId); 
+        var countRate = _context.Rates.Where(r=>r.ProductId==model.ProductId).Count();
+        var oldTotalStar = (countRate - 1) * product.Star;
+        var newstar = Math.Round(((float)(oldTotalStar+model.Star)/countRate),2);
+        product.Star = (float)newstar;
+        _context.Products.Update(product);
+        await _context.SaveChangesAsync();
         return newModel.Id;
     }
 
@@ -64,21 +67,70 @@ public class RateService : IRateService
         {
             _context.Rates!.Remove(model);
             await _context.SaveChangesAsync();
+            var product = await _context.Products.FindAsync(model.ProductId);
+            if (product != null)
+            {
+                var countRate = _context.Rates.Where(r => r.ProductId == model.ProductId).Count();
+                var oldTotalStar = (countRate + 1) * product.Star;
+                var newstar = Math.Round(((float)(oldTotalStar - model.Star) / countRate), 2);
+                product.Star = (float)newstar;
+                _context.Products.Update(product);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 
-    public Task<List<RateModelGet>> GetRatesByProductIdAsync()
+    public async Task<RateModelGet> GetRateById(int id)
     {
-        throw new NotImplementedException();
+        var model = await _context.Rates!.FindAsync(id);
+
+        return   _mapper.Map<RateModelGet>(model);
+        
     }
 
-    public async Task<List<RateModelGet>> GetRatesByProductIdAsync(int productId, int pageSize = 20, int pageIndex = 1)
+    public async Task<Object> GetRatesAndCommentByProductIdAsync(int productId, int pageSize = 20, int pageIndex = 1)
+    {
+        IEnumerable<Object>? rates = await (from R in _context.Rates.Where(c => c.ProductId == productId)
+            join C in _context.Comments 
+            on R.Id equals C.RateId
+            select new
+            {
+                RateId = R.Id,
+                CommentId = C.Id,
+                ProductId = R.ProductId,
+                UserId = R.UserId,
+                Star = R.Star,
+                Content = C.Content
+            }).ToListAsync();
+        var models = rates.ToList();
+        
+        var listModel = PaginatedList<Object>.Create(models, pageIndex, pageSize);
+        var totalPage = PaginatedList<Object>.totlalPage(models, pageSize);
+
+       
+        return new
+        {
+            Rates = models,
+            totalRate = models.Count,
+            totalPages = totalPage,
+        };
+    }
+
+    public async Task<Object> GetRatesByProductIdAsync(int productId, int pageSize = 20, int pageIndex = 1)
     {
         var models = await _context.Rates.Where(c => c.ProductId == productId).ToListAsync();
-        var result = PaginatedList<Rate>.Create(models, pageIndex, pageSize);
+        var listModel = PaginatedList<Rate>.Create(models, pageIndex, pageSize);
         var totalPage = PaginatedList<Rate>.totlalPage(models, pageSize);
 
-        return _mapper.Map<List<RateModelGet>>(result);
+
+ 
+      var result = _mapper.Map<List<RateModelGet>>(listModel);
+        return new
+        {
+            Rates = result,
+            totalRate = models.Count,
+            totalPages = totalPage
+        };
 
 
     }
@@ -88,25 +140,33 @@ public class RateService : IRateService
         if(id== model.Id)
         {
             var modelOld = await _context.Rates!.FindAsync(id);
-
+            var checkRateExists = await _context.Rates.AnyAsync(r => r.UserId == model.UserId && r.ProductId == model.ProductId && r.Id != model.Id);
+            if (!checkRateExists)
+            {
+                return MyStatusCode.FAILURE;
+            }
             if (modelOld==null)
             {
                 return MyStatusCode.FAILURE;
             }
-            var checkCommentExists = _context.Comments.Any(c => c.Id == model.CommentId);
-            if (!checkCommentExists)
-            {
-                model.CommentId = null;
-            }
+           
             if (model.Star < 1 || model.Star > 5)
             {
                 return MyStatusCode.FAILURE;
             }
-            model.CreatedAt = modelOld.CreatedAt;
-            model.UpdatedAt = DateTime.Now;
 
+            
             var newModel = _mapper.Map<Rate>(model);
+            newModel.CreatedAt = modelOld.CreatedAt;
+            newModel.UpdatedAt = DateTime.Now;
             _context.Rates.Update(newModel);
+            await _context.SaveChangesAsync();
+            var product = await _context.Products.FindAsync(model.ProductId);
+            var countRate = _context.Rates.Where(r => r.ProductId == model.ProductId).Count();
+            var oldTotalStar = (countRate) * product.Star;
+            var newstar = Math.Round(((float)(oldTotalStar + model.Star - modelOld.Star) / countRate), 2);
+            product.Star = (float)newstar;
+            _context.Products.Update(product);
             await _context.SaveChangesAsync();
             return MyStatusCode.SUCCESS;
         }
@@ -115,4 +175,6 @@ public class RateService : IRateService
 
 
     }
+
+
 }

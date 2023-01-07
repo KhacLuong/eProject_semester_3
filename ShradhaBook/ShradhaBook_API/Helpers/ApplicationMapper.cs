@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ShradhaBook_ClassLibrary.Entities;
+using ShradhaBook_ClassLibrary.ViewModels;
 
 namespace ShradhaBook_API.Helpers;
 

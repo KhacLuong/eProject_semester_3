@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using ShradhaBook_API.Data;
 using ShradhaBook_API.Helpers;
 using ShradhaBook_API.Services.WishListProductService;
-using ShradhaBook_API.ViewModels;
+
 
 namespace ShradhaBook_API.Controllers
 {
@@ -50,7 +50,7 @@ namespace ShradhaBook_API.Controllers
         [HttpPost]
         public async Task<ActionResult<WishListProductPost>> AddWishListProductAsync(int userId, int prouctId)
         {
-            try
+            //try
             {
                 var status = await _wishListProductService.AddWishListProductAsync(userId, prouctId);
                 if (status == MyStatusCode.DUPLICATE)
@@ -67,12 +67,12 @@ namespace ShradhaBook_API.Controllers
                 return BadRequest(new MyServiceResponse<WishListProductGet>(false, MyStatusCode.ADD_FAILURE_RESULT));
 
             }
-            catch
-            {
-                return StatusCode(500, new MyServiceResponse<WishListProductGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+            //catch
+            //{
+            //    return StatusCode(500, new MyServiceResponse<WishListProductGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
 
 
-            }
+            //}
         }
 
         // DELETE: api/WishListUser/5
