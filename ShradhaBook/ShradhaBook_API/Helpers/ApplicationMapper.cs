@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ShradhaBook_ClassLibrary.Entities;
+using ShradhaBook_ClassLibrary.ViewModels;
 
 namespace ShradhaBook_API.Helpers;
 
@@ -65,8 +67,8 @@ public class ApplicationMapper : Profile
         CreateMap<WishList, WishListGet>();
         CreateMap<WishListPost, WishList>();
 
-        CreateMap<WishListUser, WishListUserGet>();
-        CreateMap<WishListUserPost, WishListUser>();
+        CreateMap<WishListProduct, WishListProductGet>();
+        CreateMap<WishListProductPost, WishListProduct>();
 
         CreateMap<Rate, RateModelGet>();
         CreateMap<RateModelPost, Rate>();

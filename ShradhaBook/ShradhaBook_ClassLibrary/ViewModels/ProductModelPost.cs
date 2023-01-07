@@ -20,11 +20,11 @@ public class ProductModelPost
 
     public long? ViewCount { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
+    //public DateTime? CreatedAt { get; set; }
+    //public DateTime? UpdatedAt { get; set; }
 
     public ProductModelPost(int id, string code, string name, int categoryId, int authorId, decimal price, long quantity, int manufacturerId, string? description, string? intro,
-        string? imageProductPath, string? imageProductName, string? status, string? slug, float? star, long? viewCount, DateTime? createdAt, DateTime? updatedAt)
+        string? imageProductPath, string? imageProductName, string? status, string? slug, float? star, long? viewCount)
     {
         Id = id;
         Code = code;
@@ -42,8 +42,7 @@ public class ProductModelPost
         Slug = slug;
         Star = star;
         ViewCount = viewCount;
-        CreatedAt = createdAt;
-        UpdatedAt = updatedAt;
+
     }
 
     public ProductModelPost()

@@ -64,6 +64,16 @@ public class AdminManufacturerController : ControllerBase
         try
         {
             var status = await _manufacturerService.UpdateManufacturerAsync(id, model);
+            if (status == MyStatusCode.EMAIL_INVALID)
+            {
+                return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
+                    MyStatusCode.EMAIL_INVALID_RESULT));
+            }
+            if (status == MyStatusCode.PHONE_INVALID)
+            {
+                return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
+                    MyStatusCode.PHONE_INVALID_RESULT));
+            }
             if (status == MyStatusCode.DUPLICATE_CODE)
                 return BadRequest(new MyServiceResponse<ManufacturerModelGet>(false,
                     MyStatusCode.UPDATE_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
@@ -104,6 +114,16 @@ public class AdminManufacturerController : ControllerBase
         try
         {
             var status = await _manufacturerService.AddManufacturerAsync(model);
+            if (status == MyStatusCode.EMAIL_INVALID)
+            {
+                return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
+                    MyStatusCode.EMAIL_INVALID_RESULT));
+            }
+            if (status == MyStatusCode.PHONE_INVALID)
+            {
+                return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
+                    MyStatusCode.PHONE_INVALID_RESULT));
+            }
             if (status == MyStatusCode.DUPLICATE_CODE)
                 return BadRequest(new MyServiceResponse<ManufacturerModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));

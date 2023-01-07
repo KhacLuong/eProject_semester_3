@@ -69,7 +69,7 @@ public class BlogService : IBlogService
         var result = _mapper.Map<List<BlogModelGet>>(models);
         return new
         {
-            Products = result,
+            Blogs = result,
             totalPage
         };
     }

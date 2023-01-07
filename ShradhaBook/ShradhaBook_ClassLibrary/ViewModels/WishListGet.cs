@@ -1,21 +1,25 @@
-﻿namespace ShradhaBook_ClassLibrary.ViewModels;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class WishListGet
-{
-    public WishListGet(int id, string? productName, DateTime? createdAt, DateTime? updatedAt)
+namespace ShradhaBook_ClassLibrary.ViewModels;
+
+    public class WishListGet
     {
-        Id = id;
-        ProductName = productName;
-        CreatedAt = createdAt;
-        UpdatedAt = updatedAt;
+        public int Id { get; set; }
+        [Required]
+        public int UserId { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+
+        public WishListGet(int id, int userId, DateTime? createdAt, DateTime? updatedAt)
+        {
+            Id = id;
+            UserId = userId;
+            CreatedAt = createdAt;
+            UpdatedAt = updatedAt;
+        }
+
+        public WishListGet()
+        {
+        }
     }
 
-    public WishListGet()
-    {
-    }
-
-    public int Id { get; set; }
-    public string? ProductName { get; set; }
-    public DateTime? CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
-}

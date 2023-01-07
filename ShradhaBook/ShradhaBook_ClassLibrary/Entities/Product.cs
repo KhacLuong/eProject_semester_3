@@ -29,7 +29,7 @@ public class Product
     public virtual Manufacturer Manufacturer { get; set; }
     public virtual ICollection<ProductTag> ProductTags { get; set; }
     public virtual Author Author { get; set; }
-    public virtual ICollection<WishList>? WishLists { get; set; }
+    public virtual ICollection<WishListProduct>? WishListProducts { get; set; }
     public virtual ICollection<Rate>? Rates { get; set; }
     public virtual ICollection<Comment> Comments { get; set; }
     public List<OrderItems>? OrderItems { get; set; }

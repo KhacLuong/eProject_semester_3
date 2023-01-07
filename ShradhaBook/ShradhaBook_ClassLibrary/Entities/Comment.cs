@@ -7,6 +7,8 @@ public class Comment
     public int ProductId { get; set; }
 
     public int ParentId { get; set; }
+    public int? RateId { get; set; }
+
     public string? Content { get; set; }
 
     public DateTime? CreatedAt { get; set; }

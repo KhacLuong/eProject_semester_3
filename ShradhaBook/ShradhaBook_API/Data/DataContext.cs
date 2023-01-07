@@ -2,6 +2,8 @@
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using NLipsum.Core;
+using ShradhaBook_ClassLibrary.ViewModels;
+
 
 namespace ShradhaBook_API.Data;
 
@@ -31,9 +33,15 @@ public class DataContext : DbContext
     public DbSet<BlogTag> BlogTags { get; set; } = null!;
     public DbSet<Author> Authors { get; set; } = null!;
     public DbSet<WishList> WishLists { get; set; } = null!;
-    public DbSet<WishListUser> WishListUsers { get; set; } = null!;
+
+    public DbSet<WishListProduct> WishListProducts { get; set; } = null!;
     public DbSet<Rate> Rates { get; set; } = null!;
     public DbSet<Comment> Comments { get; set; } = null!;
+
+
+
+
+
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -171,5 +179,14 @@ public class DataContext : DbContext
                     Status = 1
                 }
             );
+        }
+
+
+
+
+
+
+
     }
-}
+
+
