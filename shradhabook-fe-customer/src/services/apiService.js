@@ -59,18 +59,18 @@ const getProduct = (id) => {
     return instance.get(`Products/${id}`)
 }
 const getWishListById = (id, query) => {
-    return instance.get(`WishListUser/GetProductWishListByUserId${id}`, {
+    return instance.get(`Products/GetProductWishListByUserId${id}`, {
         params: query
     })
 }
 const postProductToWishList = (userId, productId) => {
-    return instance.post(`WishListUser?userId=${userId}&prouctId=${productId}`)
+    return instance.post(`/WishListProduct?userId=${userId}&prouctId=${productId}`)
 }
 const deleteProductInWishList = (userId, productId) => {
-    return instance.delete(`WishListUser?userId=${userId}&prouctId=${productId}`)
+    return instance.delete(`/WishListProduct?userId=${userId}&prouctId=${productId}`)
 }
 const getCountProductInWishList = (userId) => {
-    return instance.get(`WishListUser/GetTotalWishListAndCart${userId}`)
+    return instance.get(`/WishListProduct/GetTotalWishListAndCart${userId}`)
 }
 const getListProductMostView = (number) => {
     return instance.get(`Products/GetProductByTheMostView?numberRetrieving=${number}`)

@@ -1,4 +1,4 @@
-import {ADD_PRODUCT_TO_CART, REMOVE_FROM_CART, ADJUST_QTY, LOAD_CURRENT_ITEM} from "../action/cartAction";
+import {ADD_PRODUCT_TO_CART, REMOVE_FROM_CART, ADJUST_QTY, REMOVE_ALL_ITEMS} from "../action/cartAction";
 
 const INITIAL_STATE = {
     cart: [], // {id, name, description, price, img, qty}
@@ -26,10 +26,10 @@ const CartReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 cart: state.cart.map(item => item.id === action.payload.id ? {...item, qty: +action.payload.qty} : item)
             }
-        case LOAD_CURRENT_ITEM:
+        case REMOVE_ALL_ITEMS:
             return {
                 ...state,
-                currentItem: action.payload
+                cart: []
             }
         default:
             return state;

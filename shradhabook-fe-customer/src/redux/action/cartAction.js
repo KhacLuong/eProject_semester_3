@@ -1,7 +1,7 @@
 export const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART'
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 export const ADJUST_QTY = 'ADJUST_QTY'
-export const LOAD_CURRENT_ITEM = 'LOAD_CURRENT_ITEM'
+export const REMOVE_ALL_ITEMS = 'REMOVE_ALL_ITEMS'
 export const doAddToCart = (data) => {
     return {
         type: ADD_PRODUCT_TO_CART,
@@ -27,9 +27,9 @@ export const adJustQty = (id, value) => {
         }
     }
 }
-export const loadCurrentItem = (id) => {
+export const removeAllProdcut = (id) => {
     return {
-        type: LOAD_CURRENT_ITEM,
+        type: REMOVE_ALL_ITEMS,
         payload: id
     }
 }
