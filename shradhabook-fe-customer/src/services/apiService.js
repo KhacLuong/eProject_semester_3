@@ -82,4 +82,4 @@ const getListProductLowestPrice = (number) => {
     return instance.get(`Products/GetProductByTheLowestPrice?numberRetrieving=${number}`)
 }
 
-export {postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo, updateViewCountProductById, getProductById, getProduct, PostRefreshToken, getListAuthor, getWishListById, postProductToWishList, getListProductMostView, getListProductLatestReleases, getListProductLowestPrice, deleteProductInWishList, getCountProductInWishList}
+export { postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo, updateViewCountProductById, getProductById, getProduct, PostRefreshToken, getListAuthor, getWishListById, postProductToWishList, getListProductMostView, getListProductLatestReleases, getListProductLowestPrice, deleteProductInWishList, getCountProductInWishList}

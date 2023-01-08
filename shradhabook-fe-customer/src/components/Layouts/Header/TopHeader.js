@@ -20,7 +20,9 @@ const TopHeader = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     let ref = useRef();
+
     let userId = ''
+
     if(account.accessToken) {
         userId = jwt_decode(account.accessToken).Id
     }
@@ -55,6 +57,7 @@ const TopHeader = (props) => {
             document.removeEventListener("touchstart", handler);
         }
     }, [showNavUser])
+
     const fetchCountProduct = async () =>  {
         let res = await getCountProductInWishList(userId)
         if(res && res.status === true) {

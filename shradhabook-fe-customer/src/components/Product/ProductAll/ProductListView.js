@@ -34,7 +34,7 @@ const ProductListView = (props) => {
                                  onMouseOver={(e) => handleOnMouseOver(e, index)} state={item}
                                  className={`overflow-hidden rounded-2xl cursor-pointer`}>
                                 <img className={`w-full rounded-2xl block my-0 mx-auto`}
-                                     src={imageProduct}/>
+                                     src={item.imageProductPath}/>
                             </div>
                             <div className={`group_action absolute right-[10px] bottom-[10px] z-10`}>
                                 <div className={`shop_action flex flex-col items-start relative`}>

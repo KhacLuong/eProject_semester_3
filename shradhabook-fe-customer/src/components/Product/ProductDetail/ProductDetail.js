@@ -81,6 +81,7 @@ const ProductDetail = (props) => {
             setView(res.data.viewCount)
             setStatus(res.data.status)
             setCategoryName(res.data.category.name)
+            setImageProduct(res.data.imageProductPath)
         }
     }
     const fetchProductById = async () => {
@@ -107,9 +108,14 @@ const ProductDetail = (props) => {
             toast.error('You can only buy up to 10 products')
         }
     }
-    const handleAddToCart = (data) => {
-        doAddToCart(data)
-        setOpen(true);
+    const handleAddToCart = (data, qty) => {
+        if (qty > 0) {
+            doAddToCart(data)
+            setOpen(true);
+        } else {
+            toast.error('He he he')
+        }
+
     }
 
     const handleMinusQuantity = (e) => {
@@ -162,7 +168,7 @@ const ProductDetail = (props) => {
                         <div className={`shadow-lg col-span-3 p-[30px] rounded-[15px] border-[1px] mb-auto`}>
                             <div className={`mb-[20px] flex items-center justify-between`}>
                                 <span
-                                    className={`${status === 'Active' ? 'text-[#82d175] bg-[rgba(130,209,117,0.2)] ' : 'text-[#F65D4E] bg-[rgba(223,44,44,0.2)]'} font-extralight text-sm leading-normal uppercase  py-1 px-2`}>{status === 'Active' ? 'in stock' : 'Out of stock'}</span>
+                                    className={`${quantity > 0 ? 'text-[#82d175] bg-[rgba(130,209,117,0.2)] ' : 'text-[#F65D4E] bg-[rgba(223,44,44,0.2)]'} font-extralight text-sm leading-normal uppercase  py-1 px-2`}>{quantity > 0 ? 'in stock' : 'Out of stock'}</span>
                             </div>
                             <h1 className={`text-[36px] leading-tight font-semiBold mb-[10px] clear-none`}>{productName}</h1>
                             <div
@@ -232,8 +238,8 @@ const ProductDetail = (props) => {
                                         </button>
                                     </div>
                                 </div>
-                                <div onClick={() => handleAddToCart(product)}
-                                     className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor duration-300 bg-lime-600 hover:bg-lime-700 cursor-pointer`}>
+                                <div onClick={() => handleAddToCart(product, quantity)}
+                                     className={`${quantity > 0 ? 'block' : 'hidden'} flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor duration-300 bg-lime-600 hover:bg-lime-700 cursor-pointer`}>
                                     <BsFillCartFill className={`mr-2`}/>
                                     Add to cart
                                 </div>

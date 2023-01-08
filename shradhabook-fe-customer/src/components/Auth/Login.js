@@ -5,7 +5,7 @@ import {message} from "../../ultis/message";
 import {postLogin} from "../../services/apiService";
 import {doLogin} from "../../redux/action/userAction";
 import LoginImage from '../../assets/image/login.png';
-import Book_1 from "../../assets/image/books/book_1.png"
+import Book_1 from "../../assets/image/books/book1.png"
 import Book_2 from "../../assets/image/books/book2.png"
 import Book_3 from "../../assets/image/books/book3.png"
 

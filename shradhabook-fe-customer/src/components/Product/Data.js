@@ -1,4 +1,4 @@
-import book1 from "../../assets/image/books/book_1.png";
+import book1 from "../../assets/image/books/book1.png";
 import book2 from "../../assets/image/books/book2.png";
 import book3 from "../../assets/image/books/book3.png";
 import book4 from "../../assets/image/books/book4.png";

@@ -35,7 +35,6 @@ import Book2 from '../../assets/image/books/book14.png'
 import Book3 from '../../assets/image/books/book12.png'
 import Book4 from '../../assets/image/books/book16.png'
 import Book5 from '../../assets/image/books/book22.png'
-import book14 from "../../assets/image/books/book14.png"
 
 import {useNavigate} from "react-router-dom";
 import {TbShoppingCart} from "react-icons/tb";
@@ -46,14 +45,12 @@ import {AddProductToWishList} from "../../ultis/AddProductToWishList";
 import jwt_decode from "jwt-decode";
 
 const HomePage = (props) => {
-    // SwiperCore.use([Autoplay]);
     const navigate = useNavigate();
     const [listCategory, setListCategory] = useState([])
     const [activeTitle, setActiveTitle] = useState(1)
     const {setOpen, doAddToCart} = props
-    const [userId, setUserId] = useState('')
     const account = useSelector(state => state.user.account);
-    let decoded = ''
+    let userId = ''
     const [productMostView, setProductMostView] = useState([])
     const [productLatestReleases, setProductLatestReleases] = useState([])
     const [productLowPrice, setProductLowPrice] = useState([])
@@ -93,12 +90,12 @@ const HomePage = (props) => {
     ]
     const classActiveHeaderTitle = `text-blackColor after:opacity-100 after:scale-100 after:content[''] after:inline-block after:absolute after:w-full after:h-[4px] after:left-0 after:bottom-[-5px] after:bg-dangerColor-default_2 after:duration-500`;
     const classHoverHeaderTitle = `hover:after:opacity-100 hover:after:scale-100 hover:after:content[''] hover:after:inline-block hover:after:absolute hover:after:w-full hover:after:h-[4px] hover:after:left-0 hover:after:bottom-[-5px] hover:after:bg-dangerColor-default_2 hover:text-blackColor hover:after:duration-500`
+    if (account.accessToken) {
+        userId = jwt_decode(account.accessToken).Id;
+    }
 
     useEffect(() => {
-        if (account.accessToken) {
-            decoded = jwt_decode(account.accessToken);
-        }
-        setUserId(decoded.Id)
+
         const fetchData = async () => {
             await fetchListCategories()
             await fetchListProductMostView()
@@ -110,9 +107,7 @@ const HomePage = (props) => {
 
     const fetchListCategories = async () => {
         let res = await getListCategory()
-        if (res.status === true && res) {
-            setListCategory(res.data)
-        }
+        setListCategory(res.data)
     }
     const fetchListProductMostView = async () => {
         let res = await getListProductMostView(10)
@@ -175,13 +170,11 @@ const HomePage = (props) => {
                         <div
                             className={`list_genre border-2 border-dangerColor-default_2 rounded-2xl flex flex-col items-start px-12 py-4`}>
                             <h3 className={`font-medium text-blackColor text-2xl text-left mb-4`}>Top 10 genre</h3>
-                            <ul className={`w-full`}>
+                            <ul className={`w-full `}>
                                 {
                                     listCategory.map((item, index) => {
-                                        let Icons = listIconCategory[index]
                                         return <div key={index}
                                                     className={`${listCategory.length === index + 1 ? '' : 'border-b-[1px]'} py-3 text-lightColor text-sm hover:text-dangerColor-default_2 cursor-pointer duration-300 flex items-center`}>
-                                            <Icons className={`text-xl`}/>
                                             <li className={`ml-4`}>{item.name}</li>
                                         </div>
                                     })
@@ -435,7 +428,7 @@ const HomePage = (props) => {
                                                                                 <div>
                                                                                     <img width={`600`} height={`840`}
                                                                                          className={`max-w-full h-auto p-2 rounded-[15px]`}
-                                                                                         src={book14}/>
+                                                                                         src={item.imageProductPath}/>
                                                                                 </div>
                                                                                 <div
                                                                                     className={`group_action absolute right-[10px] bottom-[10px] z-10`}>
@@ -476,7 +469,7 @@ const HomePage = (props) => {
                                                                             </div>
                                                                             <span
                                                                                 className={`text-2xl leading-normal font-medium text-dangerColor-default_2`}>
-                                                                                {item.price}
+                                                                                ${item.price}
                                                                             </span>
                                                                         </div>
                                                                     </div>
@@ -551,7 +544,6 @@ const HomePage = (props) => {
                                 </div>
                             </div>
                         </div>
-                        {/*<div className={`deals_of_weak pb-10`}></div>*/}
                         <div
                             className={`one_advertisement rounded-[20px] mb-10 px-[60px] py-[60px] w-full min-h-[200px] `}
                             style={{

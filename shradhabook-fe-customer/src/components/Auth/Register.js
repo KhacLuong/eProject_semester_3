@@ -4,7 +4,7 @@ import {toast} from "react-toastify";
 import {message} from "../../ultis/message";
 import {postCreateUser} from "../../services/apiService";
 import RegisterImage from "../../assets/image/register.png";
-import Book_1 from "../../assets/image/books/book_1.png"
+import Book_1 from "../../assets/image/books/book1.png"
 import Book_2 from "../../assets/image/books/book2.png"
 import Book_3 from "../../assets/image/books/book3.png"
 
