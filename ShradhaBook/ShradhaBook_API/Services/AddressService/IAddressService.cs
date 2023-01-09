@@ -7,4 +7,5 @@ public interface IAddressService
     Task<Address?> UpdateAddress(int id, Address request);
     Task<Address?> DeleteAddress(int id);
     Task<double?> GetDistance(List<double> destination);
+    Task<List<Country>> GetAllCountries();
 }

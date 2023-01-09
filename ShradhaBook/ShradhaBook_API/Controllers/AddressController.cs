@@ -82,4 +82,11 @@ public class AddressController : ControllerBase
             Message = "Successfully get distance."
         });
     }
+
+    [HttpGet("countries")]
+    public async Task<IActionResult> GetCountries()
+    {
+        var countries = await _addressService.GetAllCountries();
+        return Ok(new ServiceResponse<List<Country>> { Data = countries, Message = "Get all countries successfully." });
+    }
 }

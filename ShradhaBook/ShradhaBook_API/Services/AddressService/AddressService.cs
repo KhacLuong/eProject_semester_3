@@ -129,4 +129,9 @@ public class AddressService : IAddressService
             ?.Resources?.FirstOrDefault() as Location;
         return toolkitLocation!.Point.Coordinates.ToList();
     }
+
+    public async Task<List<Country>> GetAllCountries()
+    {
+        return await _context.Countries.ToListAsync();
+    }
 }
