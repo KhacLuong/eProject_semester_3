@@ -14,13 +14,17 @@ const ProductListView = (props) => {
         setHover,
         handleClickGoProductDetail,
         handleOnMouseOver,
-        imageProduct,
         hover,
         idProduct,
         renderStar,
         setOpen,
-        userId
+        userId,
+        doAddToCart
     } = props
+    const handleAddToCart = (data) => {
+        doAddToCart(data)
+        setOpen(true)
+    }
     return (
         <div className={`render_product grid grid-cols-1 gap-4 py-3`}>
             {listProducts.map((item, index) => {
@@ -39,7 +43,7 @@ const ProductListView = (props) => {
                             <div className={`group_action absolute right-[10px] bottom-[10px] z-10`}>
                                 <div className={`shop_action flex flex-col items-start relative`}>
                                     <button onClick={() => AddProductToWishList(userId, item.id)}
-                                        className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8'} 
+                                            className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8'} 
                                                     actionBtn text-dangerColor-default_3 duration-300`}>
                                         <FiHeart/></button>
                                     <div onClick={() => handleClickGoProductDetail(item.id, item.slug)}
@@ -47,7 +51,7 @@ const ProductListView = (props) => {
                                          className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible' + ' translate-x-0' : 'opacity-0 translate-x-8' + ' invisible'} actionBtn delay-100  duration-300`}>
                                         <FiEye/>
                                     </div>
-                                    <button onClick={() => setOpen(true)}
+                                    <button onClick={() => handleAddToCart(item)}
                                             className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8 invisible'} actionBtn delay-200 duration-300`}>
                                         <TbShoppingCart/></button>
                                 </div>
@@ -110,13 +114,13 @@ const ProductListView = (props) => {
                                     </div>
                                 </div>
                                 <div className={`flex items-center`}>
-                                    <div onClick={() => setOpen(true)}
+                                    <div onClick={() => handleAddToCart(item)}
                                          className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor duration-300 bg-lime-600 hover:bg-lime-700 cursor-pointer`}>
                                         <BsFillCartFill className={`mr-2`}/>
                                         Add to cart
                                     </div>
                                     <div onClick={() => AddProductToWishList(userId, item.id)}
-                                        className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor bg-dangerColor-default_2 hover:bg-dangerColor-hover_2 duration-300 cursor-pointer`}>
+                                         className={`flex justify-center items-center text-[14px] leading-tight font-semiBold mt-[10px] mr-[15px] mb-[10px] py-[17px] px-[32px] border-0 rounded-full text-whiteColor bg-dangerColor-default_2 hover:bg-dangerColor-hover_2 duration-300 cursor-pointer`}>
                                         <BsFillSuitHeartFill className={`mr-2`}/>
                                         Add to wishlist
                                     </div>

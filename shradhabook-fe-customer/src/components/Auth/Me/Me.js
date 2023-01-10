@@ -97,7 +97,6 @@ const Me = () => {
         //     gender: gender,
         //     dateofBirth: birthDay
         // }
-        // console.log(query)
         const data = new FormData()
         data.append('file', avatarName)
         let res = await postAvatarUser(email, data)

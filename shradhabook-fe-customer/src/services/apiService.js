@@ -63,6 +63,12 @@ const getListProduct = (query) => {
         }
     )
 }
+const getQuantityProductByCategory = () => {
+    return instance.get(`Products/GetQuantityProductByCategory`)
+}
+const getQuantityProductByAuthor = () => {
+    return instance.get(`Products/GetQuantityProductByAuthor`)
+}
 const updateViewCountProductById = (id) => {
     return instance.post(`Products/IncreaseViewCountProduct${id}`);
 }
@@ -95,7 +101,19 @@ const getListProductLatestReleases = (number) => {
 const getListProductLowestPrice = (number) => {
     return instance.get(`Products/GetProductByTheLowestPrice?numberRetrieving=${number}`)
 }
-const postOrder = () => {
 
+const postVerifyOrder = (userId) => {
+    return instance.post(`Order/verify?userId=${userId}`)
 }
-export {postAvatarUser,putUserInfo, putChangePassword, getMyAddress, postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo, updateViewCountProductById, getProductById, getProduct, postRefreshToken, getListAuthor, getWishListById, postProductToWishList, getListProductMostView, getListProductLatestReleases, getListProductLowestPrice, deleteProductInWishList, getCountProductInWishList}
+const getListOrderByUserId = (userId) => {
+    return instance.get(`Order/user/${userId}?page=1&itemPerPage=10`)
+}
+
+const putCancelOrder = (orderId) => {
+    return instance.put(`Order/cancel/${orderId}`)
+}
+const postOrder = (data) => {
+    return instance.post(`Order`, data)
+}
+
+export {getQuantityProductByCategory, getQuantityProductByAuthor, putCancelOrder, getListOrderByUserId, postOrder, postVerifyOrder, postAvatarUser,putUserInfo, putChangePassword, getMyAddress, postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo, updateViewCountProductById, getProductById, getProduct, postRefreshToken, getListAuthor, getWishListById, postProductToWishList, getListProductMostView, getListProductLatestReleases, getListProductLowestPrice, deleteProductInWishList, getCountProductInWishList}

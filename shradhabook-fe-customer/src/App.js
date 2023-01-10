@@ -25,7 +25,7 @@ const App = () => {
     return (
         <>
             <Routes>
-                <Route path={'/'} element={<Layout setOpen={setOpen}/>}>
+                <Route path={'/'} element={<Layout setOpen={setOpen} />}>
                     <Route path={'/'} index element={<HomePage setOpen={setOpen}/>}/>
                     <Route path={'/categories/:id/:slug'} element={<CategoryPage/>}/>
                     <Route path={'/products'} element={<ProductPage setOpen={setOpen}/>}/>
@@ -47,12 +47,12 @@ const App = () => {
                         <MyHistory/>
                     </PrivateRoute>}/>
                 </Route>
-                <Route path={'*'} element={<NotFound/>}/>
+                <Route path={'*'} element={<NotFound setOpen={setOpen}/>}/>
                 <Route path={'/login'} element={<Auth/>}/>
             </Routes>
             <ToastContainer
                 position="top-right"
-                autoClose={5000}
+                autoClose={3000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick

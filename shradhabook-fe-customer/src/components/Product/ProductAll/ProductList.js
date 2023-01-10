@@ -4,7 +4,6 @@ import '../Product.scss'
 import ReactPaginate from 'react-paginate';
 import {FaThList} from "react-icons/fa";
 import React, {useState} from "react";
-import book14 from "../../../assets/image/books/book14.png"
 import {updateViewCountProductById} from "../../../services/apiService";
 import ProductGridView from "./ProductGridView";
 import ProductListView from "./ProductListView";
@@ -32,11 +31,9 @@ const ProductList = (props) => {
     const [hover, setHover] = useState(false);
     const [idProduct, setIdProduct] = useState(0);
     const [turnOffPrevNextBtn, setTurnOffPrevNextBtn] = useState(true)
-    const [imageProduct, setImageProduct] = useState(book14);
     const [activeLayout, setActiveLayout] = useState(true);
     const handlePageClick = (event) => {
         fetchListProducts(+event.selected + 1)
-        console.log(`User requested page number ${+event.selected + 1}`)
         if (+event.selected + 1 === 1) {
             setTurnOffPrevNextBtn(true)
         }
@@ -108,12 +105,12 @@ const ProductList = (props) => {
                 activeLayout
                     ? <ProductGridView userId={userId} listProducts={listProducts} hover={hover} setHover={setHover}
                                        handleClickGoProductDetail={handleClickGoProductDetail}
-                                       handleOnMouseOver={handleOnMouseOver} imageProduct={imageProduct}
+                                       handleOnMouseOver={handleOnMouseOver}
                                        idProduct={idProduct} renderStar={renderStar} setOpen={setOpen}
                                        doAddToCart={props.doAddToCart}/>
                     : <ProductListView userId={userId} listProducts={listProducts} hover={hover} setHover={setHover}
                                        handleClickGoProductDetail={handleClickGoProductDetail}
-                                       handleOnMouseOver={handleOnMouseOver} imageProduct={imageProduct}
+                                       handleOnMouseOver={handleOnMouseOver}
                                        idProduct={idProduct} renderStar={renderStar} setOpen={setOpen}
                                        doAddToCart={props.doAddToCart}/>
             }
@@ -148,4 +145,4 @@ const mapDispatchToProps = dispatch => {
         doAddToCart: (data) => dispatch(doAddToCart(data))
     }
 }
-export default connect(null,mapDispatchToProps)(ProductList);
+export default connect(null, mapDispatchToProps)(ProductList);

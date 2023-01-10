@@ -1,18 +1,19 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FiEye, FiHeart, FiPackage} from "react-icons/fi";
 import {TbShoppingCart} from "react-icons/tb";
 import parse from "html-react-parser";
 import {BiCommentDetail} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
 import {AddProductToWishList} from "../../../ultis/AddProductToWishList";
+import {getListProductLatestReleases} from "../../../services/apiService";
 const ProductGridView = (props) => {
     const navigate = useNavigate();
+
     const {
         listProducts,
         setHover,
         handleClickGoProductDetail,
         handleOnMouseOver,
-        imageProduct,
         hover,
         idProduct,
         renderStar,
@@ -24,6 +25,7 @@ const ProductGridView = (props) => {
         doAddToCart(data)
         setOpen(true)
     }
+
     return (
         <div className={`render_product grid grid-cols-3 gap-4 py-3`}>
             {listProducts.map((item, index) => {

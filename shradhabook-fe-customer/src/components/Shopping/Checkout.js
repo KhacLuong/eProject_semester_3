@@ -11,14 +11,13 @@ import {connect, useSelector} from "react-redux";
 const Checkout = (props) => {
     const {removeAllProdcut} = props
     const account = useSelector(state => state.user.account);
-    const [userId, setUserId] = useState('')
+    let userId = ''
     const [userInfo, setUserInfo] = useState({})
     const [listProduct, setListProduct] = useState([])
-    let decoded = jwt_decode(account.accessToken).Id
+
     const [total, setTotal] = useState(0)
     const [totalItem, setTotalItem] = useState(0)
     const shop = useSelector(state => state.cart)
-
     const [name, setName] = useState('')
     const [streetAddressOne, setStreetAddressOne] = useState('')
     const [streetAddressTwo, setStreetAddressTwo] = useState('')
@@ -31,10 +30,12 @@ const Checkout = (props) => {
     const [district, setDistrict] = useState('')
     const navigate = useNavigate();
 
+    if (account.accessToken) {
+        userId = jwt_decode(account.accessToken).Id
+    }
     useEffect(() => {
-        setUserId(decoded)
         const fetchData = async () => {
-            let res = await getMyInfo(decoded)
+            let res = await getMyInfo(userId)
             if (res.status === true) {
                 setEmail(res.data.email)
                 setName(res.data.name)
@@ -45,7 +46,7 @@ const Checkout = (props) => {
             }
         }
         fetchData();
-    }, [userId, setUserId])
+    }, [account])
 
     useEffect(() => {
         let price = 0;
@@ -54,11 +55,11 @@ const Checkout = (props) => {
             items += item.qty
             price += item.price * item.qty
         })
-
         setTotal(price)
         setTotalItem(items)
         setListProduct(shop.cart)
     }, [shop.cart, total, totalItem, setTotal, setTotalItem])
+
     const validatePhone = (phone) => {
         return String(phone)
             .toLowerCase()
@@ -74,12 +75,17 @@ const Checkout = (props) => {
 
     }
     const onChangeAddress = (e) => {
-        console.log(e.target)
     }
     const onChangeDistrict = (e) => {
-        console.log(e.target)
     }
     const handlePlaceOrder = () => {
+        // let data = {
+        //     userId: userId,
+        //     email: email,
+        //     orderItems: [
+        //
+        //     ]
+        // }
         removeAllProdcut();
         navigate('/')
         toast.success('Order Success')

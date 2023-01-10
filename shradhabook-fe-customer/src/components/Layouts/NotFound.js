@@ -3,13 +3,13 @@ import {useNavigate} from "react-router-dom";
 import TopHeader from "./Header/TopHeader";
 import BottomHeader from "./Header/BottomHeader";
 import Footer from "./Footer/Footer";
-const NotFound = () => {
+const NotFound = (props) => {
     const navigate = useNavigate();
     return (
         <div>
             <div className={`app-container`}>
                 <div className={`header-container w-full`}>
-                    <TopHeader/>
+                    <TopHeader setOpen={props.setOpen}/>
                     <BottomHeader/>
                 </div>
                 <div className={`main-container w-full`}>

@@ -44,7 +44,7 @@ const Wishlist = (props) => {
     const handleGoToCategory = () => {
         const id = 1
         const slug = 'abcd'
-        navigate(`/categories/${id}/${slug}`)
+        navigate(`/categories/*`)
     }
     const fetchGetWishListByUserId = async (userId, params) => {
         let res = await getWishListById(userId, params)
