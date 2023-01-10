@@ -104,6 +104,7 @@ public class UserService : IUserService
 
         user.PasswordHash = passwordHash;
         user.PasswordSalt = passwordSalt;
+        await _context.SaveChangesAsync();
 
         return user;
     }
