@@ -38,12 +38,12 @@ const ProductFilter = (props) => {
                         {
                             listCategory.map((item, index) => {
                                 return <li key={index}
-                                           className={`${activeCategory === `category_${item.id}` ? 'text-dangerColor-default_2': ''} duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
-                                    <div onClick={() => handleOnClickCategory(item.name, item.id)}
-                                         className={`${activeCategory === `category_${item.id}` ? `before:content-['☑']`: `before:content-['☐']`} cursor-pointer flex items-center before:text-xl before:mr-[8px]`}>
-                                        {item.name}
+                                           className={`${activeCategory === `category_${item.category.id}` ? 'text-dangerColor-default_2': ''} duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
+                                    <div onClick={() => handleOnClickCategory(item.category.name, item.category.id)}
+                                         className={`${activeCategory === `category_${item.category.id}` ? `before:content-['☑']`: `before:content-['☐']`} cursor-pointer flex items-center before:text-xl before:mr-[8px]`}>
+                                        {item.category.name}
                                     </div>
-                                    <div>(1)</div>
+                                    <div>({item.quantity})</div>
                                 </li>
                             })
                         }
@@ -64,12 +64,12 @@ const ProductFilter = (props) => {
                         {
                             listAuthor.map((item, index) => {
                                 return <li key={index}
-                                           className={`${activeAuthor === `author_${item.id}` ? 'text-dangerColor-default_2': ''} duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
-                                    <div onClick={() => handleOnClickAuthor(item.name, item.id)}
-                                         className={`${activeAuthor === `author_${item.id}` ? `before:content-['☑']`: `before:content-['☐']`} cursor-pointer flex items-center before:text-xl before:mr-[8px]`}>
-                                        {item.name}
+                                           className={`${activeAuthor === `author_${item.author.id}` ? 'text-dangerColor-default_2': ''} duration-300 mb-1 text-sm leading-normal flex items-center justify-between font-light hover:text-dangerColor-default_2`}>
+                                    <div onClick={() => handleOnClickAuthor(item.author.name, item.author.id)}
+                                         className={`${activeAuthor === `author_${item.author.id}` ? `before:content-['☑']`: `before:content-['☐']`} cursor-pointer flex items-center before:text-xl before:mr-[8px]`}>
+                                        {item.author.name}
                                     </div>
-                                    <div>(1)</div>
+                                    <div>({item.quantity})</div>
                                 </li>
                             })
                         }

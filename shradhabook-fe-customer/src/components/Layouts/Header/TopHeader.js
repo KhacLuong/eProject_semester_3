@@ -13,6 +13,7 @@ import {removeAllProdcut} from "../../../redux/action/cartAction";
 import * as moment from "moment/moment";
 
 const TopHeader = (props) => {
+
     const [showNavUser, setShowNavUser] = useState(false);
     const [avatar, setAvatar] = useState(null)
     const [cartCount, setCartCount] = useState(0)

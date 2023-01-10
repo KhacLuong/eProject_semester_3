@@ -122,7 +122,7 @@ const HomePage = (props) => {
             setProductLatestReleases(res.data)
         }
     }
-    const fetchListProductLowPrice= async () => {
+    const fetchListProductLowPrice = async () => {
         let res = await getListProductLowestPrice(10)
         if (res.status === true && res) {
             setProductLowPrice(res.data)
@@ -418,63 +418,71 @@ const HomePage = (props) => {
                                                 <ul className={`mt-8 mb-0 clear-both grid grid-cols-5 shadow-md rounded-[15px]`}>
                                                     {
                                                         allProduct.map((item, index) => {
-                                                                return <li key={index} className={`mx-2`}>
-                                                                    <div
-                                                                        className={`px-[15px] mb-[60px] w-full rounded-t-[15px] duration-300 shadow-inner cursor-pointer`}>
+                                                            return <li key={index} className={`mx-2`}>
+                                                                <div
+                                                                    className={`px-[15px] mb-[60px] w-full rounded-t-[15px] duration-300 shadow-inner cursor-pointer`}>
+                                                                    <div onMouseLeave={() => setHover(false)}
+                                                                         className={`flex relative items-center flex-col`}>
                                                                         <div
-                                                                            className={`flex relative items-center flex-col`}>
+                                                                            onMouseOver={(e) => handleOnMouseOver(e, index)}
+                                                                            className={`overflow-hidden rounded-[15px] w-56`}>
+                                                                            <div>
+                                                                                <img width={`600`} height={`840`}
+                                                                                     className={`max-w-full h-auto p-2 rounded-[15px]`}
+                                                                                     src={item.imageProductPath}
+                                                                                     onClick={() => navigate(`products/product-detail/${item.id}/${item.slug}`)}/>
+                                                                            </div>
                                                                             <div
-                                                                                onMouseOver={(e) => handleOnMouseOver(e, index)}
-                                                                                className={`overflow-hidden rounded-[15px] w-56`}>
-                                                                                <div>
-                                                                                    <img width={`600`} height={`840`}
-                                                                                         className={`max-w-full h-auto p-2 rounded-[15px]`}
-                                                                                         src={item.imageProductPath}/>
-                                                                                </div>
+                                                                                className={`group_action absolute right-[10px] bottom-[10px] z-10`}>
                                                                                 <div
-                                                                                    className={`group_action absolute right-[10px] bottom-[10px] z-10`}>
-                                                                                    <div
-                                                                                        className={`shop_action flex flex-col items-start relative`}>
-                                                                                        <button
-                                                                                            onClick={() => AddProductToWishList(userId, item.id)}
-                                                                                            className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8'} 
+                                                                                    className={`shop_action flex flex-col items-start relative`}>
+                                                                                    <button
+                                                                                        onClick={() => AddProductToWishList(userId, item.id)}
+                                                                                        className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8'} 
                                                     actionBtn text-dangerColor-default_3 duration-300`}>
-                                                                                            <FiHeart/>
-                                                                                        </button>
-                                                                                        <div
-                                                                                            onClick={() => handleClickGoProductDetail(item.id, item.slug)}
-                                                                                            className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible' + ' translate-x-0' : 'opacity-0 translate-x-8' + ' invisible'} actionBtn delay-100 duration-300`}>
-                                                                                            <FiEye/>
-                                                                                        </div>
-                                                                                        <button
-                                                                                            onClick={() => handleAddProductToCart(item)}
-                                                                                            className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8 invisible'} actionBtn delay-200 duration-300`}>
-                                                                                            <TbShoppingCart/></button>
+                                                                                        <FiHeart/>
+                                                                                    </button>
+                                                                                    <div
+                                                                                        onClick={() => handleClickGoProductDetail(item.id, item.slug)}
+                                                                                        className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible' + ' translate-x-0' : 'opacity-0 translate-x-8' + ' invisible'} actionBtn delay-100 duration-300`}>
+                                                                                        <FiEye/>
                                                                                     </div>
+                                                                                    <button
+                                                                                        onClick={() => handleAddProductToCart(item)}
+                                                                                        className={`${hover && idProduct === index + 1 ? 'opacity-1' + ' visible translate-x-0' : 'opacity-0' + ' translate-x-8 invisible'} actionBtn delay-200 duration-300`}>
+                                                                                        <TbShoppingCart/></button>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
-                                                                        <div className={`relative pt-[20px]`}>
-                                                                            <h3 className={`text-[16px] mb-[8px] font-semiBold leading-normal overflow-hidden truncate `}>{item.name}</h3>
-                                                                            <div
-                                                                                className={`flex items-center mb-[10px] text-[12px] font-semiBold`}>
-                                                                                <div
-                                                                                    className={`flex items-center mr-[5px] overflow-hidden`}>
-                                                                                    {parse(renderStar(5))}
-                                                                                </div>
-                                                                                <span>5</span>
-                                                                            </div>
-                                                                            <div
-                                                                                className={`text-[12px] leading-none text-lightColor font-normal mb-[12px]`}>
-                                                                                {item.author}
-                                                                            </div>
-                                                                            <span
-                                                                                className={`text-2xl leading-normal font-medium text-dangerColor-default_2`}>
-                                                                                ${item.price}
-                                                                            </span>
                                                                         </div>
                                                                     </div>
-                                                                </li>
+                                                                    <div className={`relative pt-[20px]`}>
+                                                                        <h3 onClick={() => navigate(`products/product-detail/${item.id}/${item.slug}`)}
+                                                                            className={`text-[16px] mb-[8px] font-semiBold leading-normal overflow-hidden truncate hover:text-dangerColor-default_2`}>{item.name}</h3>
+                                                                        <div
+                                                                            className={`flex items-center mb-[10px] text-[12px] font-semiBold`}>
+                                                                            <div
+                                                                                className={`flex items-center mr-[5px] overflow-hidden`}>
+                                                                                {parse(renderStar(5))}
+                                                                            </div>
+                                                                            <span>5</span>
+                                                                        </div>
+                                                                        <div
+                                                                            className={`text-[12px] leading-none text-lightColor font-semibold mb-[12px]`}>
+                                                                            Author: <span
+                                                                            className={`font-medium`}>{item.author}</span>
+                                                                        </div>
+                                                                        <div
+                                                                            className={`text-[12px] leading-none text-lightColor font-semibold mb-[12px]`}>
+                                                                            Category: <span
+                                                                            className={`font-medium`}>{item.category}</span>
+                                                                        </div>
+                                                                        <span
+                                                                            className={`text-2xl leading-normal font-medium text-dangerColor-default_2`}>
+                                                                                ${item.price}
+                                                                            </span>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
                                                         })
                                                     }
                                                 </ul>
@@ -582,16 +590,18 @@ const HomePage = (props) => {
                                         <div className={``}>
                                             <ul className={`mb-0 clear-both flex flex-wrap grid grid-rows-1`}>
                                                 {
-                                                    Data.DT.products.map((item, index) => {
-                                                        if (item.id > 0 && item.id < 5) {
+                                                    productLowPrice.map((item, index) => {
+                                                        if (index >= 0 && index < 4) {
                                                             return <li key={index} title={item.name}
-                                                                       className={`row-span-1`}>
-                                                                <div
-                                                                    className={`${index + 1 === 4 ? 'border-b-0' : 'border-b-[1px] border-borderColor'} py-[15px] flex items-center`}>
+                                                                       onClick={() => navigate(`products/product-detail/${item.id}/${item.slug}`)}
+                                                                       className={`row-span-1 last:border-0 border-b-[1px]`}>
+                                                                <div className={`py-[15px] flex items-center`}>
                                                                     <div className={`left max-w-[130px] mr-[30px]`}>
-                                                                        <a className={`cursor-pointer`}><img
-                                                                            className={`rounded-[16px]`}
-                                                                            src={item.imageProductName}/></a>
+                                                                        <a className={`cursor-pointer`}>
+                                                                            <img
+                                                                                className={`rounded-[16px]`}
+                                                                                src={item.imageProductPath}/>
+                                                                        </a>
                                                                     </div>
                                                                     <div className={`right`}>
                                                                         <h3 className={`cursor-pointer text-[16px] mb-[8px] font-semiBold line-clamp-1 leading-normal hover:text-dangerColor-default_2 duration-300`}>
@@ -604,7 +614,15 @@ const HomePage = (props) => {
                                                                         </div>
                                                                         <div
                                                                             className={`cursor-pointer text-[12px] leading-none mb-[12px] font-normal text-lightColor hover:text-dangerColor-default_2 duration-300`}>
-                                                                            <a className={``}>{item.author}</a>
+                                                                            <a className={`font-medium`}>Author: <span
+                                                                                className={`font-normal`}>{item.author}</span>
+                                                                            </a>
+                                                                        </div>
+                                                                        <div
+                                                                            className={`cursor-pointer text-[12px] leading-none mb-[12px] font-normal text-lightColor hover:text-dangerColor-default_2 duration-300`}>
+                                                                            <a className={`font-medium`}>Category: <span
+                                                                                className={`font-normal`}>{item.category}</span>
+                                                                            </a>
                                                                         </div>
                                                                         <span
                                                                             className={`font-medium text-[20px] text-dangerColor-default_2`}>$ {item.price}</span>
@@ -625,16 +643,16 @@ const HomePage = (props) => {
                                         <div className={``}>
                                             <ul className={`mb-0 clear-both flex flex-wrap grid grid-rows-1`}>
                                                 {
-                                                    Data.DT.products.map((item, index) => {
-                                                        if (item.id > 4 && item.id < 9) {
+                                                    productMostView.map((item, index) => {
+                                                        if (index >= 0 && index < 4) {
                                                             return <li key={index} title={item.name}
-                                                                       className={`row-span-1`}>
+                                                                       onClick={() => navigate(`products/product-detail/${item.id}/${item.slug}`)}>
                                                                 <div
-                                                                    className={`${index + 1 === 8 ? 'border-b-0' : 'border-b-[1px] border-borderColor'} py-[15px] flex items-center`}>
+                                                                    className={`border-borderColor py-[15px] flex items-center`}>
                                                                     <div className={`left max-w-[130px] mr-[30px]`}>
                                                                         <a className={`cursor-pointer`}><img
                                                                             className={`rounded-[16px]`}
-                                                                            src={item.imageProductName}/></a>
+                                                                            src={item.imageProductPath}/></a>
                                                                     </div>
                                                                     <div className={`right`}>
                                                                         <h3 className={`cursor-pointer text-[16px] mb-[8px] font-semiBold line-clamp-1 leading-normal hover:text-dangerColor-default_2 duration-300`}>
@@ -647,7 +665,15 @@ const HomePage = (props) => {
                                                                         </div>
                                                                         <div
                                                                             className={`cursor-pointer text-[12px] leading-none mb-[12px] font-normal text-lightColor hover:text-dangerColor-default_2 duration-300`}>
-                                                                            <a className={``}>{item.author}</a>
+                                                                            <a className={`font-medium`}>Author: <span
+                                                                                className={`font-normal`}>{item.author}</span>
+                                                                            </a>
+                                                                        </div>
+                                                                        <div
+                                                                            className={`cursor-pointer text-[12px] leading-none mb-[12px] font-normal text-lightColor hover:text-dangerColor-default_2 duration-300`}>
+                                                                            <a className={`font-medium`}>Category: <span
+                                                                                className={`font-normal`}>{item.category}</span>
+                                                                            </a>
                                                                         </div>
                                                                         <span
                                                                             className={`font-medium text-[20px] text-dangerColor-default_2`}>$ {item.price}</span>
@@ -668,16 +694,15 @@ const HomePage = (props) => {
                                         <div className={``}>
                                             <ul className={`mb-0 clear-both flex flex-wrap grid grid-rows-1`}>
                                                 {
-                                                    Data.DT.products.map((item, index) => {
-                                                        if (item.id > 7 && item.id < 12) {
+                                                    productLatestReleases.map((item, index) => {
+                                                        if (index >= 0 && index < 4) {
                                                             return <li key={index} title={item.name}
-                                                                       className={`row-span-1`}>
-                                                                <div
-                                                                    className={`${index + 1 === 11 ? 'border-b-0' : 'border-b-[1px] border-borderColor'} py-[15px] flex items-center`}>
+                                                                       onClick={() => navigate(`products/product-detail/${item.id}/${item.slug}`)}>
+                                                                <div className={`py-[15px] flex items-center`}>
                                                                     <div className={`left max-w-[130px] mr-[30px]`}>
                                                                         <a className={`cursor-pointer`}><img
                                                                             className={`rounded-[16px]`}
-                                                                            src={item.imageProductName}/></a>
+                                                                            src={item.imageProductPath}/></a>
                                                                     </div>
                                                                     <div className={`right`}>
                                                                         <h3 className={`cursor-pointer text-[16px] mb-[8px] font-semiBold line-clamp-1 leading-normal hover:text-dangerColor-default_2 duration-300`}>
@@ -690,7 +715,15 @@ const HomePage = (props) => {
                                                                         </div>
                                                                         <div
                                                                             className={`cursor-pointer text-[12px] leading-none mb-[12px] font-normal text-lightColor hover:text-dangerColor-default_2 duration-300`}>
-                                                                            <a className={``}>{item.author}</a>
+                                                                            <a className={`font-medium`}>Author: <span
+                                                                                className={`font-normal`}>{item.author}</span>
+                                                                            </a>
+                                                                        </div>
+                                                                        <div
+                                                                            className={`cursor-pointer text-[12px] leading-none mb-[12px] font-normal text-lightColor hover:text-dangerColor-default_2 duration-300`}>
+                                                                            <a className={`font-medium`}>Category: <span
+                                                                                className={`font-normal`}>{item.category}</span>
+                                                                            </a>
                                                                         </div>
                                                                         <span
                                                                             className={`font-medium text-[20px] text-dangerColor-default_2`}>$ {item.price}</span>
@@ -755,4 +788,4 @@ const mapDispatchToProps = dispatch => {
         doAddToCart: (data) => dispatch(doAddToCart(data))
     }
 }
-export default connect(null,mapDispatchToProps)(HomePage);
+export default connect(null, mapDispatchToProps)(HomePage);

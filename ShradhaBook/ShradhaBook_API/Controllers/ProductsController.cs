@@ -359,6 +359,54 @@ public class ProductsController : ControllerBase
                 new MyServiceResponse<List<ProductModelGet>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         }
     }
+    /// <summary>
+    ///     Get Quantity Product for each Category
+    /// </summary>
+    /// <param name=""></param>
+    /// <returns></returns>
+    [HttpGet("GetQuantityProductByCategory")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<List<Object>>> GetQuantityProductByCategory()
+    {
+        try
+        {
+            var result = await _productService.GetQuantityProductByCategoryAsync();
+
+            return result == null
+                ? NotFound(new MyServiceResponse<List<Object>>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<List<Object>>(result));
+        }
+        catch
+        {
+            return StatusCode(500,
+                new MyServiceResponse<List<Object>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
+    /// <summary>
+    ///     Get Quantity Product for each Author
+    /// </summary>
+    /// <param name=""></param>
+    /// <returns></returns>
+    [HttpGet("GetQuantityProductByAuthor")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<List<Object>>> GetQuantityProductByAuthor()
+    {
+        try
+        {
+            var result = await _productService.GetQuantityProductByAuthorAsync();
+
+            return result == null
+                ? NotFound(new MyServiceResponse<List<Object>>(false, MyStatusCode.NOT_FOUND_RESULT))
+                : Ok(new MyServiceResponse<List<Object>>(result));
+        }
+        catch
+        {
+            return StatusCode(500,
+                new MyServiceResponse<List<Object>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
+        }
+    }
 
     //private bool ViewProductExists(int id)
     //{

@@ -47,7 +47,7 @@ const MenuItem = ({items, depthLevel}) => {
                     </>
                 ) : (
                     <div className={`cursor-pointer`}
-                         onClick={() => navigate((`/categories/${items.id}/${items.slug}`))}>
+                         onClick={() => navigate((`/categories/*`))}>
                         {items.name}
                     </div>
                 )

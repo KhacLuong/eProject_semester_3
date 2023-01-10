@@ -94,7 +94,7 @@ const MenuNavigation = () => {
                 {/*        }*/}
                 {/*    </ul>*/}
                 {/*</a>*/}
-                <NavLink to={'/blogs'}
+                <NavLink to={'/blogs/*'}
                          className={({isActive}) => isActive ? 'active' : defaultClass}>
                     Blogs
                 </NavLink>

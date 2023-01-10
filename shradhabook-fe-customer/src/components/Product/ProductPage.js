@@ -2,7 +2,13 @@ import React, {useEffect, useState} from 'react';
 import Banner from "../Layouts/Banner/Banner";
 import ProductFilter from "./ProductFilter/ProductFilter";
 import ProductList from "./ProductAll/ProductList";
-import {getListAuthor, getListProduct, getListCategory} from "../../services/apiService";
+import {
+    getListAuthor,
+    getListProduct,
+    getListCategory,
+    getQuantityProductByAuthor,
+    getQuantityProductByCategory
+} from "../../services/apiService";
 import {renderStar} from "../../ultis/renderStar";
 import jwt_decode from "jwt-decode";
 import {useSelector} from "react-redux";
@@ -152,13 +158,13 @@ const ProductPage = (props,{doAddToCart}) => {
     }
 
     const fetchListAuthor = async () => {
-        let res = await getListAuthor()
+        let res = await getQuantityProductByAuthor()
         if (res.status === true) {
             setListAuthor(res.data)
         }
     }
     const fetchListCategory = async () => {
-        let res = await getListCategory()
+        let res = await getQuantityProductByCategory()
         if (res.status === true) {
             setListCategory(res.data)
         }
