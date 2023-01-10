@@ -71,8 +71,6 @@ builder.Services.AddScoped<IWishListProductService, WishListProductService>();
 builder.Services.AddScoped<IRateService, RateService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 
-
-
 builder.Services.AddAzureClients(options =>
 {
     options.AddBlobServiceClient(builder.Configuration.GetSection("Storage:ConnectionString").Value);
@@ -112,7 +110,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
                 .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
             ValidateIssuer = false,
-            ValidateAudience = false
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
         };
     });
 builder.Services.AddCors(p =>
