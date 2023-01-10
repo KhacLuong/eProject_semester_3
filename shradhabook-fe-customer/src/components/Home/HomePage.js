@@ -148,7 +148,6 @@ const HomePage = (props) => {
         }
     }
     const handleAddProductToCart = (data) => {
-        console.log(data)
         doAddToCart(data)
         setOpen(true);
     }
@@ -173,10 +172,12 @@ const HomePage = (props) => {
                             <ul className={`w-full `}>
                                 {
                                     listCategory.map((item, index) => {
-                                        return <div key={index}
-                                                    className={`${listCategory.length === index + 1 ? '' : 'border-b-[1px]'} py-3 text-lightColor text-sm hover:text-dangerColor-default_2 cursor-pointer duration-300 flex items-center`}>
-                                            <li className={`ml-4`}>{item.name}</li>
-                                        </div>
+                                        if (index < 10) {
+                                            return <div key={index}
+                                                        className={`${listCategory.length === index + 1 ? '' : 'border-b-[1px]'} py-3 text-lightColor text-sm hover:text-dangerColor-default_2 cursor-pointer duration-300 flex items-center`}>
+                                                <li className={`ml-4`}>{item.name}</li>
+                                            </div>
+                                        }
                                     })
                                 }
                             </ul>

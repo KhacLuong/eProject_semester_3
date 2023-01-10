@@ -1,7 +1,4 @@
 import instance from "../ultis/axiosCustomize";
-import {doRefreshToken} from "../redux/action/userAction";
-import {useDispatch} from "react-redux";
-
 
 // =================== API FOR USER ===================
 const postCreateUser = (name, email, password, confirmPassword, userType) => {
@@ -14,15 +11,8 @@ const postCreateUser = (name, email, password, confirmPassword, userType) => {
     }
     return instance.post('User/register', data)
 }
-const PostRefreshToken = (email, refreshToken) => {
-    const dispatch = useDispatch();
-    return instance.post(`Auth/refresh-token`, {email,refreshToken}).then((res) => {
-        const data = {
-            refreshToken: res.data.refreshToken,
-            accessToken: res.data.accessToken
-        }
-        dispatch(doRefreshToken(data))
-    })
+const postRefreshToken = (email, refreshToken) => {
+    return instance.post(`Auth/refresh-token`, {email,refreshToken})
 }
 const postLogin = (email, password) => {
     return instance.post('Auth/login', {email, password})
@@ -34,8 +24,32 @@ const deleteLogout = (accessToken) => {
 const getMyInfo = (id) => {
     return instance.get(`User/${id}`);
 }
-
-
+const getMyAddress = (id) => {
+    return instance.get(`Address?userInfoId=${id}`, {id})
+}
+const putChangePassword = (id, currentPassword, newPassword) => {
+    const data = {
+        oldPassword: currentPassword,
+        password: newPassword
+    }
+    return instance.put(`User/password/${id}`, data)
+}
+const putUserInfo = (id, query) => {
+    return instance.put(`UserInfo/${id}`, {
+        params: query
+    })
+}
+const postAvatarUser = (email, data) => {
+    return instance.post(`FileUpload/avatar?email=${email}`, data, {
+        headers: {
+            'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+        }
+    }).then(res => {
+        console.log(res)
+    }).catch(er => {
+        console.log(er)
+    })
+}
 // =================== API FOR PRODUCT ===================
 const getListCategory = () => {
     return instance.get('Categories')
@@ -81,5 +95,7 @@ const getListProductLatestReleases = (number) => {
 const getListProductLowestPrice = (number) => {
     return instance.get(`Products/GetProductByTheLowestPrice?numberRetrieving=${number}`)
 }
+const postOrder = () => {
 
-export { postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo, updateViewCountProductById, getProductById, getProduct, PostRefreshToken, getListAuthor, getWishListById, postProductToWishList, getListProductMostView, getListProductLatestReleases, getListProductLowestPrice, deleteProductInWishList, getCountProductInWishList}
+}
+export {postAvatarUser,putUserInfo, putChangePassword, getMyAddress, postCreateUser, postLogin, deleteLogout, getListProduct, getListCategory, getMyInfo, updateViewCountProductById, getProductById, getProduct, postRefreshToken, getListAuthor, getWishListById, postProductToWishList, getListProductMostView, getListProductLatestReleases, getListProductLowestPrice, deleteProductInWishList, getCountProductInWishList}

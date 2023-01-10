@@ -4,7 +4,6 @@ import {XMarkIcon} from '@heroicons/react/24/outline'
 import {useNavigate} from "react-router-dom";
 import {IoCloseSharp} from 'react-icons/io5'
 import {FaMinus} from 'react-icons/fa'
-import Book20 from '../assets/image/books/book20.png'
 import {connect, useSelector} from "react-redux";
 import {doRemoveFromCart} from "../redux/action/cartAction";
 import jwt_decode from "jwt-decode";
@@ -16,16 +15,12 @@ const ModalCart = (props) => {
     const [total, setTotal] = useState(0);
     const navigate = useNavigate();
     const shop = useSelector(state => state.cart)
-    const [userId, setUserId] = useState('')
     const account = useSelector(state => state.user.account);
 
-    useEffect(() => {
-        let decoded = ''
-        if (account.accessToken) {
-            decoded = jwt_decode(account.accessToken);
-        }
-        setUserId(decoded.Id)
-    }, [account])
+    let userId = ''
+    if(account.accessToken) {
+        userId = jwt_decode(account.accessToken).Id
+    }
 
     useEffect(() => {
         let price = 0;
@@ -114,7 +109,7 @@ const ModalCart = (props) => {
                                                                        className={`cursor-pointer group/image max-w-[80px] mr-3`}>
                                                                         <img
                                                                             onClick={() => handleViewProduct(item.id, item.slug)}
-                                                                            src={Book20}
+                                                                            src={item.imageProductPath}
                                                                             className={`rounded-[10px] max-w-[80px]`}/>
                                                                     </a>
                                                                     <div className={`w-full`}>
@@ -123,8 +118,11 @@ const ModalCart = (props) => {
                                                                         <p className={`text-xs`}>Author: <span
                                                                             className={`hover:text-dangerColor-default_2 hover:underline duration-300 font-light cursor-pointer`}>{item.author}</span>
                                                                         </p>
-                                                                        <p className={`text-xs mb-4`}>Category: <span
+                                                                        <p className={`text-xs`}>Category: <span
                                                                             className={`hover:text-dangerColor-default_2 hover:underline duration-300 font-light cursor-pointer`}>{item.category}</span>
+                                                                        </p>
+                                                                        <p className={`text-xs mb-4`}>Manufacturer: <span
+                                                                            className={`hover:text-dangerColor-default_2 hover:underline duration-300 font-light cursor-pointer`}>{item.manufacturer}</span>
                                                                         </p>
                                                                         <p className={`price flex items-center`}><span
                                                                             className={`font-medium`}>$ {item.price}</span><IoCloseSharp

@@ -67,21 +67,24 @@ const CartItem = (props) => {
         <>
             <tr className="last:border-b-0 border-b-[1px] border-borderColor bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td scope="row"
-                    className="px-2 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <img onClick={() => navigate(`/products/product-detail/${item.id}/${item.slug}`)} className={`cursor-pointer rounded-xl`} src={book14}/>
+                    className="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <img onClick={() => navigate(`/products/product-detail/${item.id}/${item.slug}`)} className={`cursor-pointer rounded-xl`} src={item.imageProductPath}/>
                 </td>
                 <td className="px-6 py-4 w-60">
                     <div className={`w-60 font-semiBold text-blackColor break-words`}>
                         <h3 onClick={() => navigate(`/products/product-detail/${item.id}/${item.slug}`)} className={`cursor-pointer duration-300 hover:text-dangerColor-default_2 text-2xl mb-4 line-clamp-2`}>
                             {item.name}
                         </h3>
-                        <p className={`text-xs`}>Author: <span
+                        <p className={`text-xs font-medium`}>Author: <span
                             className={`hover:text-dangerColor-default_2 hover:underline duration-300 font-light cursor-pointer`}>{item.author}</span>
                         </p>
-                        <p className={`text-xs`}>Category: <span
+                        <p className={`text-xs font-medium`}>Category: <span
                             className={`hover:text-dangerColor-default_2 hover:underline duration-300 font-light cursor-pointer`}>{item.category}</span>
                         </p>
-                        <p className={`text-xs`}>Description: <span
+                        <p className={`text-xs font-medium`}>Manufacturer: <span
+                            className={`hover:text-dangerColor-default_2 hover:underline duration-300 font-light cursor-pointer`}>{item.manufacturer}</span>
+                        </p>
+                        <p className={`text-xs line-clamp-2 font-light`}><span className={`font-medium`}>Description:</span><span
                             className={`hover:text-dangerColor-default_2 hover:underline duration-300 font-light cursor-pointer`}>{item.description}</span>
                         </p>
                     </div>

@@ -59,7 +59,6 @@ const ProductPage = (props,{doAddToCart}) => {
     const [AuthorName, setAuthorName] = useState('');
     const [lowPrice, setLowPrice] = useState(null);
     const [hightPrice, setHightPrice] = useState(null);
-    const [sortBy, setSortBy] = useState(null);
     const [activeCategory, setActiveCategory] = useState('');
     const [activeAuthor, setActiveAuthor] = useState('');
     const [bannerTitle, setBannerTitle] = useState('product')
