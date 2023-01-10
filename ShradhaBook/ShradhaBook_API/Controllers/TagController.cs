@@ -13,8 +13,17 @@ public class TagController : ControllerBase
         _tagService = tagService;
     }
 
+    /// <summary>
+    ///     Get all tags
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="sortBy"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
     // GET: api/TagModels
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<object>> GetAllTag(string? name, int sortBy = 0, int pageSize = 20,
         int pageIndex = 1)
     {
@@ -30,8 +39,15 @@ public class TagController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get tag given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/TagModels/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<TagModelGet>> GetTag(int id)
     {
         try
@@ -48,8 +64,17 @@ public class TagController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get tag given blog id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
     // GET: api/TagModels/5
-    [HttpGet("GetTagsByBlogId{id}")]
+    [HttpGet("GetTagsByBlogId{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetTagsByBlogId(int id, int pageSize = 20, int pageIndex = 1)
     {
         try
@@ -66,7 +91,16 @@ public class TagController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get tag given product id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
     [HttpGet("Product{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetTagsByProductId(int id, int pageSize = 20, int pageIndex = 1)
     {
         try

@@ -20,8 +20,17 @@ public class AdminManufacturerController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    ///     Get all manufacturer
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="code"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageindex"></param>
+    /// <returns></returns>
     // GET: api/ManufacturerModels
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<object>> GetAllManufacturer(string? name, string? code, int pageSize = 20,
         int pageindex = 1)
     {
@@ -37,8 +46,15 @@ public class AdminManufacturerController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get a given manufacturer
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/ManufacturerModels/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ManufacturerModelGet>> GetManufacturer(int id)
     {
         try
@@ -56,24 +72,28 @@ public class AdminManufacturerController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Update a given manufacturer id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // PUT: api/ManufacturerModels/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateManufacturer(int id, ManufacturerModelPost model)
     {
         try
         {
             var status = await _manufacturerService.UpdateManufacturerAsync(id, model);
             if (status == MyStatusCode.EMAIL_INVALID)
-            {
                 return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
                     MyStatusCode.EMAIL_INVALID_RESULT));
-            }
             if (status == MyStatusCode.PHONE_INVALID)
-            {
                 return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
                     MyStatusCode.PHONE_INVALID_RESULT));
-            }
             if (status == MyStatusCode.DUPLICATE_CODE)
                 return BadRequest(new MyServiceResponse<ManufacturerModelGet>(false,
                     MyStatusCode.UPDATE_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
@@ -106,24 +126,27 @@ public class AdminManufacturerController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Create new manufacturer
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // POST: api/ManufacturerModels
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ManufacturerModelPost>> AddManufacturer(ManufacturerModelPost model)
     {
         try
         {
             var status = await _manufacturerService.AddManufacturerAsync(model);
             if (status == MyStatusCode.EMAIL_INVALID)
-            {
                 return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
                     MyStatusCode.EMAIL_INVALID_RESULT));
-            }
             if (status == MyStatusCode.PHONE_INVALID)
-            {
                 return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
                     MyStatusCode.PHONE_INVALID_RESULT));
-            }
             if (status == MyStatusCode.DUPLICATE_CODE)
                 return BadRequest(new MyServiceResponse<ManufacturerModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
@@ -157,8 +180,15 @@ public class AdminManufacturerController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Delete a given manufacturer id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // DELETE: api/ManufacturerModels/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> DeleteManufacturer(int id)
     {
         try

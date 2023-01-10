@@ -15,7 +15,6 @@ global using ShradhaBook_API.Services.AuthorService;
 global using ShradhaBook_API.Services.BlogService;
 global using ShradhaBook_API.Services.BlogTagService;
 global using ShradhaBook_API.Services.WishListService;
-
 global using ShradhaBook_API.Services.RateService;
 global using ShradhaBook_API.Data;
 global using ShradhaBook_API.Helpers;
@@ -25,17 +24,17 @@ global using ShradhaBook_ClassLibrary.Request;
 global using ShradhaBook_ClassLibrary.Response;
 global using ShradhaBook_ClassLibrary.ViewModels;
 global using System.Net.Mime;
+using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
-using System.Reflection;
-//using ShradhaBook_API.Services.RateService;
-using ShradhaBook_API.Services.WishListProductService;
 using ShradhaBook_API.Services.CommentService;
+using ShradhaBook_API.Services.WishListProductService;
+using Swashbuckle.AspNetCore.Filters;
+//using ShradhaBook_API.Services.RateService;
 
 var builder = WebApplication.CreateBuilder(args);
 

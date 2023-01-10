@@ -13,8 +13,17 @@ public class BlogTagController : ControllerBase
         _blogTagService = blogTagService;
     }
 
+    /// <summary>
+    ///     Get all blog tags
+    /// </summary>
+    /// <param name="blogTitle"></param>
+    /// <param name="tagName"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
     // GET: api/BlogTag
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<object>> GetAllBlogTag(string? blogTitle, string? tagName, int pageSize = 20,
         int pageIndex = 1)
     {
@@ -30,8 +39,15 @@ public class BlogTagController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get blog tag given blog id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/BlogTag/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<BlogTagModelGet>> GetBlogTag(int id)
     {
         try

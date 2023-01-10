@@ -16,8 +16,17 @@ public class AdminTagController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    ///     Get all tags
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="sortBy"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
     // GET: api/TagModelGets
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<object>> GetTag(string? name, int sortBy = 0, int pageSize = 20, int pageIndex = 1)
     {
         try
@@ -31,8 +40,15 @@ public class AdminTagController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get a tag given tag id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/TagModelGets/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<TagModelGet>> GetTag(int id)
     {
         try
@@ -49,9 +65,17 @@ public class AdminTagController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Update a tag given tag id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // PUT: api/TagModelGets/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateTag(int id, TagModelPost model)
     {
         try
@@ -77,9 +101,16 @@ public class AdminTagController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    ///     Create new tag
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // POST: api/TagModelGets
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<TagModelGet>> AddTag(TagModelPost model)
     {
         try

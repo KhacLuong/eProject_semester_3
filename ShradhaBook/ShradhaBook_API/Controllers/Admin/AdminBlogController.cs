@@ -18,8 +18,18 @@ public class AdminBlogController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    ///     Get all blogs
+    /// </summary>
+    /// <param name="tiltle"></param>
+    /// <param name="authorName"></param>
+    /// <param name="status"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
     // GET: api/AdminBlog
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<object>> GetAllBlogs(string? tiltle, string? authorName, string? status,
         int pageSize = 20, int pageIndex = 1)
     {
@@ -35,8 +45,15 @@ public class AdminBlogController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get a blog given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/AdminBlog/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<BlogModelGet>> GetBlog(int id)
     {
         try
@@ -53,7 +70,14 @@ public class AdminBlogController : ControllerBase
         }
     }
 
-    [HttpGet("Detail{id}")]
+    /// <summary>
+    ///     Get blog details
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("Detail{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetBlogDetail(int id)
     {
         try
@@ -70,9 +94,17 @@ public class AdminBlogController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Update blog given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // PUT: api/AdminBlog/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateBlog(int id, BlogModelPost model)
     {
         try
@@ -94,9 +126,16 @@ public class AdminBlogController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Create new blog
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // POST: api/AdminBlog
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<BlogModelGet>> AddBlogModelPost(BlogModelPost model)
     {
         try
@@ -120,8 +159,14 @@ public class AdminBlogController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Delete blog given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // DELETE: api/AdminBlog/5
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteBlog(int id)
     {
         try

@@ -18,8 +18,26 @@ public class AdminProductController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    ///     Get all products
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="code"></param>
+    /// <param name="status"></param>
+    /// <param name="categoryName"></param>
+    /// <param name="authorName"></param>
+    /// <param name="manufactuerName"></param>
+    /// <param name="moreThanPrice"></param>
+    /// <param name="lessThanPrice"></param>
+    /// <param name="moreThanQuantity"></param>
+    /// <param name="lessThanQuantity"></param>
+    /// <param name="sortBy"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
     // GET: api/AdminProduct
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<object>> GetAllProduc(string? name, string? code, string? status,
         string? categoryName, string? authorName, string? manufactuerName,
         decimal? moreThanPrice, decimal? lessThanPrice, long? moreThanQuantity, long? lessThanQuantity, int? sortBy = 0,
@@ -39,8 +57,15 @@ public class AdminProductController : ControllerBase
         //}
     }
 
+    /// <summary>
+    ///     Get a given product id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/AdminProduct/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ProductModelGet>> GetProduct(int id)
     {
         try
@@ -58,7 +83,14 @@ public class AdminProductController : ControllerBase
         }
     }
 
-    [HttpGet("GetProduct{id}")]
+    /// <summary>
+    ///     Get a product given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("GetProduct{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ProductModelPost>> GetProduct2(int id)
     {
         try
@@ -76,7 +108,14 @@ public class AdminProductController : ControllerBase
         }
     }
 
-    [HttpGet("getDetail{id}")]
+    /// <summary>
+    ///     Get product detail
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("getDetail{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetProductDetail(int id)
     {
         try
@@ -93,9 +132,17 @@ public class AdminProductController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Update given product id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // PUT: api/AdminProduct/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateProduct(int id, ProductModelPost model)
     {
         //try
@@ -124,9 +171,16 @@ public class AdminProductController : ControllerBase
         //}
     }
 
+    /// <summary>
+    ///     Create new product
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // POST: api/AdminProduct
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ProductModelGet>> AddProductModelGet(ProductModelPost model)
     {
         try
@@ -159,8 +213,14 @@ public class AdminProductController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Delete given product id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // DELETE: api/AdminProduct/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteProductModelGet(int id)
     {
         try
@@ -175,7 +235,16 @@ public class AdminProductController : ControllerBase
         }
     }
 
-    [HttpGet("GetProductByCategoryId{id}")]
+    /// <summary>
+    ///     Get all products given category id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
+    [HttpGet("GetProductByCategoryId{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetProductByCategoryId(int id, int pageSize = 20, int pageIndex = 1)
     {
         try

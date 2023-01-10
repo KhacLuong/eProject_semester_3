@@ -108,6 +108,11 @@ public class AddressService : IAddressService
         return distanceMatrix!.GetCell(0, 0).TravelDistance;
     }
 
+    public async Task<List<Country>> GetAllCountries()
+    {
+        return await _context.Countries.ToListAsync();
+    }
+
     private async Task<List<double>?> GetLocation(string addressLine1, string? addressLine2, string district,
         string city,
         string country)
@@ -128,10 +133,5 @@ public class AddressService : IAddressService
         var toolkitLocation = result.ResourceSets?.FirstOrDefault()
             ?.Resources?.FirstOrDefault() as Location;
         return toolkitLocation!.Point.Coordinates.ToList();
-    }
-
-    public async Task<List<Country>> GetAllCountries()
-    {
-        return await _context.Countries.ToListAsync();
     }
 }

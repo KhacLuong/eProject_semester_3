@@ -4,23 +4,65 @@
         <name>ShradhaBook_API</name>
     </assembly>
     <members>
+        <member name="M:ShradhaBook_API.Controllers.AddressController.CreateAddress(ShradhaBook_ClassLibrary.Request.AddAddressRequest)">
+            <summary>
+                Create new address
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.AddressController.GetAllAddresses(System.Int32)">
+            <summary>
+                Get all addresses given userinfo id
+            </summary>
+            <param name="userInfoId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.AddressController.UpdateAddress(System.Int32,ShradhaBook_ClassLibrary.Entities.Address)">
+            <summary>
+                Update address given address id
+            </summary>
+            <param name="id"></param>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.AddressController.DeleteAddress(System.Int32)">
+            <summary>
+                Delete address given address id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.AddressController.GetDistance(System.Collections.Generic.List{System.Double})">
+            <summary>
+                Get distance from store to customer's address, given location
+            </summary>
+            <param name="destination"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.AddressController.GetCountries">
+            <summary>
+                Get all countries
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:ShradhaBook_API.Controllers.Admin.AdminAddressController.CreateAddress(ShradhaBook_ClassLibrary.Request.AddAddressRequest)">
             <summary>
-            Create new address
+                Create new address
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
         <member name="M:ShradhaBook_API.Controllers.Admin.AdminAddressController.GetAllAddresses(System.Int32)">
             <summary>
-            Return all address given user info id
+                Return all address given user info id
             </summary>
             <param name="userInfoId"></param>
             <returns></returns>
         </member>
         <member name="M:ShradhaBook_API.Controllers.Admin.AdminAddressController.UpdateAddress(System.Int32,ShradhaBook_ClassLibrary.Entities.Address)">
             <summary>
-            Update address information, given address id
+                Update address information, given address id
             </summary>
             <param name="id"></param>
             <param name="request"></param>
@@ -28,14 +70,14 @@
         </member>
         <member name="M:ShradhaBook_API.Controllers.Admin.AdminAddressController.DeleteAddress(System.Int32)">
             <summary>
-            Delete an address given address id
+                Delete an address given address id
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:ShradhaBook_API.Controllers.Admin.AdminAuthorController.GetAllAuthor(System.String,System.String,System.Nullable{System.Int32},System.Int32,System.Int32)">
             <summary>
-            Return all author 
+                Return all author
             </summary>
             <param name="name"></param>
             <param name="phone"></param>
@@ -46,29 +88,353 @@
         </member>
         <member name="M:ShradhaBook_API.Controllers.Admin.AdminAuthorController.GetAuthor(System.Int32)">
             <summary>
-            Return author given id
+                Return author given id
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:ShradhaBook_API.Controllers.Admin.AdminAuthorController.UpdateAuthor(System.Int32,ShradhaBook_ClassLibrary.ViewModels.AuthorModelPost)">
             <summary>
-            Update author given id
+                Update author given id
             </summary>
             <param name="id"></param>
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminAuthorController.AddAuthor(ShradhaBook_ClassLibrary.ViewModels.AuthorModelPost)">
+            <summary>
+                Add new author
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminAuthorController.DeleteAuthor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Delete author
+            </summary>
+            <param name="id"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminBlogController.GetAllBlogs(System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+                Get all blogs
+            </summary>
+            <param name="tiltle"></param>
+            <param name="authorName"></param>
+            <param name="status"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminBlogController.GetBlog(System.Int32)">
+            <summary>
+                Get a blog given id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminBlogController.GetBlogDetail(System.Int32)">
+            <summary>
+                Get blog details
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminBlogController.UpdateBlog(System.Int32,ShradhaBook_ClassLibrary.ViewModels.BlogModelPost)">
+            <summary>
+                Update blog given id
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminBlogController.AddBlogModelPost(ShradhaBook_ClassLibrary.ViewModels.BlogModelPost)">
+            <summary>
+                Create new blog
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminBlogController.DeleteBlog(System.Int32)">
+            <summary>
+                Delete blog given id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminBlogTagController.GetAllBlogTag(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+                Get all blog tag
+            </summary>
+            <param name="blogTitle"></param>
+            <param name="tagName"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminBlogTagController.GetBlogTag(System.Int32)">
+            <summary>
+                Get blog tag given id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminBlogTagController.UpdateBlogTag(System.Int32,ShradhaBook_ClassLibrary.ViewModels.BlogTagModelPost)">
+            <summary>
+                Update blog tag given id
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminBlogTagController.AddBlogTag(ShradhaBook_ClassLibrary.ViewModels.BlogTagModelPost)">
+            <summary>
+                Create new blog tag
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminBlogTagController.DeleteBlogTag(System.Int32)">
+            <summary>
+                Delete blog tag given id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminCategoryController.GetAllCategories(System.String,System.String,System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Get all category
+            </summary>
+            <param name="name"></param>
+            <param name="code"></param>
+            <param name="status"></param>
+            <param name="sortBy"></param>
+            <param name="pageSize"></param>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminCategoryController.GetCategory(System.Int32)">
+            <summary>
+                Get a given category id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminCategoryController.UpdateCategory(System.Int32,ShradhaBook_ClassLibrary.ViewModels.CategoryModelPost)">
+            <summary>
+                Update given category id
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminCategoryController.AddCategory(ShradhaBook_ClassLibrary.ViewModels.CategoryModelPost)">
+            <summary>
+                Create new category
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminCategoryController.DeleteCategory(System.Int32)">
+            <summary>
+                Delete given category id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminManufacturerController.GetAllManufacturer(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+                Get all manufacturer
+            </summary>
+            <param name="name"></param>
+            <param name="code"></param>
+            <param name="pageSize"></param>
+            <param name="pageindex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminManufacturerController.GetManufacturer(System.Int32)">
+            <summary>
+                Get a given manufacturer
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminManufacturerController.UpdateManufacturer(System.Int32,ShradhaBook_ClassLibrary.ViewModels.ManufacturerModelPost)">
+            <summary>
+                Update a given manufacturer id
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminManufacturerController.AddManufacturer(ShradhaBook_ClassLibrary.ViewModels.ManufacturerModelPost)">
+            <summary>
+                Create new manufacturer
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminManufacturerController.DeleteManufacturer(System.Int32)">
+            <summary>
+                Delete a given manufacturer id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminProductController.GetAllProduc(System.String,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Nullable{System.Int64},System.Nullable{System.Int32},System.Int32,System.Int32)">
+            <summary>
+                Get all products
+            </summary>
+            <param name="name"></param>
+            <param name="code"></param>
+            <param name="status"></param>
+            <param name="categoryName"></param>
+            <param name="authorName"></param>
+            <param name="manufactuerName"></param>
+            <param name="moreThanPrice"></param>
+            <param name="lessThanPrice"></param>
+            <param name="moreThanQuantity"></param>
+            <param name="lessThanQuantity"></param>
+            <param name="sortBy"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminProductController.GetProduct(System.Int32)">
+            <summary>
+                Get a given product id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminProductController.GetProduct2(System.Int32)">
+            <summary>
+                Get a product given id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminProductController.GetProductDetail(System.Int32)">
+            <summary>
+                Get product detail
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminProductController.UpdateProduct(System.Int32,ShradhaBook_ClassLibrary.ViewModels.ProductModelPost)">
+            <summary>
+                Update given product id
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminProductController.AddProductModelGet(ShradhaBook_ClassLibrary.ViewModels.ProductModelPost)">
+            <summary>
+                Create new product
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminProductController.DeleteProductModelGet(System.Int32)">
+            <summary>
+                Delete given product id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminProductController.GetProductByCategoryId(System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Get all products given category id
+            </summary>
+            <param name="id"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminProductTagController.GetAllProductTag(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+                Get all product tag
+            </summary>
+            <param name="productName"></param>
+            <param name="tagName"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminProductTagController.GetProductTag(System.Int32)">
+            <summary>
+                Get a product tag given id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminProductTagController.UpdateProductTag(System.Int32,ShradhaBook_ClassLibrary.ViewModels.ProductTagPost)">
+            <summary>
+                Update product tag
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminProductTagController.AddProductTag(ShradhaBook_ClassLibrary.ViewModels.ProductTagPost)">
+            <summary>
+                Create new product tag
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminProductTagController.DeleteProductTag(System.Int32)">
+            <summary>
+                Delete product tag
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminTagController.GetTag(System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Get all tags
+            </summary>
+            <param name="name"></param>
+            <param name="sortBy"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminTagController.GetTag(System.Int32)">
+            <summary>
+                Get a tag given tag id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminTagController.UpdateTag(System.Int32,ShradhaBook_ClassLibrary.ViewModels.TagModelPost)">
+            <summary>
+                Update a tag given tag id
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminTagController.AddTag(ShradhaBook_ClassLibrary.ViewModels.TagModelPost)">
+            <summary>
+                Create new tag
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserController.Register(ShradhaBook_ClassLibrary.Request.UserRegisterRequest)">
             <summary>
-            Register new user account
+                Register new user account
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
         <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserController.GetAllUsers(System.String,System.Int32,System.Int32)">
             <summary>
-            Return all user accounts
+                Return all user accounts
             </summary>
             <param name="query"></param>
             <param name="page"></param>
@@ -77,14 +443,14 @@
         </member>
         <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserController.GetSingleUser(System.Int32)">
             <summary>
-            Return user account given by id
+                Return user account given by id
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserController.UpdateUser(System.Int32,ShradhaBook_ClassLibrary.Entities.User)">
             <summary>
-            Update user account name
+                Update user account name
             </summary>
             <param name="id"></param>
             <param name="request"></param>
@@ -92,7 +458,7 @@
         </member>
         <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserController.ChangePassword(System.Int32,ShradhaBook_ClassLibrary.Request.UserChangePasswordRequest)">
             <summary>
-            Change user password given id
+                Change user password given id
             </summary>
             <param name="id"></param>
             <param name="request"></param>
@@ -100,7 +466,289 @@
         </member>
         <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserController.DeleteUser(System.Int32)">
             <summary>
-            Delete user account given id
+                Delete user account given id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserInfoController.CreateUserInfo(ShradhaBook_ClassLibrary.Request.AddUserInfoRequest)">
+            <summary>
+                Create user info
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserInfoController.GetUsereInfo(System.Int32)">
+            <summary>
+                Get user info given user id
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserInfoController.UpdateUserInfo(System.Int32,ShradhaBook_ClassLibrary.Entities.UserInfo)">
+            <summary>
+                Update user info given userinfo id
+            </summary>
+            <param name="id"></param>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Admin.AdminUserInfoController.DeleteUserInfo(System.Int32)">
+            <summary>
+                Delete user info given user info id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Authentication.AuthController.Login(ShradhaBook_ClassLibrary.Request.UserLoginRequest)">
+            <summary>
+                Login
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Authentication.AuthController.RefreshToken(ShradhaBook_ClassLibrary.Request.RefreshTokenRequest)">
+            <summary>
+                Refresh token
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.Authentication.AuthController.Logout">
+            <summary>
+                Logout
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.AuthorsController.GetAllAuthors">
+            <summary>
+                Get all authors
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.AuthorsController.GetCategory(System.Int32)">
+            <summary>
+                Get author given author id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.BlogController.GetAllBlog(System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+                Get all blogs
+            </summary>
+            <param name="tiltle"></param>
+            <param name="authorName"></param>
+            <param name="status"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.BlogController.GetBlog(System.Int32)">
+            <summary>
+                Get blog given blog id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.BlogController.GetBlogDetail(System.Int32)">
+            <summary>
+                Get blog detail given blog id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.BlogController.GetBlogDetailBySlug(System.String)">
+            <summary>
+                Get blog detail given blog slug
+            </summary>
+            <param name="slug"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.BlogController.GetBlogByAuthorId(System.Int32)">
+            <summary>
+                Get blog given author id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.BlogController.IncreaseViewCountBlog(System.Int32)">
+            <summary>
+                Increase view blog given blog id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.BlogTagController.GetAllBlogTag(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+                Get all blog tags
+            </summary>
+            <param name="blogTitle"></param>
+            <param name="tagName"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.BlogTagController.GetBlogTag(System.Int32)">
+            <summary>
+                Get blog tag given blog id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.CategoriesController.GetAllCategories">
+            <summary>
+                Get all categories
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.CategoriesController.GetCategory(System.Int32)">
+            <summary>
+                Get category given id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.CommentController.UpdateComment(System.Int32,ShradhaBook_ClassLibrary.ViewModels.CommentModelPost)">
+            <summary>
+                Update comment
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.CommentController.AddComment(ShradhaBook_ClassLibrary.ViewModels.CommentModelPost)">
+            <summary>
+                Create new comment
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.CommentController.DeleteComment(System.Int32)">
+            <summary>
+                Delete comment
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.FileUploadController.UploadAvatar(Microsoft.AspNetCore.Http.IFormFile,System.String)">
+            <summary>
+                Upload user avatar given user email
+            </summary>
+            <param name="file"></param>
+            <param name="email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.FileUploadController.UploadProducts(Microsoft.AspNetCore.Http.IFormFile,System.String)">
+            <summary>
+                Upload product image given product slug
+            </summary>
+            <param name="file"></param>
+            <param name="productSlug"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ManufacturersController.GetAllManufacturet">
+            <summary>
+                Get all manufacturers
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ManufacturersController.GetManufacturer(System.Int32)">
+            <summary>
+                Get manufacturer given id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.OrderController.CheckVerify(System.Int32)">
+            <summary>
+                Check user has been verified or not
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.OrderController.CreateOrder(ShradhaBook_ClassLibrary.Request.CreateOrderRequest)">
+            <summary>
+                Create new order with list of order items
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.OrderController.GetAllOrders(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Int32,System.Int32)">
+            <summary>
+                Get all orders
+            </summary>
+            <param name="orderNumber"></param>
+            <param name="productId"></param>
+            <param name="userId"></param>
+            <param name="orderTracking"></param>
+            <param name="paymentForms"></param>
+            <param name="fromTotal"></param>
+            <param name="toTotal"></param>
+            <param name="page"></param>
+            <param name="itemPerPage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.OrderController.GetAllOrdersByUserId(System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Get all order given user id
+            </summary>
+            <param name="userId"></param>
+            <param name="page"></param>
+            <param name="itemPerPage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.OrderController.GetOrderById(System.Int32)">
+            <summary>
+                Get order given order id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.OrderController.UpdateOrder(System.Int32,ShradhaBook_ClassLibrary.Request.UpdateOrderRequest)">
+            <summary>
+                Update order given order id
+            </summary>
+            <param name="id"></param>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.OrderController.CancellationOrder(System.Int32)">
+            <summary>
+                Cancellation order given order id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductsController.GetAllProducts(System.String,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Nullable{System.Int64},System.Nullable{System.Int32},System.Int32,System.Int32)">
+            <summary>
+                Get all products
+            </summary>
+            <param name="name"></param>
+            <param name="code"></param>
+            <param name="status"></param>
+            <param name="categoryName"></param>
+            <param name="AuthorName"></param>
+            <param name="manufactuerName"></param>
+            <param name="lowPrice"></param>
+            <param name="hightPrice"></param>
+            <param name="lowQuantity"></param>
+            <param name="hightQuantity"></param>
+            <param name="sortBy"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductsController.GetProduct(System.Int32)">
+            <summary>
+                Get product given product id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductsController.GetProductDetail(System.Int32)">
+            <summary>
+
             </summary>
             <param name="id"></param>
             <returns></returns>

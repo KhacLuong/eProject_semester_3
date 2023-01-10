@@ -13,8 +13,13 @@ public class ManufacturersController : ControllerBase
         _manufacturerService = manufacturerService;
     }
 
+    /// <summary>
+    ///     Get all manufacturers
+    /// </summary>
+    /// <returns></returns>
     // GET: api/Maufacturer
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<ManufacturerModelGet>>> GetAllManufacturet()
     {
         try
@@ -29,8 +34,15 @@ public class ManufacturersController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get manufacturer given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/ViewCategories/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ManufacturerModelGet>> GetManufacturer(int id)
     {
         try

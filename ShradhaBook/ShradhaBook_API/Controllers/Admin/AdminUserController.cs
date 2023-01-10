@@ -17,8 +17,9 @@ public class AdminUserController : ControllerBase
         _userService = userService;
         _emailService = emailService;
     }
+
     /// <summary>
-    /// Register new user account
+    ///     Register new user account
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -50,8 +51,9 @@ public class AdminUserController : ControllerBase
         };
         return Ok(response);
     }
+
     /// <summary>
-    /// Return all user accounts
+    ///     Return all user accounts
     /// </summary>
     /// <param name="query"></param>
     /// <param name="page"></param>
@@ -76,8 +78,9 @@ public class AdminUserController : ControllerBase
         };
         return Ok(new ServiceResponse<PaginationResponse<User>> { Data = response });
     }
+
     /// <summary>
-    /// Return user account given by id
+    ///     Return user account given by id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -92,8 +95,9 @@ public class AdminUserController : ControllerBase
             return NotFound(new ServiceResponse<User> { Status = false, Message = "User not found." });
         return Ok(new ServiceResponse<User> { Data = user });
     }
+
     /// <summary>
-    /// Update user account name
+    ///     Update user account name
     /// </summary>
     /// <param name="id"></param>
     /// <param name="request"></param>
@@ -109,8 +113,9 @@ public class AdminUserController : ControllerBase
             return NotFound(new ServiceResponse<User> { Status = false, Message = "User not found." });
         return Ok(new ServiceResponse<User> { Data = user, Message = "User info has been updated successfully." });
     }
+
     /// <summary>
-    /// Change user password given id
+    ///     Change user password given id
     /// </summary>
     /// <param name="id"></param>
     /// <param name="request"></param>
@@ -126,8 +131,9 @@ public class AdminUserController : ControllerBase
             return BadRequest(new ServiceResponse<User> { Status = false, Message = "Old password not match." });
         return Ok(new ServiceResponse<User> { Data = user, Message = "Password has been changed successfully." });
     }
+
     /// <summary>
-    /// Delete user account given id
+    ///     Delete user account given id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

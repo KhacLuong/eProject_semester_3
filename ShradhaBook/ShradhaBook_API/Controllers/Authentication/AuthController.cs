@@ -15,7 +15,14 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
+    /// <summary>
+    ///     Login
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost("login")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Login(UserLoginRequest request)
     {
         var response = Response;
@@ -28,7 +35,15 @@ public class AuthController : ControllerBase
             { Data = userLoginResponse, Message = "User logged in successfully." });
     }
 
+    /// <summary>
+    ///     Refresh token
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost("refresh-token")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> RefreshToken(RefreshTokenRequest request)
     {
         var refreshTokenResponse = await _authService.RefreshToken(request);
@@ -45,8 +60,14 @@ public class AuthController : ControllerBase
         };
     }
 
+    /// <summary>
+    ///     Logout
+    /// </summary>
+    /// <returns></returns>
     [Authorize]
     [HttpPost("logout")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> Logout()
     {
         var userId = HttpContext.User.FindFirstValue("Id");

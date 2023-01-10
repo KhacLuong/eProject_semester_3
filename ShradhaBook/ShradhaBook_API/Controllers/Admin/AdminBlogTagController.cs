@@ -17,8 +17,17 @@ public class AdminBlogTagController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    ///     Get all blog tag
+    /// </summary>
+    /// <param name="blogTitle"></param>
+    /// <param name="tagName"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
     // GET: api/BlogTagModelGets
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<object>> GetAllBlogTag(string? blogTitle, string? tagName, int pageSize = 20,
         int pageIndex = 1)
     {
@@ -34,8 +43,15 @@ public class AdminBlogTagController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get blog tag given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/BlogTagModelGets/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<BlogTagModelGet>> GetBlogTag(int id)
     {
         try
@@ -53,9 +69,17 @@ public class AdminBlogTagController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Update blog tag given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // PUT: api/BlogTagModelGets/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateBlogTag(int id, BlogTagModelPost model)
     {
         //try
@@ -85,9 +109,16 @@ public class AdminBlogTagController : ControllerBase
         //}
     }
 
+    /// <summary>
+    ///     Create new blog tag
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // POST: api/BlogTagModelGets
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<BlogTagModelGet>> AddBlogTag(BlogTagModelPost model)
     {
         try
@@ -120,8 +151,14 @@ public class AdminBlogTagController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Delete blog tag given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // DELETE: api/BlogTag/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteBlogTag(int id)
     {
         try

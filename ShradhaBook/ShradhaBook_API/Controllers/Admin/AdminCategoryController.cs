@@ -18,8 +18,19 @@ public class AdminCategoryController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    ///     Get all category
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="code"></param>
+    /// <param name="status"></param>
+    /// <param name="sortBy"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="page"></param>
+    /// <returns></returns>
     // GET: api/AdminCategory
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<CategoryModelGet>>> GetAllCategories(string? name, string? code,
         string? status = "Active", int sortBy = 0, int pageSize = 20, int page = 1)
     {
@@ -35,8 +46,15 @@ public class AdminCategoryController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get a given category id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/AdminCategory/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CategoryModelGet>> GetCategory(int id)
     {
         try
@@ -54,9 +72,17 @@ public class AdminCategoryController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Update given category id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // PUT: api/AdminCategory/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateCategory(int id, CategoryModelPost model)
     {
         try
@@ -85,9 +111,16 @@ public class AdminCategoryController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Create new category
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // POST: api/AdminCategory
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> AddCategory(CategoryModelPost model)
     {
         //try
@@ -98,10 +131,8 @@ public class AdminCategoryController : ControllerBase
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_CODE_RESULT));
 
             if (status == MyStatusCode.DUPLICATE_NAME)
-            {
                 return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_NAME_RESULT));
-            }
 
 
             if (status > 0)
@@ -124,9 +155,15 @@ public class AdminCategoryController : ControllerBase
         //}
     }
 
-
+    /// <summary>
+    ///     Delete given category id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // DELETE: api/AdminCategory/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> DeleteCategory(int id)
     {
         try

@@ -17,8 +17,15 @@ public class AddressController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    ///     Create new address
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> CreateAddress(AddAddressRequest request)
     {
         var userInfo = await _addressService.CreateAddress(request);
@@ -31,8 +38,14 @@ public class AddressController : ControllerBase
         });
     }
 
+    /// <summary>
+    ///     Get all addresses given userinfo id
+    /// </summary>
+    /// <param name="userInfoId"></param>
+    /// <returns></returns>
     [HttpGet]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllAddresses(int userInfoId)
     {
         var addresses = await _addressService.GetAllAddresses(userInfoId);
@@ -42,8 +55,16 @@ public class AddressController : ControllerBase
         });
     }
 
+    /// <summary>
+    ///     Update address given address id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPut("{id:int}")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateAddress(int id, Address request)
     {
         var address = await _addressService.UpdateAddress(id, request);
@@ -56,8 +77,15 @@ public class AddressController : ControllerBase
         });
     }
 
+    /// <summary>
+    ///     Delete address given address id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("{id:int}")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteAddress(int id)
     {
         var address = await _addressService.DeleteAddress(id);
@@ -70,7 +98,14 @@ public class AddressController : ControllerBase
         });
     }
 
+    /// <summary>
+    ///     Get distance from store to customer's address, given location
+    /// </summary>
+    /// <param name="destination"></param>
+    /// <returns></returns>
     [HttpPost("distance")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetDistance(List<double> destination)
     {
         var travelDistance = await _addressService.GetDistance(destination);
@@ -83,7 +118,12 @@ public class AddressController : ControllerBase
         });
     }
 
+    /// <summary>
+    ///     Get all countries
+    /// </summary>
+    /// <returns></returns>
     [HttpGet("countries")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetCountries()
     {
         var countries = await _addressService.GetAllCountries();
