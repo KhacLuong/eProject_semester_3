@@ -14,10 +14,12 @@ public class OrderItemsService : IOrderItemsService
         var product = await _context.Products.FindAsync(request.ProductId);
         if (product == null) return null;
         product.Quantity -= request.Quantity;
-
+        if (product.Quantity < 0)
+            return null;
+        var lastOrder = _context.Orders.OrderByDescending(oi => oi.Id).Last();
         var orderItems = new OrderItems
         {
-            OrderId = request.OrderId,
+            OrderId = lastOrder.Id,
             ProductId = request.ProductId,
             Quantity = request.Quantity,
             UnitPrice = request.UnitPrice,
