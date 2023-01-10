@@ -13,8 +13,13 @@ public class CategoriesController : ControllerBase
         _categoryService = categoryService;
     }
 
+    /// <summary>
+    ///     Get all categories
+    /// </summary>
+    /// <returns></returns>
     // GET: api/Categories
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<CategoryModelGet>>> GetAllCategories()
     {
         try
@@ -29,8 +34,15 @@ public class CategoriesController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get category given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/ViewCategories/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CategoryModelGet>> GetCategory(int id)
     {
         try

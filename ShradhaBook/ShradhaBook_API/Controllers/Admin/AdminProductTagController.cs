@@ -17,8 +17,17 @@ public class AdminProductTagController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    ///     Get all product tag
+    /// </summary>
+    /// <param name="productName"></param>
+    /// <param name="tagName"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
     // GET: api/ProductTagPosts
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<object>> GetAllProductTag(string? productName, string? tagName, int pageSize = 20,
         int pageIndex = 1)
     {
@@ -34,8 +43,15 @@ public class AdminProductTagController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get a product tag given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/ProductTagPosts/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ProductTagGet>> GetProductTag(int id)
     {
         try
@@ -52,9 +68,17 @@ public class AdminProductTagController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Update product tag
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // PUT: api/ProductTagPosts/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateProductTag(int id, ProductTagPost model)
     {
         try
@@ -83,9 +107,16 @@ public class AdminProductTagController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Create new product tag
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // POST: api/ProductTagPosts
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ProductTagGet>> AddProductTag(ProductTagPost model)
     {
         try
@@ -116,8 +147,14 @@ public class AdminProductTagController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Delete product tag
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // DELETE: api/ProductTagPosts/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteProductTag(int id)
     {
         try

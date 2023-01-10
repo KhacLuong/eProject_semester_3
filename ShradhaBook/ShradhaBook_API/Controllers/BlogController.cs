@@ -18,8 +18,18 @@ public class BlogController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    ///     Get all blogs
+    /// </summary>
+    /// <param name="tiltle"></param>
+    /// <param name="authorName"></param>
+    /// <param name="status"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
     // GET: api/BlogModel
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<object>> GetAllBlog(string? tiltle, string? authorName, string? status,
         int pageSize = 20, int pageIndex = 1)
     {
@@ -35,8 +45,15 @@ public class BlogController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get blog given blog id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/BlogModel/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<BlogModelGet>> GetBlog(int id)
     {
         try
@@ -53,7 +70,14 @@ public class BlogController : ControllerBase
         }
     }
 
-    [HttpGet("Detail{id}")]
+    /// <summary>
+    ///     Get blog detail given blog id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("Detail{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetBlogDetail(int id)
     {
         try
@@ -70,7 +94,14 @@ public class BlogController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get blog detail given blog slug
+    /// </summary>
+    /// <param name="slug"></param>
+    /// <returns></returns>
     [HttpGet("DetailBySlug{slug}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetBlogDetailBySlug(string slug)
     {
         try
@@ -87,7 +118,14 @@ public class BlogController : ControllerBase
         }
     }
 
-    [HttpGet("GetBlogByAuthorId{id}")]
+    /// <summary>
+    ///     Get blog given author id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("GetBlogByAuthorId{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetBlogByAuthorId(int id)
     {
         try
@@ -104,7 +142,14 @@ public class BlogController : ControllerBase
         }
     }
 
-    [HttpPost("IncreaseViewCountBlog{id}")]
+    /// <summary>
+    ///     Increase view blog given blog id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpPost("IncreaseViewCountBlog{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> IncreaseViewCountBlog(int id)
     {
         try

@@ -13,8 +13,26 @@ public class ProductsController : ControllerBase
         _productService = productService;
     }
 
+    /// <summary>
+    ///     Get all products
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="code"></param>
+    /// <param name="status"></param>
+    /// <param name="categoryName"></param>
+    /// <param name="AuthorName"></param>
+    /// <param name="manufactuerName"></param>
+    /// <param name="lowPrice"></param>
+    /// <param name="hightPrice"></param>
+    /// <param name="lowQuantity"></param>
+    /// <param name="hightQuantity"></param>
+    /// <param name="sortBy"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
     // GET: api/ViewProducts
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<object>>> GetAllProducts(string? name, string? code, string? status,
         string? categoryName, string? AuthorName, string? manufactuerName,
         decimal? lowPrice, decimal? hightPrice, long? lowQuantity, long? hightQuantity, int? sortBy = 0,
@@ -34,8 +52,15 @@ public class ProductsController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get product given product id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/ViewProducts/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ProductModelGet>> GetProduct(int id)
     {
         try
@@ -53,7 +78,13 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("Detail{id}")]
+    /// <summary>
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("Detail{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetProductDetail(int id)
     {
         try
@@ -70,7 +101,17 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("GetProductByCategoryId{id}")]
+    /// <summary>
+    ///     Get products of given category id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="sortBy"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
+    [HttpGet("GetProductByCategoryId{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetProductByCategoryId(int id, int sortBy = 0, int pageSize = 20,
         int pageIndex = 1)
     {
@@ -88,7 +129,17 @@ public class ProductsController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get products of given category slug
+    /// </summary>
+    /// <param name="slug"></param>
+    /// <param name="sortBy"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
     [HttpGet("GetProductByCategorySlug{slug}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetProductByCategoryId(string slug, int sortBy = 0, int pageSize = 20,
         int pageIndex = 1)
     {
@@ -106,8 +157,17 @@ public class ProductsController : ControllerBase
         }
     }
 
-
-    [HttpGet("GetProductByAuthorId{id}")]
+    /// <summary>
+    ///     Get products given author id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="sortBy"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
+    [HttpGet("GetProductByAuthorId{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetProductByAuthorId(int id, int sortBy = 0, int pageSize = 20,
         int pageIndex = 1)
     {
@@ -125,7 +185,17 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("GetProductByManufacturer{id}")]
+    /// <summary>
+    ///     Get products given manufacturer id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="sortBy"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
+    [HttpGet("GetProductByManufacturer{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetProductByManufacturer(int id, int sortBy = 0, int pageSize = 20,
         int pageIndex = 1)
     {
@@ -143,7 +213,14 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPost("IncreaseViewCountProduct{id}")]
+    /// <summary>
+    ///     Increase product view count
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpPost("IncreaseViewCountProduct{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> IncreaseViewCountProduct(int id)
     {
         try
@@ -158,8 +235,16 @@ public class ProductsController : ControllerBase
         }
     }
 
-
-    [HttpGet("GetProductWishListByUserId{id}")]
+    /// <summary>
+    ///     Get products in wish list given user id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
+    [HttpGet("GetProductWishListByUserId{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetProductWishListByUserId(int id, int pageSize = 20, int pageIndex = 1)
     {
         try
@@ -176,8 +261,14 @@ public class ProductsController : ControllerBase
         }
     }
 
-
+    /// <summary>
+    ///     Get product given slug
+    /// </summary>
+    /// <param name="slug"></param>
+    /// <returns></returns>
     [HttpGet("GetProductBySlug{slug}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetProductBySlug(string slug)
     {
         try
@@ -194,8 +285,14 @@ public class ProductsController : ControllerBase
         }
     }
 
-
+    /// <summary>
+    ///     Get product given the lowest price
+    /// </summary>
+    /// <param name="numberRetrieving"></param>
+    /// <returns></returns>
     [HttpGet("GetProductByTheLowestPrice")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<List<ProductModelGet>>> GetProductByTheLowestPrice(int numberRetrieving)
     {
         try
@@ -213,8 +310,14 @@ public class ProductsController : ControllerBase
         }
     }
 
-
+    /// <summary>
+    ///     Get latest product
+    /// </summary>
+    /// <param name="numberRetrieving"></param>
+    /// <returns></returns>
     [HttpGet("GetProductByLatestReleases")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<List<ProductModelGet>>> GetProductByLatestReleases(int numberRetrieving)
     {
         try
@@ -232,8 +335,14 @@ public class ProductsController : ControllerBase
         }
     }
 
-
+    /// <summary>
+    ///     Get products given the most view
+    /// </summary>
+    /// <param name="numberRetrieving"></param>
+    /// <returns></returns>
     [HttpGet("GetProductByTheMostView")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<List<ProductModelGet>>> GetProductByTheMostView(int numberRetrieving)
     {
         try

@@ -20,8 +20,9 @@ public class AdminAuthorController : ControllerBase
         _productService = productService;
         _mapper = mapper;
     }
+
     /// <summary>
-    /// Return all author 
+    ///     Return all author
     /// </summary>
     /// <param name="name"></param>
     /// <param name="phone"></param>
@@ -46,13 +47,14 @@ public class AdminAuthorController : ControllerBase
         //    return StatusCode(500, new MyServiceResponse<List<object>>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         //}
     }
+
     /// <summary>
-    /// Return author given id
+    ///     Return author given id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     // GET: api/Author/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<AuthorModelGet>> GetAuthor(int id)
@@ -71,15 +73,16 @@ public class AdminAuthorController : ControllerBase
                 new MyServiceResponse<AuthorModelGet>(false, MyStatusCode.INTERN_SEVER_ERROR_RESULT));
         }
     }
+
     /// <summary>
-    /// Update author given id
+    ///     Update author given id
     /// </summary>
     /// <param name="id"></param>
     /// <param name="model"></param>
     /// <returns></returns>
     // PUT: api/Author/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateAuthor(int id, AuthorModelPost model)
@@ -88,15 +91,11 @@ public class AdminAuthorController : ControllerBase
         {
             var status = await _authorService.UpdateAuthorAsync(id, model);
             if (status == MyStatusCode.EMAIL_INVALID)
-            {
                 return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
                     MyStatusCode.EMAIL_INVALID_RESULT));
-            }
             if (status == MyStatusCode.PHONE_INVALID)
-            {
                 return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
                     MyStatusCode.PHONE_INVALID_RESULT));
-            }
             if (status == MyStatusCode.DUPLICATE_EMAIL)
                 return BadRequest(new MyServiceResponse<AuthorModelGet>(false,
                     MyStatusCode.UPDATE_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_EMAIL_RESULT));
@@ -120,25 +119,27 @@ public class AdminAuthorController : ControllerBase
         }
     }
 
-
+    /// <summary>
+    ///     Add new author
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     // POST: api/Author
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<AuthorModelGet>> AddAuthor(AuthorModelPost model)
     {
         try
         {
             var status = await _authorService.AddAuthorAsync(model);
             if (status == MyStatusCode.EMAIL_INVALID)
-            {
                 return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
                     MyStatusCode.EMAIL_INVALID_RESULT));
-            }
             if (status == MyStatusCode.PHONE_INVALID)
-            {
                 return BadRequest(new MyServiceResponse<CategoryModelGet>(false,
                     MyStatusCode.PHONE_INVALID_RESULT));
-            }
             if (status == MyStatusCode.DUPLICATE_EMAIL)
                 return BadRequest(new MyServiceResponse<AuthorModelGet>(false,
                     MyStatusCode.ADD_FAILURE_RESULT + ", " + MyStatusCode.DUPLICATE_EMAIL_RESULT));
@@ -164,8 +165,17 @@ public class AdminAuthorController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Delete author
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
     // DELETE: api/Authors/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> DeleteAuthor(int id, int pageSize = 20, int pageIndex = 1)
     {
         try

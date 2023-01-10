@@ -18,8 +18,9 @@ public class AdminAddressController : ControllerBase
         _addressService = addressService;
         _mapper = mapper;
     }
+
     /// <summary>
-    /// Create new address
+    ///     Create new address
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -35,8 +36,9 @@ public class AdminAddressController : ControllerBase
         return Ok(new ServiceResponse<UserInfo>
             { Data = userInfo, Message = "Address has been created successfully." });
     }
+
     /// <summary>
-    /// Return all address given user info id
+    ///     Return all address given user info id
     /// </summary>
     /// <param name="userInfoId"></param>
     /// <returns></returns>
@@ -48,8 +50,9 @@ public class AdminAddressController : ControllerBase
         var addresses = await _addressService.GetAllAddresses(userInfoId);
         return Ok(new ServiceResponse<List<Address>> { Data = addresses });
     }
+
     /// <summary>
-    /// Update address information, given address id
+    ///     Update address information, given address id
     /// </summary>
     /// <param name="id"></param>
     /// <param name="request"></param>
@@ -65,8 +68,9 @@ public class AdminAddressController : ControllerBase
             return NotFound(new ServiceResponse<Address> { Status = false, Message = "Address not found." });
         return Ok(new ServiceResponse<Address> { Data = address, Message = "Address has been updated successfully." });
     }
+
     /// <summary>
-    /// Delete an address given address id
+    ///     Delete an address given address id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

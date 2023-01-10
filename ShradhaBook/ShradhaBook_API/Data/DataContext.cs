@@ -1,15 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NLipsum.Core;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
+using NLipsum.Core;
 
 namespace ShradhaBook_API.Data;
 
 public class DataContext : DbContext
 {
     private readonly DataContext _context;
-    private readonly Random _random = new();
     private readonly LipsumGenerator _generator = new();
+    private readonly Random _random = new();
 
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
@@ -35,7 +35,7 @@ public class DataContext : DbContext
     public DbSet<Rate> Rates { get; set; } = null!;
     public DbSet<Comment> Comments { get; set; } = null!;
     public DbSet<Country> Countries { get; set; } = null!;
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>().Navigation(u => u.UserInfo).AutoInclude();
@@ -315,7 +315,7 @@ public class DataContext : DbContext
             "AX", "Åland Islands"
         };
         modelBuilder.Entity<User>().HasData(
-            new User()
+            new User
             {
                 Id = 1,
                 Name = "admin",
@@ -327,7 +327,7 @@ public class DataContext : DbContext
                 CreateAt = DateTime.Now
             });
         modelBuilder.Entity<UserInfo>().HasData(
-            new UserInfo()
+            new UserInfo
             {
                 Id = 1,
                 UserId = 1,
@@ -340,7 +340,7 @@ public class DataContext : DbContext
                 CreateAt = DateTime.Now
             });
         modelBuilder.Entity<Address>().HasData(
-            new Address()
+            new Address
             {
                 Id = 1,
                 UserInfoId = 1,
@@ -416,12 +416,13 @@ public class DataContext : DbContext
                     CreateAt = DateTime.Now
                 }
             );
+            var productName = _generator.GenerateWords(1)[0];
             modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
                     Id = i - 1,
                     Code = "PR",
-                    Name = _generator.GenerateWords(1)[0],
+                    Name = productName,
                     CategoryId = _random.Next(8, 31),
                     AuthorId = _random.Next(1, 20),
                     Price = _random.Next(100, 1000),
@@ -431,7 +432,7 @@ public class DataContext : DbContext
                     Status = 1,
                     ImageProductPath = $"https://erojectaspnet.blob.core.windows.net/products/book{i - 1}.png",
                     ImageProductName = $"book{i - 1}",
-                    Slug = _generator.GenerateWords(1)[0],
+                    Slug = productName.ToLower().Replace(" ", "-"),
                     ViewCount = _random.Next(0, 100)
                 }
             );
@@ -466,7 +467,6 @@ public class DataContext : DbContext
                 }
             );
         for (var i = 8; i <= 39; i++)
-        {
             modelBuilder.Entity<Category>().HasData(
                 new Category
                 {
@@ -479,19 +479,14 @@ public class DataContext : DbContext
                     Status = 1
                 }
             );
-        }
 
-        for (var i = 0; i < countries.Count; i+=2)
-        {
+        for (var i = 0; i < countries.Count; i += 2)
             modelBuilder.Entity<Country>().HasData(
                 new Country
                 {
-                    Id = i/2 + 1,
+                    Id = i / 2 + 1,
                     IsoCode = countries[i],
                     Name = countries[i + 1]
                 });
-        }
     }
 }
-
-

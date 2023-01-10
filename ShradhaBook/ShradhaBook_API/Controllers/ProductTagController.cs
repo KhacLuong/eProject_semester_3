@@ -13,8 +13,17 @@ public class ProductTagController : ControllerBase
         _productTagService = productTagService;
     }
 
+    /// <summary>
+    ///     Get all product tags
+    /// </summary>
+    /// <param name="prodctName"></param>
+    /// <param name="tagName"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
     // GET: api/ProductTagModels
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<object>> GetAllProductTag(string? prodctName, string? tagName, int pageSize = 20,
         int pageIndex = 1)
     {
@@ -30,9 +39,15 @@ public class ProductTagController : ControllerBase
         }
     }
 
-
+    /// <summary>
+    ///     Get product tag given id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/ProductTagModels/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ProductTagGet>> GetProductTag(int id)
     {
         try

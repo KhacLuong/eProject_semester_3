@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace ShradhaBook_API.Services.WishListService;
 
 public class WishListService : IWishListService
@@ -15,65 +14,50 @@ public class WishListService : IWishListService
         _mapper = mapper;
     }
 
-        public async  Task<int> AddWishListAsync(WishListPost model)
+    public async Task<int> AddWishListAsync(WishListPost model)
+    {
+        var checkExists = _context.WishLists.Any(w => w.UserId == model.UserId);
+        if (checkExists) return MyStatusCode.DUPLICATE;
+        if (!_context.Users.Any(p => p.Id == model.UserId)) return MyStatusCode.NOTFOUND;
+        var newModel = _mapper.Map<WishList>(model);
+        newModel.CreatedAt = DateTime.Now;
+        newModel.UpdatedAt = null;
+        _context.WishLists!.Add(newModel);
+        await _context.SaveChangesAsync();
+        return newModel.Id;
+    }
+
+
+    public async Task<int> DeleteWishListAsync(int id)
+    {
+        var checkExistsReference = await _context.WishListProducts.AnyAsync(w => w.WishListId == id);
+        if (checkExistsReference) return MyStatusCode.EXISTSREFERENCE;
+        var model = _context.WishLists!.SingleOrDefault(c => c.Id == id);
+        if (model != null)
         {
-            var checkExists = _context.WishLists.Any(w => w.UserId == model.UserId);
-            if (checkExists)
-            {
-                return MyStatusCode.DUPLICATE;
-            }
-            if (!(_context.Users.Any(p => p.Id == model.UserId)))
-            {
-                return MyStatusCode.NOTFOUND;
-            }
-            var newModel = _mapper.Map<WishList>(model);
-            newModel.CreatedAt = DateTime.Now;
-            newModel.UpdatedAt = null;
-            _context.WishLists!.Add(newModel);
+            _context.WishLists!.Remove(model);
             await _context.SaveChangesAsync();
-            return newModel.Id;
+            return MyStatusCode.SUCCESS;
         }
 
+        return MyStatusCode.FAILURE;
+    }
 
+    public Task<object> GetCountWishListAndCart(int userId)
+    {
+        throw new NotImplementedException();
+    }
 
-    public async  Task<int> DeleteWishListAsync(int id)
-        {
-            var checkExistsReference= await _context.WishListProducts.AnyAsync(w => w.WishListId == id);
-            if (checkExistsReference)
-            {
-                return MyStatusCode.EXISTSREFERENCE;
-            }
-            var model = _context.WishLists!.SingleOrDefault(c => c.Id == id);
-            if (model != null)
-            {
-                _context.WishLists!.Remove(model);
-                await _context.SaveChangesAsync();
-                return MyStatusCode.SUCCESS;
-            }
-            return MyStatusCode.FAILURE;    
-        }
-
-        public Task<object> GetCountWishListAndCart(int userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public  async Task<WishListGet> GetWishListByUserIdAsync(int userId)
-        {
-            var model = _context.WishLists!.SingleOrDefault(c => c.UserId == userId);
-            if (model == null)
-            {
-                return null;
-            }
-            return _mapper.Map<WishListGet>(model);
-        }
-
-
+    public async Task<WishListGet> GetWishListByUserIdAsync(int userId)
+    {
+        var model = _context.WishLists!.SingleOrDefault(c => c.UserId == userId);
+        if (model == null) return null;
+        return _mapper.Map<WishListGet>(model);
+    }
 
 
     //public async  Task<List<WishListGet>> GetAllWishListAsync()
     //{
-
 
 
     //    var models = await (from W in _context.WishLists
@@ -97,7 +81,6 @@ public class WishListService : IWishListService
 
     //    return _mapper.Map<List<WishListGet>>(result);
     //}
-
 
 
     //public  async Task<WishListGet> GetWishListAsync(int id)
@@ -164,9 +147,4 @@ public class WishListService : IWishListService
     //    }
     //    return MyStatusCode.FAILURE;
     //}
-
-
-
-
-
 }

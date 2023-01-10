@@ -13,8 +13,13 @@ public class AuthorsController : ControllerBase
         _authorService = authorService;
     }
 
+    /// <summary>
+    ///     Get all authors
+    /// </summary>
+    /// <returns></returns>
     // GET: api/Authors
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<AuthorModelGet>>> GetAllAuthors()
     {
         try
@@ -29,8 +34,15 @@ public class AuthorsController : ControllerBase
         }
     }
 
+    /// <summary>
+    ///     Get author given author id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     // GET: api/ViewCategories/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<AuthorModelGet>> GetCategory(int id)
     {
         try

@@ -33,16 +33,12 @@ public class MyStatusCode
     public static readonly string PHONE_INVALID_RESULT = "Phone  incorrect format";
 
     // Order status
-    public readonly static int NOTFOUND_ORDER = -8;
+    public static readonly int NOTFOUND_ORDER = -8;
     public static readonly string ORDER_DONE_RESUL = "Done";
-    public static readonly string ORDER_PREPARING_RESUL= "Preparing";
+    public static readonly string ORDER_PREPARING_RESUL = "Preparing";
     public static readonly string NOTFOUND_ORDER_RESUL = "Notfound order";
 
     //Rate&Comment satatus
-    public readonly static int NOTFOUND_RATE = -9;
+    public static readonly int NOTFOUND_RATE = -9;
     public static readonly string NOTFOUND_RATE_RESUL = "Notfound rate";
-
-
-
-
 }
