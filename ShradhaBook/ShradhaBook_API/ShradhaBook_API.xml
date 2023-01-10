@@ -748,9 +748,287 @@
         </member>
         <member name="M:ShradhaBook_API.Controllers.ProductsController.GetProductDetail(System.Int32)">
             <summary>
-
             </summary>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductsController.GetProductByCategoryId(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Get products of given category id
+            </summary>
+            <param name="id"></param>
+            <param name="sortBy"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductsController.GetProductByCategoryId(System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Get products of given category slug
+            </summary>
+            <param name="slug"></param>
+            <param name="sortBy"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductsController.GetProductByAuthorId(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Get products given author id
+            </summary>
+            <param name="id"></param>
+            <param name="sortBy"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductsController.GetProductByManufacturer(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Get products given manufacturer id
+            </summary>
+            <param name="id"></param>
+            <param name="sortBy"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductsController.IncreaseViewCountProduct(System.Int32)">
+            <summary>
+                Increase product view count
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductsController.GetProductWishListByUserId(System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Get products in wish list given user id
+            </summary>
+            <param name="id"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductsController.GetProductBySlug(System.String)">
+            <summary>
+                Get product given slug
+            </summary>
+            <param name="slug"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductsController.GetProductByTheLowestPrice(System.Int32)">
+            <summary>
+                Get product given the lowest price
+            </summary>
+            <param name="numberRetrieving"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductsController.GetProductByLatestReleases(System.Int32)">
+            <summary>
+                Get latest product
+            </summary>
+            <param name="numberRetrieving"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductsController.GetProductByTheMostView(System.Int32)">
+            <summary>
+                Get products given the most view
+            </summary>
+            <param name="numberRetrieving"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductTagController.GetAllProductTag(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+                Get all product tags
+            </summary>
+            <param name="prodctName"></param>
+            <param name="tagName"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductTagController.GetProductTag(System.Int32)">
+            <summary>
+                Get product tag given id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.RateController.GetRatesByProductId(System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Get rating of given product id
+            </summary>
+            <param name="productId"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.RateController.GetRatesAndCommentByProductId(System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Get rating and comment of given product id
+            </summary>
+            <param name="productId"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.RateController.UpdatweRate(System.Int32,ShradhaBook_ClassLibrary.ViewModels.RateModelPost)">
+            <summary>
+                Update rating
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.RateController.AddRate(ShradhaBook_ClassLibrary.ViewModels.RateModelPost)">
+            <summary>
+                Create new rating
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.RateController.DeleteRateModelGet(System.Int32)">
+            <summary>
+                Delete rating given id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.TagController.GetAllTag(System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Get all tags
+            </summary>
+            <param name="name"></param>
+            <param name="sortBy"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.TagController.GetTag(System.Int32)">
+            <summary>
+                Get tag given id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.TagController.GetTagsByBlogId(System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Get tag given blog id
+            </summary>
+            <param name="id"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.TagController.GetTagsByProductId(System.Int32,System.Int32,System.Int32)">
+            <summary>
+                Get tag given product id
+            </summary>
+            <param name="id"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.UserController.Register(ShradhaBook_ClassLibrary.Request.UserRegisterRequest)">
+            <summary>
+                Register new customer account
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.UserController.GetSingleUser(System.Int32)">
+            <summary>
+                Get user given user id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.UserController.UpdateUser(System.Int32,ShradhaBook_ClassLibrary.Entities.User)">
+            <summary>
+                Update user given user id
+            </summary>
+            <param name="id"></param>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.UserController.ChangePassword(System.Int32,ShradhaBook_ClassLibrary.Request.UserChangePasswordRequest)">
+            <summary>
+                Change password given user id
+            </summary>
+            <param name="id"></param>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.UserController.DeleteUser(System.Int32)">
+            <summary>
+                Delete user given user id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.UserController.VerifyUser(System.String)">
+            <summary>
+                Verify user email given verify token
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.UserController.ForgotPassword(System.String)">
+            <summary>
+                Forgot user password given user email
+            </summary>
+            <param name="email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.UserController.ResetPassword(ShradhaBook_ClassLibrary.Request.ResetPasswordRequest)">
+            <summary>
+                Reset password
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.UserInfoController.CreateUserInfo(ShradhaBook_ClassLibrary.Request.AddUserInfoRequest)">
+            <summary>
+                Create user info
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.UserInfoController.GetUserInfo(System.Int32)">
+            <summary>
+                Get user info given user id
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.UserInfoController.UpdateUserInfo(System.Int32,ShradhaBook_ClassLibrary.Entities.UserInfo)">
+            <summary>
+                Update user info given user info id
+            </summary>
+            <param name="id"></param>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.WishListProductController.AddWishListProductAsync(System.Int32,System.Int32)">
+            <summary>
+                Create new wish list given user id and product id
+            </summary>
+            <param name="userId"></param>
+            <param name="prouctId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.WishListProductController.DeleteWishListUserGet(System.Int32,System.Int32)">
+            <summary>
+                Delete product in user wish list given user id and product id
+            </summary>
+            <param name="userId"></param>
+            <param name="prouctId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.WishListProductController.GetTotalWishListAndCart(System.Int32)">
+            <summary>
+                Get wish list and cart items given user id
+            </summary>
+            <param name="userId"></param>
             <returns></returns>
         </member>
     </members>

@@ -121,7 +121,7 @@ const TopHeader = (props) => {
                                     backgroundSize: "cover",
                                     backgroundPosition: "center",
                                     objectFit: "cover"
-                                }} className="w-10 h-10 rounded" src={avatar} alt="Default avatar"/>
+                                }} className="w-10 h-10 rounded" src={avatar} alt=""/>
                                 <div
                                     className={`${showNavUser ? 'block' : 'hidden'} rounded-[10px] border-[1px]  absolute left-0 top-[50px] w-44 bg-white divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 before:absolute before:content[''] before:w-[10px] before:h-[10px] before:bg-whiteColor before:top-[-5px] before:left-[13%] before:rotate-45 z-[9999] before:border-[#e4e4e4]-[1px] before:border-b-0 before:border-r-0 before:hover:bg-gray-100`}>
                                     <div onClick={() => {userId !== '' && navigate(`/user/my-profile/${userId}`)} } className="py-3 px-4 text-sm text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white rounded-t-[10px]">
