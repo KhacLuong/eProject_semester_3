@@ -836,6 +836,20 @@
             <param name="numberRetrieving"></param>
             <returns></returns>
         </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductsController.GetQuantityProductByCategory">
+            <summary>
+                Get Quantity Product for each Category
+            </summary>
+            <param name=""></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShradhaBook_API.Controllers.ProductsController.GetQuantityProductByAuthor">
+            <summary>
+                Get Quantity Product for each Author
+            </summary>
+            <param name=""></param>
+            <returns></returns>
+        </member>
         <member name="M:ShradhaBook_API.Controllers.ProductTagController.GetAllProductTag(System.String,System.String,System.Int32,System.Int32)">
             <summary>
                 Get all product tags

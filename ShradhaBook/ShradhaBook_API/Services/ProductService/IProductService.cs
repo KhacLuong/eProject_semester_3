@@ -25,6 +25,8 @@ public interface IProductService
     Task<object> GetProductBySlugCategoryAsync(string categorySlug, int? sortBy = 0, int pageSize = 20,
         int pageIndex = 1);
 
+    Task<List<object>> GetQuantityProductByCategoryAsync();
+    Task<List<object>> GetQuantityProductByAuthorAsync();
     Task<object> GetProductByIdAuthorAsync(int authorId, int? sortBy = 0, int pageSize = 20, int pageIndex = 1);
 
     Task<object> GetProductByIdManufactuerAsync(int manufacturerId, int? sortBy = 0, int pageSize = 20,
@@ -36,4 +38,7 @@ public interface IProductService
     Task<List<ProductModelGet>> GetProductByTheMostViewAsync(int numberRetrieving);
     Task<List<ProductModelGet>> GetProductByTheLowestPricedAsync(int numberRetrieving);
     Task<List<ProductModelGet>> GetProductByLatestReleasesAsync(int numberRetrieving);
+
+
+
 }

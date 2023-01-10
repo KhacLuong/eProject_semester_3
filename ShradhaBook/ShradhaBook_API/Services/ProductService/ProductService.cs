@@ -539,4 +539,37 @@ public class ProductService : IProductService
 
         return latestRelease;
     }
+
+    public async Task<List<object>> GetQuantityProductByCategoryAsync()
+    {
+         var listCate = await  _context.Categories.ToListAsync();
+        var result = new List<object>();
+        foreach (Category cate in listCate)
+        {
+            var count = await _context.Products.Where(p=>p.CategoryId == cate.Id).CountAsync();
+            result.Add(new  { 
+            Category = cate,
+            Quantity = count
+            });
+            
+        }
+        return result;
+    }
+    public async Task<List<object>> GetQuantityProductByAuthorAsync()
+    {
+        var listAu = await _context.Authors.ToListAsync();
+        var result = new List<object>();
+        foreach (Author au in listAu)
+        {
+            var count = await _context.Products.Where(p => p.AuthorId == au.Id).CountAsync();
+            result.Add(new
+            {
+                Author = au,
+                Quantity = count
+            });
+
+        }
+        return result;
+    }
+
 }
