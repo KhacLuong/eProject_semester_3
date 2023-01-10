@@ -2,8 +2,8 @@ import {FETCH_USER_LOGIN_SUCCESS, FETCH_USER_LOGOUT_SUCCESS, REFRESH_USER_TOKEN}
 
 const INITIAL_STATE = {
     account: {
-        access_token: '',
-        refresh_token: '',
+        accessToken: '',
+        refreshToken: '',
         username: '',
         email: '',
         user_type: '',
@@ -29,8 +29,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 account: {
-                    access_token: '',
-                    refresh_token: '',
+                    accessToken: '',
+                    refreshToken: '',
                     username: '',
                     email: '',
                     user_type: '',
@@ -38,12 +38,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 isAuthenticated: false
             }
         case REFRESH_USER_TOKEN:
-            console.log(action.payload)
             return {
                 ...state,
                 account: {
-                    accessToken: action?.payload?.data?.accessToken,
-                    refreshToken: action?.payload?.data?.refreshToken,
+                    ...state.account,
+                    accessToken: action?.payload?.accessToken,
+                    refreshToken: action?.payload?.refreshToken,
                 },
                 isAuthenticated: true
             }

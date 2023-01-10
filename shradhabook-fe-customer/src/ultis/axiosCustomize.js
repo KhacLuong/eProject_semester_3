@@ -1,17 +1,19 @@
 import axios from "axios";
 import NProgress from "nprogress"
 import {store} from '../redux/store'
-import {PostRefreshToken} from "../services/apiService";
-import {doLogin} from "../redux/action/userAction";
+import {postRefreshToken} from "../services/apiService";
+import {doRefreshToken} from "../redux/action/userAction";
 
+
+// const refresh = RefreshToken()
 const instance = axios.create({
     baseURL: 'https://localhost:7000/api/',
+    // withCredentials: true
 });
 NProgress.configure({
     showSpinner: false,
     trickleSpeed: 100
 })
-
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
     // Do something before request is sent
@@ -31,15 +33,17 @@ instance.interceptors.response.use(function (response) {
     NProgress.done();
     return response && response.data ? response.data : response;
 }, async function (error) {
+    const email = store.getState().user.account.email
+    const refreshToken = store.getState().user.account.refreshToken
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true
-
-        const email = store.getState().user.account.email
-        const refreshToken = store.getState().user.account.refreshToken
-        const res = await PostRefreshToken(email, refreshToken);
-
-        instance.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`
+    if (error.response.status === 401) {
+        const res = await postRefreshToken(email, refreshToken);
+        if (res && res.status === true) {
+            store.dispatch(doRefreshToken(res.data))
+            instance.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`
+        } else {
+            window.location.href = '/login'
+        }
         return instance(originalRequest)
     }
     // Any status codes that falls outside the range of 2xx cause this function to trigger

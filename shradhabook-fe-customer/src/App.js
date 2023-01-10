@@ -15,7 +15,7 @@ import BlogPage from "./components/Blog/BlogPage";
 import BlogDetail from "./components/Blog/BlogDetail";
 import NotFound from "./components/Layouts/NotFound";
 import PrivateRoute from "./routes/PrivateRoute";
-import Me from "./components/Auth/Me";
+import Me from "./components/Auth/Me/Me";
 import MyHistory from "./components/Auth/MyHistory";
 import CategoryPage from "./components/Category/CategoryPage";
 import ModalCart from './ultis/ModalCart'

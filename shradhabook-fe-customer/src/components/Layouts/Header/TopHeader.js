@@ -3,17 +3,18 @@ import {useNavigate} from "react-router-dom";
 import {GiBookAura} from "react-icons/gi"
 import {FiHeart} from "react-icons/fi"
 import {TbShoppingCart} from "react-icons/tb"
-import {RiUserLine} from "react-icons/ri"
 import Search from "./Search";
-import {useDispatch, useSelector} from "react-redux";
-import {deleteLogout, getCountProductInWishList} from "../../../services/apiService";
+import {connect, useDispatch, useSelector} from "react-redux";
+import {deleteLogout, getCountProductInWishList, getMyInfo} from "../../../services/apiService";
 import {toast} from "react-toastify";
 import {doLogout} from "../../../redux/action/userAction";
 import jwt_decode from "jwt-decode";
-import {connect} from "react-redux";
+import {removeAllProdcut} from "../../../redux/action/cartAction";
+import * as moment from "moment/moment";
 
 const TopHeader = (props) => {
     const [showNavUser, setShowNavUser] = useState(false);
+    const [avatar, setAvatar] = useState(null)
     const [cartCount, setCartCount] = useState(0)
     const isAuthenticated = useSelector(state => state.user.isAuthenticated);
     const account = useSelector(state => state.user.account);
@@ -31,9 +32,10 @@ const TopHeader = (props) => {
     useEffect(() => {
         const fetchData = async () => {
             await fetchCountProduct()
+            await fetchMyInfo()
         }
         fetchData();
-    }, [])
+    })
 
     useEffect(() => {
         let count = 0;
@@ -58,10 +60,20 @@ const TopHeader = (props) => {
         }
     }, [showNavUser])
 
+    const fetchMyInfo = async () => {
+        if(userId !== '') {
+            let res = await getMyInfo(userId)
+            if (res.status === true) {
+                setAvatar(res.data.userInfo.avatar)
+            }
+        }
+    }
     const fetchCountProduct = async () =>  {
-        let res = await getCountProductInWishList(userId)
-        if(res && res.status === true) {
-            setTotalWishList(res.data.totalWishlist)
+        if(userId !== '') {
+            let res = await getCountProductInWishList(userId)
+            if(res && res.status === true) {
+                setTotalWishList(res.data.totalWishlist)
+            }
         }
     }
     const handleClickUser = () => {
@@ -71,6 +83,7 @@ const TopHeader = (props) => {
         let res = await deleteLogout();
         if (res.status === true) {
             dispatch(doLogout());
+            dispatch(removeAllProdcut());
             toast.success(res.message);
             navigate('/')
         }
@@ -78,7 +91,6 @@ const TopHeader = (props) => {
     const handleLeaveNavUser = () => {
         window.innerWidth > 2060 && setShowNavUser(false);
     }
-
 
     return (
         <nav className={'bg-dangerColor-default_2'}>
@@ -102,27 +114,30 @@ const TopHeader = (props) => {
                         :
                         <>
                             <div ref={ref}
-                                 className="relative cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-lg px-4 py-2.5 text-center inline-flex items-center mr-1"
+                                 className="relative cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-lg text-center inline-flex items-center mr-1"
                                  onClick={() => handleClickUser()}
                                  onMouseLeave={() => handleLeaveNavUser()}>
-                                <RiUserLine></RiUserLine>
+                                <img style={{
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "center",
+                                    objectFit: "cover"
+                                }} className="w-10 h-10 rounded" src={avatar} alt="Default avatar"/>
                                 <div
-                                    className={`${showNavUser ? 'block' : 'hidden'} rounded-[10px] border-[1px]  absolute left-0 top-[50px] w-44 bg-white divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 before:absolute before:content[''] before:w-[10px] before:h-[10px] before:bg-whiteColor before:top-[-5px] before:left-[13%] before:rotate-45 z-[9999] before:border-[#e4e4e4]-[1px] before:border-b-0 before:border-r-0`}>
-                                    <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
-                                        <div onClick={() => navigate(`/user/my-profile/${userId}`)}
-                                             className="font-medium truncate">{account.username}</div>
+                                    className={`${showNavUser ? 'block' : 'hidden'} rounded-[10px] border-[1px]  absolute left-0 top-[50px] w-44 bg-white divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 before:absolute before:content[''] before:w-[10px] before:h-[10px] before:bg-whiteColor before:top-[-5px] before:left-[13%] before:rotate-45 z-[9999] before:border-[#e4e4e4]-[1px] before:border-b-0 before:border-r-0 before:hover:bg-gray-100`}>
+                                    <div onClick={() => {userId !== '' && navigate(`/user/my-profile/${userId}`)} } className="py-3 px-4 text-sm text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white rounded-t-[10px]">
+                                        <div className="font-medium truncate">{account.username}</div>
                                         <div className={`font-light`}>({account.email})</div>
                                     </div>
                                     <ul className="py-1 text-sm text-gray-700 dark:text-gray-200"
                                         aria-labelledby="dropdownInformationButton">
                                         <li>
-                                            <div onClick={() => navigate(`user/wishlist/${userId}`)}
+                                            <div onClick={() => {userId !== '' && navigate(`user/wishlist/${userId}`)}}
                                                  className="relative cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                                Wish list <span className={`${totalWishList !== 0 ? 'block' : 'hidden'} absolute right-[25px] top-[17%] bg-dangerColor-default_2 text-whiteColor rounded-full text-xs font-semiBold w-[20px] h-[20px] flex items-center justify-center text-center`}>{totalWishList}</span>
+                                                Wish list <span className={`${totalWishList !== 0 ? 'block' : 'hidden'} absolute right-[25px] top-[22%] bg-dangerColor-default_2 text-whiteColor rounded-full text-xs font-semiBold w-[20px] h-[20px] flex items-center justify-center text-center`}>{totalWishList}</span>
                                             </div>
                                         </li>
                                         <li>
-                                        <div onClick={() => navigate(`user/my-history/${userId}`)}
+                                        <div onClick={() => {userId !== '' && navigate(`user/my-history/${userId}`)} }
                                              className="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                             History
                                         </div>
@@ -138,7 +153,7 @@ const TopHeader = (props) => {
                         </>
                     }
                     <div onClick={() => props.setOpen(true)}
-                         className={`cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-lg px-4 py-2.5 text-center inline-flex items-center ml-2 relative`}>
+                         className={`cursor-pointer text-darkColor bg-whiteColor hover:bg-bgWhiteColor hover:text-blackColor outline-0 border-0 font-medium rounded-md text-lg w-10 h-10 text-center inline-flex items-center ml-2 relative justify-center`}>
                         <TbShoppingCart className={`hover:text-blackColor`}/>
                         {
                             cartCount !== 0

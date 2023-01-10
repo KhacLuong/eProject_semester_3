@@ -82,7 +82,7 @@ const Wishlist = (props) => {
                                 return <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={index}>
                                     <td scope="row"
                                         className="px-2 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <img onClick={() => navigate(`/products/product-detail/${item.id}/${item.slug}`)} className={`cursor-pointer rounded-xl`} src={Image1}/>
+                                        <img onClick={() => navigate(`/products/product-detail/${item.id}/${item.slug}`)} className={`cursor-pointer rounded-xl`} src={item.imageProductPath}/>
                                     </td>
                                     <td scope="row"
                                         className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Banner from "../Layouts/Banner/Banner";
 
 const BlogPage = () => {
+
     return (
         <div>
             <Banner bannerTitle={`blog`}/>

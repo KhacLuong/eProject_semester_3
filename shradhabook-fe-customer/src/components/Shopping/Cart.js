@@ -2,13 +2,14 @@ import React, {useEffect, useState} from 'react';
 import Banner from "../Layouts/Banner/Banner";
 import {useSelector} from "react-redux";
 import CartItem from "./CartItem";
-import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
 
 const Cart = () => {
     const [listProduct, setListProduct] = useState([])
     const [total, setTotal] = useState(0)
     const [totalItem, setTotalItem] = useState(0)
     const shop = useSelector(state => state.cart)
+    const navigate = useNavigate();
 
     useEffect(() => {
         let price = 0;
@@ -23,6 +24,9 @@ const Cart = () => {
         setListProduct(shop.cart)
     }, [shop.cart, total, totalItem, setTotal, setTotalItem])
 
+    const handleViewCheckout = (id) => {
+        navigate(`/user/checkout/${id}`)
+    }
     return (
         <div className={`cart_page`}>
             <Banner bannerTitle={`cart`}/>
@@ -85,7 +89,7 @@ const Cart = () => {
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <div
+                                    <div onClick={() => handleViewCheckout()}
                                         className={`bg-dangerColor-default_2 text-whiteColor py-3 rounded-full text-center font-medium hover:bg-dangerColor-hover_2 duration-300 mt-6 cursor-pointer`}>
                                         Procees to checkout
                                     </div>
