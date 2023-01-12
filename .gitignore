@@ -401,6 +401,4 @@ FodyWeavers.xsd
 ShradhaBook/ShradhaBook_API/Migrations/*
 ShradhaBook/.idea/*
 .env
-shradhabook-fe-customer/.idea/.idea.shradhabook-fe-customer.dir/.idea/vcs.xml
-shradhabook-fe-customer/.idea/.idea.shradhabook-fe-customer.dir/.idea/indexLayout.xml
-shradhabook-fe-customer/.idea/.idea.shradhabook-fe-customer.dir/.idea/encodings.xml
+shradhabook-fe-customer/.idea/*
